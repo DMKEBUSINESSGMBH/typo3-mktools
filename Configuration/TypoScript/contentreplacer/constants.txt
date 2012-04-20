@@ -1,0 +1,6 @@
+config.tx_mktools.contentreplace {
+	# cat=contentreplace/10; type=boolean;label=Enable contentreplace functionality
+	enable = 1
+	# cat=contentreplace/20; type=string;label=URL for static domain
+	staticBaseUrl = 
+}

@@ -1,0 +1,2 @@
+# cat=Content Replace; type=boolean; label=Activates the content replace module
+contentReplaceActive = 0

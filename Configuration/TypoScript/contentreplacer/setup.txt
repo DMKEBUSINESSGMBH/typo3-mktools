@@ -1,0 +1,23 @@
+config.tx_mktools.contentreplace {
+	enable = {$config.tx_mktools.contentreplace.enable}
+	search {
+		fileadmin1 ="/fileadmin/
+		fileadmin2 ="fileadmin/
+		uploads1 ="/uploads/
+		uploads2 ="uploads/
+		typo3conf1 ="/typo3conf/
+		typo3conf2 ="typo3conf/
+		typo3temp1 ="/typo3temp/
+		typo3temp2 ="typo3temp/
+	}
+	replace {
+		fileadmin1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}fileadmin/
+		fileadmin2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}fileadmin/
+		uploads1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}uploads/
+		uploads2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}uploads/
+		typo3conf1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/
+		typo3conf2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/
+		typo3temp1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
+		typo3temp2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
+	}
+}
