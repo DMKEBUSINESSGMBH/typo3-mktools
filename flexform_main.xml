@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:mktools/locallang.xml:plugin.mktools.flexform.tab.common</sheetTitle>
+        </TCEforms>
+
+        <type>array</type>
+        <el>
+          <action> <!-- Bezeichner ist frei wählbar -->
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action</label>
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="16" type="array">
+                    <numIndex index="0">LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.ShowTemplate</numIndex>
+                    <numIndex index="1">tx_mktools_action_ShowTemplate</numIndex>
+                  </numIndex>
+                </items>
+                <multiple>0</multiple>
+                <maxitems>10</maxitems>
+                <size>20</size>
+              </config>
+            </TCEforms>
+          </action>
+        </el>
+      </ROOT>
+    </sDEF>
+    
+    <s_registerApplicant>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.ShowTemplate</sheetTitle>
+        </TCEforms>
+
+        <type>array</type>
+        <el>
+          <showtemplateTemplate>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.formHtml</label>
+              <config>
+                <type>input</type>
+                <size>50</size>
+                <max>256</max>
+                <eval>trim</eval>
+				<wizards type="array">
+						<_PADDING>2</_PADDING>
+						<link type="array">
+							<type>popup</type>
+							<title>Link</title>
+							<icon>link_popup.gif</icon>
+							<script>browse_links.php?mode=wizard&amp;act=file</script>
+							<params type="array">
+								<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+								<allowedExtensions>html</allowedExtensions>
+							</params>
+							<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+						</link>
+				</wizards>
+              </config>
+            </TCEforms>
+          </showtemplateTemplate>
+          <showtemplate.template.subpart>
+            <TCEforms>
+              <exclude>1</exclude>
+              <label>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.formMainSubpart</label>
+              <config>
+                <type>input</type>
+                <size>50</size>
+                <max>256</max>
+                <eval>trim</eval>
+              </config>
+            </TCEforms>
+          </showtemplate.template.subpart>
+        </el>
+      </ROOT>
+    </s_registerApplicant>
+  </sheets>
+</T3DataStructure>

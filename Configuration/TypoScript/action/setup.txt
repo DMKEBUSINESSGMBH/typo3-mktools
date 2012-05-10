@@ -1,0 +1,14 @@
+### setup
+includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
+
+plugin.tx_mktools		= USER_INT
+plugin.tx_mktools {
+	flexform			= flexform_main.xml
+	userFunc			= tx_rnbase_controller->main
+	defaultAction		= tx_mktools_action_ShowTemplate
+	qualifier			= mktools
+	templatePath		= EXT:mktools/Ressources/Private/Html
+	locallangFilename 	= locallang.xml
+}
+
+tt_content.list.20.tx_mktools =< plugin.tx_mktools
