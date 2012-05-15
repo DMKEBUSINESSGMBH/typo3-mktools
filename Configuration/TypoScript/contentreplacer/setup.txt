@@ -9,6 +9,9 @@ config.tx_mktools.contentreplace {
 		typo3conf2 ="typo3conf/
 		typo3temp1 ="/typo3temp/
 		typo3temp2 ="typo3temp/
+		
+		### das captcha von mkforms darf nicht auf die static domain zeigen
+		mkformscaptcha ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/ext/mkforms/widgets/captcha/
 	}
 	replace {
 		fileadmin1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}fileadmin/
@@ -19,5 +22,8 @@ config.tx_mktools.contentreplace {
 		typo3conf2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/
 		typo3temp1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
 		typo3temp2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
+		
+		### das captcha von mkforms darf nicht auf die static domain zeigen
+		mkformscaptcha ="typo3conf/ext/mkforms/widgets/captcha/
 	}
 }
