@@ -8,7 +8,7 @@
     <sDEF>
       <ROOT>
         <TCEforms>
-          <sheetTitle>LLL:EXT:mktools/locallang.xml:plugin.mktools.flexform.tab.common</sheetTitle>
+          <sheetTitle>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.tab.common</sheetTitle>
         </TCEforms>
 
         <type>array</type>
