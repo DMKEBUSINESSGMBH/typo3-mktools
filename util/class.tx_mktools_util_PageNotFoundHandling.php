@@ -129,9 +129,7 @@ class tx_mktools_util_PageNotFoundHandling
 	{
 		// wir versuchen erstmal den inhalt der URL zu holen
 		$content = t3lib_div::getURL(
-			t3lib_div::locationHeaderUrl(
-				$this->getFileAbsFileName($url)
-			)
+			$this->getFileAbsFileName($url)
 		);
 
 		// wir liefern den 404 aus, ohne einen redirect!
@@ -159,9 +157,7 @@ class tx_mktools_util_PageNotFoundHandling
 	private function redirectTo($url)
 	{
 		$this->setHeaderAndExit(
-			t3lib_div::locationHeaderUrl(
-				$this->getFileAbsFileName($url)
-			)
+			$this->getFileAbsFileName($url)
 		);
 		return; // wichtig für die testcases
 	}
@@ -217,7 +213,8 @@ class tx_mktools_util_PageNotFoundHandling
 	{
 		$filename = trim($filename);
 		return substr($filename, 0, 4) == 'EXT:'
-			? t3lib_div::getFileAbsFileName($filename) : $filename;
+			? t3lib_div::getFileAbsFileName($filename)
+			: t3lib_div::locationHeaderUrl($filename);
 	}
 	private function isUri($url)
 	{
