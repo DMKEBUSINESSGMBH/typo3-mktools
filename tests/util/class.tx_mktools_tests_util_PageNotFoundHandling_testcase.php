@@ -179,6 +179,24 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		return $GLOBALS['TSFE'];
 	}
 
+
+
+	/**
+	 * Asserts the number of elements of an array, Countable or Iterator.
+	 * Dies ist erst ab tx_phpunit 3.6.10 verfügbar!
+	 *
+	 * @param integer $expectedCount
+	 * @param mixed   $haystack
+	 * @param string  $message
+	 */
+	public static function assertCount($expectedCount, $haystack, $message = '')
+	{
+		if (method_exists(PHPUnit_Framework_Assert, 'assertCount')) {
+			parent::assertCount($expectedCount, $haystack);
+		}
+		self::assertEquals($expectedCount, count($haystack), $message);
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
