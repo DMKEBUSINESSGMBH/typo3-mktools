@@ -1,0 +1,4 @@
+config.tx_mktools.seorobotsmetatag {
+    # cat=seorobotsmetatag/10; type=boolean;label=seorobotsmetatag default
+    default = INDEX,FOLLOW
+}

@@ -3,3 +3,6 @@ contentReplaceActive = 0
 
 # cat=modules; type=boolean; label=Activates the tslib xclass:Enables the tslib xclass for advanced page not found handling.
 pageNotFoundHandling = 0
+
+# cat=modules; type=boolean; label=Activates the Robots Meta Tag:Enables the individual Robots Meta-Tag for Pages 
+seoRobotsMetaTagActive = 0
