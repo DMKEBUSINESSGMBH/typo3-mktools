@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<pages>
+	   <uid>1</uid>
+	   <pid>0</pid>
+	   <mkrobotsmetatag>0</mkrobotsmetatag>
+	</pages>
+	<pages>
+	   <uid>2</uid>
+	   <pid>1</pid>
+	   <mkrobotsmetatag>3</mkrobotsmetatag>
+	</pages>
+	<pages>
+	   <uid>3</uid>
+	   <pid>2</pid>
+	   <mkrobotsmetatag>0</mkrobotsmetatag>
+	</pages>
+	<pages>
+	   <uid>4</uid>
+	   <pid>2</pid>
+	   <mkrobotsmetatag>2</mkrobotsmetatag>
+	</pages>
+	<pages>
+	   <uid>5</uid>
+	   <pid>4</pid>
+	   <mkrobotsmetatag>0</mkrobotsmetatag>
+	</pages>
+</dataset>
