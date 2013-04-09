@@ -1,0 +1,37 @@
+### MetaDaten ausgeben.
+page.meta {
+ keywords.field = keywords
+ description.field = description
+ author.field = author
+}
+
+### Meta-Daten für News generieren
+[globalVar = TSFE:page|layout=12]
+  page.meta.description >
+  page.meta.description.cObject = RECORDS
+  page.meta.description.cObject {
+    tables = tt_news
+    source.data = GP:tx_ttnews|tt_news
+    conf.tt_news = TEXT
+    conf.tt_news.field = bodytext
+    conf.tt_news.required = 1
+    conf.tt_news.stripHtml = 1
+    conf.tt_news.crop = 160 | ... | 1
+  }
+  page.meta.keywords.override.data = register:newsKeywords
+[end]
+
+### Meta-Daten für Cal generieren, nur Description. Keywords kommen mit Extrafeld
+[globalVar = TSFE:page|layout=14]
+  page.meta.description >
+  page.meta.description.cObject = RECORDS
+  page.meta.description.cObject {
+    tables = tx_cal_event
+    source.data = GP:tx_cal_controller|uid
+    conf.tx_cal_event = TEXT
+    conf.tx_cal_event.field = description
+    conf.tx_cal_event.required = 1
+    conf.tx_cal_event.stripHtml = 1
+    conf.tx_cal_event.crop = 160 | ... | 1
+  }
+[end]

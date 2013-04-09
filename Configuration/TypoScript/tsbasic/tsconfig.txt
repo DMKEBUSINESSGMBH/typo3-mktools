@@ -1,0 +1,8 @@
+### Neue Labels der Layoutbox in der Seiteneigenschaft für News und Cal 
+TCEFORM.pages.layout {
+  altLabels.0 = Standard
+  addItems.11 = Newsliste
+  addItems.12 = Einzelartikel
+  addItems.13 = Terminliste
+  addItems.14 = Einzeltermin
+}
