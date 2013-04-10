@@ -5,7 +5,7 @@ page.meta {
  author.field = author
 }
 
-### Meta-Daten für News generieren
+### Meta-Daten fuer News generieren
 [globalVar = TSFE:page|layout=12]
   page.meta.description >
   page.meta.description.cObject = RECORDS
@@ -21,7 +21,7 @@ page.meta {
   page.meta.keywords.override.data = register:newsKeywords
 [end]
 
-### Meta-Daten für Cal generieren, nur Description. Keywords kommen mit Extrafeld
+### Meta-Daten fuer Cal generieren, nur Description. Keywords kommen mit Extrafeld
 [globalVar = TSFE:page|layout=14]
   page.meta.description >
   page.meta.description.cObject = RECORDS
