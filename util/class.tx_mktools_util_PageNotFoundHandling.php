@@ -100,6 +100,8 @@ class tx_mktools_util_PageNotFoundHandling
 		if ($type == 'TYPOSCRIPT') {
 			$type = $confirgurations->get('pagenotfoundhandling.type');
 			$data = $confirgurations->get('pagenotfoundhandling.data');
+			$logPageNotFound = 
+				$confirgurations->get('pagenotfoundhandling.logPageNotFound');
 		}
 
 		if (empty($type) || empty($data)) {
@@ -107,6 +109,10 @@ class tx_mktools_util_PageNotFoundHandling
 				'Type or data missing! (MKTOOLS_[TYPE]:[DATA])',
 				intval(ERROR_CODE_MKTOOLS.'110')
 			);
+		}
+		
+		if($logPageNotFound) {
+			$this->logPageNotFound($data, $type);
 		}
 
 		switch ($type) {
@@ -123,6 +129,27 @@ class tx_mktools_util_PageNotFoundHandling
 				);
 		}
 
+	}
+	
+	/**
+	 * @param mixed $data
+	 * @param string $type
+	 * 
+	 * @return void
+	 */
+	private function logPageNotFound($data, $type) {
+		tx_rnbase::load('tx_rnbase_util_Logger');
+		tx_rnbase_util_Logger::info(
+			'Seite nicht gefunden', 
+			'mktools',
+			array(
+				'reason'		=> $this->reason,
+				'code'			=> $this->getTsFe()->pageNotFound,
+				'REQUEST_URI' 	=> t3lib_div::getIndpEnv('REQUEST_URI'),
+				'data'	 		=> $data,
+				'type'			=> $type
+			)
+		);
 	}
 
 	private function printContent($url)

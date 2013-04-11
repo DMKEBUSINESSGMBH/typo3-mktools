@@ -15,4 +15,7 @@ plugin.tx_mktools.pagenotfoundhandling {
 	type = 
 	### Die Daten für den Typ
 	data =
+	
+	###sollen 404 Zugriffe geloggt werden?
+	logPageNotFound = 0
 }
