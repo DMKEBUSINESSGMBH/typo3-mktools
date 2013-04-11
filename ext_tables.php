@@ -17,6 +17,8 @@ t3lib_extMgm::addPiFlexFormValue('tx_mktools','FILE:EXT:'.$_EXTKEY.'/flexform_ma
 t3lib_extMgm::addPlugin(Array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label','tx_mktools'));
 
 t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/action/', 'MK Tools - Show Template');
+t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/onsiteseo/', 'MK Tools - Onsite Seo');
+t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/tsbasic/', 'MK Tools - Basis TypoScript');
 
 
 // default TS für den content replacer
