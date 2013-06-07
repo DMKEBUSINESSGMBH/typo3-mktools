@@ -1,0 +1,4 @@
+plugin.tx_mktools.errorhandling {
+	### relativer link zu Seite in TYPO3
+	errorPage = 
+}

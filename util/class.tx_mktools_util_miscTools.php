@@ -51,6 +51,30 @@ class tx_mktools_util_miscTools {
 		return self::getExtensionCfgValue('pageNotFoundHandling');
 	}
 	
+	public function getErrorPage() {
+		return self::getExtensionCfgValue('errorPage');
+	}
+
+	/**
+	 * @param string $staticPath
+	 * @param string $additionalPath
+	 * @return 	tx_rnbase_configurations
+	 */
+	public static function getConfirgurations($staticPath, $additionalPath=''){
+		t3lib_extMgm::addPageTSConfig(
+			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">');
+		if (!empty($additionalPath)) {
+			t3lib_extMgm::addPageTSConfig(
+				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">');
+		}
+		tx_rnbase::load('tx_mklib_util_TS');
+		$configurations = tx_mklib_util_TS::loadConfig4BE('mktools');
+		$configurations->setParameters(
+			tx_rnbase::makeInstance('tx_rnbase_parameters')
+		);
+		
+		return $configurations;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {

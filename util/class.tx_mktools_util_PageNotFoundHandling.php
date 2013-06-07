@@ -207,18 +207,9 @@ class tx_mktools_util_PageNotFoundHandling
 	protected function &getConfirgurations($additionalPath='')
 	{
 		if(is_null($this->configurations)) {
+			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
-			t3lib_extMgm::addPageTSConfig(
-				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">');
-			if (!empty($additionalPath)) {
-				t3lib_extMgm::addPageTSConfig(
-					'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">');
-			}
-			tx_rnbase::load('tx_mklib_util_TS');
-			$this->configurations = tx_mklib_util_TS::loadConfig4BE('mktools');
-			$this->configurations->setParameters(
-				tx_rnbase::makeInstance('tx_rnbase_parameters')
-			);
+			$this->configurations = $miscTools->getConfirgurations($staticPath, $additionalPath);
 		}
 		return $this->configurations;
 	}
