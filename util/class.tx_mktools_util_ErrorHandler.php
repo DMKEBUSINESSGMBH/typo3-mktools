@@ -26,7 +26,7 @@ require_once(PATH_t3lib . 'error/interface.t3lib_error_errorhandlerinterface.php
 require_once(PATH_t3lib . 'error/interface.t3lib_error_exceptionhandlerinterface.php');
 require_once(PATH_t3lib . 'interfaces/interface.t3lib_singleton.php');
 require_once(PATH_t3lib . 'error/class.t3lib_error_abstractexceptionhandler.php');
-require_once(PATH_t3lib . 'error/class.t3lib_error_ErrorHandler.php');
+require_once(PATH_t3lib . 'error/class.t3lib_error_errorhandler.php');
 
 /**
  * wie der TYPO3 error handler. aber wir behandeln noch fatal errors

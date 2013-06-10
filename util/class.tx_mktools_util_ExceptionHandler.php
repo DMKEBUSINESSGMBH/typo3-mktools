@@ -23,7 +23,7 @@
  ***************************************************************/
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 require_once(PATH_t3lib . 'error/class.t3lib_error_abstractexceptionhandler.php');
-require_once(PATH_t3lib . 'error/class.t3lib_error_ProductionExceptionHandler.php');
+require_once(PATH_t3lib . 'error/class.t3lib_error_productionexceptionhandler.php');
 
 /**
  * @author Hannes Bochmann
