@@ -61,7 +61,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 			$message = 	'PHP Fatal Error: ' . $errorMessage . ' in ' . 
 						basename($errorFile) . 'line ' . $errorLine;
 			
-			$exception = new t3lib_error_Exception($message);
+			$exception = $this->getTypo3Exception($message);
 			$this->getExceptionHandler()->echoExceptionWeb($exception);
 			return true;
 		}
@@ -74,6 +74,17 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 */
 	protected function getLastError() {
 		return error_get_last();
+	}
+	
+	/**
+	 * wird in Tests gemocked
+	 * 
+	 * @param string $exceptionMessage
+	 * 
+	 * @return tx_mktools_util_ExceptionHandler
+	 */
+	protected function getTypo3Exception($exceptionMessage) {
+		return new t3lib_error_Exception($message);
 	}
 	
 	/**
