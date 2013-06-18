@@ -225,7 +225,7 @@ class tx_mktools_util_PageNotFoundHandling
 		}
 		header($httpStatus);
 		print_r($contentOrUrl);
-		exit(1);
+		exit();
 	}
 
 	private function getFileAbsFileName($filename)
