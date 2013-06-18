@@ -100,7 +100,7 @@ class tx_mktools_util_PageNotFoundHandling
 		if ($type == 'TYPOSCRIPT') {
 			$type = $confirgurations->get('pagenotfoundhandling.type');
 			$data = $confirgurations->get('pagenotfoundhandling.data');
-			$logPageNotFound = 
+			$logPageNotFound =
 				$confirgurations->get('pagenotfoundhandling.logPageNotFound');
 		}
 
@@ -110,7 +110,7 @@ class tx_mktools_util_PageNotFoundHandling
 				intval(ERROR_CODE_MKTOOLS.'110')
 			);
 		}
-		
+
 		if($logPageNotFound) {
 			$this->logPageNotFound($data, $type);
 		}
@@ -130,17 +130,17 @@ class tx_mktools_util_PageNotFoundHandling
 		}
 
 	}
-	
+
 	/**
 	 * @param mixed $data
 	 * @param string $type
-	 * 
+	 *
 	 * @return void
 	 */
 	private function logPageNotFound($data, $type) {
 		tx_rnbase::load('tx_rnbase_util_Logger');
 		tx_rnbase_util_Logger::info(
-			'Seite nicht gefunden', 
+			'Seite nicht gefunden',
 			'mktools',
 			array(
 				'reason'		=> $this->reason,
@@ -224,7 +224,8 @@ class tx_mktools_util_PageNotFoundHandling
 			t3lib_utility_Http::redirect($contentOrUrl, $httpStatus);
 		}
 		header($httpStatus);
-		exit($contentOrUrl);
+		print_r($contentOrUrl);
+		exit(1);
 	}
 
 	private function getFileAbsFileName($filename)
