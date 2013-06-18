@@ -224,8 +224,7 @@ class tx_mktools_util_PageNotFoundHandling
 			t3lib_utility_Http::redirect($contentOrUrl, $httpStatus);
 		}
 		header($httpStatus);
-		print_r($contentOrUrl);
-		exit();
+		exit($contentOrUrl);
 	}
 
 	private function getFileAbsFileName($filename)
