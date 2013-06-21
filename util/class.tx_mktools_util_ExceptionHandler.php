@@ -33,16 +33,16 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	/**
 	 * @var tx_rnbase_configurations
 	 */
-	private $configurations; 
-	
+	private $configurations;
+
 	/**
 	 * @var array
 	 */
 	private $errorPageExtensionConfiguration = array();
-	
+
 	/**
 	 * Gibt eine Fehlerseite bei einer Exception aus. Welche das ist wird über die ext conf errorPage
-	 * definiert. Dort kann entweder FILE:mysubsite/myerror.html angegeben werden oder 
+	 * definiert. Dort kann entweder FILE:mysubsite/myerror.html angegeben werden oder
 	 * TYPOSCRIPT:typo3conf/ext/myext/static/mktools.setup.txt. Wie man das TS angibt lässt sich in
 	 * EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt sehen.
 	 *
@@ -53,16 +53,16 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		$this->sendStatusHeaders($exception);
 
 		$this->writeLogEntries($exception, self::CONTEXT_WEB);
-		
+
 		if ($this->shouldExceptionBeDebugged()) {
 			tx_rnbase::load('tx_rnbase_util_Debug');
 			tx_rnbase_util_Debug::debug(array(
 				$exception
 			),__METHOD__.' Line: '.__LINE__); // @TODO: remove me
 		}
-		
+
 		if(
-			(!$errorPage = $this->getErrorPage()) || 
+			(!$errorPage = $this->getErrorPage()) ||
 			(!$absoluteErrorPageUrl = t3lib_div::locationHeaderUrl($errorPage))
 		) {
 			$this->logNoErrorPageDefined();
@@ -71,14 +71,14 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 			$this->echoErrorPageAndExit($absoluteErrorPageUrl);
 		}
 	}
-	
+
 	/**
 	 * @return boolean
 	 */
 	protected function shouldExceptionBeDebugged() {
 		return defined('TYPO3_ERRORHANDLER_MODE') && TYPO3_ERRORHANDLER_MODE == 'debug';
 	}
-	
+
 	/**
 	 * @return string Datei, welche angezeigt werden soll
 	 */
@@ -86,7 +86,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		$errorPageType = $this->getErrorPageType();
 		$fileLink = $this->getErrorPageFileLink();
 		$errorPage = '';
-		
+
 		if($errorPageType == 'FILE') {
 			$errorPage = $fileLink;
 		} elseif($errorPageType == 'TYPOSCRIPT') {
@@ -96,10 +96,10 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 			tx_rnbase::load('tx_rnbase_util_Logger');
 			tx_rnbase_util_Logger::warn('unbekannter error page type "' . $errorHandlingType . '" (möglich: FILE, TYPOSCRIPT)', 'mktools');
 		}
-		
+
 		return $errorPage;
 	}
-	
+
 	/**
 	 * @return string entweder FILE oder TYPOSCRIPT
 	 */
@@ -107,7 +107,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		$errorPageConfigurationParts = $this->getErrorPageExtensionConfiguration();
 		return $errorPageConfigurationParts[0];
 	}
-	
+
 	/**
 	 * @return string entweder link zu einem TS oder zu einer Seite
 	 */
@@ -115,7 +115,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		$errorPageConfigurationParts = $this->getErrorPageExtensionConfiguration();
 		return $errorPageConfigurationParts[1];
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -125,10 +125,10 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 			$errorPageConfiguration = tx_mktools_util_miscTools::getErrorPage();
 			$this->errorPageExtensionConfiguration = explode(':', $errorPageConfiguration);
 		}
-		
+
 		return $this->errorPageExtensionConfiguration;
 	}
-	
+
 	/**
 	 * @param string $additionalPath
 	 * @return 	tx_rnbase_configurations
@@ -149,10 +149,10 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		tx_rnbase::load('tx_rnbase_util_Logger');
 		tx_rnbase_util_Logger::warn('keine Fehlerseite definiert', 'mktools');
 	}
-	
+
 	/**
 	 * @param string $absoluteErrorPageUrl
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function echoErrorPageAndExit($absoluteErrorPageUrl) {
