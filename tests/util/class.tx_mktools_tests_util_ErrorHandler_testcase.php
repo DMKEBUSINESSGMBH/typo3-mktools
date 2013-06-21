@@ -41,28 +41,28 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		$errorHandler = $this->getMock(
 			'tx_mktools_util_ErrorHandler', array('getLastError','getExceptionHandler'), array(array())
 		);
-		
+
 		$error = array('type' => E_WARNING);
 		$errorHandler->expects($this->once())
 			->method('getLastError')
 			->will($this->returnValue($error));
-			
+
 		$errorHandler->expects($this->never())
 			->method('getExceptionHandler');
-			
+
 		$errorHandler->handleFatalError();
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testHandleFatalErrorCallsExceptionHandlerCorrectIfFatalError() {
 		$errorHandler = $this->getMock(
-			'tx_mktools_util_ErrorHandler', 
-			array('getLastError','getExceptionHandler','getTypo3Exception'), 
+			'tx_mktools_util_ErrorHandler',
+			array('getLastError','getExceptionHandler','getTypo3Exception'),
 			array(array()), '', false
 		);
-		
+
 		$error = array('type' => E_ERROR, 'message' => 'my error', 'line' => 123, 'file' => '123.php');
 		$errorHandler->expects($this->once())
 			->method('getLastError')
@@ -76,16 +76,16 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		$exceptionHandler->expects($this->once())
 			->method('echoExceptionWeb')
 			->with($expectedException);
-		
+
 		$errorHandler->expects($this->once())
 			->method('getExceptionHandler')
 			->will($this->returnValue($exceptionHandler));
-			
+
 		$errorHandler->expects($this->once())
 			->method('getTypo3Exception')
 			->with($expectedErrorMessage)
-			->will($this->returnValue($expectedException));	
-			
+			->will($this->returnValue($expectedException));
+
 		$errorHandler->handleFatalError();
 	}
 
@@ -97,9 +97,12 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		$method = new ReflectionMethod('tx_mktools_util_ErrorHandler', 'getTypo3Exception');
 		$method->setAccessible(true);
 		$message = 'test';
+
+		$exception = $method->invoke($handler, $message);
 		$this->assertInstanceOf(
 			't3lib_error_Exception',
-			$method->invoke($handler, $message), 'Exception nicht vom Typ '
+			$exception, 'Exception nicht vom Typ '
 		);
+		$this->assertEquals($message, $exception->getMessage(), 'Exception Nachricht falsch');
 	}
 }
