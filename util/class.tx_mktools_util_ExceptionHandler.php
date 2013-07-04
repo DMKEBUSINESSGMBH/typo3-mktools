@@ -170,14 +170,18 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return void
 	 */
 	protected function sendStatusHeaders(Exception $exception) {
-		if (method_exists($exception, 'getStatusHeaders')) {
-			$headers = $exception->getStatusHeaders();
+		if (method_exists(parent, 'sendStatusHeaders')) {
+			parent::sendStatusHeaders($exception);
 		} else {
-			$headers = array(t3lib_utility_Http::HTTP_STATUS_500);
-		}
-		if (!headers_sent()) {
-			foreach($headers as $header) {
-				header($header);
+			if (method_exists($exception, 'getStatusHeaders')) {
+				$headers = $exception->getStatusHeaders();
+			} else {
+				$headers = array(t3lib_utility_Http::HTTP_STATUS_500);
+			}
+			if (!headers_sent()) {
+				foreach($headers as $header) {
+					header($header);
+				}
 			}
 		}
 	}
