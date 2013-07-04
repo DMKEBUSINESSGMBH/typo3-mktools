@@ -32,8 +32,19 @@ tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
  * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
  */
 class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_database_testcase {
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @var unknown_type
+	 */
 	protected $workspaceIdAtStart;
 	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $name
+	 */
 	public function __construct ($name=null) {
 		parent::__construct ($name);
 		$GLOBALS['TYPO3_DB']->debugOutput = TRUE;
@@ -42,17 +53,32 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$GLOBALS['BE_USER']->setWorkspace(0);
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::setUp()
+	 */
 	public function setUp() {
 		$this->createDatabase();
 		// assuming that test-database can be created otherwise PHPUnit will skip the test
 		$db = $this->useTestDatabase();
 		$this->importStdDB();
-		$this->importExtensions(array('cms', 'mktools', 'templavoila', 'realurl'));
+		$extensions = array('cms', 'mktools', 'templavoila', 'realurl');
+		
+		//tq_seo bringt in der TCA Felder mit, die auch in der DB sein müssen
+		if(t3lib_extMgm::isLoaded('tq_seo')){
+			$extensions[] = 'tq_seo';
+		}
+		
+		$this->importExtensions($extensions);
 		$this->importDataSet( t3lib_extMgm::extPath('mktools').'tests/fixtures/xml/pages.xml');
 		tx_rnbase_util_Misc::prepareTSFE();
 		tx_mklib_tests_Util::disableDevlog();
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
 	public function tearDown () {
 		$this->cleanDatabase();
 		$this->dropDatabase();
@@ -60,16 +86,20 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$GLOBALS['BE_USER']->setWorkspace($this->workspaceIdAtStart);
 	}
 	
-
-	
+	/**
+	 * @group integration
+	 */
 	public function testGetDefaultValueWhenNoValueSetAndNoInheritedValueExists() {
 		$GLOBALS['TSFE']->id = 1;
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
 		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
-		
+	
 		$this->assertEquals('test', $value ,'Falscher Wert zurückgeliefert');
 	}
 	
+	/**
+	 * @group integration
+	 */
 	public function testGetCorrectValue() {
 		$GLOBALS['TSFE']->id = 2;
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
@@ -83,6 +113,9 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$this->assertEquals('INDEX,NOFOLLOW', $value ,'Falscher Wert zurückgeliefert');
 	}
 	
+	/**
+	 * @group integration
+	 */
 	public function testGetCorrectInheritedValue() {
 		$GLOBALS['TSFE']->id = 3;
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
