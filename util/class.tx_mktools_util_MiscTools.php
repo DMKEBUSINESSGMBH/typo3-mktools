@@ -27,7 +27,7 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 /**
  * Miscellaneous common methods
  */
-class tx_mktools_util_miscTools {
+class tx_mktools_util_MiscTools {
 	
 	/**
 	 * Get fields to expand
@@ -65,10 +65,18 @@ class tx_mktools_util_miscTools {
 			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">');
 		if (!empty($additionalPath)) {
 			t3lib_extMgm::addPageTSConfig(
-				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">');
+				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
+			);
 		}
-		tx_rnbase::load('tx_mklib_util_TS');
-		$configurations = tx_mklib_util_TS::loadConfig4BE('mktools');
+		
+		$pageTSconfig = t3lib_BEfunc::getPagesTSconfig(0);
+		$config = t3lib_div::array_merge_recursive_overrule(
+			(array) $pageTSconfig['config.']['tx_mktools.'], 
+			(array) $pageTSconfig['plugin.']['tx_mktools.']
+		);
+			
+		$configurations = new tx_rnbase_configurations();
+	    $configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
 		$configurations->setParameters(
 			tx_rnbase::makeInstance('tx_rnbase_parameters')
 		);
@@ -77,6 +85,6 @@ class tx_mktools_util_miscTools {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_MiscTools.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_MiscTools.php']);
 }

@@ -207,7 +207,7 @@ class tx_mktools_util_PageNotFoundHandling
 	protected function &getConfirgurations($additionalPath='')
 	{
 		if(is_null($this->configurations)) {
-			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
+			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_MiscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
 			$this->configurations = $miscTools->getConfirgurations($staticPath, $additionalPath);
 		}

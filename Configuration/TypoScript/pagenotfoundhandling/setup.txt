@@ -1,4 +1,4 @@
-plugin.tx_mktools.pagenotfoundhandling {
+config.tx_mktools.pagenotfoundhandling {
 	### Kommaseparierte Liste mit Codes, welche ignoriert werden sollen
 	### Es wird dann kein Exit gemacht, sondern eine einfache Weiterleitung.
 	### 0 => 'Unknown',

@@ -1,0 +1,3 @@
+config.tx_mktools.errorhandling.errorPage = config
+###should be used as this has higher priority
+plugin.tx_mktools.errorhandling.errorPage = plugin

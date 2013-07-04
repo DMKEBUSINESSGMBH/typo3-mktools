@@ -1,1 +1,1 @@
-plugin.tx_mktools.errorhandling.errorPage = index.php
+config.tx_mktools.errorhandling.errorPage = index.php

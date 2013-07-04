@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_email' => 'kontakt@das-medienkombinat.de',
 	'author_company' => 'das Medienkombinat GmbH',
 	'shy' => '',
-	'dependencies' => '', #rn_base, mklib',
+	'dependencies' => 'rn_base, mklib',
 	'version' => '0.0.9',
 	'conflicts' => '',
 	'priority' => '',
@@ -35,7 +35,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'lockType' => '',
 	'constraints' => array(
 		'depends' => array(
-// 			'rn_base' => '',
+ 			'rn_base' => '',
+			'mklib' => '',
 		),
 		'conflicts' => array(
 		),
