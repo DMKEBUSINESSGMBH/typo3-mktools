@@ -159,4 +159,26 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		echo t3lib_div::getURL($absoluteErrorPageUrl);
 		exit;
 	}
+	
+	/**
+	 * Methode ist in TYPO3 4.5.x noch nicht vorhanden. Daher selbst eingefügt. 
+	 * 
+	 * Sends the HTTP Status 500 code, if $exception is *not* a t3lib_error_http_StatusException
+	 * and headers are not sent, yet.
+	 *
+	 * @param Exception $exception
+	 * @return void
+	 */
+	protected function sendStatusHeaders(Exception $exception) {
+		if (method_exists($exception, 'getStatusHeaders')) {
+			$headers = $exception->getStatusHeaders();
+		} else {
+			$headers = array(t3lib_utility_Http::HTTP_STATUS_500);
+		}
+		if (!headers_sent()) {
+			foreach($headers as $header) {
+				header($header);
+			}
+		}
+	}
 }
