@@ -27,7 +27,7 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 /**
  * Miscellaneous common methods
  */
-class tx_mktools_util_MiscTools {
+class tx_mktools_util_miscTools {
 	
 	/**
 	 * Get fields to expand
@@ -85,6 +85,6 @@ class tx_mktools_util_MiscTools {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_MiscTools.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_MiscTools.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']);
 }

@@ -2,7 +2,7 @@
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-tx_rnbase::load('tx_mktools_util_MiscTools');
+tx_rnbase::load('tx_mktools_util_miscTools');
 
 ////////////////////////////////
 // Plugin anmelden
@@ -22,13 +22,13 @@ t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/tsbasic/', 'MK To
 
 
 // default TS für den content replacer
-if(tx_mktools_util_MiscTools::isContentReplacerActive()) {
+if(tx_mktools_util_miscTools::isContentReplacerActive()) {
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentreplacer', 'MK Tools - Content Replacer');
 }
 
 
 // Robots-Meta Tag
-if(tx_mktools_util_MiscTools::isSeoRobotsMetaTagActive()) {
+if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
 	
 	tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
 	

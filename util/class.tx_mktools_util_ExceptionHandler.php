@@ -121,8 +121,8 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 */
 	private function getErrorPageExtensionConfiguration() {
 		if(!$this->errorPageExtensionConfiguration) {
-			tx_rnbase::load('tx_mktools_util_MiscTools');
-			$errorPageConfiguration = tx_mktools_util_MiscTools::getErrorPage();
+			tx_rnbase::load('tx_mktools_util_miscTools');
+			$errorPageConfiguration = tx_mktools_util_miscTools::getErrorPage();
 			$this->errorPageExtensionConfiguration = explode(':', $errorPageConfiguration);
 		}
 
@@ -135,7 +135,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 */
 	private function getConfirgurations($additionalPath=''){
 		if(is_null($this->configurations)) {
-			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_MiscTools');
+			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
 			$this->configurations = $miscTools->getConfirgurations($staticPath, $additionalPath);
 		}

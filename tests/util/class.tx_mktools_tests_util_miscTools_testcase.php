@@ -23,19 +23,19 @@
  *  ***********************************************************************  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('Tx_Phpunit_TestCase');
-tx_rnbase::load('tx_mktools_util_MiscTools');
+tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
  * @package tx_mktools
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_MiscTools_testcase extends Tx_Phpunit_TestCase {
+class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 
 	/**
 	 * @group unit
 	 */
 	public function testGetConfigurationsLoadsConfigCorrect() {
-		$configurations = tx_mktools_util_MiscTools::getConfirgurations(
+		$configurations = tx_mktools_util_miscTools::getConfirgurations(
 			'EXT:mktools/tests/fixtures/typoscript/miscTools1.txt'
 		);
 		
@@ -49,7 +49,7 @@ class tx_mktools_tests_util_MiscTools_testcase extends Tx_Phpunit_TestCase {
 	 * @group unit
 	 */
 	public function testGetConfigurationsPrefersPluginConfigurationOverConfigConfiguration() {
-		$configurations = tx_mktools_util_MiscTools::getConfirgurations(
+		$configurations = tx_mktools_util_miscTools::getConfirgurations(
 			'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt',
 			'EXT:mktools/tests/fixtures/typoscript/miscTools2.txt'
 		);
