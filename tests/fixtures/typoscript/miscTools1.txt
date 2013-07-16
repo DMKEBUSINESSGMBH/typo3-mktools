@@ -1,1 +1,1 @@
-config.tx_mktools.errorhandling.errorPage = config
+config.tx_mktools.errorhandling.exceptionPage = config

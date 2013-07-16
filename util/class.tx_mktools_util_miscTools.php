@@ -51,8 +51,8 @@ class tx_mktools_util_miscTools {
 		return self::getExtensionCfgValue('pageNotFoundHandling');
 	}
 	
-	public function getErrorPage() {
-		return self::getExtensionCfgValue('errorPage');
+	public function getExceptionPage() {
+		return self::getExtensionCfgValue('exceptionPage');
 	}
 
 	/**

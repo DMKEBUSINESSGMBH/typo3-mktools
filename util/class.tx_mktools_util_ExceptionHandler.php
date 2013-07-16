@@ -38,10 +38,10 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	/**
 	 * @var array
 	 */
-	private $errorPageExtensionConfiguration = array();
+	private $exceptionPageExtensionConfiguration = array();
 
 	/**
-	 * Gibt eine Fehlerseite bei einer Exception aus. Welche das ist wird über die ext conf errorPage
+	 * Gibt eine Fehlerseite bei einer Exception aus. Welche das ist wird über die ext conf exceptionPage
 	 * definiert. Dort kann entweder FILE:mysubsite/myerror.html angegeben werden oder
 	 * TYPOSCRIPT:typo3conf/ext/myext/static/mktools.setup.txt. Wie man das TS angibt lässt sich in
 	 * EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt sehen.
@@ -62,13 +62,13 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		}
 
 		if(
-			(!$errorPage = $this->getErrorPage()) ||
-			(!$absoluteErrorPageUrl = t3lib_div::locationHeaderUrl($errorPage))
+			(!$exceptionPage = $this->getExceptionPage()) ||
+			(!$absoluteExceptionPageUrl = t3lib_div::locationHeaderUrl($exceptionPage))
 		) {
-			$this->logNoErrorPageDefined();
+			$this->logNoExceptionPageDefined();
 			return;
 		} else {
-			$this->echoErrorPageAndExit($absoluteErrorPageUrl);
+			$this->echoExceptionPageAndExit($absoluteExceptionPageUrl);
 		}
 	}
 
@@ -82,51 +82,51 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	/**
 	 * @return string Datei, welche angezeigt werden soll
 	 */
-	private function getErrorPage() {
-		$errorPageType = $this->getErrorPageType();
-		$fileLink = $this->getErrorPageFileLink();
-		$errorPage = '';
+	private function getExceptionPage() {
+		$exceptionPageType = $this->getExceptionPageType();
+		$fileLink = $this->getExceptionPageFileLink();
+		$exceptionPage = '';
 
-		if($errorPageType == 'FILE') {
-			$errorPage = $fileLink;
-		} elseif($errorPageType == 'TYPOSCRIPT') {
+		if($exceptionPageType == 'FILE') {
+			$exceptionPage = $fileLink;
+		} elseif($exceptionPageType == 'TYPOSCRIPT') {
 			$confirgurations = $this->getConfirgurations($fileLink);
-			$errorPage = $confirgurations->get('errorhandling.errorPage');
+			$exceptionPage = $confirgurations->get('errorhandling.exceptionPage');
 		} else {
 			tx_rnbase::load('tx_rnbase_util_Logger');
 			tx_rnbase_util_Logger::warn('unbekannter error page type "' . $errorHandlingType . '" (möglich: FILE, TYPOSCRIPT)', 'mktools');
 		}
 
-		return $errorPage;
+		return $exceptionPage;
 	}
 
 	/**
 	 * @return string entweder FILE oder TYPOSCRIPT
 	 */
-	private function getErrorPageType() {
-		$errorPageConfigurationParts = $this->getErrorPageExtensionConfiguration();
-		return $errorPageConfigurationParts[0];
+	private function getExceptionPageType() {
+		$exceptionPageConfigurationParts = $this->getExceptionPageExtensionConfiguration();
+		return $exceptionPageConfigurationParts[0];
 	}
 
 	/**
 	 * @return string entweder link zu einem TS oder zu einer Seite
 	 */
-	private function getErrorPageFileLink() {
-		$errorPageConfigurationParts = $this->getErrorPageExtensionConfiguration();
-		return $errorPageConfigurationParts[1];
+	private function getExceptionPageFileLink() {
+		$exceptionPageConfigurationParts = $this->getExceptionPageExtensionConfiguration();
+		return $exceptionPageConfigurationParts[1];
 	}
 
 	/**
 	 * @return array
 	 */
-	private function getErrorPageExtensionConfiguration() {
-		if(!$this->errorPageExtensionConfiguration) {
+	private function getExceptionPageExtensionConfiguration() {
+		if(!$this->exceptionPageExtensionConfiguration) {
 			tx_rnbase::load('tx_mktools_util_miscTools');
-			$errorPageConfiguration = tx_mktools_util_miscTools::getErrorPage();
-			$this->errorPageExtensionConfiguration = explode(':', $errorPageConfiguration);
+			$exceptionPageConfiguration = tx_mktools_util_miscTools::getExceptionPage();
+			$this->exceptionPageExtensionConfiguration = explode(':', $exceptionPageConfiguration);
 		}
 
-		return $this->errorPageExtensionConfiguration;
+		return $this->exceptionPageExtensionConfiguration;
 	}
 
 	/**
@@ -145,18 +145,18 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	/**
 	 * @return void
 	 */
-	protected function logNoErrorPageDefined() {
+	protected function logNoExceptionPageDefined() {
 		tx_rnbase::load('tx_rnbase_util_Logger');
 		tx_rnbase_util_Logger::warn('keine Fehlerseite definiert', 'mktools');
 	}
 
 	/**
-	 * @param string $absoluteErrorPageUrl
+	 * @param string $absoluteExceptionPageUrl
 	 *
 	 * @return void
 	 */
-	protected function echoErrorPageAndExit($absoluteErrorPageUrl) {
-		echo t3lib_div::getURL($absoluteErrorPageUrl);
+	protected function echoExceptionPageAndExit($absoluteExceptionPageUrl) {
+		echo t3lib_div::getURL($absoluteExceptionPageUrl);
 		exit;
 	}
 	

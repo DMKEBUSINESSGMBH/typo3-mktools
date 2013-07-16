@@ -54,7 +54,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	 */
 	public function testechoExceptionWebCallsSendStatusHeaderWithCorrectException() {
 		//damit der redirect nicht ausgeführt wird
-		tx_mklib_tests_Util::setExtConfVar('errorPage', '', 'mktools');
+		tx_mklib_tests_Util::setExtConfVar('exceptionPage', '', 'mktools');
 		
 		$exceptionHandler = $this->getExceptionHandlerMock();
 		
@@ -71,7 +71,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	 */
 	public function testechoExceptionWebCallsWriteLogEntriesCorrect() {
 		//damit der redirect nicht ausgeführt wird
-		tx_mklib_tests_Util::setExtConfVar('errorPage', '', 'mktools');
+		tx_mklib_tests_Util::setExtConfVar('exceptionPage', '', 'mktools');
 		
 		$exceptionHandler = $this->getExceptionHandlerMock();
 		
@@ -86,16 +86,16 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	/**
 	 * @group unit
 	 */
-	public function testEchoExceptionWebCallsLogNoErrorPageDefinedIfNoDefined() {
-		tx_mklib_tests_Util::setExtConfVar('errorPage', 'FILE:', 'mktools');
+	public function testEchoExceptionWebCallsLogNoExceptionPageDefinedIfNoDefined() {
+		tx_mklib_tests_Util::setExtConfVar('exceptionPage', 'FILE:', 'mktools');
 		
-		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoErrorPageDefined'));
+		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
 		
 		$exceptionHandler->expects($this->once())
-			->method('logNoErrorPageDefined');
+			->method('logNoExceptionPageDefined');
 			
 		$exceptionHandler->expects($this->never())
-			->method('echoErrorPageAndExit');
+			->method('echoExceptionPageAndExit');
 		
 		$exception = new Exception('test exception');
 		$exceptionHandler->echoExceptionWeb($exception);
@@ -104,16 +104,16 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	/**
 	 * @group unit
 	 */
-	public function testEchoExceptionWebCallsLogNoErrorPageDefinedNotIfErrorPageDefined() {
-		tx_mklib_tests_Util::setExtConfVar('errorPage', 'FILE:index.php', 'mktools');
+	public function testEchoExceptionWebCallsLogNoExceptionPageDefinedNotIfExceptionPageDefined() {
+		tx_mklib_tests_Util::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
 		
-		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoErrorPageDefined'));
+		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
 		
 		$exceptionHandler->expects($this->never())
-			->method('logNoErrorPageDefined');
+			->method('logNoExceptionPageDefined');
 			
 		$exceptionHandler->expects($this->once())
-			->method('echoErrorPageAndExit');
+			->method('echoExceptionPageAndExit');
 		
 		$exception = new Exception('test exception');
 		$exceptionHandler->echoExceptionWeb($exception);
@@ -122,13 +122,13 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	/**
 	 * @group unit
 	 */
-	public function testEchoExceptionWebCallsEchoErrorPageAndExitWithCorrectLinkWhenFileIsDefinedAsErrorPage() {
-		tx_mklib_tests_Util::setExtConfVar('errorPage', 'FILE:index.php', 'mktools');
+	public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenFileIsDefinedAsExceptionPage() {
+		tx_mklib_tests_Util::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
 		
-		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoErrorPageDefined'));
+		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
 		
 		$exceptionHandler->expects($this->once())
-			->method('echoErrorPageAndExit')
+			->method('echoExceptionPageAndExit')
 			->with(t3lib_div::locationHeaderUrl('index.php'));
 		
 		$exception = new Exception('test exception');
@@ -138,17 +138,17 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	/**
 	 * @group unit
 	 */
-	public function testEchoExceptionWebCallsEchoErrorPageAndExitWithCorrectLinkWhenTypoScriptIsDefinedAsErrorPage() {
+	public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenTypoScriptIsDefinedAsExceptionPage() {
 		tx_mklib_tests_Util::setExtConfVar(
-			'errorPage', 
+			'exceptionPage', 
 			'TYPOSCRIPT:typo3conf/ext/mktools/tests/fixtures/typoscript/errorHandling.txt', 
 			'mktools'
 		);
 		
-		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoErrorPageDefined'));
+		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
 		
 		$exceptionHandler->expects($this->once())
-			->method('echoErrorPageAndExit')
+			->method('echoExceptionPageAndExit')
 			->with(t3lib_div::locationHeaderUrl('index.php'));
 		
 		$exception = new Exception('test exception');
@@ -165,7 +165,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 			'tx_mktools_util_ExceptionHandler', 
 			array_merge(
 				$methods,
-				array('shouldExceptionBeDebugged', 'writeLogEntries', 'sendStatusHeaders', 'echoErrorPageAndExit')
+				array('shouldExceptionBeDebugged', 'writeLogEntries', 'sendStatusHeaders', 'echoExceptionPageAndExit')
 			)
 		);
 		

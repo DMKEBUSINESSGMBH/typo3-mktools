@@ -40,7 +40,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 		);
 		
 		$this->assertEquals(
-			'config', $configurations->get('errorhandling.errorPage'),
+			'config', $configurations->get('errorhandling.exceptionPage'),
 			'Konfiguration nicht korrekt geladen'
 		);
 	}
@@ -55,7 +55,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 		);
 		
 		$this->assertEquals(
-			'plugin', $configurations->get('errorhandling.errorPage'),
+			'plugin', $configurations->get('errorhandling.exceptionPage'),
 			'plugin Konfiguration nicht bevorzugt'
 		);
 	}
