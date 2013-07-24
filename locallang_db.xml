@@ -18,7 +18,7 @@
 			<label index="tx_mktools_fixedpostvartype">FixedPostVar Typ</label>
 			<label index="tx_mktools_fixedpostvartypes">FixedPostVar Typen</label>
 			<label index="tx_mktools_fixedpostvartypes.title">Titel</label>
-			<label index="tx_mktools_fixedpostvartypes.identifier">Bezeichner in realurl Konfiguration</label>
+			<label index="tx_mktools_fixedpostvartypes.identifier">fixedPostVar Bezeichner in realurl Konfiguration</label>
 			
 			<label index="scheduler_GenerateRealUrlConfigurationFile_name">RealUrl Konfiguration generieren</label>
 			<label index="scheduler_GenerateRealUrlConfigurationFile_description">Dabei werden die Seiten konfiguriert für die ein fixedPostVar Typ gesetzt wurde.</label>

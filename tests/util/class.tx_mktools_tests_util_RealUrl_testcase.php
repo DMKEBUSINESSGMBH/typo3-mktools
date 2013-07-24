@@ -187,19 +187,19 @@ class tx_mktools_tests_util_RealUrl_testcase  extends Tx_Phpunit_TestCase {
 		);
 			
 		$realUrlUtil = $this->getMockClass(
-			'tx_mktools_util_RealUrl', array('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
 		);
 		
 		$expectedTimeStamp = 0;
 		$realUrlUtil::staticExpects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
-			->with($expectedTimeStamp)
-			->will($this->returnValue('test'));
+			->with($expectedTimeStamp);
 			
-		$this->assertEquals(
-			'test',
-			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
-		);
+		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
 	}
 	
 	/**
@@ -207,18 +207,175 @@ class tx_mktools_tests_util_RealUrl_testcase  extends Tx_Phpunit_TestCase {
 	 */
 	public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreTherePagesWithFixedPostVarTypeModifiedLaterThanWithTimestampOfConfigFile() {
 		$realUrlUtil = $this->getMockClass(
-			'tx_mktools_util_RealUrl', array('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
 		);
 		
 		touch($this->realUrlConfigurationFile);
 		$expectedTimeStamp = filemtime($this->realUrlConfigurationFile);
 		$realUrlUtil::staticExpects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
-			->with($expectedTimeStamp)
-			->will($this->returnValue('test'));
+			->with($expectedTimeStamp);
 			
-		$this->assertEquals(
-			'test',
+		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreThereFixedPostVarTypesModifiedLaterThanWithTimestampZero() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile', 'unknown', 'mktools'
+		);
+			
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
+		);
+		
+		$expectedTimeStamp = 0;
+		$realUrlUtil::staticExpects($this->once())
+			->method('areThereFixedPostVarTypesModifiedLaterThan')
+			->with($expectedTimeStamp);
+			
+		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreThereFixedPostVarTypesModifiedLaterThanWithTimestampOfConfigFile() {
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
+		);
+		
+		touch($this->realUrlConfigurationFile);
+		$expectedTimeStamp = filemtime($this->realUrlConfigurationFile);
+		$realUrlUtil::staticExpects($this->once())
+			->method('areThereFixedPostVarTypesModifiedLaterThan')
+			->with($expectedTimeStamp);
+			
+		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfPagesAndFixedPostVarTypesWereModified() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile', 'unknown', 'mktools'
+		);
+			
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
+		);
+		
+		$realUrlUtil::staticExpects($this->once())
+			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
+			->will($this->returnValue(true));
+		$realUrlUtil::staticExpects($this->once())
+			->method('areThereFixedPostVarTypesModifiedLaterThan')
+			->will($this->returnValue(true));
+			
+		$this->assertTrue(
+			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+		);
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyPagesWereModified() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile', 'unknown', 'mktools'
+		);
+			
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
+		);
+		
+		$realUrlUtil::staticExpects($this->once())
+			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
+			->will($this->returnValue(true));
+		$realUrlUtil::staticExpects($this->once())
+			->method('areThereFixedPostVarTypesModifiedLaterThan')
+			->will($this->returnValue(false));
+			
+		$this->assertTrue(
+			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+		);
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyFixedPostVarTypesWereModified() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile', 'unknown', 'mktools'
+		);
+			
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
+		);
+		
+		$realUrlUtil::staticExpects($this->once())
+			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
+			->will($this->returnValue(false));
+		$realUrlUtil::staticExpects($this->once())
+			->method('areThereFixedPostVarTypesModifiedLaterThan')
+			->will($this->returnValue(true));
+			
+		$this->assertTrue(
+			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+		);
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsFalseIfPagesAndFixedPostVarTypesWerenotModified() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile', 'unknown', 'mktools'
+		);
+			
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', 
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan'
+			)
+		);
+		
+		$realUrlUtil::staticExpects($this->once())
+			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
+			->will($this->returnValue(false));
+		$realUrlUtil::staticExpects($this->once())
+			->method('areThereFixedPostVarTypesModifiedLaterThan')
+			->will($this->returnValue(false));
+			
+		$this->assertFalse(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
 		);
 	}
@@ -343,5 +500,75 @@ class tx_mktools_tests_util_RealUrl_testcase  extends Tx_Phpunit_TestCase {
 			file_get_contents($this->realUrlConfigurationFile),
 			'Datei falsch generiert'
 		);	
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testAreThereFixedPostVarTypesModifiedLaterThanCallsDoSelectCorrectAndReturnsTrueIfCount() {
+		$modificationTimeStamp = 123;
+		
+		$dbUtil = $this->getDbUtilMock();
+		
+		$expectedWhat = 'COUNT(uid) AS uid_count';
+		$expectedFrom = 'tx_mktools_fixedpostvartypes';
+		$expectedOptions = array(
+			'enablefieldsfe'	=> 	1,
+			'where'				=> 	'tstamp > ' . $modificationTimeStamp
+		);
+		
+		$dbUtil::staticExpects($this->once())
+			->method('doSelect')
+			->with($expectedWhat, $expectedFrom, $expectedOptions)
+			->will($this->returnValue(array(0 => array('uid_count' => 456))));
+			
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', array('getDbUtil')
+		);
+		
+		$realUrlUtil::staticExpects($this->once())
+			->method('getDbUtil')
+			->will($this->returnValue($dbUtil));
+			
+		$this->assertTrue(
+			$realUrlUtil::areThereFixedPostVarTypesModifiedLaterThan(
+				$modificationTimeStamp
+			)
+		);
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testAreThereFixedPostVarTypesModifiedLaterThanCallsDoSelectCorrectAndReturnsFalseIfNoCount() {
+		$modificationTimeStamp = 123;
+		
+		$dbUtil = $this->getDbUtilMock();
+		
+		$expectedWhat = 'COUNT(uid) AS uid_count';
+		$expectedFrom = 'tx_mktools_fixedpostvartypes';
+		$expectedOptions = array(
+			'enablefieldsfe'	=> 	1,
+			'where'				=> 	'tstamp > ' . $modificationTimeStamp
+		);
+		
+		$dbUtil::staticExpects($this->once())
+			->method('doSelect')
+			->with($expectedWhat, $expectedFrom, $expectedOptions)
+			->will($this->returnValue(array(0 => array('uid_count' => 0))));
+			
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl', array('getDbUtil')
+		);
+		
+		$realUrlUtil::staticExpects($this->once())
+			->method('getDbUtil')
+			->will($this->returnValue($dbUtil));
+			
+		$this->assertFalse(
+			$realUrlUtil::areThereFixedPostVarTypesModifiedLaterThan(
+				$modificationTimeStamp
+			)
+		);
 	}
 }

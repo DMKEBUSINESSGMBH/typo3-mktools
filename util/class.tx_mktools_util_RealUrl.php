@@ -66,6 +66,27 @@ class tx_mktools_util_RealUrl {
 	}
 	
 	/**
+	 * @param int $modificationTimeStamp
+	 * 
+	 * @return boolean
+	 */
+	public static function areThereFixedPostVarTypesModifiedLaterThan(
+		$modificationTimeStamp
+	) {
+		$options = array(
+			'enablefieldsfe'	=> 	1,
+			'where'				=> 	'tstamp > ' . $modificationTimeStamp
+		);
+		
+		$dbUtil = static::getDbUtil();
+		$result = $dbUtil::doSelect(
+			'COUNT(uid) AS uid_count', 'tx_mktools_fixedpostvartypes', $options
+		);
+		
+		return (isset($result[0]['uid_count'])) ? (boolean) $result[0]['uid_count'] : false;
+	}
+	
+	/**
 	 * @param array $options
 	 * @param string $what
 	 * 
@@ -98,9 +119,16 @@ class tx_mktools_util_RealUrl {
 			$realUrlConfigurationLastModified = filemtime($realUrlConfigurationFile);
 		}
 		
-		return static::areTherePagesWithFixedPostVarTypeModifiedLaterThan(
+		$areTherePagesWithFixedPostVarTypeModifiedLaterThan = static::areTherePagesWithFixedPostVarTypeModifiedLaterThan(
 			$realUrlConfigurationLastModified
 		);
+		
+		$areThereFixedPostVarTypesModifiedLaterThan = static::areThereFixedPostVarTypesModifiedLaterThan(
+			$realUrlConfigurationLastModified
+		);
+		
+		return 	$areTherePagesWithFixedPostVarTypeModifiedLaterThan ||
+				$areThereFixedPostVarTypesModifiedLaterThan;
 	}
 	
 	/**
@@ -198,7 +226,7 @@ $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . seri
 	private static function addDoNotEditHint($initialString) {
 		$editedString = str_replace(
 			'<?php', 
-			"<?php\n//MKTOOLS HINWEIS:/n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
+			"<?php\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
 			$initialString
 		);
 		
