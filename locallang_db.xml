@@ -16,6 +16,7 @@
 			<label index="pages.tx_mktools_mkrobotsmetatag">Robots Meta-Tag</label>
 			
 			<label index="tx_mktools_fixedpostvartype">FixedPostVar Typ</label>
+			<label index="tx_mktools_fixedpostvartypes">FixedPostVar Typen</label>
 			<label index="tx_mktools_fixedpostvartypes.title">Titel</label>
 			<label index="tx_mktools_fixedpostvartypes.identifier">Bezeichner in realurl Konfiguration</label>
 		</languageKey>
