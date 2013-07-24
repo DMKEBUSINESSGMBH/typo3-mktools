@@ -50,6 +50,9 @@ if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
 			'enablecolumns' => array (
 				'disabled' => 'hidden',
 			),
+			'tstamp'    => 'tstamp',
+			'crdate'    => 'crdate',
+			'cruser_id' => 'cruser_id',
 			'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/FixedPostVarTypes.php',
 			'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
 		),
