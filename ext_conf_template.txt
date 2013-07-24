@@ -11,4 +11,10 @@ seoRobotsMetaTagActive = 0
 exceptionPage =
 
 # cat=realurl; type=boolean; label=FixedPostVar Types (tx_mktools_fixedpostvartypes):Integriert die TCA für tx_mktools_fixedpostvartypes 
-tableFixedPostVarTypes = 0  
+tableFixedPostVarTypes = 0
+
+# cat=realurl; type=string; label=Absoluter Pfad zur realurl Konfiguration 
+realUrlConfigurationFile = 
+
+# cat=realurl; type=string; label=Absoluter Pfad zur Vorlage der realurl Konfiguration 
+realUrlConfigurationTemplate =     

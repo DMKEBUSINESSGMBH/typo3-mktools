@@ -87,8 +87,22 @@ class tx_mktools_util_miscTools {
 	/**
 	 * @return boolean
 	 */
-	public function loadFixedPostVarTypesTable() {
+	public static function loadFixedPostVarTypesTable() {
 		return self::getExtensionCfgValue('tableFixedPostVarTypes');
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getRealUrlConfigurationFile() {
+		return self::getExtensionCfgValue('realUrlConfigurationFile');
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getRealUrlConfigurationTemplate() {
+		return self::getExtensionCfgValue('realUrlConfigurationTemplate');
 	}
 }
 
