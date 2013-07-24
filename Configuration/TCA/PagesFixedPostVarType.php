@@ -9,7 +9,7 @@ t3lib_div::loadTCA('pages');
 $fields = array(
 	'tx_mktools_fixedpostvartype' => array (
         'exclude' => 1,
-        'label' => 'LLL:EXT:mktools/locallang_db.xml:pages.tx_mktools_fixedpostvartype',
+        'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartype',
         'config' => array (
 			'type' => 'select',
 			'items' => array (
