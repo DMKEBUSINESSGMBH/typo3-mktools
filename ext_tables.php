@@ -34,21 +34,25 @@ if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
 	
 	// default TS
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/seorobotsmetatag', 'MK Tools - SEO Robots Meta Tag');
+	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/PagesRobotsMetaTag.php');
+}
 
-	// pages erweitern
-	t3lib_div::loadTCA('pages');
-	$fields = array(
-		'mkrobotsmetatag' => array (
-	        'exclude' => 1,
-	        'label' => 'LLL:EXT:mktools/locallang_db.xml:pages.tx_mktools_mkrobotsmetatag',
-	        'config' => array (
-			    'type' => 'select',
-				'items' =>  tx_mktools_util_SeoRobotsMetaTag::getOptionsForTca(),
-				'size' => 1,
-				'maxitems' => 1,
+// realurl optimierungen
+if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
+	
+	global $TCA;
+	$TCA['tx_mktools_fixedpostvartypes'] = array (
+		'ctrl' => array (
+			'title'     => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartypes',
+			'label'     => 'title',
+			'default_sortby' => 'ORDER BY title',
+			'delete' => 'deleted',
+			'enablecolumns' => array (
+				'disabled' => 'hidden',
 			),
+			'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/FixedPostVarTypes.php',
+			'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
 		),
 	);
-	t3lib_extMgm::addTCAcolumns('pages', $fields, 1);
-	t3lib_extMgm::addToAllTCAtypes('pages','mkrobotsmetatag','');
+	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/PagesFixedPostVarType.php');
 }

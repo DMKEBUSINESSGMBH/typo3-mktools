@@ -12,7 +12,12 @@
 			<label index="plugin.mktools.flexform.action.ShowTemplate">Show Template</label>
 			<label index="plugin.mktools.flexform.formHtml">HTML Template</label>
 			
+			<label index="general.choose">bitte wählen</label>
 			<label index="pages.tx_mktools_mkrobotsmetatag">Robots Meta-Tag</label>
+			
+			<label index="tx_mktools_fixedpostvartype">FixedPostVar Typ</label>
+			<label index="tx_mktools_fixedpostvartypes.title">Titel</label>
+			<label index="tx_mktools_fixedpostvartypes.identifier">Bezeichner in realurl Konfiguration</label>
 		</languageKey>
 		
 		<languageKey index="de" type="array">

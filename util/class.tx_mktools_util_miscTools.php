@@ -83,6 +83,13 @@ class tx_mktools_util_miscTools {
 		
 		return $configurations;
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function loadFixedPostVarTypesTable() {
+		return self::getExtensionCfgValue('tableFixedPostVarTypes');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
