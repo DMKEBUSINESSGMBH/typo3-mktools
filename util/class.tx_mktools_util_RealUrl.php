@@ -111,13 +111,7 @@ class tx_mktools_util_RealUrl {
 	public static function generateSerializedRealUrlConfigurationFileByPages(array $pages) {
 		$configurationFileWritten = false;
 		
-		$fixedPostVarPageStrings = array(); 
-		foreach ($pages as $page) {
-			if($fixedPostVarType = $page->getFixedPostVarType()) {
-				$fixedPostVarPageStrings[] = 	$page->getUid() . " => '" . 
-												$fixedPostVarType->getIdentifier() . "'";
-			}
-		}
+		$fixedPostVarPageStrings = self::getFixedPostVarPageStringsByPages($pages); 
 		
 		$realUrlConfigurationTemplate = file_get_contents(
 			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
@@ -127,29 +121,73 @@ class tx_mktools_util_RealUrl {
 			(strlen($realUrlConfigurationTemplate) > 0) && 
 			($realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile())
 		) {
-			$fixedPostVarPageString = join(",\n", $fixedPostVarPageStrings);
-			$realUrlConfigurationFileContent = str_replace(
-				'###FIXEDPOSTVARPAGES###', 
-				$fixedPostVarPageString, 
-				$realUrlConfigurationTemplate
-			);
-			$realUrlConfigurationFileContent = self::addDoNotEditHint($realUrlConfigurationFileContent);
-			
-			file_put_contents(
-				$realUrlConfigurationFile, $realUrlConfigurationFileContent
-			);
-			
-			include $realUrlConfigurationFile;
-			$serializedContent = '<?php
-$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . serialize($TYPO3_CONF_VARS['EXTCONF']['realurl']) . '\');';
-			$serializedContent = self::addDoNotEditHint($serializedContent);
-			
-			$configurationFileWritten = file_put_contents(
-				$realUrlConfigurationFile, $serializedContent
-			);
+			//wir brauchen erst eine datei ohne serialisierung damit das array korrekt gebaut wird
+			self::generateRealUrlConfigurationFileWithoutSerialization($fixedPostVarPageStrings);
+			$configurationFileWritten = self::generateRealUrlConfigurationFileWithSerialization();
 		}
 		
 		return (boolean) $configurationFileWritten;
+	}
+	
+	/**
+	 * @param array[tx_mktools_model_Pages] $pages
+	 * 
+	 * @return array
+	 */
+	private static function getFixedPostVarPageStringsByPages(array $pages) {
+		$fixedPostVarPageStrings = array();
+		foreach ($pages as $page) {
+			if($fixedPostVarType = $page->getFixedPostVarType()) {
+				$fixedPostVarPageStrings[] = 	$page->getUid() . " => '" . 
+												$fixedPostVarType->getIdentifier() . "'";
+			}
+		}
+		
+		return $fixedPostVarPageStrings;
+	}
+	
+	/**
+	 * @param array $fixedPostVarPageStrings
+	 * 
+	 * @return void
+	 */
+	private static function generateRealUrlConfigurationFileWithoutSerialization(
+		array $fixedPostVarPageStrings
+	) {
+		$realUrlConfigurationTemplate = file_get_contents(
+			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
+		);
+		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
+		
+		$fixedPostVarPageString = join(",\n", $fixedPostVarPageStrings);
+		$realUrlConfigurationFileContent = str_replace(
+			'###FIXEDPOSTVARPAGES###', 
+			$fixedPostVarPageString, 
+			$realUrlConfigurationTemplate
+		);
+		$realUrlConfigurationFileContent = self::addDoNotEditHint($realUrlConfigurationFileContent);
+		
+		file_put_contents(
+			$realUrlConfigurationFile, $realUrlConfigurationFileContent
+		);
+	}
+	
+	/**
+	 * @param array $fixedPostVarPageStrings
+	 * 
+	 * @return boolean
+	 */
+	private static function generateRealUrlConfigurationFileWithSerialization(
+	) {
+		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
+		include $realUrlConfigurationFile;
+		$serializedContent = '<?php
+$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . serialize($TYPO3_CONF_VARS['EXTCONF']['realurl']) . '\');';
+		$serializedContent = self::addDoNotEditHint($serializedContent);
+			
+		return file_put_contents(
+			$realUrlConfigurationFile, $serializedContent
+		);
 	}
 	
 	/**
