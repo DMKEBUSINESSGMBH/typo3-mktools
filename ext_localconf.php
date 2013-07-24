@@ -38,3 +38,5 @@ if (mktools_getConf('pageNotFoundHandling', 'FE')) {
 	$TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['tslib/class.tslib_fe.php']
 		= t3lib_extMgm::extPath($_EXTKEY).'xclasses/class.ux_tslib_fe.php';
 }
+
+require(t3lib_extMgm::extPath($_EXTKEY).'scheduler/ext_localconf.php');
