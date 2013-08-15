@@ -47,6 +47,31 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 		parent::__construct($errorHandlerErrors);
 		register_shutdown_function(array($this, "handleFatalError" ));
 	}
+	
+	/**
+	 * wir loggen immer alle, Fehler, die exceptional sind für folgenden Fall:
+	 * wenn ein Error geworfen wird, der exceptional ist und der Error
+	 * wird in einem try-catch-block geworfen, dann wird der fehler verschluckt
+	 * da die exception, welche für den exception handler geworfen wird, 
+	 * gefangen wird
+	 * 
+	 * (non-PHPdoc)
+	 * @see t3lib_error_ErrorHandler::handleError()
+	 */
+	public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine) {
+		try {
+			$return = parent::handleError($errorLevel, $errorMessage, $errorFile, $errorLine);
+		} catch (t3lib_error_Exception $e) {
+			if (TYPO3_ERROR_DLOG) {
+				$logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
+				t3lib_div::devLog($e->getMessage(), $logTitle, 3);
+			}
+			
+			throw $e;
+		}
+		
+		return $return;
+	}
 
 	/**
 	 * @return boolean
