@@ -71,10 +71,10 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		$expectedErrorMessage = 'PHP Fatal Error: my error in ' . basename('123.php') . 'line 123';
 		$expectedException = new t3lib_error_Exception($expectedErrorMessage);
 		$exceptionHandler = $this->getMock(
-			'tx_mktools_util_ExceptionHandler', array('echoExceptionWeb')
+			'tx_mktools_util_ExceptionHandler', array('handleException')
 		);
 		$exceptionHandler->expects($this->once())
-			->method('echoExceptionWeb')
+			->method('handleException')
 			->with($expectedException);
 
 		$errorHandler->expects($this->once())

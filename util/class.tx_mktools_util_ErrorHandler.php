@@ -87,7 +87,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 						basename($errorFile) . 'line ' . $errorLine;
 
 			$exception = $this->getTypo3Exception($message);
-			$this->getExceptionHandler()->echoExceptionWeb($exception);
+			$this->getExceptionHandler()->handleException($exception);
 			return true;
 		}
 	}
