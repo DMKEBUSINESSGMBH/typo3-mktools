@@ -57,20 +57,53 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 * 
 	 * (non-PHPdoc)
 	 * @see t3lib_error_ErrorHandler::handleError()
+	 * 
+	 * @throws tx_mktools_util_ErrorException
 	 */
 	public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine) {
 		try {
-			$return = parent::handleError($errorLevel, $errorMessage, $errorFile, $errorLine);
-		} catch (t3lib_error_Exception $e) {
-			if (TYPO3_ERROR_DLOG) {
-				$logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
-				t3lib_div::devLog($e->getMessage(), $logTitle, 3);
+			$return = $this->handleErrorByParent(
+				$errorLevel, $errorMessage, $errorFile, $errorLine
+			);
+		} catch (Exception $exception) {
+			if ($this->shouldExceptionsBeWrittenToDevLog()) {
+				$this->writeExceptionToDevLog($exception);
 			}
 			
-			throw $e;
+			//damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
+			//dieser tut das nur für exceptions != tx_mktools_util_ErrorException
+			throw tx_rnbase::makeInstance(
+				'tx_mktools_util_ErrorException', 
+				$exception->getMessage(), $exception->getCode()
+			);
 		}
 		
 		return $return;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see t3lib_error_ErrorHandler::handleError()
+	 */
+	protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine) {
+		return parent::handleError($errorLevel, $errorMessage, $errorFile, $errorLine);
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	protected function shouldExceptionsBeWrittenToDevLog()  {
+		return TYPO3_EXCEPTION_DLOG;
+	}
+	
+	/**
+	 * @param t3lib_error_Exception $exception
+	 * 
+	 * @return void
+	 */
+	protected function writeExceptionToDevLog(t3lib_error_Exception $exception) {
+		$logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
+		t3lib_div::devLog($exception->getMessage(), $logTitle, 3);
 	}
 
 	/**

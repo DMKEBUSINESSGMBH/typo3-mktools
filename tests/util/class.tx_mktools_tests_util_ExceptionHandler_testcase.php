@@ -156,6 +156,51 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	}
 	
 	/**
+	 * @group unit
+	 */
+	public function testWriteLogEntriesCallsParentIfExceptionIsNoMktoolsErrorException() {
+		$exceptionHandler = $this->getMock(
+			'tx_mktools_util_ExceptionHandler', 
+			array('writeLogEntriesByParent')
+		);
+		
+		$exception = new Exception('test', $code, $previous);
+		$context = 'egal';
+		$exceptionHandler->expects($this->once())
+			->method('writeLogEntriesByParent')
+			->with($exception, $context);
+			
+		$executeTaskMethod = new ReflectionMethod(
+			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
+		);
+		$executeTaskMethod->setAccessible(true);
+		$executeTaskMethod->invoke($exceptionHandler, $exception, $context);
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testWriteLogEntriesCallsParentNotIfExceptionIsMktoolsErrorException() {
+		$exceptionHandler = $this->getMock(
+			'tx_mktools_util_ExceptionHandler', 
+			array('writeLogEntriesByParent')
+		);
+		
+		$exceptionHandler->expects($this->never())
+			->method('writeLogEntriesByParent');
+			
+		$executeTaskMethod = new ReflectionMethod(
+			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
+		);
+		$executeTaskMethod->setAccessible(true);
+		$exception = tx_rnbase::makeInstance(
+			'tx_mktools_util_ErrorException', 'test'
+		);
+		$context = 'egal';
+		$executeTaskMethod->invoke($exceptionHandler, $exception, $context);
+	}
+	
+	/**
 	 * @param unknown_type $methods
 	 * 
 	 * @return tx_mktools_util_ExceptionHandler

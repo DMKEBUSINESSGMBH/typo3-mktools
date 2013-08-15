@@ -39,6 +39,28 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @var array
 	 */
 	private $exceptionPageExtensionConfiguration = array();
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see t3lib_error_AbstractExceptionHandler::writeLogEntries()
+	 */
+	protected function writeLogEntries(Exception $exception, $context) {
+		//tx_mktools_util_ErrorException wird nur von
+		//tx_mktools_util_ErrorHandler::handleError geworfen und wurde schon geloggt
+		if (!$exception instanceof tx_mktools_util_ErrorException) {
+			$this->writeLogEntriesByParent($exception, $context);
+		}
+	}
+	
+	/**
+	 * damit wir mocken können 
+	 * 
+	 * (non-PHPdoc)
+	 * @see t3lib_error_AbstractExceptionHandler::writeLogEntries()
+	 */
+	protected function writeLogEntriesByParent(Exception $exception, $context) {
+		parent::writeLogEntries($exception, $context);
+	}
 
 	/**
 	 * Gibt eine Fehlerseite bei einer Exception aus. Welche das ist wird über die ext conf exceptionPage
@@ -56,6 +78,9 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 
 		if ($this->shouldExceptionBeDebugged()) {
 			tx_rnbase::load('tx_rnbase_util_Debug');
+			tx_rnbase_util_Debug::debug(array(
+				'Exception! Mehr infos im devlog.'
+			),__METHOD__.' Line: '.__LINE__); // @TODO: remove me
 			tx_rnbase_util_Debug::debug(array(
 				$exception
 			),__METHOD__.' Line: '.__LINE__); // @TODO: remove me

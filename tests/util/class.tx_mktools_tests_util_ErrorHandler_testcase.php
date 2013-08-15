@@ -105,4 +105,96 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		);
 		$this->assertEquals($message, $exception->getMessage(), 'Exception Nachricht falsch');
 	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testHandleErrorLogsExceptionsIfShouldBeWrittenToDevLogAndThrowsMktoolsErrorException() {
+		$errorHandler = $this->getMock(
+			'tx_mktools_util_ErrorHandler', 
+			array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+			array(1)
+		);
+		
+		$exception = new t3lib_error_Exception('test');
+		$errorHandler->expects($this->once())
+			->method('handleErrorByParent')
+			->with(1,2,3,4)
+			->will($this->throwException($exception));
+			
+		$errorHandler->expects($this->once())
+			->method('shouldExceptionsBeWrittenToDevLog')
+			->will($this->returnValue(true));
+		
+		$errorHandler->expects($this->once())
+			->method('writeExceptionToDevLog')
+			->with($exception);
+		
+		try {
+			$errorHandler->handleError(1,2,3,4);				
+		} catch (tx_mktools_util_ErrorException $e) {
+			$this->assertInstanceOf(
+				'tx_mktools_util_ErrorException', $e, 'Exception nicht durchgereicht'
+			);
+		}
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testHandleErrorLogsExceptionsNotIfShouldNotBeWrittenToDevLog() {
+		$errorHandler = $this->getMock(
+			'tx_mktools_util_ErrorHandler', 
+			array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+			array(1)
+		);
+		
+		$exception = new t3lib_error_Exception('test');
+		$errorHandler->expects($this->once())
+			->method('handleErrorByParent')
+			->with(1,2,3,4)
+			->will($this->throwException($exception));
+			
+		$errorHandler->expects($this->once())
+			->method('shouldExceptionsBeWrittenToDevLog')
+			->will($this->returnValue(false));
+		
+		$errorHandler->expects($this->never())
+			->method('writeExceptionToDevLog');
+		
+		try {
+			$errorHandler->handleError(1,2,3,4);				
+		} catch (tx_mktools_util_ErrorException $e) {
+			$this->assertInstanceOf(
+				'tx_mktools_util_ErrorException', $e, 'Exception nicht durchgereicht'
+			);
+		}
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testHandleErrorLogsExceptionsNotIfNoExceptionThrown() {
+		$errorHandler = $this->getMock(
+			'tx_mktools_util_ErrorHandler', 
+			array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+			array(1)
+		);
+		
+		$exception = new t3lib_error_Exception('test');
+		$errorHandler->expects($this->once())
+			->method('handleErrorByParent')
+			->with(1,2,3,4)
+			->will($this->returnValue('test'));
+			
+		$errorHandler->expects($this->never())
+			->method('shouldExceptionsBeWrittenToDevLog');
+		
+		$errorHandler->expects($this->never())
+			->method('writeExceptionToDevLog');
+		
+		$this->assertEquals(
+			'test', $errorHandler->handleError(1,2,3,4), 'falscher return value'
+		);
+	}
 }
