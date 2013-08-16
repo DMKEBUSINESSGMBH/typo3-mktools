@@ -60,7 +60,7 @@ class tx_mktools_util_miscTools {
 	 * @param string $additionalPath
 	 * @return 	tx_rnbase_configurations
 	 */
-	public static function getConfirgurations($staticPath, $additionalPath=''){
+	public static function getConfigurations($staticPath, $additionalPath=''){
 		t3lib_extMgm::addPageTSConfig(
 			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">');
 		if (!empty($additionalPath)) {

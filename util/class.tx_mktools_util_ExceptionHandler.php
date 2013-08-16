@@ -115,7 +115,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		if($exceptionPageType == 'FILE') {
 			$exceptionPage = $fileLink;
 		} elseif($exceptionPageType == 'TYPOSCRIPT') {
-			$confirgurations = $this->getConfirgurations($fileLink);
+			$confirgurations = $this->getConfigurations($fileLink);
 			$exceptionPage = $confirgurations->get('errorhandling.exceptionPage');
 		} else {
 			tx_rnbase::load('tx_rnbase_util_Logger');
@@ -158,11 +158,11 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @param string $additionalPath
 	 * @return 	tx_rnbase_configurations
 	 */
-	private function getConfirgurations($additionalPath=''){
+	private function getConfigurations($additionalPath=''){
 		if(is_null($this->configurations)) {
 			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
-			$this->configurations = $miscTools->getConfirgurations($staticPath, $additionalPath);
+			$this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
 		}
 		return $this->configurations;
 	}

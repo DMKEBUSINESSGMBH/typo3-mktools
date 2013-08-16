@@ -88,7 +88,7 @@ class tx_mktools_util_PageNotFoundHandling
 			}
 		}
 		// die Config initial anlegen!
-		$confirgurations = $this->getConfirgurations($addTS);
+		$confirgurations = $this->getConfigurations($addTS);
 
 		// Auf zu ignorierende Fehlercodes prüfen.
 		$ignorecodes = $confirgurations->get('pagenotfoundhandling.ignorecodes');
@@ -204,12 +204,12 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @param string $additionalPath
 	 * @return 	tx_rnbase_configurations
 	 */
-	protected function &getConfirgurations($additionalPath='')
+	protected function &getConfigurations($additionalPath='')
 	{
 		if(is_null($this->configurations)) {
 			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
-			$this->configurations = $miscTools->getConfirgurations($staticPath, $additionalPath);
+			$this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
 		}
 		return $this->configurations;
 	}
@@ -246,7 +246,7 @@ class tx_mktools_util_PageNotFoundHandling
 	{
 		$httpStatus = $this->header;
 		if (empty($httpStatus)) {
-			$httpStatus = $this->getConfirgurations()
+			$httpStatus = $this->getConfigurations()
 				->get('pagenotfoundhandling.httpStatus');
 		}
 		if (empty($httpStatus)) {

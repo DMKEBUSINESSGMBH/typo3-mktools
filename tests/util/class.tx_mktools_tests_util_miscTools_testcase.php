@@ -35,7 +35,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 	 * @group unit
 	 */
 	public function testGetConfigurationsLoadsConfigCorrect() {
-		$configurations = tx_mktools_util_miscTools::getConfirgurations(
+		$configurations = tx_mktools_util_miscTools::getConfigurations(
 			'EXT:mktools/tests/fixtures/typoscript/miscTools1.txt'
 		);
 		
@@ -49,7 +49,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 	 * @group unit
 	 */
 	public function testGetConfigurationsPrefersPluginConfigurationOverConfigConfiguration() {
-		$configurations = tx_mktools_util_miscTools::getConfirgurations(
+		$configurations = tx_mktools_util_miscTools::getConfigurations(
 			'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt',
 			'EXT:mktools/tests/fixtures/typoscript/miscTools2.txt'
 		);
