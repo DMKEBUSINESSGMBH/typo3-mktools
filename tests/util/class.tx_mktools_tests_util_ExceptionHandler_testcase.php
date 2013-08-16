@@ -33,12 +33,19 @@ tx_rnbase::load('tx_mklib_tests_Util');
 class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCase{
 
 	/**
+	 * @var string
+	 */
+	private $defaultPageTsConfig;
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
 	protected function setUp() {
 		tx_mklib_tests_Util::disableDevlog();
 		tx_mklib_tests_Util::storeExtConf('mktools');
+		
+		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
 	}
 	
 	/**
@@ -47,6 +54,8 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	 */
 	protected function tearDown() {
 		tx_mklib_tests_Util::restoreExtConf('mktools');
+		
+		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
 	}
 	
 	/**

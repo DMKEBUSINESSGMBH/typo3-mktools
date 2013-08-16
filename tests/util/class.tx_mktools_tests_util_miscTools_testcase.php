@@ -32,6 +32,27 @@ tx_rnbase::load('tx_mktools_util_miscTools');
 class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 
 	/**
+	 * @var string
+	 */
+	private $defaultPageTsConfig;
+
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::setUp()
+	 */
+	protected function setUp() {
+		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];	
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
+	protected function tearDown() {
+		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
+	}
+	
+	/**
 	 * @group unit
 	 */
 	public function testGetConfigurationsLoadsConfigCorrect() {

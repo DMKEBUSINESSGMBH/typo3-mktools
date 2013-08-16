@@ -34,9 +34,24 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	extends Tx_Phpunit_TestCase
 {
 
+	/**
+	 * @var string
+	 */
+	private $defaultPageTsConfig;
+	
 	public function setUp() {
+		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
+		
 		self::getTsFe()->id = '';
 		self::getTsFe()->pageNotFound = 0;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
+	protected function tearDown() {
+		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
 	}
 
 	/**
