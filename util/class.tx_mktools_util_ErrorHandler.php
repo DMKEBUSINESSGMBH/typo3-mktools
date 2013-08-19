@@ -117,7 +117,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 			$errorFile = $error['file'];
 			$errorLine = $error['line'];
 			$message = 	'PHP Fatal Error: ' . $errorMessage . ' in ' .
-						basename($errorFile) . 'line ' . $errorLine;
+						basename($errorFile) . ' line ' . $errorLine;
 
 			$exception = $this->getTypo3Exception($message);
 			$this->getExceptionHandler()->handleException($exception);
