@@ -195,7 +195,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return void
 	 */
 	protected function sendStatusHeaders(Exception $exception) {
-		if (method_exists(parent, 'sendStatusHeaders')) {
+		if (method_exists($this, 'sendStatusHeaders')) {
 			parent::sendStatusHeaders($exception);
 		} else {
 			if (method_exists($exception, 'getStatusHeaders')) {
