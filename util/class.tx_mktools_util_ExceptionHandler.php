@@ -200,7 +200,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	protected function sendStatusHeaders(Exception $exception) {
 		tx_rnbase::load('tx_rnbase_util_TYPO3');
 		if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
-			parent::sendStatusHeaders($exception);
+			@parent::sendStatusHeaders($exception);
 		} else {
 			if (method_exists($exception, 'getStatusHeaders')) {
 				$headers = $exception->getStatusHeaders();
