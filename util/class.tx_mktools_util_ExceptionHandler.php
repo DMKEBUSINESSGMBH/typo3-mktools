@@ -59,7 +59,10 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @see t3lib_error_AbstractExceptionHandler::writeLogEntries()
 	 */
 	protected function writeLogEntriesByParent(Exception $exception, $context) {
-		parent::writeLogEntries($exception, $context);
+		//warnungen beim Logging interessieren uns nicht. Ohne @ führt dies dazu dass
+		//die Warnung beim Logging festgehalten wird, nicht aber die eigentliche
+		//Meldung, wenn die Warnung vor dem Schreiben des Logs auftritt
+		@parent::writeLogEntries($exception, $context);
 	}
 
 	/**
