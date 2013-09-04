@@ -1,9 +1,6 @@
 <?php
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
-
 // pages erweitern
 t3lib_div::loadTCA('pages');
 $fields = array(
