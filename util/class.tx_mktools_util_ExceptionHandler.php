@@ -230,7 +230,9 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return void
 	 */
 	protected function echoExceptionPageAndExit($absoluteExceptionPageUrl) {
-		echo t3lib_div::getURL($absoluteExceptionPageUrl);
+		if(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
+			echo t3lib_div::getURL($absoluteExceptionPageUrl);
+		}
 		exit(1);
 	}
 	
