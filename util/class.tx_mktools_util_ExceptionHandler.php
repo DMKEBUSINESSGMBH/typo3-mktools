@@ -230,6 +230,9 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return void
 	 */
 	protected function echoExceptionPageAndExit($absoluteExceptionPageUrl) {
+		// wenn wir schon auf der Fehlerseite sind, dann holen wir nicht nochmal 
+		// die Fehlerseite falls auf dieser der Fehler auch auftritt. Sonst laufen
+		// wir in einen infinite loop
 		if(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
 			echo t3lib_div::getURL($absoluteExceptionPageUrl);
 		}
