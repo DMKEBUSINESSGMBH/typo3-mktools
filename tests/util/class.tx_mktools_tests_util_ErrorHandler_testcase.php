@@ -55,15 +55,18 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 
 	/**
 	 * @group unit
+	 * @dataProvider getErrorTypes
 	 */
-	public function testHandleFatalErrorCallsExceptionHandlerCorrectIfFatalError() {
+	public function testHandleFatalErrorCallsExceptionHandlerCorrectIfNotCatchableErrors(
+		$errorType, $errorHandled
+	) {
 		$errorHandler = $this->getMock(
 			'tx_mktools_util_ErrorHandler',
 			array('getLastError','getExceptionHandler','getTypo3Exception'),
 			array(array()), '', false
 		);
 
-		$error = array('type' => E_ERROR, 'message' => 'my error', 'line' => 123, 'file' => '123.php');
+		$error = array('type' => $errorType, 'message' => 'my error', 'line' => 123, 'file' => '123.php');
 		$errorHandler->expects($this->once())
 			->method('getLastError')
 			->will($this->returnValue($error));
@@ -73,20 +76,38 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		$exceptionHandler = $this->getMock(
 			'tx_mktools_util_ExceptionHandler', array('handleException')
 		);
-		$exceptionHandler->expects($this->once())
-			->method('handleException')
-			->with($expectedException);
-
-		$errorHandler->expects($this->once())
-			->method('getExceptionHandler')
-			->will($this->returnValue($exceptionHandler));
-
-		$errorHandler->expects($this->once())
-			->method('getTypo3Exception')
-			->with($expectedErrorMessage)
-			->will($this->returnValue($expectedException));
+		if($errorHandled) {
+			$exceptionHandler->expects($this->once())
+				->method('handleException')
+				->with($expectedException);
+			$errorHandler->expects($this->once())
+				->method('getExceptionHandler')
+				->will($this->returnValue($exceptionHandler));
+			
+			$errorHandler->expects($this->once())
+				->method('getTypo3Exception')
+				->with($expectedErrorMessage)
+				->will($this->returnValue($expectedException));
+		} else {
+			$errorHandler->expects($this->never())
+				->method('getExceptionHandler')
+				->will($this->returnValue($exceptionHandler));
+		}
 
 		$errorHandler->handleFatalError();
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getErrorTypes() {
+		return array(
+			array(E_ERROR, true),
+			array(E_COMPILE_ERROR, true),
+			array(E_CORE_ERROR, true),
+			array(E_USER_ERROR, true),
+			array(E_WARNING, false)
+		);
 	}
 
 	/**
