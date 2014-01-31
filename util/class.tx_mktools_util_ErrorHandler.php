@@ -112,7 +112,12 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	public function handleFatalError() {
 		$error = $this->getLastError();
 
-		if($error['type'] == E_ERROR) {
+		if(
+			$error['type'] == E_ERROR ||
+			$error['type'] == E_COMPILE_ERROR ||
+			$error['type'] == E_CORE_ERROR ||
+			$error['type'] == E_USER_ERROR
+		) {
 			$errorMessage = $error['message'];
 			$errorFile = $error['file'];
 			$errorLine = $error['line'];
