@@ -209,8 +209,8 @@ class tx_mktools_util_RealUrl {
 	) {
 		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 		include $realUrlConfigurationFile;
-		$serializedContent = 	"<?php\r\n".
-								'$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . serialize($TYPO3_CONF_VARS['EXTCONF']['realurl']) . '\');';
+		$serializedContent = '<?php
+$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . serialize($TYPO3_CONF_VARS['EXTCONF']['realurl']) . '\');';
 		$serializedContent = self::addDoNotEditHint($serializedContent);
 			
 		return file_put_contents(
@@ -226,14 +226,14 @@ class tx_mktools_util_RealUrl {
 	private static function addDoNotEditHint($initialString) {
 		$editedString = str_replace(
 			'<?php', 
-			"<?php\r\n//MKTOOLS HINWEIS:\r\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\r\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
+			"<?php\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
 			$initialString
 		);
 		
 		if($editedString == $initialString) {
 			$editedString = str_replace(
 				'<?', 
-				"<?\r\n//MKTOOLS HINWEIS:\r\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\r\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
+				"<?\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
 				$initialString
 			);
 		}
