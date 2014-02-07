@@ -209,8 +209,8 @@ class tx_mktools_util_RealUrl {
 	) {
 		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 		include $realUrlConfigurationFile;
-		$serializedContent = '<?php
-$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . serialize($TYPO3_CONF_VARS['EXTCONF']['realurl']) . '\');';
+		$serializedContent = 	"<?php\n" . 
+								'$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . serialize($TYPO3_CONF_VARS['EXTCONF']['realurl']) . '\');';
 		$serializedContent = self::addDoNotEditHint($serializedContent);
 			
 		return file_put_contents(
