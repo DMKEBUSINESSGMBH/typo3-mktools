@@ -38,14 +38,14 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 * @var string
 	 */
 	private $defaultPageTsConfig;
-	
+
 	public function setUp() {
 		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
-		
+
 		self::getTsFe()->id = '';
 		self::getTsFe()->pageNotFound = 0;
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::tearDown()
@@ -101,7 +101,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		$this->assertCount(2, $testData);
 		$this->assertArrayHasKey('contentOrUrl', $testData);
 		$this->assertGreaterThan(0, strpos($testData['contentOrUrl'], $reason));
-		$this->assertEquals('0594d4e1473e26fdf7d65af54366c580', md5($testData['contentOrUrl']));
+		$this->assertEquals('3066a93a2e6ffad044540668b83572f1', md5($testData['contentOrUrl']));
 		$this->assertArrayHasKey('httpStatus', $testData);
 		$this->assertEquals('HTTP/1.1 404 Not Found', $testData['httpStatus']);
 	}
@@ -142,7 +142,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		$this->assertCount(2, $testData);
 		$this->assertArrayHasKey('contentOrUrl', $testData);
 		$this->assertGreaterThan(0, strpos($testData['contentOrUrl'], $reason));
-		$this->assertEquals('c5ba3437b7f223ca7c6c04ac16ed7ec8', md5($testData['contentOrUrl']));
+		$this->assertEquals('8de486b9d88e5436dfd90c0a7f7e0037', md5($testData['contentOrUrl']));
 		$this->assertArrayHasKey('httpStatus', $testData);
 		$this->assertEquals('HTTP/1.1 403 Forbidden', $testData['httpStatus']);
 	}
