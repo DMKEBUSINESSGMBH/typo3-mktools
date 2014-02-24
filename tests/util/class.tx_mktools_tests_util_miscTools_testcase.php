@@ -41,17 +41,19 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
 	protected function setUp() {
-		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];	
+		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
+		tx_mklib_tests_Util::storeExtConf('mktools');
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::tearDown()
 	 */
 	protected function tearDown() {
 		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
+		tx_mklib_tests_Util::restoreExtConf('mktools');
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -59,13 +61,13 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 		$configurations = tx_mktools_util_miscTools::getConfigurations(
 			'EXT:mktools/tests/fixtures/typoscript/miscTools1.txt'
 		);
-		
+
 		$this->assertEquals(
 			'config', $configurations->get('errorhandling.exceptionPage'),
 			'Konfiguration nicht korrekt geladen'
 		);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -74,10 +76,112 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 			'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt',
 			'EXT:mktools/tests/fixtures/typoscript/miscTools2.txt'
 		);
-		
+
 		$this->assertEquals(
 			'plugin', $configurations->get('errorhandling.exceptionPage'),
 			'plugin Konfiguration nicht bevorzugt'
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetRealUrlConfigurationTemplateWithAbsolutePath() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationTemplate',
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			'mktools'
+		);
+
+		$this->assertEquals(
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate(),
+			'realUrlConfigurationTemplate nicht absolut'
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetRealUrlConfigurationTemplateWithRelativePath() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationTemplate',
+			'typo3conf/ext/mktools/tests/fixtures/realUrlConfigTemplate.php',
+			'mktools'
+		);
+
+		$this->assertEquals(
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate(),
+			'realUrlConfigurationTemplate nicht absolut'
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetRealUrlConfigurationTemplateWithTypo3StylePath() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationTemplate',
+			'EXT:mktools/tests/fixtures/realUrlConfigTemplate.php',
+			'mktools'
+		);
+
+		$this->assertEquals(
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate(),
+			'realUrlConfigurationTemplate nicht absolut'
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetRealUrlConfigurationFileWithAbsolutePath() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile',
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			'mktools'
+		);
+
+		$this->assertEquals(
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			tx_mktools_util_miscTools::getRealUrlConfigurationFile(),
+			'realUrlConfigurationFile nicht absolut'
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetRealUrlConfigurationFileWithRelativePath() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile',
+			'typo3conf/realUrl.php',
+			'mktools'
+		);
+
+		$this->assertEquals(
+			PATH_site . 'typo3conf/realUrl.php',
+			tx_mktools_util_miscTools::getRealUrlConfigurationFile(),
+			'realUrlConfigurationFile nicht absolut'
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetRealUrlConfigurationFileWithTypo3StylePath() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile',
+			'EXT:mktools/tests/fixtures/realUrlConfigTemplate.php',
+			'mktools'
+		);
+
+		$this->assertEquals(
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			tx_mktools_util_miscTools::getRealUrlConfigurationFile(),
+			'realUrlConfigurationFile nicht absolut'
 		);
 	}
 }

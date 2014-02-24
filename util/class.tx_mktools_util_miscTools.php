@@ -28,7 +28,7 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
  * Miscellaneous common methods
  */
 class tx_mktools_util_miscTools {
-	
+
 	/**
 	 * Get fields to expand
 	 *
@@ -38,19 +38,19 @@ class tx_mktools_util_miscTools {
 		tx_rnbase::load('tx_rnbase_configurations');
 		return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
 	}
-	
+
 	public function isSeoRobotsMetaTagActive() {
 		return self::getExtensionCfgValue('seoRobotsMetaTagActive');
 	}
-	
+
 	public function isContentReplacerActive() {
 		return self::getExtensionCfgValue('contentReplaceActive');
 	}
-	
+
 	public function pageNotFoundHandlingActive() {
 		return self::getExtensionCfgValue('pageNotFoundHandling');
 	}
-	
+
 	public function getExceptionPage() {
 		return self::getExtensionCfgValue('exceptionPage');
 	}
@@ -68,41 +68,49 @@ class tx_mktools_util_miscTools {
 				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
 			);
 		}
-		
+
 		$pageTSconfig = t3lib_BEfunc::getPagesTSconfig(0);
 		$config = t3lib_div::array_merge_recursive_overrule(
-			(array) $pageTSconfig['config.']['tx_mktools.'], 
+			(array) $pageTSconfig['config.']['tx_mktools.'],
 			(array) $pageTSconfig['plugin.']['tx_mktools.']
 		);
-			
+
 		$configurations = new tx_rnbase_configurations();
 	    $configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
 		$configurations->setParameters(
 			tx_rnbase::makeInstance('tx_rnbase_parameters')
 		);
-		
+
 		return $configurations;
 	}
-	
+
 	/**
 	 * @return boolean
 	 */
 	public static function loadFixedPostVarTypesTable() {
 		return self::getExtensionCfgValue('tableFixedPostVarTypes');
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public static function getRealUrlConfigurationFile() {
-		return self::getExtensionCfgValue('realUrlConfigurationFile');
+		return self::getAbsoluteFileName(self::getExtensionCfgValue('realUrlConfigurationFile'));
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public static function getRealUrlConfigurationTemplate() {
-		return self::getExtensionCfgValue('realUrlConfigurationTemplate');
+		return self::getAbsoluteFileName(self::getExtensionCfgValue('realUrlConfigurationTemplate'));
+	}
+
+	/**
+	 * @param string $filename
+	 * @return string
+	 */
+	private static function getAbsoluteFileName($filename) {
+		return t3lib_div::getFileAbsFileName($filename);
 	}
 }
 

@@ -31,7 +31,7 @@ tx_rnbase::load('tx_mktools_util_miscTools');
  * @subpackage tx_mktools
  */
 class tx_mktools_util_RealUrl {
-	
+
 	/**
 	 * @return array[tx_mktools_model_Pages]
 	 */
@@ -41,14 +41,14 @@ class tx_mktools_util_RealUrl {
 			'wrapperclass'		=> 'tx_mktools_model_Pages',
 			'where'				=> 'tx_mktools_fixedpostvartype > 0'
 		);
-		
+
 		return static::selectPagesByOptions($options);
 	}
-	
+
 
 	/**
 	 * @param int $modificationTimeStamp
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public static function areTherePagesWithFixedPostVarTypeModifiedLaterThan(
@@ -56,18 +56,18 @@ class tx_mktools_util_RealUrl {
 	) {
 		$options = array(
 			'enablefieldsfe'	=> 	1,
-			'where'				=> 	'tx_mktools_fixedpostvartype > 0 AND tstamp > ' . 
+			'where'				=> 	'tx_mktools_fixedpostvartype > 0 AND tstamp > ' .
 									$modificationTimeStamp
 		);
-		
+
 		$result = static::selectPagesByOptions($options, 'COUNT(uid) AS uid_count');
-		
+
 		return (isset($result[0]['uid_count'])) ? (boolean) $result[0]['uid_count'] : false;
 	}
-	
+
 	/**
 	 * @param int $modificationTimeStamp
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public static function areThereFixedPostVarTypesModifiedLaterThan(
@@ -77,106 +77,106 @@ class tx_mktools_util_RealUrl {
 			'enablefieldsfe'	=> 	1,
 			'where'				=> 	'tstamp > ' . $modificationTimeStamp
 		);
-		
+
 		$dbUtil = static::getDbUtil();
 		$result = $dbUtil::doSelect(
 			'COUNT(uid) AS uid_count', 'tx_mktools_fixedpostvartypes', $options
 		);
-		
+
 		return (isset($result[0]['uid_count'])) ? (boolean) $result[0]['uid_count'] : false;
 	}
-	
+
 	/**
 	 * @param array $options
 	 * @param string $what
-	 * 
+	 *
 	 * @return array
 	 */
 	private static function selectPagesByOptions(array $options, $what = '*') {
 		$dbUtil = static::getDbUtil();
-		
+
 		return $dbUtil::doSelect(
 			$what, 'pages', $options
 		);
 	}
-	
+
 	/**
 	 * @return tx_rnbase_util_DB
 	 */
 	protected static function getDbUtil() {
 		return tx_rnbase_util_DB;
 	}
-	
+
 	/**
 	 * @return boolean
 	 */
-	public static function needsRealUrlConfigurationToBeGenerated() { 
-		$realUrlConfigurationFile = 
-			tx_mktools_util_miscTools::getRealUrlConfigurationFile();	
-			
+	public static function needsRealUrlConfigurationToBeGenerated() {
+		$realUrlConfigurationFile =
+			tx_mktools_util_miscTools::getRealUrlConfigurationFile();
+
 		$realUrlConfigurationLastModified = 0;
 		if(file_exists($realUrlConfigurationFile)) {
 			$realUrlConfigurationLastModified = filemtime($realUrlConfigurationFile);
 		}
-		
+
 		$areTherePagesWithFixedPostVarTypeModifiedLaterThan = static::areTherePagesWithFixedPostVarTypeModifiedLaterThan(
 			$realUrlConfigurationLastModified
 		);
-		
+
 		$areThereFixedPostVarTypesModifiedLaterThan = static::areThereFixedPostVarTypesModifiedLaterThan(
 			$realUrlConfigurationLastModified
 		);
-		
+
 		return 	$areTherePagesWithFixedPostVarTypeModifiedLaterThan ||
 				$areThereFixedPostVarTypesModifiedLaterThan;
 	}
-	
+
 	/**
 	 * @param array[tx_mktools_model_Pages] $pages
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public static function generateSerializedRealUrlConfigurationFileByPages(array $pages) {
 		$configurationFileWritten = false;
-		
-		$fixedPostVarPageStrings = self::getFixedPostVarPageStringsByPages($pages); 
-		
+
+		$fixedPostVarPageStrings = self::getFixedPostVarPageStringsByPages($pages);
+
 		$realUrlConfigurationTemplate = file_get_contents(
 			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
 		);
 		if(
 			!empty($fixedPostVarPageStrings) &&
-			(strlen($realUrlConfigurationTemplate) > 0) && 
+			(strlen($realUrlConfigurationTemplate) > 0) &&
 			($realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile())
 		) {
 			//wir brauchen erst eine datei ohne serialisierung damit das array korrekt gebaut wird
 			self::generateRealUrlConfigurationFileWithoutSerialization($fixedPostVarPageStrings);
 			$configurationFileWritten = self::generateRealUrlConfigurationFileWithSerialization();
 		}
-		
+
 		return (boolean) $configurationFileWritten;
 	}
-	
+
 	/**
 	 * @param array[tx_mktools_model_Pages] $pages
-	 * 
+	 *
 	 * @return array
 	 */
 	private static function getFixedPostVarPageStringsByPages(array $pages) {
 		$fixedPostVarPageStrings = array();
 		foreach ($pages as $page) {
 			if($fixedPostVarType = $page->getFixedPostVarType()) {
-				$fixedPostVarPageStrings[] = 	$page->getUid() . " => '" . 
+				$fixedPostVarPageStrings[] = 	$page->getUid() . " => '" .
 												$fixedPostVarType->getIdentifier() . "'";
 			}
 		}
-		
+
 		return $fixedPostVarPageStrings;
 	}
-	
+
 	/**
 	 * @param array $fixedPostVarPageStrings
-	 * 
+	 *
 	 * @return void
 	 */
 	private static function generateRealUrlConfigurationFileWithoutSerialization(
@@ -186,58 +186,58 @@ class tx_mktools_util_RealUrl {
 			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
 		);
 		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
-		
+
 		$fixedPostVarPageString = join(",\n", $fixedPostVarPageStrings);
 		$realUrlConfigurationFileContent = str_replace(
-			'###FIXEDPOSTVARPAGES###', 
-			$fixedPostVarPageString, 
+			'###FIXEDPOSTVARPAGES###',
+			$fixedPostVarPageString,
 			$realUrlConfigurationTemplate
 		);
 		$realUrlConfigurationFileContent = self::addDoNotEditHint($realUrlConfigurationFileContent);
-		
+
 		file_put_contents(
 			$realUrlConfigurationFile, $realUrlConfigurationFileContent
 		);
 	}
-	
+
 	/**
 	 * @param array $fixedPostVarPageStrings
-	 * 
+	 *
 	 * @return boolean
 	 */
 	private static function generateRealUrlConfigurationFileWithSerialization(
 	) {
 		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 		include $realUrlConfigurationFile;
-		$serializedContent = 	"<?php\n" . 
+		$serializedContent = 	"<?php\n" .
 								'$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'realurl\'] = unserialize(\'' . serialize($TYPO3_CONF_VARS['EXTCONF']['realurl']) . '\');';
 		$serializedContent = self::addDoNotEditHint($serializedContent);
-			
+
 		return file_put_contents(
 			$realUrlConfigurationFile, $serializedContent
 		);
 	}
-	
+
 	/**
 	 * @param string $initialString
-	 * 
+	 *
 	 * @return string
 	 */
 	private static function addDoNotEditHint($initialString) {
 		$editedString = str_replace(
-			'<?php', 
-			"<?php\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
+			'<?php',
+			"<?php\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.",
 			$initialString
 		);
-		
+
 		if($editedString == $initialString) {
 			$editedString = str_replace(
-				'<?', 
-				"<?\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.", 
+				'<?',
+				"<?\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.",
 				$initialString
 			);
 		}
-		
+
 		return $editedString;
 	}
 }
