@@ -26,6 +26,10 @@ if(tx_mktools_util_miscTools::isContentReplacerActive()) {
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentreplacer', 'MK Tools - Content Replacer');
 }
 
+// default TS für den Ajax content renderer
+if(tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
+	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentrenderer', 'MK Tools - Ajax Content Renderer');
+}
 
 // Robots-Meta Tag
 if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {

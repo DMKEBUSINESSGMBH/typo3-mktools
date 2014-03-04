@@ -1,6 +1,9 @@
 # cat=modules; type=boolean; label=Activates the content replace module.
 contentReplaceActive = 0
 
+# cat=modules; type=boolean; label=Activates the ajax content renderer module.
+ajaxContentRendererActive = 0
+
 # cat=modules; type=boolean; label=Activates the tslib xclass:Enables the tslib xclass for advanced page not found handling.
 pageNotFoundHandling = 0
 

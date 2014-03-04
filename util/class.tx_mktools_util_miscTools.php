@@ -47,6 +47,10 @@ class tx_mktools_util_miscTools {
 		return self::getExtensionCfgValue('contentReplaceActive');
 	}
 
+	public function isAjaxContentRendererActive() {
+		return self::getExtensionCfgValue('ajaxContentRendererActive');
+	}
+
 	public function pageNotFoundHandlingActive() {
 		return self::getExtensionCfgValue('pageNotFoundHandling');
 	}
