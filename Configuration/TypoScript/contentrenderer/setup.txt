@@ -1,4 +1,5 @@
 includeLibs.tx_mktools_action_ajax_ContentRenderer = EXT:mktools/action/ajax/tx_mktools_action_ajax_ContentRenderer.php
+
 mktoolsAjaxHandler = PAGE
 mktoolsAjaxHandler {
 	typeNum = 9267
@@ -19,5 +20,5 @@ mktoolsAjaxHandler {
 }
 
 page.includeJS {
-	file525 = typo3conf/ext/mktools/Resources/Public/js/ajaxcontent.js
+	file9267 = typo3conf/ext/mktools/Resources/Public/js/ajaxcontent.js
 }

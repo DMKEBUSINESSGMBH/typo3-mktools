@@ -1,4 +1,7 @@
-(function(DMK, w){
+if (typeof DMK !== "object") {
+	var DMK = {};
+}
+(function(DMK, w, $){
 	"use strict";
 	var ContentLoader = function ContentLoader() {
 		var
@@ -9,11 +12,36 @@
 		;
 		
 		this.init = function() {
-			jQuery("#website").on(
-				"click",
-				".ajax-links a, a.ajax-link, form input[type=submit].ajax-link",
-				_handleAjaxClick
-			);
+			// click events
+			$("body")
+				.off("click.contentloader")
+				.on(
+					"click.contentloader",
+					".ajax-links a, a.ajax-link",
+					_handleAjaxClick
+				);
+			// submit events
+			$("body")
+				.off("submit.contentloader")
+				.on(
+					"submit.contentloader",
+					"form.ajax-form",
+					_handleAjaxClick
+				);
+			// autotriger for forms
+			$("body")
+				.off("click.contentloader")
+				.on(
+					"click.contentloader",
+					"form.ajax-autotrigger input:not(:text)",
+					_handleAjaxClick
+				)
+				.off("change.contentloader")
+				.on(
+					"change.contentloader",
+					"form.ajax-autotrigger select",
+					_handleAjaxClick
+				);
 		};
 		
 		this.Request = {
@@ -22,16 +50,19 @@
 				if (typeof parameters !== "object") {
 					parameters = {};
 				}
-				parameters.href = window.location.href;
+				parameters.href = w.location.href;
 				
 				if ($trigger.is("a")) {
 					parameters.href = $trigger.get(0).href;
 				}
-				if($trigger.is("input")) {
-					var form = $trigger.get(0).form;
-					var params = parameters.href.indexOf("?") >= 0 ? "&" : "?";
-					params = params + $(form).serialize();
-					parameters.href = parameters.href + params;
+				else if($trigger.is("form, input, select")) {
+					var isForm = $trigger.is("form"),
+						$form = isForm ? $trigger : $trigger.parents("form").first(),
+						href = isForm ? $trigger.prop("action") : parameters.href,
+						params = href.indexOf("?") >= 0 ? "&" : "?"
+					;
+					params = params + $form.serialize();
+					parameters.href = href + params;
 				}
 				
 				if ($container.data("ajaxreplaceid")) {
@@ -78,7 +109,7 @@
 					this.onComplete({}, parameters);
 				}
 				else {
-					jQuery.ajax(
+					$.ajax(
 						{
 							url : parameters.href + query,
 							type : "POST",
@@ -102,7 +133,7 @@
 			
 			// loader anzeigen
 			onStart : function(data, parameters){
-				jQuery("#c" + parameters.contentid + " .waiting").clearQueue().fadeIn();
+				$("#c" + parameters.contentid + " .waiting").clearQueue().fadeIn();
 			},
 			// content ersetzen
 			onSuccess : function(data, parameters){
@@ -122,7 +153,7 @@
 			},
 			// loader ausblenden
 			onComplete: function(data, parameters){
-				jQuery("#c" + parameters.contentid + " .waiting").clearQueue().fadeOut();
+				$("#c" + parameters.contentid + " .waiting").clearQueue().fadeOut();
 			}
 		};
 		
@@ -156,28 +187,28 @@
 				}
 			}
 			
-			$el = jQuery(element);
+			$el = $(element);
 			// wir suchen die contentid! (id="c516")
 			$el.parents("div[data-ajaxreplaceid^='c']").each(
 				function(index, element) {
-					$content = jQuery(element);
+					$content = $(element);
 					if (_self.fn.isNumeric($content.data("ajaxreplaceid").slice(1))) {
 						return false;
 					}
 					return true;
 				}
 			);
-			if ($content !== "undefined") {
+			if (typeof $content !== "undefined") {
 				// Abbruch bei nicht vorhandenem Element
-				$content = jQuery("#" + $content.data("ajaxreplaceid"));
-				if ($content === "undefined") {
+				$content = $("#" + $content.data("ajaxreplaceid"));
+				if (typeof $content === "undefined") {
 					return false;
 				}
 			}
 			else {
 				$el.parents("div[id^='c']").each(
 					function(index, element) {
-						$content = jQuery(element);
+						$content = $(element);
 						if (_self.fn.isNumeric($content.attr("id").slice(1))) {
 							return false;
 						}
@@ -192,7 +223,7 @@
 			
 			$content.addClass("ajax-content");
 			if ($content.find(".waiting").length === 0) {
-				$content.append(jQuery("<div>").addClass("waiting").hide());
+				$content.append($("<div>").addClass("waiting").hide());
 			}
 			
 			if (_self.Request.updateContent($el, $content)) {
@@ -201,7 +232,7 @@
 		};
 		
 		this.replaceContent = function(contentId, html, from, to) {
-			var $cOld = jQuery("#c" + contentId), $cNew,
+			var $cOld = $("#c" + contentId), $cNew,
 				animateTime = 1000;
 			if ($cOld.length === 0) {
 				return;
@@ -213,7 +244,7 @@
 					old = { width : $cOld.width(), height : $cOld.height() };
 				// slidebox wrap erzeugen, falls nicht existent.
 				if (!$slidebox.hasClass("ajax-wrap")) {
-					$cOld.wrap(jQuery("<div>").addClass("ajax-wrap"));
+					$cOld.wrap($("<div>").addClass("ajax-wrap"));
 					$slidebox = $cOld.parent();
 					$slidebox.css({"position" : "relative", "overflow" : "hidden"});
 				}
@@ -221,7 +252,7 @@
 				$cOld.css({"position" : "absolute", "top" : 0, "left" : 0, "width" : old.width});
 				// das alte element
 				$cOld.attr('id', contentId + '-old').addClass("ajax-content-old");
-				$cNew = left ? jQuery(html).insertAfter($cOld) : jQuery(html).insertBefore($cOld);
+				$cNew = left ? $(html).insertAfter($cOld) : $(html).insertBefore($cOld);
 				if ($cNew.length === 0) {
 					from = to = 0;
 				}
@@ -231,7 +262,7 @@
 					$slidebox.animate({"height" : $cNew.height()}, animateTime);
 					$cOld.animate({"left" : old.width * (left ? -1 : +1)}, animateTime);
 					$cNew.animate({"left" : 0}, animateTime, function () {
-						window.setTimeout(function() {
+						w.setTimeout(function() {
 							$cOld.remove();
 						}, 250);
 					});
@@ -254,8 +285,16 @@
 		
 	}; // End of DMK.ContentLoader 
 	
-	DMK.Libraries.add(
+	// add lib to basic library
+	if (typeof DMK.Libraries === "object") {
+		DMK.Libraries.add(
 			DMK.Base.extend(ContentLoader), "ContentLoader"
 		);
+	}
+	// fallback, add singelton to window.
+	else {
+		DMK.ContentLoader = new ContentLoader();
+		$(DMK.ContentLoader.init);
+	}
 	
-})(DMK, window);
+})(DMK, window, jQuery);
