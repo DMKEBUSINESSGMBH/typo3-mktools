@@ -104,7 +104,7 @@ if (typeof DMK !== "object") {
 				query = query + "type=9267";
 				
 				cacheId = cache.getCacheId(parameters);
-				if (cache.has(cacheId)) {
+				if (0 && cache.has(cacheId)) {
 					this.onSuccess(cache.get(cacheId), parameters);
 					this.onComplete({}, parameters);
 				}
@@ -189,10 +189,15 @@ if (typeof DMK !== "object") {
 			
 			$el = $(element);
 			// wir suchen die contentid! (id="c516")
-			if (_self.fn.isNumeric($el.data("ajaxreplaceid").slice(1))) {
-				$content = $el;
-			}
-
+			$el.parents("div[data-ajaxreplaceid^='c']").each(
+				function(index, element) {
+					$content = $(element);
+					if (_self.fn.isNumeric($content.data("ajaxreplaceid").slice(1))) {
+						return false;
+					}
+					return true;
+				}
+			);
 			if (typeof $content !== "undefined") {
 				// Abbruch bei nicht vorhandenem Element
 				$content = $("#" + $content.data("ajaxreplaceid"));
