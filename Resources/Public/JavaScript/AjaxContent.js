@@ -14,7 +14,10 @@
  * @requires jQuery, Base, Request
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-
+/*
+ * Sample to set the PageType:
+ * DMK.AjaxContent.setData("pageType", 99);
+ */
 /*
  * Sample to override the RequestCall:
  * DMK.Objects.extend(
@@ -34,6 +37,7 @@
 	
 	AjaxContent = function AjaxContent() {
 		this.setData("version", VERSION);
+		this.setData("pageType", 9267);
 	};
 	
 	// Ajax Request definieren
@@ -83,7 +87,7 @@
 	
 	AjaxContent.prototype.handleAjaxClick = function(event, element) {
 		var _self = this, _request = DMK.Objects.getInstance("AjaxContentAjaxRequest"),
-			parameters = {type : 9267},
+			parameters = {type : this.getData("pageType")},
 			$el, $linkwrap, $content
 		;
 		

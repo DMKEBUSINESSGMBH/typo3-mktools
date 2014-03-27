@@ -12,6 +12,10 @@
  */
 
 /*
+ * Sample to set the PageType:
+ * DMK.ModalBootstrap.setData("pageType", 99);
+ */
+/*
  * Sample to override the RequestCall:
  * DMK.Objects.extend(
 	"ModalBootstrapAjaxRequest",
@@ -50,7 +54,8 @@
 						'</div>',
 					// singlebox? soll alles in einer modalmox ablaufen,
 					// oder fuer jeden call eine eigene box?
-					singlebox : true
+					singlebox : true,
+					pageType : 9266
 				},
 				options
 			)
@@ -102,12 +107,13 @@
 	// wir oeffnen das popup, bzw machen den ajax call
 	ModalBootstrap.prototype.open = function(el) {
 		var _self = this,
-			_request = DMK.Objects.getInstance("ModalBootstrapAjaxRequest")
+			_request = DMK.Objects.getInstance("ModalBootstrapAjaxRequest"),
+			parameters = {type : this.getData("pageType")}
 		;
 		_request.onSuccess = function(data, parameters){
 			_self.updateContent(data, parameters);
 		}; 
-		_request.doCall(el);
+		_request.doCall(el, parameters);
 	};
 
 	// wir ersetzen den inhalt vom calls und oeffnen die box

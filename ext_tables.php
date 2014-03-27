@@ -30,12 +30,13 @@ if(tx_mktools_util_miscTools::isContentReplacerActive()) {
 if(tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentrenderer', 'MK Tools - Ajax Content Renderer');
 }
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentmodal', 'MK Tools - Ajax Modal Renderer');
 
 // Robots-Meta Tag
 if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
-	
+
 	tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
-	
+
 	// default TS
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/seorobotsmetatag', 'MK Tools - SEO Robots Meta Tag');
 	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/PagesRobotsMetaTag.php');
@@ -43,7 +44,7 @@ if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
 
 // realurl optimierungen
 if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
-	
+
 	global $TCA;
 	$TCA['tx_mktools_fixedpostvartypes'] = array (
 		'ctrl' => array (
