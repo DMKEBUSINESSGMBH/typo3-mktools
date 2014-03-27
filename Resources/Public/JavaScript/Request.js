@@ -14,8 +14,11 @@
 (function(DMK, w, $){
 	"use strict";
 	
-	var Request = DMK.Base.extend(
+	var Request, VERSION = "0.1.0";
+	
+	Request = DMK.Base.extend(
 		function Request() {
+			this.setData("version", VERSION);
 		}
 	);
 	Request.prototype.doCall = function(urlOrElement, parameters) {
@@ -41,7 +44,6 @@
 		_request.onStart({}, parameters);
 		
 		query = parameters.href.indexOf("?") >= 0 ? "&" : "?";
-		query = query + "type=9267";
 		
 		cacheId = cacheable ? cache.buildCacheId(parameters) : cacheId;
 		if (cacheable && cache.hasData(cacheId)) {
@@ -80,9 +82,8 @@
 				url = urlOrElement.get(0).href;
 			}
 			else if(urlOrElement.is("form, input, select")) {
-				var isForm = urlOrElement.is("form"),
-					form = isForm ? urlOrElement : urlOrElement.parents("form").first(),
-					href = isForm ? form.prop("action") : url,
+				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
+					href = form.is("form") ? form.prop("action") : url,
 					params = href.indexOf("?") >= 0 ? "&" : "?"
 				;
 				params = params + form.serialize();

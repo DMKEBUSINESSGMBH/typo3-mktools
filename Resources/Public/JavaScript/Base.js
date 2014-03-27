@@ -69,6 +69,9 @@
 	Base.prototype.isFunction = function (val) {
 		return typeof val === "function";
 	};
+	Base.prototype.isNumeric = function (val) {
+		return !isNaN(parseFloat(val, 10)) && isFinite(val);
+	}
 
 	// The global basic object
 	DMK = function DMK () {
@@ -118,6 +121,7 @@
 // A smal storage addon
 (function(DMK){
 	var Registry = function Registry() {
+		this.setData("version", "0.1.0");
 		this.buildCacheId = function(params) {
 			return JSON.stringify(params);
 		};
