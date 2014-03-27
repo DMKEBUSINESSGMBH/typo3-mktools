@@ -1,3 +1,10 @@
+/**
+ * TODO
+ * REFECTOR!
+ * SOLLTE SCHNELL UMGEBAUT WERDEN!
+ * SEE: >>> ModalBootstrap.js <<<
+ */
+
 if (typeof DMK !== "object") {
 	var DMK = {};
 }
