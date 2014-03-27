@@ -34,11 +34,18 @@
 	};
 	
 	// add basic extend funcitons
-	Base.prototype.extend = function (Class, params) {
-		Class.prototype = this.getInstance(this, true, params);
+	Base.extend = function(ParentInstance, Class, params) {
+		Class.prototype = ParentInstance;
+		Class.prototype.parent = function() { return ParentInstance; };
 		Class.prototype.constructor = Class;
+		Class.extend = function(Child, childParams) {
+			return Base.extend(new Class(childParams), Child, childParams);
+		};
 		return Class;
-	};	
+	};
+	Base.prototype.extend = function (Class, params) {
+		return Base.extend(this.getInstance(this, true, params), Class, params);
+	};
 	Base.prototype.getInstance = function (Instance, forceNewObject, params) {
 		Instance = this.isDefined(Instance) ? Instance : this;
 		forceNewObject = this.isDefined(forceNewObject) ? forceNewObject : false;
@@ -51,10 +58,10 @@
 		}
 		return ;
 	};
-	Base.prototype.getClassName = function (Instance) {
+	Base.prototype.getClassName = function () {
 		var matches = this.constructor.toString().match(/function (.{1,})\(/);
 		return (matches && matches.length > 1) ? matches[1] : _undefined;
-	}
+	};
 	
 	// add some basic functions
 	Base.prototype.isDefined = function (val) {
@@ -71,21 +78,42 @@
 	};
 	Base.prototype.isNumeric = function (val) {
 		return !isNaN(parseFloat(val, 10)) && isFinite(val);
-	}
+	};
 
 	// The global basic object
 	DMK = function DMK () {
 		var _DMK = this, _Libraries = [];
 		this.Version = VERSION;
 		this.Base = new Base({"name" : "Base", "description" : "Required base functionalities of DMK", "version" : VERSION});
+		this.Objects = {
+			add : function (Object, Name) {
+				if (!_DMK.Base.isDefined(Name)) {
+					var Instance = new Object();
+					Name = Instance.getClassName();
+				}
+				this[Name] = Object;
+			},
+			extend : function (Name, Class, params) {
+				if (!this[Name]) {
+					return null;
+				}
+				this[Name] = this[Name].extend(Class, params);
+				return this[Name];
+			},
+			getInstance : function(Name, params) {
+				return this[Name] ? new this[Name](params) : null;
+			}
+		}
 		this.Libraries = {
-			add : function (object) {
-				var instance = _DMK.Base.getInstance(object),
-					name = instance.getClassName()
+			add : function (Object) {
+				var Instance = _DMK.Base.getInstance(Object),
+					Name = Instance.getClassName(),
+					Class = Instance.constructor;
 				;
-				_Libraries.push(name);
-				_DMK[name] = instance; // lib mappen
-				return instance;
+				_DMK.Objects.add(Class, Name);
+				_Libraries.push(Name);
+				_DMK[Name] = Instance; // lib mappen
+				return Instance;
 			},
 			init : function (name) {
 				var object = _DMK[name],

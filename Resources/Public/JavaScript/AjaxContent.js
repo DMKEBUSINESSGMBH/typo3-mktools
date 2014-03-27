@@ -15,19 +15,33 @@
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 
+/*
+ * Sample to override the RequestCall:
+ * DMK.Objects.extend(
+	"AjaxContentAjaxRequest",
+	function MyRequest() {
+		this.onStart = function(data, parameters) {
+			// do some thinks and then call the parent!
+			this.parent().onStart.call(this, data, parameters);
+		}
+	}
+);
+ */
 (function(DMK, w, $){
 	"use strict";
 	var AjaxRequest, AjaxContent, VERSION = "0.1.0";
 	
-	// Ajax Request definieren
-	AjaxRequest = DMK.Request.extend(function AjaxRequest() {});
 	
 	AjaxContent = function AjaxContent() {
 		this.setData("version", VERSION);
-	}
+	};
+	
+	// Ajax Request definieren
+	AjaxRequest = DMK.Request.extend(function AjaxRequest() {});
 	
 	// wir erben von dem basis objekt
 	AjaxContent = DMK.Base.extend(AjaxContent);
+	
 	
 	AjaxContent.prototype.init = function() {
 		var _self = this,
@@ -68,7 +82,7 @@
 	};
 	
 	AjaxContent.prototype.handleAjaxClick = function(event, element) {
-		var _self = this, _request = new AjaxRequest(),
+		var _self = this, _request = DMK.Objects.getInstance("AjaxContentAjaxRequest"),
 			parameters = {type : 9267},
 			$el, $linkwrap, $content
 		;
@@ -142,7 +156,7 @@
 		};
 		_request.onComplete = function(data, parameters){
 			$content.find(".waiting").clearQueue().fadeOut();
-		}
+		};
 		_request.onSuccess = function(data, parameters){
 			var from = 0, to = 0;
 			if (parameters.page === "next") {
@@ -205,5 +219,6 @@
 	};
 	
 	// add lib to basic library
+	DMK.Objects.add(AjaxRequest, "AjaxContentAjaxRequest");
 	DMK.Libraries.add(AjaxContent);
 })(DMK, window, jQuery);

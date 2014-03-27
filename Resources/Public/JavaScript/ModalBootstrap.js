@@ -11,12 +11,24 @@
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 
+/*
+ * Sample to override the RequestCall:
+ * DMK.Objects.extend(
+	"ModalBootstrapAjaxRequest",
+	function MyRequest() {
+		this.onStart = function(data, parameters) {
+			// do some thinks and then call the parent!
+			this.parent().onStart.call(this, data, parameters);
+		}
+	}
+);
+ */
 (function(DMK, $){
 	"use strict";
-	var Ajax, ModalBootstrap, VERSION = "0.1.0";
+	var AjaxRequest, ModalBootstrap, VERSION = "0.1.0";
 	
 	// Ajax Request definieren
-	Ajax = DMK.Request.extend(function AjaxRequest() {});
+	AjaxRequest = DMK.Request.extend(function AjaxRequest() {});
 	
 	// die modalbox
 	ModalBootstrap = function ModalBootstrap(options) {
@@ -90,7 +102,7 @@
 	// wir oeffnen das popup, bzw machen den ajax call
 	ModalBootstrap.prototype.open = function(el) {
 		var _self = this,
-			_request = new Ajax()
+			_request = DMK.Objects.getInstance("ModalBootstrapAjaxRequest")
 		;
 		_request.onSuccess = function(data, parameters){
 			_self.updateContent(data, parameters);
@@ -109,7 +121,7 @@
 			$('.modal-ajax:visible').modal("hide");
 		}
 		$box.modal("show");
-	}
+	};
 	
 	// wir schliessen das popup
 	ModalBootstrap.prototype.close = function(box) {
@@ -143,6 +155,7 @@
 	};
 	
 	// wir registrieren unsere lib
+	DMK.Objects.add(AjaxRequest, "ModalBootstrapAjaxRequest");
 	DMK.Libraries.add(ModalBootstrap);
 	
 })(DMK, jQuery);

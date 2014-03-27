@@ -39,8 +39,6 @@
 			parameters.href = _request.getUrl(urlOrElement);
 		}
 			
-		
-		
 		_request.onStart({}, parameters);
 		
 		query = parameters.href.indexOf("?") >= 0 ? "&" : "?";
