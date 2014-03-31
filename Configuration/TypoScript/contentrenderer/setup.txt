@@ -21,5 +21,7 @@ mktoolsAjaxHandler {
 }
 
 page.includeJS {
-	file9267 = typo3conf/ext/mktools/Resources/Public/JavaScript/AjaxContent.js
+	mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
+	mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
+	mktoolsAjaxContent = typo3conf/ext/mktools/Resources/Public/JavaScript/AjaxContent.js
 }
