@@ -47,17 +47,17 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 		parent::__construct($errorHandlerErrors);
 		register_shutdown_function(array($this, "handleFatalError" ));
 	}
-	
+
 	/**
 	 * wir loggen immer alle, Fehler, die exceptional sind für folgenden Fall:
 	 * wenn ein Error geworfen wird, der exceptional ist und der Error
 	 * wird in einem try-catch-block geworfen, dann wird der fehler verschluckt
-	 * da die exception, welche für den exception handler geworfen wird, 
+	 * da die exception, welche für den exception handler geworfen wird,
 	 * gefangen wird
-	 * 
+	 *
 	 * (non-PHPdoc)
 	 * @see t3lib_error_ErrorHandler::handleError()
-	 * 
+	 *
 	 * @throws tx_mktools_util_ErrorException
 	 */
 	public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine) {
@@ -69,18 +69,18 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 			if ($this->shouldExceptionsBeWrittenToDevLog()) {
 				$this->writeExceptionToDevLog($exception);
 			}
-			
+
 			//damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
 			//dieser tut das nur für exceptions != tx_mktools_util_ErrorException
 			throw tx_rnbase::makeInstance(
-				'tx_mktools_util_ErrorException', 
+				'tx_mktools_util_ErrorException',
 				$exception->getMessage(), $exception->getCode()
 			);
 		}
-		
+
 		return $return;
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see t3lib_error_ErrorHandler::handleError()
@@ -88,20 +88,20 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine) {
 		return parent::handleError($errorLevel, $errorMessage, $errorFile, $errorLine);
 	}
-	
+
 	/**
 	 * @return boolean
 	 */
 	protected function shouldExceptionsBeWrittenToDevLog()  {
 		return TYPO3_EXCEPTION_DLOG;
 	}
-	
+
 	/**
 	 * @param t3lib_error_Exception $exception
-	 * 
+	 *
 	 * @return void
 	 */
-	protected function writeExceptionToDevLog(t3lib_error_Exception $exception) {
+	protected function writeExceptionToDevLog(Exception $exception) {
 		$logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
 		t3lib_div::devLog($exception->getMessage(), $logTitle, 3);
 	}
