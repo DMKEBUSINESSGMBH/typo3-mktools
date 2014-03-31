@@ -29,8 +29,8 @@ mktoolsModalHandler {
 }
 
 page.includeJS {
-	#file9250 = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
-	#file9251 = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
-	#file9266 = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalBootstrap.js
-	#file9266 = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalFoundation.js
+	#mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
+	#mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
+	#mktoolsModalBootstrap = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalBootstrap.js
+	#mktoolsModalFoundation = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalFoundation.js
 }
