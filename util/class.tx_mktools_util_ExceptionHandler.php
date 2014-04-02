@@ -39,7 +39,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @var array
 	 */
 	private $exceptionPageExtensionConfiguration = array();
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see t3lib_error_AbstractExceptionHandler::writeLogEntries()
@@ -49,15 +49,15 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		//tx_mktools_util_ErrorHandler::handleError geworfen und wurde schon geloggt
 		if (
 			(!$exception instanceof tx_mktools_util_ErrorException) &&
-			$this->lockAcquired($exception, $context)		
+			$this->lockAcquired($exception, $context)
 		) {
 			$this->writeLogEntriesByParent($exception, $context);
 		}
 	}
-	
+
 	/**
-	 * damit wir mocken können 
-	 * 
+	 * damit wir mocken können
+	 *
 	 * (non-PHPdoc)
 	 * @see t3lib_error_AbstractExceptionHandler::writeLogEntries()
 	 */
@@ -67,47 +67,47 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		//Meldung, wenn die Warnung vor dem Schreiben des Logs auftritt
 		@parent::writeLogEntries($exception, $context);
 	}
-	
+
 	/**
 	 * @param Exception $exception
 	 * @param string $context
-	 * 
+	 *
 	 * @return boolean
 	 */
 	protected function lockAcquired(Exception $exception, $context) {
 		if(!is_dir(PATH_site.'typo3temp/mktools/locks/')) {
-			t3lib_div::mkdir_deep(PATH_site . 'typo3temp', 'mktools/locks');
+			t3lib_div::mkdir_deep(PATH_site . 'typo3temp/', 'mktools/locks');
 		}
-		
+
 		$lockFile = $this->getLockFileByExceptionAndContext($exception, $context);
-		
+
 		$lastCall = intval(trim(file_get_contents($lockFile)));
 		if($lastCall > (time() - 60)) {
 			return false; // Only logging once a minute per error
 		}
-		
+
 		file_put_contents($lockFile, time()); // refresh lock
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * @param Exception $exception
 	 * @param unknown_type $context
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function getLockFileByExceptionAndContext(Exception $exception, $context) {
 		$lockFileName = md5(
-			$exception->getCode() . $exception->getMessage() . 
+			$exception->getCode() . $exception->getMessage() .
 			$exception->getPrevious() . $context
 		);
-		
+
 		$lockFile = PATH_site.'typo3temp/mktools/locks/' . $lockFileName . '.txt';
 		if(!file_exists($lockFile)) {
 			touch($lockFile);
 		}
-		
+
 		return $lockFile;
 	}
 
@@ -230,7 +230,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return void
 	 */
 	protected function echoExceptionPageAndExit($absoluteExceptionPageUrl) {
-		// wenn wir schon auf der Fehlerseite sind, dann holen wir nicht nochmal 
+		// wenn wir schon auf der Fehlerseite sind, dann holen wir nicht nochmal
 		// die Fehlerseite falls auf dieser der Fehler auch auftritt. Sonst laufen
 		// wir in einen infinite loop
 		if(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
@@ -238,10 +238,10 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		}
 		exit(1);
 	}
-	
+
 	/**
-	 * Methode ist in TYPO3 4.5.x noch nicht vorhanden. Daher selbst eingefügt. 
-	 * 
+	 * Methode ist in TYPO3 4.5.x noch nicht vorhanden. Daher selbst eingefügt.
+	 *
 	 * Sends the HTTP Status 500 code, if $exception is *not* a t3lib_error_http_StatusException
 	 * and headers are not sent, yet.
 	 *
