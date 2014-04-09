@@ -103,12 +103,12 @@
 			getInstance : function(Name, params) {
 				return this[Name] ? new this[Name](params) : null;
 			}
-		}
+		};
 		this.Libraries = {
 			add : function (Object) {
 				var Instance = _DMK.Base.getInstance(Object),
 					Name = Instance.getClassName(),
-					Class = Instance.constructor;
+					Class = Instance.constructor
 				;
 				_DMK.Objects.add(Class, Name);
 				_Libraries.push(Name);

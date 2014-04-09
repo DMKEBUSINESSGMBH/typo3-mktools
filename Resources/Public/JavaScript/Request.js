@@ -74,7 +74,7 @@
 	};
 	
 	Request.prototype.getUrl = function(urlOrElement) {
-		var url = urlOrElement
+		var url = urlOrElement;
 		if (this.isObjectJQuery(urlOrElement)) {
 			if (urlOrElement.is("a")) {
 				url = urlOrElement.get(0).href;
@@ -89,7 +89,7 @@
 			}
 		}
 		return url;
-	}
+	};
 	Request.prototype.getLoader = function() {
 		var $loader = $('body > .waiting');
 		if ($loader.length === 0) {
