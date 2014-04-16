@@ -13,7 +13,7 @@ $fields = array(
 				array('LLL:EXT:mktools/locallang_db.xml:general.choose', '')
 			),
 			'foreign_table' => 'tx_mktools_fixedpostvartypes',
-        	'foreign_table_where' => ' ORDER BY title',
+        	'foreign_table_where' => ' ORDER BY tx_mktools_fixedpostvartypes.title',
 			'size' => 1,
 			'minitems' => 0,
  	 		'maxitems' => 1
