@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-defined('ERROR_CODE_MKADVERT') || define('ERROR_CODE_MKTOOLS', 160);
+defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 
 $_EXTKEY = 'mktools';
 $_EXTCONF = unserialize($_EXTCONF);
