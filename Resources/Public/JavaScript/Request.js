@@ -21,6 +21,7 @@
 			this.setData("version", VERSION);
 		}
 	);
+	// Wir Führen einen Ajax Call aus!
 	Request.prototype.doCall = function(urlOrElement, parameters) {
 		var
 			_request = this,
@@ -28,7 +29,8 @@
 			cacheable = this.isObject(cache),
 			cacheId = ""
 		;
-			
+		
+		// Paremeter und URL sammeln.
 		if (!_request.isObjectJQuery(urlOrElement)) {
 			parameters = urlOrElement;
 		}
@@ -36,22 +38,26 @@
 			parameters = {};
 		}
 		_request.prepareParameters(urlOrElement, parameters),
-			
+		
+		// Event Triggern
 		_request.onStart({}, parameters);
 		
 		cacheId = cacheable ? cache.buildCacheId(parameters) : cacheId;
+		// den Cache nach einem bereits getaetigten Request fragen.
 		if (cacheable && cache.hasData(cacheId)) {
 			_request.onSuccess(cache.getData(cacheId), parameters);
 			_request.onComplete({}, parameters);
 		}
+		// Den Ajax Request absenden.
 		else {
 			$.ajax(
 				{
 					url : parameters.href,
-					type : "POST",
-					dataType : "html",
+					type : "POST", // make configurable
+					dataType : "html", // make configurable
 					data : parameters,
 					success : function(data) {
+						// Cachen!
 						if (cacheable) {
 							cache.setData(cacheId, data);
 						}
@@ -69,12 +75,15 @@
 		return true;
 	};
 	
+	// Die URL fuer den Request suchen
 	Request.prototype.getUrl = function(urlOrElement) {
 		var url = urlOrElement;
 		if (this.isObjectJQuery(urlOrElement)) {
+			// Wir haben einen Link und nutzen dessen href
 			if (urlOrElement.is("a")) {
 				url = urlOrElement.get(0).href;
 			}
+			// Wir haben ein Formular, und besorgen uns dessen action
 			else if(urlOrElement.is("form, input, select")) {
 				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
 					href = form.is("form") ? form.prop("action") : url
@@ -82,42 +91,57 @@
 				url = href;
 			}
 		}
+		// what todo, if no url was found? use w.location.href?
 		return url;
 	};
+	// Alle Parameter fuer den Request zusammen suchen.
 	Request.prototype.prepareParameters = function(urlOrElement, parameters) {
 		var _request = this;
 		if (_request.isObjectJQuery(urlOrElement)) {
 			if(urlOrElement.is("form, input, select")) {
 				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
 					params = form.serializeArray();
+				// Parameter des Forumars sammeln
 				$.each(params, function(index, object){
 					if (!_request.isDefined(parameters[object.name])) {
 						parameters[object.name] = object.value;
 					}
 				});
+				// Den Wert des aktuellen Submit-Buttons mitsenden!
+				if (urlOrElement.is("input[type=submit]")) {
+					parameters[urlOrElement.prop("name")] = urlOrElement.prop("value");
+				}
 			}
 		}
+		// Die URL fuer den Request bauen
 		if (!_request.isDefined(parameters.href)) {
 			parameters.href = _request.getUrl(urlOrElement);
 		}
 		return parameters;
 	};
+	// Wir erzeugen einen loader, fuer den asyncronen Call.
 	Request.prototype.getLoader = function() {
 		var $loader = $('body > .waiting');
+		// Nix da? Wir bauen einen neuen!
 		if ($loader.length === 0) {
 			$loader = $("<div>").addClass("waiting");
 			$('body').prepend($loader.hide());
 		}
 		return $loader;
 	};
+	// Liefert den Cache
 	Request.prototype.getCache = function() {
 		return DMK.Registry;
 	};
+	// Wird beim Start des Calls aufgerufen
 	Request.prototype.onStart = function(data, parameters) {
 		this.getLoader().show();
 	};
+	// Wird bei erfolgreichem Call aufgerufen
 	Request.prototype.onSuccess = function(data, parameters) {};
+	// Wird im Fehlerfall ausgerufen
 	Request.prototype.onFailure = function(data, parameters) {};
+	// Wird immer nach onStart nach abschluss eines Calls aufgerufen
 	Request.prototype.onComplete = function(data, parameters) {
 		this.getLoader().hide();
 	};
