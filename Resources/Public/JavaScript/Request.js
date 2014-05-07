@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
- * @version 0.1.0
+ * @version 0.1.1
  * @requires Base, Registry 
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
@@ -14,7 +14,7 @@
 (function(DMK, w, $){
 	"use strict";
 	
-	var Request, VERSION = "0.1.0";
+	var Request, VERSION = "0.1.1";
 	
 	Request = DMK.Base.extend(
 		function Request() {
@@ -26,22 +26,18 @@
 			_request = this,
 			cache = this.getCache(),
 			cacheable = this.isObject(cache),
-			cacheId = "",
-			query = ""
+			cacheId = ""
 		;
 			
-		if (_request.isObject(urlOrElement) && !_request.isObjectJQuery(urlOrElement)) {
+		if (!_request.isObjectJQuery(urlOrElement)) {
 			parameters = urlOrElement;
-		} else {
-			if (!_request.isObject(parameters)) {
-				parameters = {};
-			}
-			parameters.href = _request.getUrl(urlOrElement);
 		}
+		if (!_request.isObject(parameters)) {
+			parameters = {};
+		}
+		_request.prepareParameters(urlOrElement, parameters),
 			
 		_request.onStart({}, parameters);
-		
-		query = parameters.href.indexOf("?") >= 0 ? "&" : "?";
 		
 		cacheId = cacheable ? cache.buildCacheId(parameters) : cacheId;
 		if (cacheable && cache.hasData(cacheId)) {
@@ -51,7 +47,7 @@
 		else {
 			$.ajax(
 				{
-					url : parameters.href + query,
+					url : parameters.href,
 					type : "POST",
 					dataType : "html",
 					data : parameters,
@@ -81,14 +77,30 @@
 			}
 			else if(urlOrElement.is("form, input, select")) {
 				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
-					href = form.is("form") ? form.prop("action") : url,
-					params = href.indexOf("?") >= 0 ? "&" : "?"
+					href = form.is("form") ? form.prop("action") : url
 				;
-				params = params + form.serialize();
-				url = href + params;
+				url = href;
 			}
 		}
 		return url;
+	};
+	Request.prototype.prepareParameters = function(urlOrElement, parameters) {
+		var _request = this;
+		if (_request.isObjectJQuery(urlOrElement)) {
+			if(urlOrElement.is("form, input, select")) {
+				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
+					params = form.serializeArray();
+				$.each(params, function(index, object){
+					if (!_request.isDefined(parameters[object.name])) {
+						parameters[object.name] = object.value;
+					}
+				});
+			}
+		}
+		if (!_request.isDefined(parameters.href)) {
+			parameters.href = _request.getUrl(urlOrElement);
+		}
+		return parameters;
 	};
 	Request.prototype.getLoader = function() {
 		var $loader = $('body > .waiting');
