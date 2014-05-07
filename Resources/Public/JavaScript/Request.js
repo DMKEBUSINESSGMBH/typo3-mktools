@@ -100,7 +100,8 @@
 		if (_request.isObjectJQuery(urlOrElement)) {
 			if(urlOrElement.is("form, input, select")) {
 				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
-					params = form.serializeArray();
+					params = form.serializeArray(),
+					submitName = urlOrElement.is("input[type=submit]") ? urlOrElement.prop("name") : false;
 				// Parameter des Forumars sammeln
 				$.each(params, function(index, object){
 					if (!_request.isDefined(parameters[object.name])) {
@@ -108,8 +109,8 @@
 					}
 				});
 				// Den Wert des aktuellen Submit-Buttons mitsenden!
-				if (urlOrElement.is("input[type=submit]")) {
-					parameters[urlOrElement.prop("name")] = urlOrElement.prop("value");
+				if (_request.isString(submitName) && submitName.length > 0) {
+					parameters[submitName] = urlOrElement.prop("value");
 				}
 			}
 		}

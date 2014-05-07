@@ -79,6 +79,9 @@
 	Base.prototype.isNumeric = function (val) {
 		return !isNaN(parseFloat(val, 10)) && isFinite(val);
 	};
+	Base.prototype.isString = function (val) {
+		return typeof val === "string";
+	};
 
 	// The global basic object
 	DMK = function DMK () {
