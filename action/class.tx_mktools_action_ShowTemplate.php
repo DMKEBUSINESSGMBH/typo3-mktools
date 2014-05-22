@@ -70,8 +70,8 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php']);
 }
 
 ?>

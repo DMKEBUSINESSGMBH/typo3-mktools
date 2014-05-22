@@ -259,8 +259,8 @@ class tx_mktools_util_PageNotFoundHandling
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']);
 }

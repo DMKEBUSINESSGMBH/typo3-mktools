@@ -10,7 +10,7 @@ pageNotFoundHandling = 0
 # cat=modules; type=boolean; label=Activates the Robots Meta Tag:Enables the individual Robots Meta-Tag for Pages 
 seoRobotsMetaTagActive = 0
 
-# cat=errorhandling; type=string; label=Either start with "FILE:" and than the relative link to a page inside TYPO3 which is displayed in case of unhandled exceptions or registered PHP errors ($TYPO3_CONF_VARS['SYS']['errorHandlerErrors']). Or use "TYPOSCRIPT:" to define a TS which is used. There you should define config.tx_mktools.errorhandling = your-error-page.html 
+# cat=errorhandling; type=string; label=Either start with "FILE:" and than the relative link to a page inside TYPO3 which is displayed in case of unhandled exceptions or registered PHP errors ($GLOBALS['TYPO3_CONF_VARS']['SYS']['errorHandlerErrors']). Or use "TYPOSCRIPT:" to define a TS which is used. There you should define config.tx_mktools.errorhandling = your-error-page.html 
 exceptionPage =
 
 # cat=realurl; type=boolean; label=FixedPostVar Types (tx_mktools_fixedpostvartypes):Integriert die TCA für tx_mktools_fixedpostvartypes 
