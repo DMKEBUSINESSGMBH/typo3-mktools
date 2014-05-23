@@ -73,7 +73,13 @@ class tx_mktools_util_miscTools {
 			);
 		}
 
-		$pageTSconfig = t3lib_BEfunc::getPagesTSconfig(0);
+		// ab TYPO3 6.2.x wird die TS config gecached wenn nicht direkt eine
+		// rootline ungleich NULL übergeben wird.
+		// wir müssen die rootline auf nicht NULL setzen und kein array damit
+		// die rootline korrekt geholt wird und nichts aus dem Cache. Sonst werde
+		// die gerade hinzugefügten TS Dateien nicht beachtet
+		$rootLine = 1;
+		$pageTSconfig = t3lib_BEfunc::getPagesTSconfig(0, $rootLine);
 		$config = t3lib_div::array_merge_recursive_overrule(
 			(array) $pageTSconfig['config.']['tx_mktools.'],
 			(array) $pageTSconfig['plugin.']['tx_mktools.']
