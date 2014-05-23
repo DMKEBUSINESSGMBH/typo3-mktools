@@ -4,13 +4,12 @@ defined('TYPO3_MODE') || die('Access denied.');
 defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 
 $_EXTKEY = 'mktools';
-$_EXTCONF = unserialize($_EXTCONF);
 
 if (!function_exists('mktools_getConf')) {
 	function mktools_getConf($key, $mode = false) {
-		global $_EXTCONF;
-		return (isset($_EXTCONF[$key]) && ($mode === false || TYPO3_MODE == $mode))
-			? $_EXTCONF[$key] : false;
+		$extensionConfigurationByKey = tx_mklib_util_MiscTools::getExtensionValue($key, 'mktools');
+		return (isset($extensionConfigurationByKey) && ($mode === false || TYPO3_MODE == $mode))
+			? $extensionConfigurationByKey : false;
 	}
 }
 
@@ -34,9 +33,9 @@ if (mktools_getConf('contentReplaceActive', 'FE')) {
 }
 
 if (mktools_getConf('pageNotFoundHandling', 'FE')) {
-	// Anpassung tslib_fe für 404
-	$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_fe.php']
-		= t3lib_extMgm::extPath($_EXTKEY).'xclasses/class.ux_tslib_fe.php';
+	require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+	tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
+	tx_mktools_util_PageNotFoundHandling::registerXclass();
 }
 
 require(t3lib_extMgm::extPath($_EXTKEY).'scheduler/ext_localconf.php');
