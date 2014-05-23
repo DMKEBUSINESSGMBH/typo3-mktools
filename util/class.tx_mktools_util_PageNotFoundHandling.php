@@ -262,8 +262,34 @@ class tx_mktools_util_PageNotFoundHandling
 	 */
 	public static function registerXclass() {
 		tx_rnbase::load('tx_mklib_util_MiscTools');
+		if(
+			defined('TYPO3_ERRORHANDLER_MODE') &&
+			TYPO3_ERRORHANDLER_MODE == 'debug'
+		) {
+			require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+			tx_rnbase::load('tx_rnbase_util_Debug');
+			tx_rnbase_util_Debug::debug(
+				array(
+					class_exists('ux_tslib_fe')
+				),
+				__METHOD__ . ' Zeile:' .  __LINE__
+			);
+		}
+		require_once t3lib_extMgm::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
+		if(
+		defined('TYPO3_ERRORHANDLER_MODE') &&
+		TYPO3_ERRORHANDLER_MODE == 'debug'
+				) {
+			require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+			tx_rnbase::load('tx_rnbase_util_Debug');
+			tx_rnbase_util_Debug::debug(
+			array(
+			class_exists('ux_tslib_fe')
+			),
+			__METHOD__ . ' Zeile:' .  __LINE__
+			);
+		}
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			require_once t3lib_extMgm::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
 				'className' => 'ux_tslib_fe',
 			);

@@ -59,13 +59,15 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 */
 	public function testRegisterXclass() {
 		tx_mktools_util_PageNotFoundHandling::registerXclass();
-
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$xclass =\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
 				array(), 0, 0
 			);
 		} else {
+			$property = new ReflectionProperty('t3lib_div', 'finalClassNameRegister');
+			$property->setAccessible(true);
+			$property->setValue(null, array());
 			$xclass = t3lib_div::makeInstance('tslib_fe', array(), 0, 0);
 		}
 
