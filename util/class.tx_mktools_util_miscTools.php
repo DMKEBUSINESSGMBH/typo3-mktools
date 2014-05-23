@@ -68,7 +68,8 @@ class tx_mktools_util_miscTools {
 		tx_rnbase::load('tx_mklib_util_TS');
 
 		t3lib_extMgm::addPageTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">');
+			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
+		);
 		if (!empty($additionalPath)) {
 			t3lib_extMgm::addPageTSConfig(
 				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
