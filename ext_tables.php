@@ -19,17 +19,14 @@ t3lib_extMgm::addPlugin(Array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mkto
 t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/action/', 'MK Tools - Show Template');
 t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/onsiteseo/', 'MK Tools - Onsite Seo');
 t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/tsbasic/', 'MK Tools - Basis TypoScript');
-
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentrenderer', 'MK Tools - Ajax Content Renderer');
 
 // default TS für den content replacer
 if(tx_mktools_util_miscTools::isContentReplacerActive()) {
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentreplacer', 'MK Tools - Content Replacer');
 }
 
-// default TS für den Ajax content renderer
-if(tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
-	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentrenderer', 'MK Tools - Ajax Content Renderer');
-}
+
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentmodal', 'MK Tools - Ajax Modal Renderer');
 
 // Robots-Meta Tag
