@@ -50,27 +50,38 @@
 		}
 		// Den Ajax Request absenden.
 		else {
-			$.ajax(
-				{
-					url : parameters.href,
-					type : "POST", // make configurable
-					dataType : "html", // make configurable
-					data : parameters,
-					success : function(data) {
-						// Cachen!
-						if (cacheable) {
-							cache.setData(cacheId, data);
-						}
-						return _request.onSuccess(data, parameters);
-					},
-					error : function() {
-						return _request.onFailure(arguments, parameters);
-					},
-					complete : function() {
-						return _request.onComplete(arguments, parameters);
+			var ajaxOptions = 
+			{
+				url : parameters.href,
+				type : "POST", // make configurable
+				dataType : "html", // make configurable
+				data : parameters,
+				success : function(data) {
+					// Cachen!
+					if (cacheable) {
+						cache.setData(cacheId, data);
 					}
+					return _request.onSuccess(data, parameters);
+				},
+				error : function() {
+					return _request.onFailure(arguments, parameters);
+				},
+				complete : function() {
+					return _request.onComplete(arguments, parameters);
 				}
-			);
+			};
+			
+			// haben wir ein Formular?
+			if (
+				_request.isObjectJQuery(urlOrElement) &&
+				urlOrElement.is("form, input, select") &&
+				this.isFunction($.fn.ajaxForm)
+			){
+				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first();
+				form.ajaxSubmit(ajaxOptions); 
+			} else {
+				$.ajax(ajaxOptions);
+			}
 		}
 		return true;
 	};

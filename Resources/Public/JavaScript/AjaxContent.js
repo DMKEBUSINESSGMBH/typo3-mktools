@@ -172,6 +172,12 @@
 			_self.replaceContent(parameters.contentid, data, from, to);
 		}; 
 		
+		if ($el.hasClass("notcachable")) {
+			_request.getCache = function() {
+				return false;
+			};
+		}
+		
 		if (_request.doCall($el, parameters)) {
 			event.preventDefault();
 		}

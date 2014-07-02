@@ -24,4 +24,6 @@ page.includeJS {
 	mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
 	mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
 	mktoolsAjaxContent = typo3conf/ext/mktools/Resources/Public/JavaScript/AjaxContent.js
+	### falls ein Formular mit Bildupload verwendet wird, dann folgendes JS einbinden
+	#mktoolsAjaxForm = typo3conf/ext/mktools/Resources/Public/JavaScript/jquery.form.min.js
 }
