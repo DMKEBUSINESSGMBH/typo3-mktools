@@ -98,10 +98,10 @@ class tx_mktools_util_PageNotFoundHandling
 
 		// Type und data aus dem TS holen.
 		if ($type == 'TYPOSCRIPT') {
-			$type = $confirgurations->get('pagenotfoundhandling.type');
-			$data = $confirgurations->get('pagenotfoundhandling.data');
+			$type = $this->getTypeFromConfiguration();
+			$data = $this->getDataFromConfiguration();
 			$logPageNotFound =
-				$confirgurations->get('pagenotfoundhandling.logPageNotFound');
+				$this->getLogPageNotFoundFromConfiguration();
 		}
 
 		if (empty($type) || empty($data)) {
@@ -246,8 +246,7 @@ class tx_mktools_util_PageNotFoundHandling
 	{
 		$httpStatus = $this->header;
 		if (empty($httpStatus)) {
-			$httpStatus = $this->getConfigurations()
-				->get('pagenotfoundhandling.httpStatus');
+			$httpStatus = $this->getHttpStatusFromConfiguration();
 		}
 		if (empty($httpStatus)) {
 			$httpStatus =
@@ -257,6 +256,65 @@ class tx_mktools_util_PageNotFoundHandling
 			? t3lib_utility_Http::HTTP_STATUS_404 : $httpStatus;
 	}
 
+	/**
+	 * @return string
+	 */
+	private function getTypeFromConfiguration() {
+		return $this->getConfigurationKeyValueByPageNotFoundCode('type');
+	}
+
+	/**
+	 * @return string
+	 */
+	private function getDataFromConfiguration() {
+		return $this->getConfigurationKeyValueByPageNotFoundCode('data');
+	}
+
+	/**
+	 * @return boolean
+	 */
+	private function getLogPageNotFoundFromConfiguration() {
+		return (boolean) $this->getConfigurationKeyValueByPageNotFoundCode('logPageNotFound');
+	}
+
+	/**
+	 * @return string
+	 */
+	private function getHttpStatusFromConfiguration() {
+		return $this->getConfigurationKeyValueByPageNotFoundCode('httpStatus');
+	}
+
+	/**
+	 * entweder den default Wert oder den für den spezifischen Code
+	 * Beispiel Konfig:
+	 * config.tx_mktools.pagenotfoundhandling {
+	 		### default
+			type = READFILE
+			data = /404
+
+			### wenn der Nutzer keine Berechtigungen hat, dann soll er auf die Startseite umgeleitet werden
+			pageNotFoundCodes {
+				1 {
+					type = REDIRECT
+					data = /
+					httpStatus...
+ 					logPageNotFound...
+				}
+				2 {
+					data = /
+				}
+			}
+		}
+	 */
+	private function getConfigurationKeyValueByPageNotFoundCode($typoScriptKey) {
+		$pageNotFoundCode = $this->getTsFe()->pageNotFound;
+		$configurationKeyValueByPageNotFoundCode = $this->getConfigurations()->get(
+			'pagenotfoundhandling.pageNotFoundCodes.' . $pageNotFoundCode . '.' . $typoScriptKey
+		);
+
+		return $configurationKeyValueByPageNotFoundCode ? $configurationKeyValueByPageNotFoundCode :
+			$this->getConfigurations()->get('pagenotfoundhandling.' . $typoScriptKey);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']

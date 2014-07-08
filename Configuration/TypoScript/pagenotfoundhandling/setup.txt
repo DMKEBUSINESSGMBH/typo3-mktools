@@ -18,4 +18,20 @@ config.tx_mktools.pagenotfoundhandling {
 	
 	###sollen 404 Zugriffe geloggt werden?
 	logPageNotFound = 0
+	
+	### die gesamte Konfig kann auch für jeden der o.g. pageNotFoundCodes einzeln konfiguriert werden
+	### bei diesem Beispiel wird ein redirect auf die Startseite gemacht bei fehlenden Berechtigungen
+#	pageNotFoundCodes {
+#		1 {
+#			type = REDIRECT
+#			data = /
+#			httpStatus...
+#			logPageNotFound...
+#		}
+#		2 {
+#			type = REDIRECT
+#			data = /
+#		}
+#	}
+	
 }

@@ -169,6 +169,30 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	}
 
 	/**
+	 * Wir rufen den Handler TYPOSCRIPT.
+	 * Der Handler sollte den inhalt von
+	 * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+	 */
+	public function testHandlePageNotFoundWithTyposcriptConfigForCertainCode() {
+		$reason = 'Test typoscript/utilPageNotFoundHandlingPrintContentForCode4.txt';
+		self::getTsFe()->pageNotFound = 4;
+		$util = self::getPageNotFoundHandlingUtil($reason);
+		$printContentFile  = 'EXT:mktools/tests/fixtures/typoscript/';
+		$printContentFile .= 'utilPageNotFoundHandlingPrintContent.txt';
+		$ret = $util->handlePageNotFound('MKTOOLS_TYPOSCRIPT:'.$printContentFile);
+		$testData = $util->getTestValue();
+
+		$this->assertNull($ret);
+		$this->assertTrue(is_array($testData));
+		$this->assertCount(2, $testData);
+		$this->assertArrayHasKey('contentOrUrl', $testData);
+		$this->assertGreaterThan(0, strpos($testData['contentOrUrl'], $reason));
+		$this->assertEquals('f107de71054dad59b21983e70b7c824a', md5($testData['contentOrUrl']));
+		$this->assertArrayHasKey('httpStatus', $testData);
+		$this->assertEquals('HTTP/1.1 403 Forbidden', $testData['httpStatus']);
+	}
+
+	/**
 	 * @return tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling
 	 */
 	private static function getPageNotFoundHandlingUtil($reason = '') {
