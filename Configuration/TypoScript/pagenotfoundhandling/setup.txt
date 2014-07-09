@@ -15,6 +15,9 @@ config.tx_mktools.pagenotfoundhandling {
 	type = 
 	### Die Daten für den Typ
 	data =
+	### Für mehrsprachige Fehlerseiten wird der TS-Pfad zu den jeweiligen Fehlerseiten mit Länderkürzel angegeben
+	en.data = 
+	fr.data = 
 	
 	###sollen 404 Zugriffe geloggt werden?
 	logPageNotFound = 0

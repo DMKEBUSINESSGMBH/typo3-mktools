@@ -104,6 +104,14 @@ class tx_mktools_util_PageNotFoundHandling
 				$this->getLogPageNotFoundFromConfiguration();
 		}
 
+		// Handling von mehrsprachigen 404 Seiten
+		$languageCode = $this->getCurrentLanguage();
+		if ($languageCode) {
+			if ($this->getDataFromConfiguration($languageCode)) {
+				$data = $this->getDataFromConfiguration($languageCode);
+			}
+		}
+
 		if (empty($type) || empty($data)) {
 			throw new InvalidArgumentException(
 				'Type or data missing! (MKTOOLS_[TYPE]:[DATA])',
@@ -264,10 +272,12 @@ class tx_mktools_util_PageNotFoundHandling
 	}
 
 	/**
+	 * @param string $languageCode
 	 * @return string
 	 */
-	private function getDataFromConfiguration() {
-		return $this->getConfigurationKeyValueByPageNotFoundCode('data');
+	private function getDataFromConfiguration($languageCode = false) {
+		$typoScriptKey = $languageCode ? $languageCode.'.data' : 'data';
+		return $this->getConfigurationKeyValueByPageNotFoundCode($typoScriptKey);
 	}
 
 	/**
@@ -315,6 +325,38 @@ class tx_mktools_util_PageNotFoundHandling
 		return $configurationKeyValueByPageNotFoundCode ? $configurationKeyValueByPageNotFoundCode :
 			$this->getConfigurations()->get('pagenotfoundhandling.' . $typoScriptKey);
 	}
+
+	/**
+	 * Liefert Kürzel der aktuell gesetzten Sprache.
+	 * Bei aktivierten realurl kann diese nicht auf dem üblichen Weg ausgewertet
+	 * werden. Realurl kann die URL nicht auflösen, da es keine gültige Seite hat.
+	 * Demzufolge kann der L-Parameter nicht einfach z.B: über TS abgefragt werden
+	 *
+	 *  @return string $countrycode
+	 */
+	private function getCurrentLanguage() {
+		if(t3lib_extMgm::isLoaded('realurl')) {
+			$realurlConf = array_shift($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']);
+			if ($realurlConf &&
+				is_array($realurlConf['preVars']) &&
+				$realurlConf['pagePath']['languageGetVar']
+			) {
+				// look for language configuration
+				foreach($realurlConf['preVars'] as $conf) {
+					if($conf['GETvar'] == $realurlConf['pagePath']['languageGetVar']) {
+						foreach($conf['valueMap'] as $countrycode => $value) {
+							// we expect a part like "/de/" in requested url
+							if(strpos(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'), '/' . $countrycode . '/') !== false) {
+								return $countrycode;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
