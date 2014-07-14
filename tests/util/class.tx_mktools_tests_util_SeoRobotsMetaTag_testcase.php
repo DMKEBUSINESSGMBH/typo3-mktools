@@ -64,9 +64,10 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		// assuming that test-database can be created otherwise PHPUnit will skip the test
 		$db = $this->useTestDatabase();
 		$this->importStdDB();
-		// die Extension mit den Standard Tabellen hat sich geändert
-		$coreExtension = tx_rnbase_util_TYPO3::isTYPO62OrHigher() ? 'core' : 'cms';
-		$extensions = array($coreExtension, 'mktools', 'templavoila', 'realurl');
+		// die Extensions mit den Standard Tabellen hat sich geändert
+		$coreExtensions = tx_rnbase_util_TYPO3::isTYPO62OrHigher() ?
+			array('core', 'frontend') : array('cms');
+		$extensions = array_merge($coreExtensions, array('mktools', 'templavoila', 'realurl'));
 
 		//tq_seo bringt in der TCA Felder mit, die auch in der DB sein müssen
 		if(t3lib_extMgm::isLoaded('tq_seo')){
