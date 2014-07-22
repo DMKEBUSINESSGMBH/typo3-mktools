@@ -41,6 +41,11 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 	protected $workspaceIdAtStart;
 
 	/**
+	 * @var array
+	 */
+	private $addRootLineFieldsBackup = array();
+
+	/**
 	 *
 	 * Enter description here ...
 	 * @param unknown_type $name
@@ -72,6 +77,7 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		// wenn in addRootLineFields Felder stehen, die von anderen Extensions bereitgestellt werden,
 		// aber nicht importiert wurden, führt das zu Testfehlern. Also machen wir die einfach leer.
 		// sollte nicht stören.
+		$this->addRootLineFieldsBackup = $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'];
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = '';
 
 		$this->importExtensions($extensions);
@@ -89,6 +95,8 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$this->dropDatabase();
 		$GLOBALS['TYPO3_DB']->sql_select_db(TYPO3_db);
 		$GLOBALS['BE_USER']->setWorkspace($this->workspaceIdAtStart);
+
+		$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = $this->addRootLineFieldsBackup;
 	}
 
 	/**
