@@ -32,27 +32,27 @@ tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
  * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
  */
 class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_database_testcase {
-	
+
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @var unknown_type
 	 */
 	protected $workspaceIdAtStart;
-	
+
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @param unknown_type $name
 	 */
 	public function __construct ($name=null) {
 		parent::__construct ($name);
 		$GLOBALS['TYPO3_DB']->debugOutput = TRUE;
-	
+
 		$this->workspaceIdAtStart = $GLOBALS['BE_USER']->workspace;
 		$GLOBALS['BE_USER']->setWorkspace(0);
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::setUp()
@@ -63,18 +63,23 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$db = $this->useTestDatabase();
 		$this->importStdDB();
 		$extensions = array('cms', 'mktools', 'templavoila', 'realurl');
-		
+
 		//tq_seo bringt in der TCA Felder mit, die auch in der DB sein müssen
 		if(t3lib_extMgm::isLoaded('tq_seo')){
 			$extensions[] = 'tq_seo';
 		}
-		
+
+		// wenn in addRootLineFields Felder stehen, die von anderen Extensions bereitgestellt werden,
+		// aber nicht importiert wurden, führt das zu Testfehlern. Also machen wir die einfach leer.
+		// sollte nicht stören.
+		$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = '';
+
 		$this->importExtensions($extensions);
 		$this->importDataSet( t3lib_extMgm::extPath('mktools').'tests/fixtures/xml/pages.xml');
 		tx_rnbase_util_Misc::prepareTSFE();
 		tx_mklib_tests_Util::disableDevlog();
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::tearDown()
@@ -85,7 +90,7 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$GLOBALS['TYPO3_DB']->sql_select_db(TYPO3_db);
 		$GLOBALS['BE_USER']->setWorkspace($this->workspaceIdAtStart);
 	}
-	
+
 	/**
 	 * @group integration
 	 */
@@ -93,10 +98,10 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$GLOBALS['TSFE']->id = 1;
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
 		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
-	
+
 		$this->assertEquals('test', $value ,'Falscher Wert zurückgeliefert');
 	}
-	
+
 	/**
 	 * @group integration
 	 */
@@ -105,14 +110,14 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
 		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
 		$this->assertEquals('NOINDEX,FOLLOW', $value ,'Falscher Wert zurückgeliefert');
-		
+
 		$GLOBALS['TSFE']->id = 4;
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
 		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
-		
+
 		$this->assertEquals('INDEX,NOFOLLOW', $value ,'Falscher Wert zurückgeliefert');
 	}
-	
+
 	/**
 	 * @group integration
 	 */
@@ -121,14 +126,14 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
 		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
 		$this->assertEquals('NOINDEX,FOLLOW', $value ,'Falscher Wert zurückgeliefert');
-		
+
 		$GLOBALS['TSFE']->id = 5;
 		$util = new tx_mktools_util_SeoRobotsMetaTag;
 		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
 		$this->assertEquals('INDEX,NOFOLLOW', $value ,'Falscher Wert zurückgeliefert');
 	}
-	
-	
+
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
