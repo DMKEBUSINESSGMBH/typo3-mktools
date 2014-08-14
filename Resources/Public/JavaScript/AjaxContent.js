@@ -88,7 +88,8 @@
 	AjaxContent.prototype.handleAjaxClick = function(event, element) {
 		var _self = this, _request = DMK.Objects.getInstance("AjaxContentAjaxRequest"),
 			parameters = {type : this.getData("pageType")},
-			$el, $linkwrap, $content
+			$el, $linkwrap, $content,
+			xhr
 		;
 		
 		element = _self.isDefined(element) ? element : event.target;
@@ -178,9 +179,10 @@
 			};
 		}
 		
-		if (_request.doCall($el, parameters)) {
+		if (xhr = _request.doCall($el, parameters)) {
 			event.preventDefault();
 		}
+		return xhr;
 	};
 	
 	AjaxContent.prototype.replaceContent = function(contentId, html, from, to) {

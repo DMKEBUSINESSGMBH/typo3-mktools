@@ -80,7 +80,7 @@
 				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first();
 				form.ajaxSubmit(ajaxOptions); 
 			} else {
-				$.ajax(ajaxOptions);
+				return $.ajax(ajaxOptions);
 			}
 		}
 		return true;
