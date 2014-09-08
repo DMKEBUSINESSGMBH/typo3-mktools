@@ -64,3 +64,9 @@ if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
 	);
 	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/PagesFixedPostVarType.php');
 }
+
+if(tx_mktools_util_miscTools::shouldFalImagesBeAddedToCalEvent()) {
+	// default TS
+	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/cal', 'MK Tools - FAL Images für Cal Event');
+	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/CalEvent.php');
+}

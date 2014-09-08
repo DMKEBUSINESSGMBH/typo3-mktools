@@ -59,6 +59,10 @@ class tx_mktools_util_miscTools {
 		return self::getExtensionCfgValue('exceptionPage');
 	}
 
+	public function shouldFalImagesBeAddedToCalEvent() {
+		return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
+	}
+
 	/**
 	 * @param string $staticPath
 	 * @param string $additionalPath

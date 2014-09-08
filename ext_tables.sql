@@ -24,3 +24,7 @@ CREATE TABLE tx_mktools_fixedpostvartypes (
     PRIMARY KEY (uid),
     KEY parent (pid)
 );
+
+CREATE TABLE tx_cal_event (
+	tx_mktools_fal_images int(11) DEFAULT '0' NOT NULL
+);
