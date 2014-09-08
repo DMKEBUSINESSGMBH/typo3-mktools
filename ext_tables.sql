@@ -28,3 +28,8 @@ CREATE TABLE tx_mktools_fixedpostvartypes (
 CREATE TABLE tx_cal_event (
 	tx_mktools_fal_images int(11) DEFAULT '0' NOT NULL
 );
+
+CREATE TABLE tt_news (
+	tx_mktools_fal_images int(11) DEFAULT '0' NOT NULL,
+	tx_mktools_fal_media int(11) DEFAULT '0' NOT NULL
+);

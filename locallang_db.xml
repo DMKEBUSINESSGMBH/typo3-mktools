@@ -24,6 +24,7 @@
 			<label index="scheduler_GenerateRealUrlConfigurationFile_description">Dabei werden die Seiten konfiguriert für die ein fixedPostVar Typ gesetzt wurde.</label>
 			
 			<label index="tx_mktools_fal_images">FAL Bilder:</label>
+			<label index="tx_mktools_fal_media">FAL Media:</label>
 		</languageKey>
 		
 		<languageKey index="de" type="array">

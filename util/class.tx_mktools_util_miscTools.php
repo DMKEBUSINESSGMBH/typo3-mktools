@@ -63,6 +63,10 @@ class tx_mktools_util_miscTools {
 		return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
 	}
 
+	public function shouldFalImagesBeAddedToTtNews() {
+		return self::getExtensionCfgValue('shouldFalImagesBeAddedToTtNews');
+	}
+
 	/**
 	 * @param string $staticPath
 	 * @param string $additionalPath
