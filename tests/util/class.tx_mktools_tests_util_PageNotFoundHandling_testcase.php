@@ -23,7 +23,7 @@
  *  ***********************************************************************  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('Tx_Phpunit_TestCase');
-
+tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 
 /**
  *
@@ -52,6 +52,26 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 */
 	protected function tearDown() {
 		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testRegisterXclass() {
+		tx_mktools_util_PageNotFoundHandling::registerXclass();
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$xclass =\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+				'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
+				array(), 0, 0
+			);
+		} else {
+			$property = new ReflectionProperty('t3lib_div', 'finalClassNameRegister');
+			$property->setAccessible(true);
+			$property->setValue(null, array());
+			$xclass = t3lib_div::makeInstance('tslib_fe', array(), 0, 0);
+		}
+
+		$this->assertInstanceOf('ux_tslib_fe', $xclass, 'xclass falsch');
 	}
 
 	/**
@@ -238,8 +258,8 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php']);
 }

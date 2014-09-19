@@ -357,10 +357,26 @@ class tx_mktools_util_PageNotFoundHandling
 		return false;
 	}
 
+	/**
+	 * Anpassung tslib_fe für 404
+	 */
+	public static function registerXclass() {
+		tx_rnbase::load('tx_mklib_util_MiscTools');
+		require_once t3lib_extMgm::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
+				'className' => 'ux_tslib_fe',
+			);
+		} else {
+			$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_fe.php']
+				= t3lib_extMgm::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
+		}
+	}
+
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']);
 }

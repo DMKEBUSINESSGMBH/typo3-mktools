@@ -134,6 +134,6 @@ class tx_mktools_hook_ContentReplace {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php']);
 }

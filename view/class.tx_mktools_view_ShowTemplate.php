@@ -21,40 +21,17 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam_media.php');
-
-tx_rnbase::load('tx_rnbase_view_List');
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_view_Single');
 
 
 /**
- * Default view class to show a single record.
+ * Default view class to show a template.
  */
-class tx_mktools_view_ShowTemplate extends tx_rnbase_view_List {
-	/**
-	 * Erstellen des Frontend-Outputs
-	 */
-	function createOutput($template, &$viewData, &$configurations, &$formatter){
-		return $template;
-	}
-	/**
-	 * Subpart der im HTML-Template geladen werden soll. Dieser wird der Methode
-	 * createOutput automatisch als $template übergeben.
-	 *
-	 * @return string
-	 */
-	public function getMainSubpart() {
-		$confId = $this->getController()->getConfId();
-		$subpart = $this->getController()->getConfigurations()->get($confId.'template.subpart');
-		if(!$subpart) {
-			$subpart = '###'. strtoupper(substr($confId, 0, strlen($confId)-1)) . '###';
-		}
-		return $subpart;
-	}
+class tx_mktools_view_ShowTemplate extends tx_rnbase_view_Single {
+
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php']);
 }
-?>

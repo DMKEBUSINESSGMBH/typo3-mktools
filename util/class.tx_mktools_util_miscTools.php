@@ -59,21 +59,32 @@ class tx_mktools_util_miscTools {
 		return self::getExtensionCfgValue('exceptionPage');
 	}
 
+	public function shouldFalImagesBeAddedToCalEvent() {
+		return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
+	}
+
+	public function shouldFalImagesBeAddedToTtNews() {
+		return self::getExtensionCfgValue('shouldFalImagesBeAddedToTtNews');
+	}
+
 	/**
 	 * @param string $staticPath
 	 * @param string $additionalPath
 	 * @return 	tx_rnbase_configurations
 	 */
 	public static function getConfigurations($staticPath, $additionalPath=''){
+		tx_rnbase::load('tx_mklib_util_TS');
+
 		t3lib_extMgm::addPageTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">');
+			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
+		);
 		if (!empty($additionalPath)) {
 			t3lib_extMgm::addPageTSConfig(
 				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
 			);
 		}
 
-		$pageTSconfig = t3lib_BEfunc::getPagesTSconfig(0);
+		$pageTSconfig = tx_mklib_util_TS::getPagesTSconfig(0);
 		$config = t3lib_div::array_merge_recursive_overrule(
 			(array) $pageTSconfig['config.']['tx_mktools.'],
 			(array) $pageTSconfig['plugin.']['tx_mktools.']
@@ -118,6 +129,6 @@ class tx_mktools_util_miscTools {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']);
 }

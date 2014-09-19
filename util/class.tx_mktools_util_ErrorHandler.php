@@ -22,11 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(PATH_t3lib . 'error/interface.t3lib_error_errorhandlerinterface.php');
-require_once(PATH_t3lib . 'error/interface.t3lib_error_exceptionhandlerinterface.php');
-require_once(PATH_t3lib . 'interfaces/interface.t3lib_singleton.php');
-require_once(PATH_t3lib . 'error/class.t3lib_error_abstractexceptionhandler.php');
-require_once(PATH_t3lib . 'error/class.t3lib_error_errorhandler.php');
 
 /**
  * wie der TYPO3 error handler. aber wir behandeln noch fatal errors

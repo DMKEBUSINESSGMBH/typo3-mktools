@@ -22,7 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-require_once(PATH_tslib . 'class.tslib_fe.php');
 
 /**
  *
@@ -64,8 +63,8 @@ class ux_tslib_fe extends tslib_fe {
 		parent::pageNotFoundAndExit($reason, $header);
 	}
 }
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/xclasses/class.ux_tslib_fe.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/xclasses/class.ux_tslib_fe.php']);
 }
