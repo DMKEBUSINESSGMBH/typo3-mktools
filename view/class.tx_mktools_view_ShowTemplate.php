@@ -21,15 +21,12 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam_media.php');
-
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_view_List');
 
 
 /**
- * Default view class to show a single record.
+ * Default view class to show a template.
  */
 class tx_mktools_view_ShowTemplate extends tx_rnbase_view_List {
 	/**

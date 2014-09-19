@@ -1,7 +1,7 @@
 <?php
 /**
- * 	@package tx_mkdosier
- *  @subpackage tx_mkdosier_action
+ * 	@package tx_mktools
+ *  @subpackage tx_mktools_action
  *  @author Hannes Bochmann
  *
  *  Copyright notice
@@ -25,24 +25,20 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
-/**
- * benötigte Klassen einbinden
- */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 
 /**
  * Controller für Praxis-,Stellen-,Kooperations- und Vertreterangebote/-gesuche
  *
- * @package tx_mkdosier
- * @subpackage tx_mkdosier_action
+ * @package tx_mktools
+ * @subpackage tx_mktools_action
  */
 class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
-	
+
 	/**
-	 * Kindklassen führen ihr die eigentliche Arbeit durch. Zugriff auf das 
-	 * Backend und befüllen der viewdata 
+	 * Kindklassen führen ihr die eigentliche Arbeit durch. Zugriff auf das
+	 * Backend und befüllen der viewdata
 	 *
 	 * @param tx_rnbase_IParameters $parameters
 	 * @param tx_rnbase_configurations $configurations
@@ -52,7 +48,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	protected function handleRequest(&$parameters,&$configurations, &$viewdata) {
 		return null;
 	}
-	
+
 	/**
    * Gibt den Name des zugehörigen Templates zurück
    * @return string
@@ -60,7 +56,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	public function getTemplateName() {
 		return 'showtemplate';
 	}
-	
+
 	/**
 	 * Gibt den Name der zugehörigen View-Klasse zurück
 	 * @return string
