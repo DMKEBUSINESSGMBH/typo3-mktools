@@ -361,8 +361,15 @@ class tx_mktools_util_PageNotFoundHandling
 	 * Anpassung tslib_fe für 404
 	 */
 	public static function registerXclass() {
+		if (class_exists('ux_tslib_fe')) {
+			throw new LogicException(
+				'There allready exists an ux_tslib_fe XCLASS!' .
+				' Remove the other XCLASS or the deacivate the page not found handling in mktools',
+				intval(ERROR_CODE_MKTOOLS  . '130')
+			);
+		}
 		tx_rnbase::load('tx_mklib_util_MiscTools');
-		require_once t3lib_extMgm::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
+		require_once t3lib_extMgm::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
 				'className' => 'ux_tslib_fe',

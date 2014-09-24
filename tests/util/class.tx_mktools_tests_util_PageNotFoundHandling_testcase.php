@@ -58,7 +58,17 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 * @group unit
 	 */
 	public function testRegisterXclass() {
-		tx_mktools_util_PageNotFoundHandling::registerXclass();
+		try {
+			tx_mktools_util_PageNotFoundHandling::registerXclass();
+		} catch (LogicException $e) {
+			if ($e->getCode() !== intval(ERROR_CODE_MKTOOLS  . '130')) {
+				throw $e;
+			}
+			$this->markTestSkipped(
+				'There is another allready registred xclass!'
+			);
+		}
+
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$xclass =\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
