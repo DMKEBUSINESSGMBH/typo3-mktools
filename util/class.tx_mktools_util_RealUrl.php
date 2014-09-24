@@ -187,7 +187,7 @@ class tx_mktools_util_RealUrl {
 		);
 		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 
-		$fixedPostVarPageString = join(",\n", $fixedPostVarPageStrings);
+		$fixedPostVarPageString = implode(',' . LF, $fixedPostVarPageStrings);
 		$realUrlConfigurationFileContent = str_replace(
 			'###FIXEDPOSTVARPAGES###',
 			$fixedPostVarPageString,
