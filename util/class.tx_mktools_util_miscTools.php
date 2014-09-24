@@ -84,7 +84,7 @@ class tx_mktools_util_miscTools {
 			);
 		}
 
-		$pageTSconfig = tx_mklib_util_TS::getPagesTSconfig(0);
+		$pageTSconfig = t3lib_BEfunc::getPagesTSconfig(0);
 		$config = t3lib_div::array_merge_recursive_overrule(
 			(array) $pageTSconfig['config.']['tx_mktools.'],
 			(array) $pageTSconfig['plugin.']['tx_mktools.']
