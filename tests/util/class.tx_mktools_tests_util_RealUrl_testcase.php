@@ -22,14 +22,17 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mktools_util_RealUrl');
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_mklib_tests_Util');
 
 /**
  * @author Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+ * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mktools_tests_util_RealUrl_testcase  extends Tx_Phpunit_TestCase {
+class tx_mktools_tests_util_RealUrl_testcase
+	extends tx_rnbase_tests_BaseTestCase {
 
 	/**
 	 * @var string
@@ -63,6 +66,128 @@ class tx_mktools_tests_util_RealUrl_testcase  extends Tx_Phpunit_TestCase {
 	protected function tearDown() {
 		tx_mklib_tests_Util::restoreExtConf('mktools');
 		@unlink($this->realUrlConfigurationFile);
+	}
+
+	/**
+	 * @return ux_tx_realurl
+	 */
+	protected function getRealUrlInstance() {
+		if (!t3lib_extMgm::isLoaded('realurl')) {
+			$this->markTestSkipped(
+				'There is another allready registred xclass!'
+			);
+		}
+		t3lib_div::requireOnce(t3lib_extMgm::extPath('realurl', 'class.tx_realurl.php'));
+		return t3lib_div::makeInstance('tx_realurl');
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testRegisterXclass() {
+		if (!t3lib_extMgm::isLoaded('realurl')) {
+			$this->markTestSkipped(
+				'There is another allready registred xclass!'
+			);
+		}
+		try {
+			tx_mktools_util_RealUrl::registerXclass();
+		} catch (LogicException $e) {
+			if ($e->getCode() !== intval(ERROR_CODE_MKTOOLS  . '130')) {
+				throw $e;
+			}
+			$this->markTestSkipped(
+				'There is another allready registred xclass!'
+			);
+		}
+		$xclass = $this->getRealUrlInstance();
+
+		$this->assertInstanceOf('ux_tx_realurl', $xclass);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testXclassGetLocalizedPostVarSet() {
+		$realUrl = $this->getRealUrlInstance();
+		$realUrl->orig_paramKeyValues = array(
+			'id' => 50,
+			'L' => 0, // default language (0=en,1=de,2=nl)
+			'mktools[cat]' => 10, // test parameter 2
+			'mktools[item]' => 10, // test parameter 2
+		);
+		$rawSets = array(
+			'category' => array(
+				array(
+					'GETvar' => 'mktools[cat]',
+					'language' => array('ids' => '0'), // default language (en)
+					'noMatch' => 'null',
+				),
+			),
+			'kategorie' => array(
+				array(
+					'GETvar' => 'mktools[cat]',
+					'language' => array('ids' => '1'), // de language
+					'noMatch' => 'null',
+				),
+			),
+			'categorie' => array(
+				array(
+					'GETvar' => 'mktools[cat]',
+					'language' => array('ids' => '2'), // nl language
+					'noMatch' => 'null',
+				),
+			),
+			'item' => array(
+				array(
+					'GETvar' => 'mktools[item]',
+					'language' => array('ids' => '0,2'), // en & nl language
+					'noMatch' => 'null',
+				),
+			),
+			'element' => array(
+				array(
+					'GETvar' => 'mktools[item]',
+					'language' => array('ids' => '1'), // de language
+					'noMatch' => 'null',
+				),
+			),
+		);
+
+		// check for EN
+		$realUrl->orig_paramKeyValues['L'] = 0;
+		$this->callInaccessibleMethod($realUrl, 'setMode', $realUrl::MODE_ENCODE);
+		$cleanedSets = $this->callInaccessibleMethod(
+			$realUrl, 'getLocalizedPostVarSet', $rawSets
+		);
+		$this->assertEquals(array('category', 'item'), array_keys($cleanedSets));
+
+		// check for DE
+		$realUrl->orig_paramKeyValues['L'] = 1;
+		$this->callInaccessibleMethod($realUrl, 'setMode', $realUrl::MODE_ENCODE);
+		$cleanedSets = $this->callInaccessibleMethod(
+			$realUrl, 'getLocalizedPostVarSet', $rawSets
+		);
+		$this->assertEquals(array('kategorie', 'element'), array_keys($cleanedSets));
+
+		// check for NL
+		$realUrl->orig_paramKeyValues['L'] = 2;
+		$this->callInaccessibleMethod($realUrl, 'setMode', $realUrl::MODE_ENCODE);
+		$cleanedSets = $this->callInaccessibleMethod(
+			$realUrl, 'getLocalizedPostVarSet', $rawSets
+		);
+		$this->assertEquals(array('categorie', 'item'), array_keys($cleanedSets));
+
+
+		// check for DECODE
+		$realUrl->orig_paramKeyValues = array(); // remove all vars, we decode
+		$this->callInaccessibleMethod($realUrl, 'setMode', $realUrl::MODE_DECODE);
+		$cleanedSets = $this->callInaccessibleMethod(
+			$realUrl, 'getLocalizedPostVarSet', $rawSets
+		);
+		// should be the same!
+		$this->assertEquals(array_keys($rawSets), array_keys($cleanedSets));
+		$this->assertEquals(($rawSets), ($cleanedSets));
 	}
 
 	/**

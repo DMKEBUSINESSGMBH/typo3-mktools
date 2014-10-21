@@ -26,9 +26,10 @@ tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
- * @author Hannes Bochmann
  * @package TYPO3
  * @subpackage tx_mktools
+ * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_util_RealUrl {
 
@@ -239,5 +240,30 @@ class tx_mktools_util_RealUrl {
 		}
 
 		return $editedString;
+	}
+
+	/**
+	 * Anpassung realurl
+	 */
+	public static function registerXclass() {
+		if (!t3lib_extMgm::isLoaded('realurl')) {
+			return ;
+		}
+		if (class_exists('ux_tx_realurl')) {
+			throw new LogicException(
+				'There allready exists an ux_tx_realurl XCLASS!' .
+				' Remove the other XCLASS or the deacivate the realurl handling in mktools',
+				intval(ERROR_CODE_MKTOOLS  . '130')
+			);
+		}
+		require_once t3lib_extMgm::extPath('mktools', 'xclasses/class.ux_tslib_fe.php');
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
+				'className' => 'ux_tx_realurl'
+			);
+		} else {
+			$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realurl/class.tx_realurl.php']
+				= t3lib_extMgm::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
+		}
 	}
 }

@@ -3,7 +3,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 
-$_EXTKEY = 'mktools';
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 
 if (!function_exists('mktools_getConf')) {
 	function mktools_getConf($key, $mode = false) {
@@ -33,9 +33,13 @@ if (mktools_getConf('contentReplaceActive', 'FE')) {
 }
 
 if (mktools_getConf('pageNotFoundHandling', 'FE')) {
-	require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 	tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 	tx_mktools_util_PageNotFoundHandling::registerXclass();
 }
 
-require(t3lib_extMgm::extPath($_EXTKEY).'scheduler/ext_localconf.php');
+if (mktools_getConf('realUrlXclass', 'FE')) {
+	tx_rnbase::load('tx_mktools_util_RealUrl');
+	tx_mktools_util_RealUrl::registerXclass();
+}
+
+require(t3lib_extMgm::extPath('mktools').'scheduler/ext_localconf.php');
