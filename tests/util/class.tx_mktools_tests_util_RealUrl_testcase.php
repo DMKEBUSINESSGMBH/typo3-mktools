@@ -141,14 +141,14 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'item' => array(
 				array(
 					'GETvar' => 'mktools[item]',
-					'language' => array('ids' => '0,2'), // en & nl language
+					'language' => '0,2', // en & nl language
 					'noMatch' => 'null',
 				),
 			),
 			'element' => array(
 				array(
 					'GETvar' => 'mktools[item]',
-					'language' => array('ids' => '1'), // de language
+					'language' => '1', // de language
 					'noMatch' => 'null',
 				),
 			),
@@ -188,6 +188,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 		// should be the same!
 		$this->assertEquals(array_keys($rawSets), array_keys($cleanedSets));
 		$this->assertEquals(($rawSets), ($cleanedSets));
+
 	}
 
 	/**
