@@ -256,7 +256,7 @@ class tx_mktools_util_RealUrl {
 				intval(ERROR_CODE_MKTOOLS  . '130')
 			);
 		}
-		require_once t3lib_extMgm::extPath('mktools', 'xclasses/class.ux_tslib_fe.php');
+		require_once t3lib_extMgm::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
 				'className' => 'ux_tx_realurl'
