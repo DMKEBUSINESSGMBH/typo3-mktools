@@ -55,31 +55,31 @@
 		;
 		// click events
 		$("body")
-			.off("click.ajaxcontent")
+			.off("click.ajaxcontentlinks")
 			.on(
-				"click.ajaxcontent",
+				"click.ajaxcontentlinks",
 				".ajax-links a, a.ajax-link",
 				_event
 			);
 		// submit events
 		$("body")
-			.off("submit.ajaxcontent")
+			.off("submit.ajaxcontentform")
 			.on(
-				"submit.ajaxcontent",
+				"submit.ajaxcontentform",
 				"form.ajax-form",
 				_event
 			);
 		// autotriger for forms
 		$("body")
-			.off("click.ajaxcontent")
+			.off("click.ajaxcontentform")
 			.on(
-				"click.ajaxcontent",
+				"click.ajaxcontentform",
 				"form.ajax-autotrigger input:not(:text)",
 				_event
 			)
-			.off("change.ajaxcontent")
+			.off("change.ajaxcontentform")
 			.on(
-				"change.ajaxcontent",
+				"change.ajaxcontentform",
 				"form.ajax-autotrigger select",
 				_event
 			);
