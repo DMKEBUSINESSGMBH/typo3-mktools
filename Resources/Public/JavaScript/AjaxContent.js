@@ -155,6 +155,8 @@
 			parameters.page = "";
 		}
 		
+		parameters.useHistory = true;
+		
 		// die events anlegen
 		_request.onStart = function(data, parameters){
 			$content.find(".waiting").clearQueue().fadeIn();

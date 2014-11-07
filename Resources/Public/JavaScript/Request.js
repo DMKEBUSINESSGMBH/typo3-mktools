@@ -46,6 +46,7 @@
 		// den Cache nach einem bereits getaetigten Request fragen.
 		if (cacheable && cache.hasData(cacheId)) {
 			_request.onSuccess(cache.getData(cacheId), parameters);
+			_request.handleHistoryOnSuccess(parameters);
 			_request.onComplete({}, parameters);
 		}
 		// Den Ajax Request absenden.
@@ -61,6 +62,7 @@
 					if (cacheable) {
 						cache.setData(cacheId, data);
 					}
+					_request.handleHistoryOnSuccess(parameters);
 					return _request.onSuccess(data, parameters);
 				},
 				error : function() {
@@ -108,26 +110,35 @@
 	// Alle Parameter fuer den Request zusammen suchen.
 	Request.prototype.prepareParameters = function(urlOrElement, parameters) {
 		var _request = this;
+		// Die URL fuer den Request bauen
+		if (!_request.isDefined(parameters.href)) {
+			parameters.href = _request.getUrl(urlOrElement);
+		}
 		if (_request.isObjectJQuery(urlOrElement)) {
 			if(urlOrElement.is("form, input, select")) {
 				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
+					isGet = form.attr("method").toLowerCase() === "get",
 					params = form.serializeArray(),
 					submitName = urlOrElement.is("input[type=submit]") ? urlOrElement.prop("name") : false;
+					
+				parameters.href += parameters.href.indexOf("?") >= 0 ? "&" : "?1=1";
 				// Parameter des Forumars sammeln
 				$.each(params, function(index, object){
-					if (!_request.isDefined(parameters[object.name])) {
+					if (isGet) {
+						parameters.href += "&" + object.name + "=" + object.value;
+					} else if (!_request.isDefined(parameters[object.name])) {
 						parameters[object.name] = object.value;
 					}
 				});
 				// Den Wert des aktuellen Submit-Buttons mitsenden!
 				if (_request.isString(submitName) && submitName.length > 0) {
-					parameters[submitName] = urlOrElement.prop("value");
+					if (isGet) {
+						parameters.href += "&" + submitName + "=" + urlOrElement.prop("value");
+					} else if (!_request.isDefined(parameters[object.name])) {
+						parameters[submitName] = urlOrElement.prop("value");
+					}
 				}
 			}
-		}
-		// Die URL fuer den Request bauen
-		if (!_request.isDefined(parameters.href)) {
-			parameters.href = _request.getUrl(urlOrElement);
 		}
 		return parameters;
 	};
@@ -144,6 +155,17 @@
 	// Liefert den Cache
 	Request.prototype.getCache = function() {
 		return DMK.Registry;
+	};
+	// Wird beim Start des Calls aufgerufen
+	Request.prototype.handleHistoryOnSuccess = function(parameters) {
+		// browser url anpassen?
+		if (
+			this.isDefined(parameters.useHistory)
+			&& parameters.useHistory
+			&& DMK.Base.isObject(DMK.History)
+		) {
+			DMK.History.setHistoryUrl(parameters.href);
+		}
 	};
 	// Wird beim Start des Calls aufgerufen
 	Request.prototype.onStart = function(data, parameters) {
