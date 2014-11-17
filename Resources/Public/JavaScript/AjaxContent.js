@@ -95,8 +95,13 @@
 		element = _self.isDefined(element) ? element : event.target;
 		
 		// do request only if there is no target attribute
-		if (element.tagName === "a") {
-			if (element.target.length > 0) {
+		if (element.tagName.toLowerCase() === "a") {
+			// do with element.href.split(':')?
+			if (
+				element.target.length > 0
+				|| element.href.substr(0,11).toLowerCase() === "javascript:"
+				|| element.href.substr(0,7).toLowerCase() === "mailto:"
+			) {
 				return ;
 			}
 		}
