@@ -96,13 +96,23 @@
 		
 		// do request only if there is no target attribute
 		if (element.tagName.toLowerCase() === "a") {
-			// do with element.href.split(':')?
+			if (element.target.length > 0) {
+				return ;
+			}
+
 			if (
 				element.target.length > 0
-				|| element.href.substr(0,11).toLowerCase() === "javascript:"
-				|| element.href.substr(0,7).toLowerCase() === "mailto:"
+				|| (
+					url.search(':') >= 0
+					&& $.inArray(
+						element.href.split(':').shift().toLowerCase(),
+						// complete list of available schemes:
+						// http://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
+						["javascript", "mailto", "tel", "fax", "about", "data"]
+					)
+				)
 			) {
-				return ;
+				return;
 			}
 		}
 		
