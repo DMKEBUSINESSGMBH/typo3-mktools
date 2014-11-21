@@ -44,6 +44,10 @@ class tx_mktools_tests_util_RealUrl_testcase
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
 	protected function setUp() {
+		if (!t3lib_extMgm::isLoaded('realurl')) {
+			$this->markTestSkipped('realurl ist nicht installiert');
+		}
+
 		tx_mklib_tests_Util::storeExtConf('mktools');
 
 		$this->realUrlConfigurationFile = t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfig.php';
