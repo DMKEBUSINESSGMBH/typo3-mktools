@@ -468,7 +468,8 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-				'areThereFixedPostVarTypesModifiedLaterThan'
+				'areThereFixedPostVarTypesModifiedLaterThan',
+				'isTemplateFileModifiedLaterThan'
 			)
 		);
 
@@ -478,6 +479,9 @@ class tx_mktools_tests_util_RealUrl_testcase
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(true));
+		$realUrlUtil::staticExpects($this->once())
+			->method('isTemplateFileModifiedLaterThan')
+			->will($this->returnValue(false));
 
 		$this->assertTrue(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
@@ -487,7 +491,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 	/**
 	 * @group unit
 	 */
-	public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsFalseIfPagesAndFixedPostVarTypesWerenotModified() {
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsFalseIfPagesAndFixedPostVarTypesAndTemplateFileWerenotModified() {
 		tx_mklib_tests_Util::setExtConfVar(
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
@@ -496,7 +500,8 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-				'areThereFixedPostVarTypesModifiedLaterThan'
+				'areThereFixedPostVarTypesModifiedLaterThan',
+				'isTemplateFileModifiedLaterThan'
 			)
 		);
 
@@ -506,8 +511,43 @@ class tx_mktools_tests_util_RealUrl_testcase
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(false));
+		$realUrlUtil::staticExpects($this->once())
+			->method('isTemplateFileModifiedLaterThan')
+			->will($this->returnValue(false));
 
 		$this->assertFalse(
+			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyTemplateFileWasModified() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationFile', 'unknown', 'mktools'
+		);
+
+		$realUrlUtil = $this->getMockClass(
+			'tx_mktools_util_RealUrl',
+			array(
+				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
+				'areThereFixedPostVarTypesModifiedLaterThan',
+				'isTemplateFileModifiedLaterThan'
+			)
+		);
+
+		$realUrlUtil::staticExpects($this->once())
+			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
+			->will($this->returnValue(false));
+		$realUrlUtil::staticExpects($this->once())
+			->method('areThereFixedPostVarTypesModifiedLaterThan')
+			->will($this->returnValue(false));
+		$realUrlUtil::staticExpects($this->once())
+			->method('isTemplateFileModifiedLaterThan')
+			->will($this->returnValue(true));
+
+		$this->assertTrue(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
 		);
 	}

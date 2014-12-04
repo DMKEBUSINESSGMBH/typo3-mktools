@@ -88,6 +88,24 @@ class tx_mktools_util_RealUrl {
 	}
 
 	/**
+	 * @param int $realUrlConfigurationLastModified
+	 *
+	 * @return boolean
+	 */
+	public static function isTemplateFileModifiedLaterThan(
+			$realUrlConfigurationLastModified
+	) {
+		$templateFile = tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
+		if(file_exists($templateFile)) {
+			return (
+				filemtime($templateFile) >
+				$realUrlConfigurationLastModified
+			);
+		}
+		return FALSE;
+	}
+
+	/**
 	 * @param array $options
 	 * @param string $what
 	 *
@@ -128,8 +146,13 @@ class tx_mktools_util_RealUrl {
 			$realUrlConfigurationLastModified
 		);
 
+		$isTemplateFileModifiedLaterThan = static::isTemplateFileModifiedLaterThan(
+				$realUrlConfigurationLastModified
+		);
+
 		return 	$areTherePagesWithFixedPostVarTypeModifiedLaterThan ||
-				$areThereFixedPostVarTypesModifiedLaterThan;
+				$areThereFixedPostVarTypesModifiedLaterThan ||
+				$isTemplateFileModifiedLaterThan;
 	}
 
 	/**
