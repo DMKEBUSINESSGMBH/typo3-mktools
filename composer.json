@@ -1,0 +1,23 @@
+{
+	"name" : "dmk/mktools",
+	"description" : "Collection of some small tools.",
+	"type" : "typo3-cms-extension",
+	"homepage" : "http://www.dmk-ebusiness.de/",
+	"license" : "GPL-3.0+",
+	"authors" : [
+		{
+			"name" : "DMK E-Business GmbH",
+			"email" : "dev@dmk-ebusiness.de",
+			"role" : "Developer"
+		}
+	],
+	"support": {
+		"email": "dev@dmk-ebusiness.de"
+	},
+	"replace": {
+		"typo3-ter/mktools": "*"
+	}, 
+	"require" : {
+		"typo3-ter/rn-base" : "*"
+	}
+}
