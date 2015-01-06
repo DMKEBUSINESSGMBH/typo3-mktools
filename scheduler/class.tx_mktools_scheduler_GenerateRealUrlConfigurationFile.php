@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 Das Medienkombinat GmbH <info@das-medienkombinat.de>
+ *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,7 +27,7 @@ tx_rnbase::load('tx_mklib_scheduler_Generic');
 tx_rnbase::load('tx_mktools_util_RealUrl');
 
 /**
- * @author Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+ * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
 class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_scheduler_Generic {
 

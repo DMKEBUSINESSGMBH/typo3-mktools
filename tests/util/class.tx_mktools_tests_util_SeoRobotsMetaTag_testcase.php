@@ -2,7 +2,7 @@
 /*  **********************************************************************  **
  *  Copyright notice
  *
- *  (c) 2012 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,7 +29,7 @@ tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
 /**
  *
  * @package tx_mktools
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_database_testcase {
 

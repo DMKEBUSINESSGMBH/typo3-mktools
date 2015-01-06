@@ -6,7 +6,7 @@
  *
  *  Copyright notice
  *
- *  (c) 2011 Michael Wagner <michael.wagner@das-medienkombinat.de>
+ *  (c) 2011 Michael Wagner <michael.wagner@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,7 +34,7 @@ tx_rnbase::load('tx_mklib_tests_Util');
 tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
- * @author Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+ * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
 class tx_mktools_tests_TCA_testcase extends tx_phpunit_testcase {
 	

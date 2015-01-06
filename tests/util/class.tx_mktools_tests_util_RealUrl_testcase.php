@@ -2,7 +2,7 @@
 /*  **********************************************************************  **
  *  Copyright notice
  *
- *  (c) 2012 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@ tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_mklib_tests_Util');
 
 /**
- * @author Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+ * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_util_RealUrl_testcase

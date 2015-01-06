@@ -23,7 +23,7 @@
  ***************************************************************/
 
 /**
- * @author Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+ * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
 class tx_mktools_util_ErrorException extends t3lib_error_Exception {
 

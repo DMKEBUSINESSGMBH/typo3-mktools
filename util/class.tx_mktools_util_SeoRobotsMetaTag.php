@@ -2,7 +2,7 @@
 /*  **********************************************************************  **
  *  Copyright notice
  *
- *  (c) 2012 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,7 +26,7 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 /**
  *
  * @package tx_mktools
- * @author Christian Riesche <christian.riesche@das-medienkombinat.de>
+ * @author Christian Riesche <christian.riesche@dmk-ebusiness.de>
  */
 class tx_mktools_util_SeoRobotsMetaTag {
 
@@ -42,7 +42,7 @@ class tx_mktools_util_SeoRobotsMetaTag {
 		4 => 'NOINDEX,NOFOLLOW',
 		5 => 'NOODP,NOINDEX,FOLLOW',
 	);
-	
+
 
 	/**
 	 * Formattierte Ausgabe der Werte für das TCA
@@ -55,7 +55,7 @@ class tx_mktools_util_SeoRobotsMetaTag {
  		}
  		return $tcaOptions;
 	}
-	
+
 	/**
 	 * Gibt passenden Wert des Robots Tag zurück
 	 * @param int $key
@@ -67,7 +67,7 @@ class tx_mktools_util_SeoRobotsMetaTag {
 		}
 		return '';
 	}
-	
+
 	/**
 	 * Liefert den Wert des für diese Seite relevanten Robots Meta Tag
 	 * zurück. Wird keiner gefunden, dann wird als Default der Wert der
@@ -102,7 +102,7 @@ class tx_mktools_util_SeoRobotsMetaTag {
 		}
 		return 0;
 	}
-	
+
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']

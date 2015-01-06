@@ -8,7 +8,7 @@
  *	Initial Colde:
  *  (c) 2009 John Angel <johnange@gmail.com>
  *
- *  (c) 2011 das Medienkombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2011 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,7 +33,7 @@
  * Replaces string patterns from the page content. You can use it to replace URLs for Content Delivery Network (CDN).
  *
  * @author	John Angel <johnange@gmail.com>
- * @author	Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author	Michael Wagner <michael.wagner@dmk-ebusiness.de>
  * @package	tx_mktools
  * @subpackage tx_mktools_hook
  */

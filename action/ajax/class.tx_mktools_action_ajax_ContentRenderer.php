@@ -36,7 +36,7 @@ tx_rnbase::load('tx_mktools_util_T3Loader');
  *
  * @package Tx_Mktools
  * @subpackage Tx_Mktools_Action
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_action_ajax_ContentRenderer {
 

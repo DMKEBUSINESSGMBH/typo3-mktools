@@ -2,7 +2,7 @@
 /*  **********************************************************************  **
  *  Copyright notice
  *
- *  (c) 2012 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@ tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 /**
  *
  * @package tx_mktools
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	extends Tx_Phpunit_TestCase
@@ -141,7 +141,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 */
 	public function testHandlePageNotFoundWithRedirect() {
 		$util = self::getPageNotFoundHandlingUtil();
-		$url = 'http://www.das-medienkombinat.de/';
+		$url = 'http://www.dmk-ebusiness.de/';
 		$ret = $util->handlePageNotFound('MKTOOLS_REDIRECT:'.$url);
 		$testData = $util->getTestValue();
 
