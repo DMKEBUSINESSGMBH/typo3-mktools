@@ -165,9 +165,7 @@ class tx_mktools_util_RealUrl {
 
 		$fixedPostVarPageStrings = self::getFixedPostVarPageStringsByPages($pages);
 
-		$realUrlConfigurationTemplate = file_get_contents(
-			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
-		);
+		$realUrlConfigurationTemplate = self::getRealUrlConfigurationTemplateContent();
 		if(
 			!empty($fixedPostVarPageStrings) &&
 			(strlen($realUrlConfigurationTemplate) > 0) &&
@@ -179,6 +177,21 @@ class tx_mktools_util_RealUrl {
 		}
 
 		return (boolean) $configurationFileWritten;
+	}
+
+	/**
+	 * im template kann $TYPO3_CONF_VARS oder auch
+	 * $GLOBALS['TYPO3_CONF_VARS'] verwendet werden
+	 *
+	 * @return string
+	 */
+	private static function getRealUrlConfigurationTemplateContent() {
+		return str_replace(
+			'$TYPO3_CONF_VARS', '$GLOBALS[\'TYPO3_CONF_VARS\']',
+			file_get_contents(
+				tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
+			)
+		);
 	}
 
 	/**
@@ -206,9 +219,7 @@ class tx_mktools_util_RealUrl {
 	private static function generateRealUrlConfigurationFileWithoutSerialization(
 		array $fixedPostVarPageStrings
 	) {
-		$realUrlConfigurationTemplate = file_get_contents(
-			tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
-		);
+		$realUrlConfigurationTemplate = self::getRealUrlConfigurationTemplateContent();
 		$realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 
 		$fixedPostVarPageString = implode(',' . LF, $fixedPostVarPageStrings);

@@ -743,4 +743,35 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfTypoConfVarsVariableIsUsed() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'realUrlConfigurationTemplate',
+			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate3.php',
+			'mktools'
+		);
+
+		$pages = array(
+			0 => tx_rnbase::makeInstance(
+				'tx_mktools_model_Pages',
+				array(
+					'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
+					'uid' => 1
+				)
+			),
+		);
+		$this->assertTrue(
+			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, false),
+			'datei doch nicht geschrieben'
+		);
+
+		$this->assertEquals(
+			file_get_contents(t3lib_extMgm::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig2.php'),
+			file_get_contents($this->realUrlConfigurationFile),
+			'Datei falsch generiert'
+		);
+	}
 }
