@@ -37,14 +37,14 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
 class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 
 	/**
-	 * Kindklassen führen ihr die eigentliche Arbeit durch. Zugriff auf das
+	 * Kindklassen führen hier die eigentliche Arbeit durch. Zugriff auf das
 	 * Backend und befüllen der viewdata
 	 *
 	 * @param tx_rnbase_IParameters &$parameters
 	 * @param tx_rnbase_configurations &$configurations
 	 * @param ArrayObject &$viewdata
 	 *
-	 * @return string Errorstring or null
+	 * @return string Errorstring or NULL
 	 */
 	protected function handleRequest(&$parameters, &$configurations, &$viewdata)
 	{
