@@ -53,6 +53,7 @@ class tx_mktools_util_SeoRobotsMetaTag {
  		foreach (self::$options as $key => $option) {
  			$tcaOptions[] = array($option, $key);
  		}
+
  		return $tcaOptions;
 	}
 
@@ -65,6 +66,7 @@ class tx_mktools_util_SeoRobotsMetaTag {
 		if(array_key_exists($key, self::$options)) {
 			return self::$options[$key];
 		}
+
 		return '';
 	}
 
@@ -77,11 +79,12 @@ class tx_mktools_util_SeoRobotsMetaTag {
 	 * @param array $aConfig
 	 * @return string
 	 */
-	public function getSeoRobotsMetaTagValue($sContent = '', array $aConfig = array()) 	{
+	public function getSeoRobotsMetaTagValue($sContent = '', array $aConfig = array()) {
 		$robotsValue = $this->getRobotsValue();
 		if ($robotsValue > 0) {
 			return $this->getOptionByValue($robotsValue);
 		}
+
 		return $aConfig['default'];
 	}
 

@@ -65,6 +65,7 @@ class ux_tx_realurl extends tx_realurl {
 		parent::encodeSpURL($params);
 		$this->setMode();
 	}
+
 	/**
 	 * Parse speaking URL and translate it to parameters understood by TYPO3
 	 *

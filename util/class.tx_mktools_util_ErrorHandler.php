@@ -121,7 +121,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 
 			$exception = $this->getTypo3Exception($message);
 			$this->getExceptionHandler()->handleException($exception);
-			return true;
+			return TRUE;
 		}
 	}
 

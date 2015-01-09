@@ -47,7 +47,7 @@ class tx_mktools_action_ajax_ContentRenderer {
 	 * @param string Table name, either "pages" or "tt_content".
 	 * @return void
 	 */
-	function renderContent()	{
+	public function renderContent()	{
 		// content id auslesen
 		$contentId = (int) t3lib_div::_GP('contentid');
 		if (empty($contentId)) {
@@ -70,5 +70,4 @@ class tx_mktools_action_ajax_ContentRenderer {
 		}
 		return $content;
 	}
-
 }

@@ -46,8 +46,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return string Errorstring or NULL
 	 */
-	protected function handleRequest(&$parameters, &$configurations, &$viewdata)
-	{
+	protected function handleRequest(&$parameters, &$configurations, &$viewdata) {
 		$viewdata->offsetSet('item', $this->getItem());
 
 		return NULL;
@@ -58,8 +57,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return array
 	 */
-	protected function getItem()
-	{
+	protected function getItem() {
 		$data = $this->getData();
 
 		return tx_rnbase::makeInstance(
@@ -73,8 +71,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return array
 	 */
-	protected function getData()
-	{
+	protected function getData() {
 		return array();
 	}
 
@@ -83,8 +80,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return string
 	 */
-	public function getTemplateName()
-	{
+	public function getTemplateName() {
 		return 'showtemplate';
 	}
 
@@ -93,8 +89,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return string
 	 */
-	public function getViewClassName()
-	{
+	public function getViewClassName() {
 		return 'tx_mktools_view_ShowTemplate';
 	}
 }

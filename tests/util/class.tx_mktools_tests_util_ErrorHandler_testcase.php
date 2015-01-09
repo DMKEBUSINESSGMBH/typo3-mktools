@@ -102,10 +102,10 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 	 */
 	public function getErrorTypes() {
 		return array(
-			array(E_ERROR, true),
-			array(E_COMPILE_ERROR, true),
-			array(E_CORE_ERROR, true),
-			array(E_USER_ERROR, true),
+			array(E_ERROR, TRUE),
+			array(E_COMPILE_ERROR, TRUE),
+			array(E_CORE_ERROR, TRUE),
+			array(E_USER_ERROR, TRUE),
 			array(E_WARNING, FALSE)
 		);
 	}
@@ -116,7 +116,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 	public function testGetTypo3ExceptionReturnsCorrectExceptionType() {
 		$handler = tx_rnbase::makeInstance('tx_mktools_util_ErrorHandler',NULL);
 		$method = new ReflectionMethod('tx_mktools_util_ErrorHandler', 'getTypo3Exception');
-		$method->setAccessible(true);
+		$method->setAccessible(TRUE);
 		$message = 'test';
 
 		$exception = $method->invoke($handler, $message);
@@ -145,7 +145,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 			
 		$errorHandler->expects($this->once())
 			->method('shouldExceptionsBeWrittenToDevLog')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 		
 		$errorHandler->expects($this->once())
 			->method('writeExceptionToDevLog')

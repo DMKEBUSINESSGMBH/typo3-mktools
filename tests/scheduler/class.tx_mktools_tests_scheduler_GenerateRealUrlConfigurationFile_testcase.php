@@ -68,7 +68,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 		$executeTaskMethod = new ReflectionMethod(
 			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile', 'executeTask'
 		);
-		$executeTaskMethod->setAccessible(true);
+		$executeTaskMethod->setAccessible(TRUE);
 		$arguments = array($options, &$devLog);
 		$executeTaskMethod->invokeArgs($scheduler, $arguments);
 
@@ -90,7 +90,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('needsRealUrlConfigurationToBeGenerated')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('getPagesWithFixedPostVarType')
@@ -99,7 +99,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 		$realUrlUtil::staticExpects($this->once())
 			->method('generateSerializedRealUrlConfigurationFileByPages')
 			->with(array('mypages'))
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 
 		$scheduler = $this->getMock(
 			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
@@ -114,7 +114,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 		$executeTaskMethod = new ReflectionMethod(
 			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile', 'executeTask'
 		);
-		$executeTaskMethod->setAccessible(true);
+		$executeTaskMethod->setAccessible(TRUE);
 		$arguments = array($options, &$devLog);
 		$executeTaskMethod->invokeArgs($scheduler, $arguments);
 
@@ -136,7 +136,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('needsRealUrlConfigurationToBeGenerated')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('getPagesWithFixedPostVarType')
@@ -160,7 +160,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 		$executeTaskMethod = new ReflectionMethod(
 			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile', 'executeTask'
 		);
-		$executeTaskMethod->setAccessible(true);
+		$executeTaskMethod->setAccessible(TRUE);
 		$arguments = array($options, &$devLog);
 		$executeTaskMethod->invokeArgs($scheduler, $arguments);
 

@@ -39,30 +39,51 @@ class tx_mktools_util_miscTools {
 		return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
 	}
 
+	/**
+	 * @return Ambigous <number, mixed, boolean>
+	 */
 	public function isSeoRobotsMetaTagActive() {
 		return self::getExtensionCfgValue('seoRobotsMetaTagActive');
 	}
 
+	/**
+	 * @return Ambigous <number, mixed, boolean>
+	 */
 	public function isContentReplacerActive() {
 		return self::getExtensionCfgValue('contentReplaceActive');
 	}
 
+	/**
+	 * @return Ambigous <number, mixed, boolean>
+	 */
 	public function isAjaxContentRendererActive() {
 		return self::getExtensionCfgValue('ajaxContentRendererActive');
 	}
 
+	/**
+	 * @return Ambigous <number, mixed, boolean>
+	 */
 	public function pageNotFoundHandlingActive() {
 		return self::getExtensionCfgValue('pageNotFoundHandling');
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getExceptionPage() {
 		return self::getExtensionCfgValue('exceptionPage');
 	}
 
+	/**
+	 * @return Ambigous <number, mixed, boolean>
+	 */
 	public function shouldFalImagesBeAddedToCalEvent() {
 		return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
 	}
 
+	/**
+	 * @return Ambigous <number, mixed, boolean>
+	 */
 	public function shouldFalImagesBeAddedToTtNews() {
 		return self::getExtensionCfgValue('shouldFalImagesBeAddedToTtNews');
 	}
@@ -110,14 +131,18 @@ class tx_mktools_util_miscTools {
 	 * @return string
 	 */
 	public static function getRealUrlConfigurationFile() {
-		return self::getAbsoluteFileName(self::getExtensionCfgValue('realUrlConfigurationFile'));
+		return self::getAbsoluteFileName(self::getExtensionCfgValue(
+			'realUrlConfigurationFile'
+		));
 	}
 
 	/**
 	 * @return string
 	 */
 	public static function getRealUrlConfigurationTemplate() {
-		return self::getAbsoluteFileName(self::getExtensionCfgValue('realUrlConfigurationTemplate'));
+		return self::getAbsoluteFileName(self::getExtensionCfgValue(
+			'realUrlConfigurationTemplate'
+		));
 	}
 
 	/**

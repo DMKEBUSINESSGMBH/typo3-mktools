@@ -76,7 +76,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 			);
 		} else {
 			$property = new ReflectionProperty('t3lib_div', 'finalClassNameRegister');
-			$property->setAccessible(true);
+			$property->setAccessible(TRUE);
 			$property->setValue(NULL, array());
 			$xclass = t3lib_div::makeInstance('tslib_fe', array(), 0, 0);
 		}
@@ -230,7 +230,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		$obj = tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling::getInstance(
 					self::getTsFe(), $reason
 				);
-		$obj->setTestMode(true);
+		$obj->setTestMode(TRUE);
 		return $obj;
 	}
 

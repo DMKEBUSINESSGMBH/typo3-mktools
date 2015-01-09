@@ -32,8 +32,7 @@
  * @subpackage tx_mktools
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mktools_util_T3Loader
-{
+class tx_mktools_util_T3Loader {
 
 
 	/**
@@ -41,8 +40,12 @@ class tx_mktools_util_T3Loader
 	 *
 	 * @var boolean
 	 */
-	public static $bUseCookies = true;
+	public static $bUseCookies = TRUE;
 
+	/**
+	 *
+	 * @var array[tslib_cObj]
+	 */
 	private static $cObj = array();
 
 	/**
@@ -54,6 +57,7 @@ class tx_mktools_util_T3Loader
 		if (!self::$cObj[$contentId] instanceof tslib_cObj) {
 			self::$cObj[$contentId] = t3lib_div::makeInstance('tslib_cObj');
 		}
+
 		return self::$cObj[$contentId];
 	}
 

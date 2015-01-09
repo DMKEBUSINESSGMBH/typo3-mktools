@@ -184,7 +184,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		
 		$exceptionHandler->expects($this->once())
 			->method('lockAcquired')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 		
 		$exception = new Exception('test');
 		$context = 'egal';
@@ -195,7 +195,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
 		);
-		$method->setAccessible(true);
+		$method->setAccessible(TRUE);
 		$method->invoke($exceptionHandler, $exception, $context);
 	}
 	
@@ -217,7 +217,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
 		);
-		$method->setAccessible(true);
+		$method->setAccessible(TRUE);
 		$exception = tx_rnbase::makeInstance(
 			'tx_mktools_util_ErrorException', 'test'
 		);
@@ -244,7 +244,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
 		);
-		$method->setAccessible(true);
+		$method->setAccessible(TRUE);
 		$exception = new Exception('test');
 		$context = 'egal';
 		$method->invoke($exceptionHandler, $exception, $context);
@@ -263,7 +263,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'getLockFileByExceptionAndContext'
 		);
-		$method->setAccessible(true);
+		$method->setAccessible(TRUE);
 		$exception = new Exception('test');
 		$context = 'egal';
 		$method->invoke($exceptionHandler, $exception, $context);
@@ -297,7 +297,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'lockAcquired'
 		);
-		$method->setAccessible(true);
+		$method->setAccessible(TRUE);
 		$exception = new Exception('test');
 		$context = 'egal';
 		$lockAcquired = $method->invoke($exceptionHandler, $exception, $context);
@@ -325,7 +325,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'lockAcquired'
 		);
-		$method->setAccessible(true);
+		$method->setAccessible(TRUE);
 		$exception = new Exception('test');
 		$context = 'egal';
 		$lockAcquired = $method->invoke($exceptionHandler, $exception, $context);

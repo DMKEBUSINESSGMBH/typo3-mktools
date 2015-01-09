@@ -73,20 +73,20 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return boolean
 	 */
 	protected function lockAcquired(Exception $exception, $context) {
-		if(!is_dir(PATH_site.'typo3temp/mktools/locks/')) {
+		if (!is_dir(PATH_site.'typo3temp/mktools/locks/')) {
 			t3lib_div::mkdir_deep(PATH_site . 'typo3temp/', 'mktools/locks');
 		}
 
 		$lockFile = $this->getLockFileByExceptionAndContext($exception, $context);
 
 		$lastCall = intval(trim(file_get_contents($lockFile)));
-		if($lastCall > (time() - 60)) {
+		if ($lastCall > (time() - 60)) {
 			return FALSE; // Only logging once a minute per error
 		}
 
 		file_put_contents($lockFile, time()); // refresh lock
 
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		);
 
 		$lockFile = PATH_site . 'typo3temp/mktools/locks/' . $lockFileName . '.txt';
-		if(!file_exists($lockFile)) {
+		if (!file_exists($lockFile)) {
 			touch($lockFile);
 		}
 
@@ -159,7 +159,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		$fileLink = $this->getExceptionPageFileLink();
 		$exceptionPage = '';
 
-		if($exceptionPageType == 'FILE') {
+		if ($exceptionPageType == 'FILE') {
 			$exceptionPage = $fileLink;
 		} elseif($exceptionPageType == 'TYPOSCRIPT') {
 			$confirgurations = $this->getConfigurations($fileLink);
@@ -192,7 +192,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return array
 	 */
 	private function getExceptionPageExtensionConfiguration() {
-		if(!$this->exceptionPageExtensionConfiguration) {
+		if (!$this->exceptionPageExtensionConfiguration) {
 			tx_rnbase::load('tx_mktools_util_miscTools');
 			$exceptionPageConfiguration = tx_mktools_util_miscTools::getExceptionPage();
 			$this->exceptionPageExtensionConfiguration = explode(':', $exceptionPageConfiguration);
@@ -206,7 +206,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return 	tx_rnbase_configurations
 	 */
 	private function getConfigurations($additionalPath=''){
-		if(is_NULL($this->configurations)) {
+		if (is_null($this->configurations)) {
 			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
 			$this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);

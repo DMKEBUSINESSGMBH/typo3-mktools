@@ -418,10 +418,10 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 
 		$this->assertTrue(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
@@ -446,7 +446,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(FALSE));
@@ -478,7 +478,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			->will($this->returnValue(FALSE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
 			->will($this->returnValue(FALSE));
@@ -545,7 +545,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			->will($this->returnValue(FALSE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
-			->will($this->returnValue(true));
+			->will($this->returnValue(TRUE));
 
 		$this->assertTrue(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()

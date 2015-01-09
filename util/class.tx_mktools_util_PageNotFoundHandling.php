@@ -48,13 +48,11 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @param tslib_fe $tsfe
 	 * @return tx_mktools_util_PageNotFoundHandling
 	 */
-	public static function getInstance(tslib_fe $tsfe, $reason = '', $header = '')
-	{
+	public static function getInstance(tslib_fe $tsfe, $reason = '', $header = '') {
 		return new self($tsfe);
 	}
 
-	public function __construct(tslib_fe $tsfe, $reason = '', $header = '')
-	{
+	public function __construct(tslib_fe $tsfe, $reason = '', $header = '') {
 		if (!($tsfe instanceof tslib_fe)) {
 			throw new InvalidArgumentException(
 				'The first parameter has to be a instance of "tslib_fe"!',
@@ -71,8 +69,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @param string $code der Inhalt von TYPO3_CONF_VARS['FE']['pageNotFound_handling']
 	 * @return boolean
 	 */
-	public function handlePageNotFound($code = '')
-	{
+	public function handlePageNotFound($code = ''){
 		// keine mktools config, weiter machen!
 		if (!t3lib_div::isFirstPartOfStr($code, 'MKTOOLS_')) {
 			return NULL;
@@ -160,8 +157,12 @@ class tx_mktools_util_PageNotFoundHandling
 		);
 	}
 
-	private function printContent($url)
-	{
+	/**
+	 *
+	 * @param string $url
+	 * @return void
+	 */
+	private function printContent($url){
 		// wir versuchen erstmal den inhalt der URL zu holen
 		$content = t3lib_div::getURL(
 			$this->getFileAbsFileName($url)
@@ -189,22 +190,23 @@ class tx_mktools_util_PageNotFoundHandling
 		return; // wichtig für die testcases
 	}
 
-	private function redirectTo($url)
-	{
+	/**
+	 *
+	 * @param string $url
+	 * @return NULL
+	 */
+	private function redirectTo($url) {
 		$this->setHeaderAndExit(
 			$this->getFileAbsFileName($url)
 		);
 		return; // wichtig für die testcases
 	}
 
-
-
 	/**
 	 *
 	 * @return tslib_fe
 	 */
-	protected function getTsFe()
-	{
+	protected function getTsFe() {
 		return $this->tsfe;
 	}
 
@@ -212,9 +214,8 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @param string $additionalPath
 	 * @return 	tx_rnbase_configurations
 	 */
-	protected function &getConfigurations($additionalPath='')
-	{
-		if(is_NULL($this->configurations)) {
+	protected function &getConfigurations($additionalPath='') {
+		if (is_null($this->configurations)) {
 			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
 			$this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
@@ -225,8 +226,7 @@ class tx_mktools_util_PageNotFoundHandling
 	/**
 	 * @param string $contentOrUrl
 	 */
-	protected function setHeaderAndExit($contentOrUrl)
-	{
+	protected function setHeaderAndExit($contentOrUrl) {
 		$httpStatus = $this->getHttpStatus();
 		if ($this->isUri($contentOrUrl)) {
 			t3lib_utility_Http::redirect($contentOrUrl, $httpStatus);
@@ -235,23 +235,31 @@ class tx_mktools_util_PageNotFoundHandling
 		exit($contentOrUrl);
 	}
 
-	private function getFileAbsFileName($filename)
-	{
+	/**
+	 *
+	 * @param string $filename
+	 * @return string
+	 */
+	private function getFileAbsFileName($filename) {
 		$filename = trim($filename);
 		return substr($filename, 0, 4) == 'EXT:'
 			? t3lib_div::getFileAbsFileName($filename)
 			: t3lib_div::locationHeaderUrl($filename);
 	}
-	private function isUri($url)
-	{
-		return is_array($uI = parse_url($url)) && $uI['scheme'];
+
+	/**
+	 *
+	 * @param string $url
+	 * @return boolean
+	 */
+	private function isUri($url) {
+		return is_array($parsedUrl = parse_url($url)) && $parsedUrl['scheme'];
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function getHttpStatus()
-	{
+	protected function getHttpStatus() {
 		$httpStatus = $this->header;
 		if (empty($httpStatus)) {
 			$httpStatus = $this->getHttpStatusFromConfiguration();
@@ -284,7 +292,9 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @return boolean
 	 */
 	private function getLogPageNotFoundFromConfiguration() {
-		return (boolean) $this->getConfigurationKeyValueByPageNotFoundCode('logPageNotFound');
+		return (boolean) $this->getConfigurationKeyValueByPageNotFoundCode(
+			'logPageNotFound'
+		);
 	}
 
 	/**
@@ -319,10 +329,12 @@ class tx_mktools_util_PageNotFoundHandling
 	private function getConfigurationKeyValueByPageNotFoundCode($typoScriptKey) {
 		$pageNotFoundCode = $this->getTsFe()->pageNotFound;
 		$configurationKeyValueByPageNotFoundCode = $this->getConfigurations()->get(
-			'pagenotfoundhandling.pageNotFoundCodes.' . $pageNotFoundCode . '.' . $typoScriptKey
+			'pagenotfoundhandling.pageNotFoundCodes.' . $pageNotFoundCode .
+			'.' . $typoScriptKey
 		);
 
-		return $configurationKeyValueByPageNotFoundCode ? $configurationKeyValueByPageNotFoundCode :
+		return $configurationKeyValueByPageNotFoundCode ?
+			$configurationKeyValueByPageNotFoundCode :
 			$this->getConfigurations()->get('pagenotfoundhandling.' . $typoScriptKey);
 	}
 
@@ -335,7 +347,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 *  @return string $countrycode
 	 */
 	private function getCurrentLanguage() {
-		if(t3lib_extMgm::isLoaded('realurl')) {
+		if (t3lib_extMgm::isLoaded('realurl')) {
 			$realurlConf = array_shift($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']);
 			if ($realurlConf &&
 				is_array($realurlConf['preVars']) &&
@@ -346,7 +358,12 @@ class tx_mktools_util_PageNotFoundHandling
 					if($conf['GETvar'] == $realurlConf['pagePath']['languageGetVar']) {
 						foreach($conf['valueMap'] as $countrycode => $value) {
 							// we expect a part like "/de/" in requested url
-							if(strpos(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'), '/' . $countrycode . '/') !== FALSE) {
+							if(
+								strpos(
+									t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'),
+									'/' . $countrycode . '/'
+								) !== FALSE
+							) {
 								return $countrycode;
 							}
 						}

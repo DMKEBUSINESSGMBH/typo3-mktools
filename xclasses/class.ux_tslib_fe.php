@@ -30,7 +30,6 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
  */
 class ux_tslib_fe extends tslib_fe {
 
-
 	/**
 	 * Page-not-found handler for use in frontend plugins from extensions.
 	 *
@@ -38,13 +37,10 @@ class ux_tslib_fe extends tslib_fe {
 	 * @param	string		HTTP header to send
 	 * @return	void		Function exits.
 	 */
-	function pageNotFoundAndExit($reason='', $header='')
-	{
-
+	public function pageNotFoundAndExit($reason='', $header='') {
 		// wir prüfen erstmal dne pageNotFound_handling wert auf mktools konfiguration
 		$code = $this->TYPO3_CONF_VARS['FE']['pageNotFound_handling'];
-		if (t3lib_div::isFirstPartOfStr($code, 'MKTOOLS_'))
-		{
+		if (t3lib_div::isFirstPartOfStr($code, 'MKTOOLS_')) {
 			tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 			tx_mktools_util_PageNotFoundHandling::getInstance($this, $reason, $header)
 				->handlePageNotFound($code);
@@ -55,14 +51,14 @@ class ux_tslib_fe extends tslib_fe {
 		// oder pageNotFound 2 (Subsection was found and not accessible)
 		// Wenn das nicht gewünscht ist, die XCLASS einfach deaktivieren!
 		// (pageNotFoundHandling in der ExtConf)
-		if($this->pageNotFound === 1 || $this->pageNotFound === 2)
-		{
+		if($this->pageNotFound === 1 || $this->pageNotFound === 2) {
 			return;
 		}
  		// else
 		parent::pageNotFoundAndExit($reason, $header);
 	}
 }
+
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
 		['ext/mktools/xclasses/class.ux_tslib_fe.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']

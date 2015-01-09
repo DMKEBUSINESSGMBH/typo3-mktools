@@ -48,7 +48,7 @@ class tx_mktools_model_Pages extends tx_rnbase_model_base {
 	 */
 	public function getFixedPostVarType() {
 		if ($this->fixedPostVarType === FALSE) {
-			if($this->record['tx_mktools_fixedpostvartype']) {
+			if ($this->record['tx_mktools_fixedpostvartype']) {
 				$this->fixedPostVarType = tx_rnbase::makeInstance(
 					'tx_mktools_model_FixedPostVarType',
 					$this->record['tx_mktools_fixedpostvartype']
