@@ -37,9 +37,9 @@ class tx_mktools_hook_BrowseLinks {
 
 	/**
 	 * @param string $mode
-	 * @param SC_browse_links $parentObject
+	 * @param mixed (e.g. can be SC_browse_links or tx_rtehtmlarea_SC_browse_links) $parentObject
 	 */
-	public function isValid($mode, SC_browse_links $parentObject) {
+	public function isValid($mode, $parentObject) {
 		// params muss array sein damit die Warnung nicht erzeugt wird
 		if (is_array($_GET['P']) && !is_array($_GET['P']['params'])) {
 			$_GET['P']['params'] = array();
@@ -54,8 +54,8 @@ class tx_mktools_hook_BrowseLinks {
 	 * liefert
 	 *
 	 * @param string $mode
-	 * @param SC_browse_links $parentObject
+	 * @param mixed (e.g. can be SC_browse_links or tx_rtehtmlarea_SC_browse_links) $parentObject
 	 */
-	public function render($mode, SC_browse_links $parentObject) {
+	public function render($mode, $parentObject) {
 	}
 }
