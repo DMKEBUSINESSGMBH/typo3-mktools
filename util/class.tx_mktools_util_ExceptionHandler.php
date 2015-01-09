@@ -127,10 +127,10 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 			tx_rnbase::load('tx_rnbase_util_Debug');
 			tx_rnbase_util_Debug::debug(array(
 				'Exception! Mehr infos im devlog.'
-			),__METHOD__.' Line: '.__LINE__); // @TODO: remove me
+			),__METHOD__.' Line: '.__LINE__);
 			tx_rnbase_util_Debug::debug(array(
 				$exception
-			),__METHOD__.' Line: '.__LINE__); // @TODO: remove me
+			),__METHOD__.' Line: '.__LINE__);
 		}
 
 		if(

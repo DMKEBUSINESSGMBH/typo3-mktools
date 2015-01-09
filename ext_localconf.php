@@ -19,7 +19,8 @@ if (mktools_getConf('contentReplaceActive', 'FE')) {
 	// wenn der scriptmerger installiert ist, muss der replacer wie der scriptmerger aufgerufen werden.
 	// der original replacer nutzt pageIndexing, der scripmerger die hooks contentPostProc-all und contentPostProc-output
 	if (t3lib_extMgm::isLoaded('scriptmerger')) {
-		//@TODO: eine möglichkeit finden, die hooks erst nach dem scriptmerger aufzurufen, ohne die extlist in der localconf anzupassen.
+		//@TODO: eine möglichkeit finden, die hooks erst nach dem scriptmerger
+		//aufzurufen, ohne die extlist in der localconf anzupassen.
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][]
 			= 'EXT:mktools/hook/class.tx_mktools_hook_ContentReplace.php:tx_mktools_hook_ContentReplace->contentPostProcOutput';
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][]
