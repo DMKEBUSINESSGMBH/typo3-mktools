@@ -5,7 +5,7 @@
  *
  *	Copyright notice
  *
- *	Initial Colde:
+ *	Initial Code:
  *	(c) 2009 John Angel <johnange@gmail.com>
  *
  *	(c) 2011 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
