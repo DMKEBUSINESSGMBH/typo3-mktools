@@ -1,7 +1,7 @@
 <?php
 /**
- * @package Tx_Mktools
- * @subpackage Tx_Mktools_Util
+ * @package TYPO3
+ * @subpackage tx_mktools
  *
  * Copyright notice
  *
@@ -28,8 +28,8 @@
 /**
  * Utilities zum Laden von Typo3 Resourcen
  *
- * @package tx_mktools
- * @subpackage tx_mktools_util
+ * @package TYPO3
+ * @subpackage tx_mktools
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_util_T3Loader

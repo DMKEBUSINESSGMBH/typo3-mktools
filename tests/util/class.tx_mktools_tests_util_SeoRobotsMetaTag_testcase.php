@@ -28,7 +28,7 @@ tx_rnbase::load('tx_rnbase_util_Misc');
 tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
 /**
  *
- * @package tx_mktools
+ * @package TYPO3
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_database_testcase {

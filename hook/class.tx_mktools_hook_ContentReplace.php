@@ -1,7 +1,7 @@
 <?php
 /**
- * 	@package tx_mktools
- *	@subpackage tx_mktools_hook
+ * 	@package TYPO3
+ *	@subpackage tx_mktools
  *
  *	Copyright notice
  *
@@ -34,8 +34,8 @@
  *
  * @author	John Angel <johnange@gmail.com>
  * @author	Michael Wagner <michael.wagner@dmk-ebusiness.de>
- * @package	tx_mktools
- * @subpackage tx_mktools_hook
+ * @package	TYPO3
+ * @subpackage tx_mktools
  */
 class tx_mktools_hook_ContentReplace {
 

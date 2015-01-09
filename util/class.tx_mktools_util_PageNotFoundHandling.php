@@ -25,7 +25,7 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('t3lib_utility_Http');
 /**
  *
- * @package tx_mktools
+ * @package TYPO3
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_util_PageNotFoundHandling

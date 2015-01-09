@@ -28,7 +28,7 @@ tx_rnbase::load('tx_mktools_util_ExceptionHandler');
 tx_rnbase::load('t3lib_error_Exception');
 
 /**
- * @package tx_mktools
+ * @package TYPO3
  * @author Hannes Bochmann
  */
 class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase

@@ -25,7 +25,7 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 
 /**
  *
- * @package tx_mktools
+ * @package TYPO3
  * @author Christian Riesche <christian.riesche@dmk-ebusiness.de>
  */
 class tx_mktools_util_SeoRobotsMetaTag {

@@ -1,7 +1,7 @@
 <?php
 /**
- * 	@package tx_mktools
- *  @subpackage tx_mktools_action
+ * 	@package TYPO3
+ *  @subpackage tx_mktools
  *  @author Hannes Bochmann
  *
  *  Copyright notice
@@ -31,8 +31,8 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
 /**
  * Controller für Praxis-,Stellen-,Kooperations- und Vertreterangebote/-gesuche
  *
- * @package tx_mktools
- * @subpackage tx_mktools_action
+ * @package TYPO3
+ * @subpackage tx_mktools
  */
 class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 

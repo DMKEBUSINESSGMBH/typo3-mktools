@@ -25,7 +25,7 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 /**
  * Erweitert die util klasse mit test methoden
- * @package tx_mktools
+ * @package TYPO3
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling

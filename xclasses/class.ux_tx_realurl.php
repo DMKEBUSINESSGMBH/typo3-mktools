@@ -27,8 +27,8 @@ require_once t3lib_extMgm::extPath('realurl', 'class.tx_realurl.php');
 /**
  * XCLASS to extend realurl
  *
- * @package tx_mktools
- * @package tx_mktools_xclasses
+ * @package TYPO3
+ * @package TYPO3_xclasses
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class ux_tx_realurl extends tx_realurl {

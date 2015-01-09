@@ -26,7 +26,7 @@ tx_rnbase::load('Tx_Phpunit_TestCase');
 tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
- * @package tx_mktools
+ * @package TYPO3
  * @author Hannes Bochmann
  */
 class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {

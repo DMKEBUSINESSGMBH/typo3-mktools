@@ -1,7 +1,7 @@
 <?php
 /**
- * 	@package tx_mktools
- *  @subpackage tx_mktools_hook
+ * 	@package TYPO3
+ *  @subpackage tx_mktools
  *
  *  Copyright notice
  *
@@ -30,8 +30,8 @@
  * ist, da das dann als string statt wie erwartet als array übergeben wird
  *
  * @author	Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- * @package	tx_mktools
- * @subpackage tx_mktools_hook
+ * @package	TYPO3
+ * @subpackage tx_mktools
  */
 class tx_mktools_hook_BrowseLinks {
 

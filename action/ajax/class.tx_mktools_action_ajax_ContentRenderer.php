@@ -1,7 +1,7 @@
 <?php
 /**
- * @package Tx_Mktools
- * @subpackage Tx_Mktools_Action
+ * @package TYPO3
+ * @subpackage tx_mktools
  *
  * Copyright notice
  *
@@ -34,8 +34,8 @@ tx_rnbase::load('tx_mktools_util_T3Loader');
 /**
  * Action zum Rendern von ContentElementen
  *
- * @package Tx_Mktools
- * @subpackage Tx_Mktools_Action
+ * @package TYPO3
+ * @subpackage tx_mktools
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_action_ajax_ContentRenderer {

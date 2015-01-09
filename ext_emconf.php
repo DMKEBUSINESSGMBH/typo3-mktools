@@ -1,8 +1,8 @@
 <?php
 /**
  * Extension Manager/Repository config file for ext "mklib".
- * @package tx_mktools
- * @subpackage tx_mktools_
+ * @package TYPO3
+ * @subpackage tx_mktools
  */
 
 ########################################################################
