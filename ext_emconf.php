@@ -15,10 +15,10 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'MK Tools',
-	'description' => 'Collection of some small tools',
+	'description' => 'Collection of some useful tools',
 	'category' => 'misc',
 	'author' => 'DMK E-Business GmbH',
-	'author_email' => 'kontakt@dmk-ebusiness.de',
+	'author_email' => 'dev@dmk-ebusiness.de',
 	'author_company' => 'DMK E-Business GmbH',
 	'shy' => '',
 	'dependencies' => 'rn_base, mklib',
