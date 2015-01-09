@@ -37,7 +37,7 @@ class tx_mktools_util_T3Loader
 
 
 	/**
-	 * Control set fe session cookie (shold be false in unittests)
+	 * Control set fe session cookie (shold be FALSE in unittests)
 	 *
 	 * @var boolean
 	 */
@@ -64,7 +64,7 @@ class tx_mktools_util_T3Loader
 		/* @var $TSFE tslib_fe */
 		global $TSFE;
 
-		static $syspage = null;
+		static $syspage = NULL;
 
 		if (!$syspage) {
 			if ($TSFE instanceof tslib_fe

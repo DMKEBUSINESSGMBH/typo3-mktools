@@ -36,7 +36,7 @@ class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling
 	 * ist nur wahr, wenn wir uns im unittest befinden, um die exits zu vermeiden.
 	 * @var boolean
 	 */
-	private $isTest = false;
+	private $isTest = FALSE;
 
 	/**
 	 *
@@ -56,7 +56,7 @@ class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling
 
 	public function setTestMode()
 	{
-		$this->isTest = true;
+		$this->isTest = TRUE;
 	}
 	public function getTestValue()
 	{

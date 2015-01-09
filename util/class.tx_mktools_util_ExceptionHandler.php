@@ -81,7 +81,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 
 		$lastCall = intval(trim(file_get_contents($lockFile)));
 		if($lastCall > (time() - 60)) {
-			return false; // Only logging once a minute per error
+			return FALSE; // Only logging once a minute per error
 		}
 
 		file_put_contents($lockFile, time()); // refresh lock
@@ -206,7 +206,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return 	tx_rnbase_configurations
 	 */
 	private function getConfigurations($additionalPath=''){
-		if(is_null($this->configurations)) {
+		if(is_NULL($this->configurations)) {
 			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
 			$this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);

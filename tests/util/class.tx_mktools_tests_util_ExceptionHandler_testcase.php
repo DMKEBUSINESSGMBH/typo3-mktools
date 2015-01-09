@@ -236,7 +236,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	
 		$exceptionHandler->expects($this->once())
 			->method('lockAcquired')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 	
 		$exceptionHandler->expects($this->never())
 			->method('writeLogEntriesByParent');
@@ -351,7 +351,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		
 		$exceptionHandler->expects($this->once())
 			->method('shouldExceptionBeDebugged')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 			
 		return $exceptionHandler;
 	}

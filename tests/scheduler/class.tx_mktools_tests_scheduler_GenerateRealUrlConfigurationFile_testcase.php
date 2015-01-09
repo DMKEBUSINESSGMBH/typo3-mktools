@@ -47,7 +47,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('needsRealUrlConfigurationToBeGenerated')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 
 		$realUrlUtil::staticExpects($this->never())
 			->method('getPagesWithFixedPostVarType');
@@ -145,7 +145,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 		$realUrlUtil::staticExpects($this->once())
 			->method('generateSerializedRealUrlConfigurationFileByPages')
 			->with(array('mypages'))
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 
 		$scheduler = $this->getMock(
 			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',

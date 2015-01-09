@@ -50,7 +50,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
 	{
 		$viewdata->offsetSet('item', $this->getItem());
 
-		return null;
+		return NULL;
 	}
 
 	/**

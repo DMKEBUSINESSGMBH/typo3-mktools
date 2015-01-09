@@ -125,35 +125,35 @@ class tx_mktools_tests_util_RealUrl_testcase
 				array(
 					'GETvar' => 'mktools[cat]',
 					'language' => array('ids' => '0'), // default language (en)
-					'noMatch' => 'null',
+					'noMatch' => 'NULL',
 				),
 			),
 			'kategorie' => array(
 				array(
 					'GETvar' => 'mktools[cat]',
 					'language' => array('ids' => '1'), // de language
-					'noMatch' => 'null',
+					'noMatch' => 'NULL',
 				),
 			),
 			'categorie' => array(
 				array(
 					'GETvar' => 'mktools[cat]',
 					'language' => array('ids' => '2'), // nl language
-					'noMatch' => 'null',
+					'noMatch' => 'NULL',
 				),
 			),
 			'item' => array(
 				array(
 					'GETvar' => 'mktools[item]',
 					'language' => '0,2', // en & nl language
-					'noMatch' => 'null',
+					'noMatch' => 'NULL',
 				),
 			),
 			'element' => array(
 				array(
 					'GETvar' => 'mktools[item]',
 					'language' => '1', // de language
-					'noMatch' => 'null',
+					'noMatch' => 'NULL',
 				),
 			),
 		);
@@ -449,7 +449,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			->will($this->returnValue(true));
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 
 		$this->assertTrue(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
@@ -475,13 +475,13 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(true));
 		$realUrlUtil::staticExpects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 
 		$this->assertTrue(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
@@ -507,13 +507,13 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 
 		$this->assertFalse(
 			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
@@ -539,10 +539,10 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 		$realUrlUtil::staticExpects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 		$realUrlUtil::staticExpects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
 			->will($this->returnValue(true));
@@ -632,7 +632,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			),
 		);
 		$this->assertTrue(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, false),
+			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, FALSE),
 			'datei doch nicht geschrieben'
 		);
 
@@ -663,7 +663,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			),
 		);
 		$this->assertTrue(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, false),
+			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, FALSE),
 			'datei doch nicht geschrieben'
 		);
 
@@ -764,7 +764,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			),
 		);
 		$this->assertTrue(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, false),
+			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, FALSE),
 			'datei doch nicht geschrieben'
 		);
 

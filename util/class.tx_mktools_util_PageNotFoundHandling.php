@@ -34,14 +34,14 @@ class tx_mktools_util_PageNotFoundHandling
 	/**
 	 * @var tslib_fe
 	 */
-	private $tsfe = null;
+	private $tsfe = NULL;
 	private $reason = '';
 	private $header = '';
 
 	/**
 	 * @var 	tx_rnbase_configurations
 	 */
-	private $configurations = null;
+	private $configurations = NULL;
 
 	/**
 	 *
@@ -75,7 +75,7 @@ class tx_mktools_util_PageNotFoundHandling
 	{
 		// keine mktools config, weiter machen!
 		if (!t3lib_div::isFirstPartOfStr($code, 'MKTOOLS_')) {
-			return null;
+			return NULL;
 		}
 
 		$code = substr($code, strlen('MKTOOLS_'));
@@ -214,7 +214,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 */
 	protected function &getConfigurations($additionalPath='')
 	{
-		if(is_null($this->configurations)) {
+		if(is_NULL($this->configurations)) {
 			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
 			$staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
 			$this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
@@ -275,7 +275,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @param string $languageCode
 	 * @return string
 	 */
-	private function getDataFromConfiguration($languageCode = false) {
+	private function getDataFromConfiguration($languageCode = FALSE) {
 		$typoScriptKey = $languageCode ? $languageCode.'.data' : 'data';
 		return $this->getConfigurationKeyValueByPageNotFoundCode($typoScriptKey);
 	}
@@ -346,7 +346,7 @@ class tx_mktools_util_PageNotFoundHandling
 					if($conf['GETvar'] == $realurlConf['pagePath']['languageGetVar']) {
 						foreach($conf['valueMap'] as $countrycode => $value) {
 							// we expect a part like "/de/" in requested url
-							if(strpos(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'), '/' . $countrycode . '/') !== false) {
+							if(strpos(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'), '/' . $countrycode . '/') !== FALSE) {
 								return $countrycode;
 							}
 						}
@@ -354,7 +354,7 @@ class tx_mktools_util_PageNotFoundHandling
 				}
 			}
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**

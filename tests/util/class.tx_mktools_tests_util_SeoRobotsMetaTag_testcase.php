@@ -50,7 +50,7 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_phpunit_databa
 	 * Enter description here ...
 	 * @param unknown_type $name
 	 */
-	public function __construct ($name=null) {
+	public function __construct ($name=NULL) {
 		parent::__construct ($name);
 		$GLOBALS['TYPO3_DB']->debugOutput = TRUE;
 

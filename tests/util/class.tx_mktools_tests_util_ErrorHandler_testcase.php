@@ -63,7 +63,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		$errorHandler = $this->getMock(
 			'tx_mktools_util_ErrorHandler',
 			array('getLastError','getExceptionHandler','getTypo3Exception'),
-			array(array()), '', false
+			array(array()), '', FALSE
 		);
 
 		$error = array('type' => $errorType, 'message' => 'my error', 'line' => 123, 'file' => '123.php');
@@ -106,7 +106,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 			array(E_COMPILE_ERROR, true),
 			array(E_CORE_ERROR, true),
 			array(E_USER_ERROR, true),
-			array(E_WARNING, false)
+			array(E_WARNING, FALSE)
 		);
 	}
 
@@ -114,7 +114,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 	 * @group unit
 	 */
 	public function testGetTypo3ExceptionReturnsCorrectExceptionType() {
-		$handler = tx_rnbase::makeInstance('tx_mktools_util_ErrorHandler',null);
+		$handler = tx_rnbase::makeInstance('tx_mktools_util_ErrorHandler',NULL);
 		$method = new ReflectionMethod('tx_mktools_util_ErrorHandler', 'getTypo3Exception');
 		$method->setAccessible(true);
 		$message = 'test';
@@ -178,7 +178,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 			
 		$errorHandler->expects($this->once())
 			->method('shouldExceptionsBeWrittenToDevLog')
-			->will($this->returnValue(false));
+			->will($this->returnValue(FALSE));
 		
 		$errorHandler->expects($this->never())
 			->method('writeExceptionToDevLog');

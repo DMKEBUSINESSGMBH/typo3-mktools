@@ -63,7 +63,7 @@ class tx_mktools_util_RealUrl {
 
 		$result = static::selectPagesByOptions($options, 'COUNT(uid) AS uid_count');
 
-		return (isset($result[0]['uid_count'])) ? (boolean) $result[0]['uid_count'] : false;
+		return (isset($result[0]['uid_count'])) ? (boolean) $result[0]['uid_count'] : FALSE;
 	}
 
 	/**
@@ -84,7 +84,7 @@ class tx_mktools_util_RealUrl {
 			'COUNT(uid) AS uid_count', 'tx_mktools_fixedpostvartypes', $options
 		);
 
-		return (isset($result[0]['uid_count'])) ? (boolean) $result[0]['uid_count'] : false;
+		return (isset($result[0]['uid_count'])) ? (boolean) $result[0]['uid_count'] : FALSE;
 	}
 
 	/**
@@ -161,7 +161,7 @@ class tx_mktools_util_RealUrl {
 	 * @return boolean
 	 */
 	public static function generateSerializedRealUrlConfigurationFileByPages(array $pages) {
-		$configurationFileWritten = false;
+		$configurationFileWritten = FALSE;
 
 		$fixedPostVarPageStrings = self::getFixedPostVarPageStringsByPages($pages);
 

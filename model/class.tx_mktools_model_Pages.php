@@ -31,7 +31,7 @@ tx_rnbase::load('tx_rnbase_model_base');
 class tx_mktools_model_Pages extends tx_rnbase_model_base {
 
 	/**
-	 * @var tx_mktools_fixedpostvartype|null
+	 * @var tx_mktools_fixedpostvartype|NULL
 	 */
 	private $fixedPostVarType = FALSE;
 
@@ -54,7 +54,7 @@ class tx_mktools_model_Pages extends tx_rnbase_model_base {
 					$this->record['tx_mktools_fixedpostvartype']
 				);
 			} else {
-				$this->fixedPostVarType = null;
+				$this->fixedPostVarType = NULL;
 			}
 		}
 		return $this->fixedPostVarType;
