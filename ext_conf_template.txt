@@ -29,4 +29,4 @@ tableFixedPostVarTypes = 0
 realUrlConfigurationFile = 
 
 # cat=realurl; type=string; label=Absoluter Pfad zur Vorlage der realurl Konfiguration 
-realUrlConfigurationTemplate =     
+realUrlConfigurationTemplate = 

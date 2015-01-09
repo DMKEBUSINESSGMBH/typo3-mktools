@@ -5,15 +5,15 @@ if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 t3lib_div::loadTCA('pages');
 $fields = array(
 	'tx_mktools_fixedpostvartype' => array (
-        'exclude' => 1,
-        'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartype',
-        'config' => array (
+		'exclude' => 1,
+		'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartype',
+		'config' => array (
 			'type' => 'select',
 			'items' => array (
 				array('LLL:EXT:mktools/locallang_db.xml:general.choose', '')
 			),
 			'foreign_table' => 'tx_mktools_fixedpostvartypes',
-        	'foreign_table_where' => ' ORDER BY tx_mktools_fixedpostvartypes.title',
+			'foreign_table_where' => ' ORDER BY tx_mktools_fixedpostvartypes.title',
 			'size' => 1,
 			'minitems' => 0,
  	 		'maxitems' => 1

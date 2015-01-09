@@ -91,7 +91,7 @@ class tx_mktools_util_miscTools {
 		);
 
 		$configurations = new tx_rnbase_configurations();
-	    $configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
+		$configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
 		$configurations->setParameters(
 			tx_rnbase::makeInstance('tx_rnbase_parameters')
 		);

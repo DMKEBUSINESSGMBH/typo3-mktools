@@ -51,10 +51,10 @@ class ux_tslib_fe extends tslib_fe {
 		}
 
 		// ohne mktools abbrechen und einfach weiter rendern:
-		//   wenn pageNotFound 1 (ID was not an accessible page)
-		//   oder pageNotFound 2 (Subsection was found and not accessible)
-		//   Wenn das nicht gewünscht ist, die XCLASS einfach deaktivieren!
-		//     (pageNotFoundHandling in der ExtConf)
+		// wenn pageNotFound 1 (ID was not an accessible page)
+		// oder pageNotFound 2 (Subsection was found and not accessible)
+		// Wenn das nicht gewünscht ist, die XCLASS einfach deaktivieren!
+		// (pageNotFoundHandling in der ExtConf)
 		if($this->pageNotFound === 1 || $this->pageNotFound === 2)
 		{
 			return;

@@ -13,12 +13,12 @@ $TCA['tx_mktools_fixedpostvartypes'] = array (
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
 			'config'  => array (
-				'type'    => 'check',
+				'type'	=> 'check',
 				'default' => '0'
 			)
 		),
 		'title' => array(
-		    'exclude' => 0,
+			'exclude' => 0,
 			'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartypes.title',
 			'config' => array (
 				'type' => 'input',
@@ -28,7 +28,7 @@ $TCA['tx_mktools_fixedpostvartypes'] = array (
 			)
 		),
 		'identifier' => array(
-		    'exclude' => 0,
+			'exclude' => 0,
 			'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartypes.identifier',
 			'config' => array (
 				'type' => 'input',

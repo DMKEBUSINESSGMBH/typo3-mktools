@@ -45,18 +45,18 @@ if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
 	global $TCA;
 	$TCA['tx_mktools_fixedpostvartypes'] = array (
 		'ctrl' => array (
-			'title'     => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartypes',
-			'label'     => 'title',
+			'title' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartypes',
+			'label' => 'title',
 			'default_sortby' => 'ORDER BY title',
 			'delete' => 'deleted',
 			'enablecolumns' => array (
 				'disabled' => 'hidden',
 			),
-			'tstamp'    => 'tstamp',
-			'crdate'    => 'crdate',
+			'tstamp' => 'tstamp',
+			'crdate' => 'crdate',
 			'cruser_id' => 'cruser_id',
 			'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/FixedPostVarTypes.php',
-			'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
+			'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
 		),
 	);
 	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/PagesFixedPostVarType.php');

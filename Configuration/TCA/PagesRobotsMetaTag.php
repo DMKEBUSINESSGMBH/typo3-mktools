@@ -8,10 +8,10 @@ tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
 t3lib_div::loadTCA('pages');
 $fields = array(
 	'mkrobotsmetatag' => array (
-        'exclude' => 1,
-        'label' => 'LLL:EXT:mktools/locallang_db.xml:pages.tx_mktools_mkrobotsmetatag',
-        'config' => array (
-		    'type' => 'select',
+		'exclude' => 1,
+		'label' => 'LLL:EXT:mktools/locallang_db.xml:pages.tx_mktools_mkrobotsmetatag',
+		'config' => array (
+			'type' => 'select',
 			'items' =>  tx_mktools_util_SeoRobotsMetaTag::getOptionsForTca(),
 			'size' => 1,
 			'maxitems' => 1,

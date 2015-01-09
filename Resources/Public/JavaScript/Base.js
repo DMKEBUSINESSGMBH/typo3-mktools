@@ -3,7 +3,7 @@
  * 
  * @copyright Copyright (c) 2014 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * @license http://www.gnu.org/licenses/lgpl.html
- *          GNU Lesser General Public License, version 3 or later
+ *  		GNU Lesser General Public License, version 3 or later
  * @version 0.1.0
  * @requires jQuery
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>

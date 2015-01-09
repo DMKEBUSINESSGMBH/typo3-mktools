@@ -1,31 +1,31 @@
 <?php
 /**
  * 	@package tx_mktools
- *  @subpackage tx_mktools_hook
+ *	@subpackage tx_mktools_hook
  *
- *  Copyright notice
+ *	Copyright notice
  *
  *	Initial Colde:
- *  (c) 2009 John Angel <johnange@gmail.com>
+ *	(c) 2009 John Angel <johnange@gmail.com>
  *
- *  (c) 2011 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
+ *	(c) 2011 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ *	All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *	This script is part of the TYPO3 project. The TYPO3 project is
+ *	free software; you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation; either version 2 of the License, or
+ *	(at your option) any later version.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ *	The GNU General Public License can be found at
+ *	http://www.gnu.org/copyleft/gpl.html.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *	This script is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+ *	GNU General Public License for more details.
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
+ *	This copyright notice MUST APPEAR in all copies of the script!
  */
 
 /**
@@ -68,7 +68,7 @@ class tx_mktools_hook_ContentReplace {
 	}
 
 	/**
-	 * Just a wrapper for the main function!  It's used for the contentPostProc-all hook.
+	 * Just a wrapper for the main function!	It's used for the contentPostProc-all hook.
 	 *
 	 * The hook is only executed if the page doesn't contains any *_INT objects. It's called
 	 * always if the page wasn't cached or for the first hit!
@@ -89,16 +89,16 @@ class tx_mktools_hook_ContentReplace {
 	 *
 	 * You must set the Search and Replace patterns via TypoScript.
 	 * usage from TypoScript:
-	 *   config.tx_mktools.contentreplace {
-	 *     search {
-	 *       1="typo3temp/pics/
-	 *       2="fileadmin/
-	 *     }
-	 *     replace {
-	 *       1="http://mycdn.com/i/
-	 *       2="http://mycdn.com/f/
-	 *     }
-	 *   }
+	 *	 config.tx_mktools.contentreplace {
+	 *		 search {
+	 *			 1="typo3temp/pics/
+	 *			 2="fileadmin/
+	 *		 }
+	 *		 replace {
+	 *			 1="http://mycdn.com/i/
+	 *			 2="http://mycdn.com/f/
+	 *		 }
+	 *	 }
 	 *
 	 * Don't forget to clear the cache afterwards!
 	 *
@@ -114,7 +114,7 @@ class tx_mktools_hook_ContentReplace {
 
 		// Quit immediately if no replace array setup
 		if (!$config
-			|| !isset($config['enable']) ||  !intval($config['enable'])
+			|| !isset($config['enable']) ||	!intval($config['enable'])
 			|| !isset($config['search.']) || empty($config['search.'])
 			|| !isset($config['replace.']) || empty($config['replace.'])
 			) return;
