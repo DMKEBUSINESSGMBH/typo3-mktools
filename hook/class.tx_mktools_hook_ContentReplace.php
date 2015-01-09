@@ -117,7 +117,9 @@ class tx_mktools_hook_ContentReplace {
 			|| !isset($config['enable']) ||	!intval($config['enable'])
 			|| !isset($config['search.']) || empty($config['search.'])
 			|| !isset($config['replace.']) || empty($config['replace.'])
-			) return;
+		) {
+			return;
+		}
 
 		// Replace page content
 		$obj->content = str_replace($config['search.'], $config['replace.'], $obj->content);
