@@ -18,8 +18,5 @@
 	},
 	"replace": {
 		"typo3-ter/mktools": "*"
-	}, 
-	"require" : {
-		"typo3-ter/rn-base" : "~0.14"
 	}
 }
