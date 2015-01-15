@@ -6,6 +6,7 @@ lib.tx_mktools.cal.event {
 		refField = tx_mktools_fal_images
 		refTable = tx_cal_event
 		#template = ...
+		#subpartName = ...
 		media {
 			file = IMG_RESOURCE
 			file.file.import.field = file

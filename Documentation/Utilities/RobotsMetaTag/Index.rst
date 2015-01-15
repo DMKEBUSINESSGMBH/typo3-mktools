@@ -3,9 +3,6 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
-
-
 .. _robots-meta-tag:
 
 Robots Meta Tag

@@ -6,6 +6,7 @@ lib.tx_mktools.tt_news.news {
 		refField = tx_mktools_fal_images
 		refTable = tt_news
 		#template = ...
+		#subpartName = ...
 		media {
 			file = IMG_RESOURCE
 			file.file.import.field = file
@@ -18,6 +19,7 @@ lib.tx_mktools.tt_news.news {
 		refField = tx_mktools_fal_media
 		refTable = tt_news
 		#template = ...
+		#subpartName = ...
 		media {
 			file = IMG_RESOURCE
 			file.file.import.field = file
