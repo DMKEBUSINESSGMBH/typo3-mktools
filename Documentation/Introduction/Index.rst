@@ -30,5 +30,4 @@ Folgende Features zählen u.a. dazu:
 * Tool zur Generierung der realurl Konfiguration mit fixed postvartypes
 * Tool, um Inhalte mittels Ajax nachzuladen
 * FAL Medien für cal und tt_news um cal__dam_reference und dam_ttnews zu migrieren in TYPO3 6.2
-* TypoScript, um realurl, sourceopt und weitere Tools über die URL steuern zu können für Diagnosezwecke
 
