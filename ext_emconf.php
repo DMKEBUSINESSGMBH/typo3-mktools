@@ -37,7 +37,7 @@ $EM_CONF[$_EXTKEY] = array(
 		'depends' => array(
  			'rn_base' => '',
 			'mklib' => '',
-			'typo3' => '4.3.0-',
+			'typo3' => '4.3.0-6.2.99',
 		),
 		'conflicts' => array(
 		),
