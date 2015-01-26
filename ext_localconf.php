@@ -48,6 +48,7 @@ require(t3lib_extMgm::extPath('mktools').'scheduler/ext_localconf.php');
 
 // es wird eine Warnung erzeugt wenn für einen Link Wizard nicht "params" in der TCA konfiguriert
 // ist, da das dann als string statt wie erwartet als array übergeben wird
+tx_rnbase::load('tx_rnbase_util_TYPO3');
 if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/browse_links.php']['browserRendering'][]
 		= 'EXT:mktools/hook/class.tx_mktools_hook_BrowseLinks.php:tx_mktools_hook_BrowseLinks';
