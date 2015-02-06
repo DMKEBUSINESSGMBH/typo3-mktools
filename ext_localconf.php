@@ -55,9 +55,10 @@ if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 }
 
 tx_rnbase::load('tx_mktools_util_miscTools');
+$tcaPostProcessingExtensions = tx_mktools_util_miscTools::getTcaPostProcessingExtensions();
 if (
 	tx_rnbase_util_TYPO3::isTYPO62OrHigher() &&
-	!empty(tx_mktools_util_miscTools::getTcaPostProcessingExtensions())
+	!empty($tcaPostProcessingExtensions)
 ) {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing'][]
 		= 'EXT:mktools/hook/extTables/class.tx_mktools_hook_extTables_PostProcessing.php:tx_mktools_hook_extTables_PostProcessing';
