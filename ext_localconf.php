@@ -53,3 +53,12 @@ if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/browse_links.php']['browserRendering'][]
 		= 'EXT:mktools/hook/class.tx_mktools_hook_BrowseLinks.php:tx_mktools_hook_BrowseLinks';
 }
+
+tx_rnbase::load('tx_mktools_util_miscTools');
+if (
+	tx_rnbase_util_TYPO3::isTYPO62OrHigher() &&
+	!empty(tx_mktools_util_miscTools::getTcaPostProcessingExtensions())
+) {
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing'][]
+		= 'EXT:mktools/hook/extTables/class.tx_mktools_hook_extTables_PostProcessing.php:tx_mktools_hook_extTables_PostProcessing';
+}

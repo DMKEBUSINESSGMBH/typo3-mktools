@@ -21,4 +21,5 @@ Utilities
    PageNotFoundHandling/Index
    Realurl/Index
    RobotsMetaTag/Index
+   TcaOverrides/Index
    Views/Index

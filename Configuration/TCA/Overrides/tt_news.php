@@ -1,6 +1,10 @@
 <?php
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
+if(!tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
+	return;
+}
+
 t3lib_div::loadTCA('tt_news');
 tx_rnbase::load('tx_rnbase_util_TSFAL');
 $fields = array(

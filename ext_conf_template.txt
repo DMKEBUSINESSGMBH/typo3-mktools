@@ -30,3 +30,6 @@ realUrlConfigurationFile =
 
 # cat=realurl; type=string; label=Absoluter Pfad zur Vorlage der realurl Konfiguration 
 realUrlConfigurationTemplate = 
+
+# cat=modules; type=string; label=Only for TYPO3 6.2 and higher. Loads TCA overrides for those commaseparated extensions after the TCA was loaded. This way we make sure the overrides are loaded correct in all cases. The TCA files must reside in $EXTNAME/Configuration/TCA/Overrides and the filename must match the TCA table to override. 
+tcaPostProcessingExtensions = mktools

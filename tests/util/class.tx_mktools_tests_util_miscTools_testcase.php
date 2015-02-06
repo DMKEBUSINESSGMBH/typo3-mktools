@@ -184,4 +184,21 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 			'realUrlConfigurationFile nicht absolut'
 		);
 	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetTcaPostProcessingExtensions() {
+		tx_mklib_tests_Util::setExtConfVar(
+			'tcaPostProcessingExtensions',
+			'ext1,ext2,',
+			'mktools'
+		);
+
+		$this->assertEquals(
+			array('ext1', 'ext2'),
+			tx_mktools_util_miscTools::getTcaPostProcessingExtensions(),
+			'extension array falsch'
+		);
+	}
 }

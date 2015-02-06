@@ -29,7 +29,7 @@ MK Tools
 		Sammlung von nützlichen Tools
 
 	:Keywords:
-		forAdmins, log, forIntermediates, realurl, SEO, error handling, FAL, page not found handling, cal, tt_news
+		forAdmins, log, forIntermediates, realurl, SEO, error handling, FAL, page not found handling, cal, tt_news, TCA overrides
 
 	:Copyright:
 		2013-2015 DMK E-Business GmbH

@@ -65,11 +65,9 @@ if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
 if(tx_mktools_util_miscTools::shouldFalImagesBeAddedToCalEvent()) {
 	// default TS
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/cal', 'MK Tools - FAL Images für Cal Event');
-	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/CalEvent.php');
 }
 
 if(tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
 	// default TS
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/tt_news', 'MK Tools - FAL Images für TT_News');
-	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/TtNews.php');
 }

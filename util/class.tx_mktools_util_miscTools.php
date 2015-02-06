@@ -34,7 +34,7 @@ class tx_mktools_util_miscTools {
 	 *
 	 * @return int
 	 */
-	private function getExtensionCfgValue($configValue){
+	private static function getExtensionCfgValue($configValue){
 		tx_rnbase::load('tx_rnbase_configurations');
 		return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
 	}
@@ -42,50 +42,59 @@ class tx_mktools_util_miscTools {
 	/**
 	 * @return Ambigous <number, mixed, boolean>
 	 */
-	public function isSeoRobotsMetaTagActive() {
+	public static function isSeoRobotsMetaTagActive() {
 		return self::getExtensionCfgValue('seoRobotsMetaTagActive');
 	}
 
 	/**
 	 * @return Ambigous <number, mixed, boolean>
 	 */
-	public function isContentReplacerActive() {
+	public static function isContentReplacerActive() {
 		return self::getExtensionCfgValue('contentReplaceActive');
 	}
 
 	/**
 	 * @return Ambigous <number, mixed, boolean>
 	 */
-	public function isAjaxContentRendererActive() {
+	public static function isAjaxContentRendererActive() {
 		return self::getExtensionCfgValue('ajaxContentRendererActive');
 	}
 
 	/**
 	 * @return Ambigous <number, mixed, boolean>
 	 */
-	public function pageNotFoundHandlingActive() {
+	public static function pageNotFoundHandlingActive() {
 		return self::getExtensionCfgValue('pageNotFoundHandling');
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getExceptionPage() {
+	public static function getExceptionPage() {
 		return self::getExtensionCfgValue('exceptionPage');
 	}
 
 	/**
 	 * @return Ambigous <number, mixed, boolean>
 	 */
-	public function shouldFalImagesBeAddedToCalEvent() {
+	public static function shouldFalImagesBeAddedToCalEvent() {
 		return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
 	}
 
 	/**
 	 * @return Ambigous <number, mixed, boolean>
 	 */
-	public function shouldFalImagesBeAddedToTtNews() {
+	public static function shouldFalImagesBeAddedToTtNews() {
 		return self::getExtensionCfgValue('shouldFalImagesBeAddedToTtNews');
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getTcaPostProcessingExtensions() {
+		return t3lib_div::trimExplode(
+			',', self::getExtensionCfgValue('tcaPostProcessingExtensions'), TRUE
+		);
 	}
 
 	/**

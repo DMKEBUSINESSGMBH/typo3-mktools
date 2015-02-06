@@ -11,6 +11,9 @@ FAL
 mktools bietet die Möglichkeit FAL Dateien für cal und tt_news einzubinden und ersetzt damit
 ab TYPO3 6.2 die Extensions cal__dam_reference und dam_ttnews.
 
+Neben den nachfolgenden Einstellungen ist es noch nötig dass mktools in der Extension
+Konfiguration modules.tcaPostProcessingExtensions eingetragen ist.
+
 FAL für Cal
 -----------
 

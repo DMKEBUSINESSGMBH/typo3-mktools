@@ -1,6 +1,10 @@
 <?php
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
+if(!tx_mktools_util_miscTools::shouldFalImagesBeAddedToCalEvent()) {
+	return;
+}
+
 t3lib_div::loadTCA('tx_cal_event');
 tx_rnbase::load('tx_rnbase_util_TSFAL');
 $fields = array(
