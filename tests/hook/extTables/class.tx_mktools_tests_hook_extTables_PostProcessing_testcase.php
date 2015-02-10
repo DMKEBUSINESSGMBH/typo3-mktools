@@ -151,6 +151,11 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			'mktools',
 			'mktools'
 		);
+		tx_mklib_tests_Util::setExtConfVar(
+			'shouldFalImagesBeAddedToCalEvent',
+			1,
+			'mktools'
+		);
 		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
 
 		$bootstrap = \TYPO3\CMS\Core\Core\Bootstrap::getInstance();
@@ -211,6 +216,11 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 		tx_mklib_tests_Util::setExtConfVar(
 			'tcaPostProcessingExtensions',
 			'mktools',
+			'mktools'
+		);
+		tx_mklib_tests_Util::setExtConfVar(
+			'shouldFalImagesBeAddedToTtNews',
+			1,
 			'mktools'
 		);
 		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
