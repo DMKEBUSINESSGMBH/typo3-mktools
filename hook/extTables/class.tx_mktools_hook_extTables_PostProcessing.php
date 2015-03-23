@@ -47,6 +47,10 @@ class tx_mktools_hook_extTables_PostProcessing
 	 */
 	public function processData() {
 		foreach (tx_mktools_util_miscTools::getTcaPostProcessingExtensions() as $extension) {
+			// load only, if extension is loaded!
+			if (!t3lib_extMgm::isLoaded($extension)) {
+				continue;
+			}
 			// Execute override files from Configuration/TCA/Overrides
 			$tcaOverridesPathForPackage = t3lib_extMgm::extPath(
 				$extension,
