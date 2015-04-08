@@ -114,6 +114,11 @@
 		}
 		
 		$el = $(element);
+		
+		if ($el.hasClass("ajax-autotrigger-ignore"))) {
+			return;
+		}
+		
 		// wir suchen die contentid! (id="c516")
 		if ($el.data("ajaxreplaceid") && _self.isNumeric($el.data("ajaxreplaceid").slice(1))) {
 			$content = $el;

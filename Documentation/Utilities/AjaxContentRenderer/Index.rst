@@ -22,6 +22,13 @@ mit gerendert werden (TYPO3 Funktion "Indentation and Frames" auf "Linked Elemen
 
    <form id="mksearch" class="default-form noactionurl ajax-form" method="GET" data-ajaxreplaceid="c1110" >
    
+Mit der Klasse ajax-autotrigger im form Element, wird bei Änderungen an nicht text inputs direkt das Formular per Ajax abgeschickt. Das lässt sich für einzelne Formularelemente verhindern indem diese die Klasse ajax-autotrigger-ignore bekommen.
+
+.. code-block:: html
+
+   <form id="mksearch" class="ajax-autotrigger ajax-form" method="GET" data-ajaxreplaceid="c1110" >
+      <input type="checkbox" class="ajax-autotrigger-ignore"...
+
 mkforms Formulare
 -----------------
 
