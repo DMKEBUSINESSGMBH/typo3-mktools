@@ -115,7 +115,7 @@
 		
 		$el = $(element);
 		
-		if ($el.hasClass("ajax-autotrigger-ignore"))) {
+		if ($el.hasClass("ajax-autotrigger-ignore")) {
 			return;
 		}
 		
