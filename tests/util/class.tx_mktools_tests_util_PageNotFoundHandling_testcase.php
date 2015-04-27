@@ -39,7 +39,11 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 */
 	private $defaultPageTsConfig;
 
-	public function setUp() {
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::setUp()
+	 */
+	protected function setUp() {
 		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
 
 		self::getTsFe()->id = '';
@@ -87,6 +91,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	/**
 	 * Wir rufen den Handler ohne Werte auf.
 	 * Der Handler darf dann nix tun!
+	 * @group unit
 	 */
 	public function testHandlePageNotFoundWithoutMkToolsConfig() {
 		$util = self::getPageNotFoundHandlingUtil();
@@ -96,10 +101,12 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		$this->assertTrue(is_array($util->getTestValue()));
 		$this->assertCount(0, $util->getTestValue());
 	}
+
 	/**
 	 * Wir rufen den Handler READFILE.
 	 * Der Handler sollte nichts tun, da ignorecodes zutrifft
 	 * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+	 * @group unit
 	 */
 	public function testHandlePageNotFoundWithReadfileAndIgnoreCode() {
 		self::getTsFe()->pageNotFound = 1; //ID was not an accessible page
@@ -113,10 +120,12 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		$this->assertTrue(is_array($util->getTestValue()));
 		$this->assertCount(0, $util->getTestValue());
 	}
+
 	/**
 	 * Wir rufen den Handler READFILE.
 	 * Der Handler sollte den inhalt von
 	 * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+	 * @group unit
 	 */
 	public function testHandlePageNotFoundWithReadfile() {
 		$reason = 'Test html/utilPageNotFoundHandlingPrintContent.';
@@ -135,9 +144,11 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		$this->assertArrayHasKey('httpStatus', $testData);
 		$this->assertEquals('HTTP/1.1 404 Not Found', $testData['httpStatus']);
 	}
+
 	/**
 	 * Wir rufen den Handler REDIRECT.
 	 * Der Handler sollte die Url zurückgeben!
+	 * @group unit
 	 */
 	public function testHandlePageNotFoundWithRedirect() {
 		$util = self::getPageNotFoundHandlingUtil();
@@ -158,6 +169,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 * Wir rufen den Handler TYPOSCRIPT.
 	 * Der Handler sollte den inhalt von
 	 * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+	 * @group unit
 	 */
 	public function testHandlePageNotFoundWithTyposcriptConfigForReadfile() {
 		$reason = 'Test typoscript/utilPageNotFoundHandlingPrintContent.txt';
@@ -180,6 +192,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	/**
 	 * Wir rufen den Handler TYPOSCRIPT.
 	 * Der Handler sollte die Url zurückgeben!
+	 * @group unit
 	 */
 	public function testHandlePageNotFoundWithTyposcriptConfigForRedirect() {
 		$util = self::getPageNotFoundHandlingUtil();
@@ -202,6 +215,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 * Wir rufen den Handler TYPOSCRIPT.
 	 * Der Handler sollte den inhalt von
 	 * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+	 * @group unit
 	 */
 	public function testHandlePageNotFoundWithTyposcriptConfigForCertainCode() {
 		$reason = 'Test typoscript/utilPageNotFoundHandlingPrintContentForCode4.txt';
