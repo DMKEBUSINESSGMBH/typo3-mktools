@@ -120,6 +120,11 @@ class tx_mktools_util_PageNotFoundHandling
 			$this->logPageNotFound($data, $type);
 		}
 
+		// Rekursion verhindern falls die 404 Seite selbst nicht gefunden werden konnte.
+		if ($this->isRequestedPageAlready404Page($data)) {
+			$this->setHeaderAndExit('Unerwarteter Fehler. Die 404 Seite wurde nicht gefunden.');
+		}
+
 		switch ($type) {
 			case 'READFILE':
 				$this->printContent($data);
@@ -158,11 +163,19 @@ class tx_mktools_util_PageNotFoundHandling
 	}
 
 	/**
+	 * um Rekursion zu verhindern
+	 * @return boolean
+	 */
+	protected function isRequestedPageAlready404Page($url) {
+		return $url == t3lib_div::getIndpEnv('REQUEST_URI');
+	}
+
+	/**
 	 *
 	 * @param string $url
 	 * @return void
 	 */
-	private function printContent($url){
+	protected function printContent($url){
 		// wir versuchen erstmal den inhalt der URL zu holen
 		$content = t3lib_div::getURL(
 			$this->getFileAbsFileName($url)
@@ -195,7 +208,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @param string $url
 	 * @return NULL
 	 */
-	private function redirectTo($url) {
+	protected function redirectTo($url) {
 		$this->setHeaderAndExit(
 			$this->getFileAbsFileName($url)
 		);

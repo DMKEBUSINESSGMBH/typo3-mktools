@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-tx_rnbase::load('Tx_Phpunit_TestCase');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 
 /**
@@ -31,13 +31,19 @@ tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_util_PageNotFoundHandling_testcase
-	extends Tx_Phpunit_TestCase
+	extends tx_rnbase_tests_BaseTestCase
 {
 
 	/**
 	 * @var string
 	 */
 	private $defaultPageTsConfig;
+
+
+	/**
+	 * @var string
+	 */
+	private $requestUriBackup;
 
 	/**
 	 * (non-PHPdoc)
@@ -48,6 +54,8 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 
 		self::getTsFe()->id = '';
 		self::getTsFe()->pageNotFound = 0;
+
+		$this->requestUriBackup = $_SERVER['REQUEST_URI'];
 	}
 
 	/**
@@ -56,6 +64,8 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 	 */
 	protected function tearDown() {
 		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
+
+		$_SERVER['REQUEST_URI'] = $this->requestUriBackup;
 	}
 
 	/**
@@ -280,6 +290,66 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		self::assertEquals($expectedCount, count($haystack), $message);
 	}
 
+	/**
+	 * @group unit
+	 * @dataProvider dataProviderIsRequestedPageAlready404Page
+	 */
+	public function testIsRequestedPageAlready404Page(
+		$requestUri, $expectedReturnValue
+	) {
+		$_SERVER['REQUEST_URI'] = $requestUri;
+		$util = self::getPageNotFoundHandlingUtil(0);
+
+		$this->assertSame(
+			$expectedReturnValue,
+			$this->callInaccessibleMethod($util, 'isRequestedPageAlready404Page', '/404.html')
+		);
+	}
+
+	/**
+	 * @return multitype:string boolean
+	 */
+	public function dataProviderIsRequestedPageAlready404Page() {
+		return array(
+			array('/notExistingPage', FALSE),
+			array('/404.html', TRUE)
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testHandlePageNotFoundSetsHeaderAndExitsNotIfRequestedPageIsNot404Page() {
+		$_SERVER['REQUEST_URI'] = '/notFound.html';
+
+		$util = $this->getMock(
+			'tx_mktools_util_PageNotFoundHandling',
+			array('setHeaderAndExit', 'printContent', 'redirectTo'),
+			array(self::getTsFe(), '')
+		);
+		$util->expects($this->never())
+			->method('setHeaderAndExit');
+
+		$util->handlePageNotFound('MKTOOLS_REDIRECT:/404.html');
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testHandlePageNotFoundSetsHeaderAndExitsIfRequestedPageIs404Page() {
+		$_SERVER['REQUEST_URI'] = '/404.html';
+
+		$util = $this->getMock(
+			'tx_mktools_util_PageNotFoundHandling',
+			array('setHeaderAndExit', 'printContent', 'redirectTo'),
+			array(self::getTsFe(), '')
+		);
+		$util->expects($this->once())
+			->method('setHeaderAndExit')
+			->with('Unerwarteter Fehler. Die 404 Seite wurde nicht gefunden.');
+
+		$util->handlePageNotFound('MKTOOLS_REDIRECT:/404.html');
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
