@@ -101,7 +101,12 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 			$exception->getPrevious() . $context
 		);
 
-		$lockFile = PATH_site . 'typo3temp/mktools/locks/' . $lockFileName . '.txt';
+		$lockFilePath = PATH_site . 'typo3temp/mktools/locks/';
+		if (!is_dir($lockFilePath)) {
+			t3lib_div::mkdir_deep($lockFilePath);
+		}
+
+		$lockFile = $lockFilePath . $lockFileName . '.txt';
 		if (!file_exists($lockFile)) {
 			touch($lockFile);
 		}
