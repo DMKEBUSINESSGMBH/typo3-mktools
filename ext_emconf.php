@@ -35,7 +35,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'lockType' => '',
 	'constraints' => array(
 		'depends' => array(
- 			'rn_base' => '',
+ 			'rn_base' => '0.14.18-0.0.0',
 			'mklib' => '',
 			'typo3' => '4.3.0-6.2.99',
 		),
