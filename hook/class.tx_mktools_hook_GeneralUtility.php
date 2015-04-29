@@ -50,6 +50,9 @@ class tx_mktools_hook_GeneralUtility {
 	 *
 	 * @param array $parameters
 	 * @return void
+	 *
+	 * @todo refactoring to prevent the flooding in a more
+	 * sophisticated way
 	 */
 	public static function preventSystemLogFlood(array $parameters) {
 		static::handleSystemLogConfigurationBackup();
