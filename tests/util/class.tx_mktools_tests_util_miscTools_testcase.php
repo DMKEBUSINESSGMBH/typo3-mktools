@@ -201,4 +201,20 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase {
 			'extension array falsch'
 		);
 	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetSystemLogLockThreshold() {
+		tx_mklib_tests_Util::setExtConfVar(
+				'systemLogLockThreshold',
+				123,
+				'mktools'
+		);
+
+		$this->assertEquals(
+			123,
+			tx_mktools_util_miscTools::getSystemLogLockThreshold()
+		);
+	}
 }

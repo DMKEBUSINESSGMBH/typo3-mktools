@@ -98,6 +98,13 @@ class tx_mktools_util_miscTools {
 	}
 
 	/**
+	 * @return number
+	 */
+	public static function getSystemLogLockThreshold() {
+		return self::getExtensionCfgValue('systemLogLockThreshold');
+	}
+
+	/**
 	 * @param string $staticPath
 	 * @param string $additionalPath
 	 * @return 	tx_rnbase_configurations

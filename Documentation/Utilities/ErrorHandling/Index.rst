@@ -48,3 +48,10 @@ Dazu muss folgendes in der localconf eingetragen werden:
    $TYPO3_CONF_VARS['SYS']['productionExceptionHandler'] = 'tx_mktools_util_ExceptionHandler';
    $TYPO3_CONF_VARS['SYS']['debugExceptionHandler'] = 'tx_mktools_util_ExceptionHandler';
    $TYPO3_CONF_VARS['SYS']['errorHandler'] = 'tx_mktools_util_ErrorHandler';
+   
+systemLogLockThreshold
+----------------------
+Die gleiche Meldungen werden mit der syslog Funktion nur erneut geloggt wenn sie vor mehr
+als dieser Zeit zuletzt geloggt wurden. Leer lassen wenn dieses Feature nicht gewünscht ist.
+Andere Hooks für $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog']
+können damit in Konflikt geraten.

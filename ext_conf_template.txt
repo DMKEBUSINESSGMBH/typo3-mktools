@@ -33,3 +33,6 @@ realUrlConfigurationTemplate =
 
 # cat=modules; type=string; label=Only for TYPO3 6.2 and higher. Loads TCA overrides for those commaseparated extensions after the TCA was loaded. This way we make sure the overrides are loaded correct in all cases. The TCA files must reside in $EXTNAME/Configuration/TCA/Overrides and the filename must match the TCA table to override. 
 tcaPostProcessingExtensions = mktools
+
+# cat=errorhandling; type=string; label=Time in seconds: The same messages are only logged with the syslog function again if they were logged more than this time ago to prevent a flood. By default the same messages are only logged once a minute. Leave empty if you don't want that feature. Other hooks configured for $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] might conflict with this.
+systemLogLockThreshold = 60
