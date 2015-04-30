@@ -44,6 +44,11 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 	private $systemLogConfigurationBackup;
 
 	/**
+	 * @var string
+	 */
+	private $hooksConfigurationBackup;
+
+	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
@@ -51,6 +56,10 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 		tx_mklib_tests_Util::storeExtConf('mktools');
 		$this->systemLogConfigurationBackup =
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'];
+
+		$this->hooksConfigurationBackup =
+			$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'];
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] = array();
 	}
 
 	/**
@@ -67,6 +76,9 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 		);
 		$systemLogConfigurationBackup->setAccessible(TRUE);
 		$systemLogConfigurationBackup->setValue(NULL, '');
+
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] =
+			$this->hooksConfigurationBackup;
 	}
 
 	/**
