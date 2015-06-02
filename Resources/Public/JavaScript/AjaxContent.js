@@ -20,15 +20,9 @@
  */
 /*
  * Sample to override the RequestCall:
- * DMK.Objects.extend(
-	"AjaxContentAjaxRequest",
-	function MyRequest() {
-		this.onStart = function(data, parameters) {
-			// do some thinks and then call the parent!
-			this.parent().onStart.call(this, data, parameters);
-		}
+ * 	DMK.Objects.AjaxContentAjaxRequest.prototype.onSuccess = function(){
+		// do something
 	}
-);
  */
 (function(DMK, w, $){
 	"use strict";
