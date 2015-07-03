@@ -12,3 +12,50 @@ plugin.tx_mktools {
 }
 
 tt_content.list.20.tx_mktools =< plugin.tx_mktools
+
+plugin.tx_mktools {
+	docmarkdownTemplate = EXT:mktools/Resources/Private/Templates/DocMarkDown.html
+	docmarkdown {
+	}
+}
+
+### pagetype for the docu
+docu = PAGE
+docu {
+	typeNum = 480
+	config.metaCharset = utf-8
+	### X-Robots-Tag, wir wollen vermeiden, dass der inhalt indiziert wird.
+	config.additionalHeaders = Content-Type: text/html; charset=utf-8|X-Robots-Tag: noindex;
+	config.admPanel = 0
+	config.sendNoCacheHeaders = 1
+	config.no_cache = 1
+
+	includeCSS {
+		bootstrap = //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css
+		bootstrap {
+			external = 1
+			forceOnTop = 1
+			compressed = 1
+			disableCompression = 1
+			excludeFromConcatenation = 1
+		}
+		bootswatch < .bootstrap
+		bootswatch = //bootswatch.com/readable/bootstrap.min.css
+	}
+
+	10 =< plugin.tx_mktools
+	10.action = tx_mktools_action_DocMarkDown
+	10.docmarkdown {
+		files {
+			#index = EXT:myext/Documentation/index.md
+		}
+	}
+}
+
+/*
+ * copy this in your config.tss!
+# set baseurl, so images cen be readed
+[globalVar = GP:type = 480]
+	config.baseURL = http://{$domain}/typo3conf/ext/mkgesundheit/Documentation/
+[global]
+*/

@@ -25,16 +25,16 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 
 /**
- * Controller für Praxis-,Stellen-,Kooperations- und Vertreterangebote/-gesuche
+ * ShowTemplate Controller
  *
  * @package TYPO3
  * @subpackage tx_mktools
  */
-class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC {
+class tx_mktools_action_ShowTemplate
+	extends tx_rnbase_action_BaseIOC {
 
 	/**
 	 * Kindklassen führen hier die eigentliche Arbeit durch. Zugriff auf das

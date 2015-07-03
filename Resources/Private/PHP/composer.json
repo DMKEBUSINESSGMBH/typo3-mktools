@@ -1,0 +1,8 @@
+{
+	"config": {
+		"vendor-dir": "Composer"
+	},
+	"require": {
+		"erusev/parsedown": "1.1.1"
+	}
+}
