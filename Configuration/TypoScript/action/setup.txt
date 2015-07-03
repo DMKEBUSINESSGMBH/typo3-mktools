@@ -16,6 +16,15 @@ tt_content.list.20.tx_mktools =< plugin.tx_mktools
 plugin.tx_mktools {
 	docmarkdownTemplate = EXT:mktools/Resources/Private/Templates/DocMarkDown.html
 	docmarkdown {
+		### define cryptet auth data here!
+		auth.crypt {
+			## dmk default auth
+			kunde = #$Sg81OdSmC7w
+			#username = <?php echo crypt('here the pwd!', 'A SALT');
+		}
+		files {
+			#index = EXT:myext/Documentation/index.md
+		}
 	}
 }
 
@@ -45,11 +54,6 @@ docu {
 
 	10 =< plugin.tx_mktools
 	10.action = tx_mktools_action_DocMarkDown
-	10.docmarkdown {
-		files {
-			#index = EXT:myext/Documentation/index.md
-		}
-	}
 }
 
 /*

@@ -41,19 +41,54 @@ class tx_mktools_action_DocMarkDown
 	 */
 	protected function getData() {
 		$content = '';
-
-		// get real filenames!
-		tx_rnbase::load('tx_rnbase_util_Templates');
-		$tmpl = tx_rnbase_util_Templates::getTSTemplate();
-		foreach ($this->getFiles() as $file) {
-			$file = $tmpl->getFileName($file);
-			$rawContent = t3lib_div::getUrl($file);
-			$content .= $this->parseContent($rawContent);
+		if ($this->auth()) {
+			// get real filenames!
+			tx_rnbase::load('tx_rnbase_util_Templates');
+			$tmpl = tx_rnbase_util_Templates::getTSTemplate();
+			foreach ($this->getFiles() as $file) {
+				$file = $tmpl->getFileName($file);
+				$rawContent = t3lib_div::getUrl($file);
+				$content .= $this->parseContent($rawContent);
+			}
+		} else {
+			$content = '<h1>ACCESS DENIED</h1>';
 		}
 
 		return array(
 			'content' => $content
 		);
+	}
+
+	/**
+	 * check the user for auth rights
+	 *
+	 * @return boolean
+	 */
+	protected function auth() {
+		tx_rnbase::load('tx_mklib_util_MiscTools');
+		tx_mklib_util_MiscTools::enableHttpAuthForCgi();
+
+		$auth = $this->getConfigurations()->get(
+			$this->getConfId() . 'auth.crypt.'
+		);
+
+		// zugriff auf die Doku nur in bestimmten fällen
+		$hasAccess =
+			// be user is loged in
+			$GLOBALS['TSFE']->beUserLogin
+			// check crypt auth users from ts
+			|| (
+				isset($auth[$_SERVER['PHP_AUTH_USER']])
+				&& $auth[$_SERVER['PHP_AUTH_USER']] === crypt($_SERVER['PHP_AUTH_PW'], $auth[$_SERVER['PHP_AUTH_USER']])
+			)
+		;
+
+		if (!$hasAccess) {
+			header('WWW-Authenticate: Basic realm="Dokumentation"');
+			header('HTTP/1.0 401 Unauthorized');
+		}
+
+		return $hasAccess;
 	}
 
 	/**
