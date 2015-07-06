@@ -1,11 +1,11 @@
 /**
  * ModalBootstrap
- * 
+ *
  * Lightbox library which uses bootstrap modal
- * 
+ *
  * @copyright Copyright (c) 2014 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * @license http://www.gnu.org/licenses/lgpl.html
- * 			GNU Lesser General Public License, version 3 or later
+ *          GNU Lesser General Public License, version 3 or later
  * @version 0.1.0
  * @requires jQuery, Base, Request
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
@@ -17,23 +17,17 @@
  */
 /*
  * Sample to override the RequestCall:
- * DMK.Objects.extend(
-	"ModalBootstrapAjaxRequest",
-	function MyRequest() {
-		this.onStart = function(data, parameters) {
-			// do some thinks and then call the parent!
-			this.parent().onStart.call(this, data, parameters);
-		}
-	}
-);
+ *     DMK.Objects.ModalBootstrapAjaxRequest.prototype.onStart = function(data, parameters) {
+ *         // do some thinks
+ *     }
  */
 (function(DMK, $){
 	"use strict";
 	var AjaxRequest, ModalBootstrap, VERSION = "0.1.0";
-	
+
 	// Ajax Request definieren
 	AjaxRequest = DMK.Request.extend(function AjaxRequest() {});
-	
+
 	// die modalbox
 	ModalBootstrap = function ModalBootstrap(options) {
 		this.setData(
@@ -45,16 +39,16 @@
 							'<div class="modal-dialog">' +
 								'<div class="modal-content">' +
 									'<div class="modal-header">' +
-										'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-										'<h4 class="modal-title" id="{modal-id}-label"></h4>' +
+										'<a type="button" title="schließen" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></a>' +
 									'</div>' +
 									'<div class="modal-body" id="{modal-id}-body"></div>' +
 								'</div>' +
 							'</div>' +
 						'</div>',
-					// singlebox? soll alles in einer modalmox ablaufen,
-					// oder fuer jeden call eine eigene box?
+					// Option singlebox:	true	=>	jeder Call landet in der gleichen Box
+					// 						false	=>	jeder Call landet in einer separaten Box
 					singlebox : true,
+					// Zahl muss mit PAGE.typeNum im TS uebereinstimmen
 					pageType : 9266
 				},
 				options
@@ -62,17 +56,17 @@
 		);
 		this.setData("version", VERSION);
 	};
-	
+
 	// ModalBootstrap extends Base
 	ModalBootstrap = DMK.Base.extend(ModalBootstrap);
-	
+
 	// wir initialisieren das DOM
 	ModalBootstrap.prototype.init = function() {
 		this.initLinks();
 		this.initForms();
 	};
 
-	// wir initialisieren alle links, welche im popup geoeffnet werde sollen.
+	// wir initialisieren alle links, welche im popup geoeffnet werden sollen.
 	ModalBootstrap.prototype.initLinks = function () {
 		var _self = this;
 		$('body')
@@ -110,9 +104,10 @@
 			_request = DMK.Objects.getInstance("ModalBootstrapAjaxRequest"),
 			parameters = {type : this.getData("pageType")}
 		;
-		_request.onSuccess = function(data, parameters){
+		_request.onSuccess = function(data, parameters) {
 			_self.updateContent(data, parameters);
-		}; 
+			this.parent().onSuccess.call(this, data, parameters);
+		};
 		_request.doCall(el, parameters);
 	};
 
@@ -128,7 +123,7 @@
 		}
 		$box.modal("show");
 	};
-	
+
 	// wir schliessen das popup
 	ModalBootstrap.prototype.close = function(box) {
 		box = this.isObjectJQuery(box) ? box : this.getBox();
@@ -159,9 +154,9 @@
 		}
 		return $box;
 	};
-	
+
 	// wir registrieren unsere lib
 	DMK.Objects.add(AjaxRequest, "ModalBootstrapAjaxRequest");
 	DMK.Libraries.add(ModalBootstrap);
-	
+
 })(DMK, jQuery);

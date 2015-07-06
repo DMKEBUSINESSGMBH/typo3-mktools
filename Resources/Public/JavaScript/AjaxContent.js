@@ -1,12 +1,12 @@
 /**
  * AjaxContent
- * 
+ *
  * Typo3 Ajax-Content Lib.
- * 
+ *
  * Fuehrt automatisch einen Ajax call fuer bestimmte Links oder Formulare durch.
  * Dabei wird automatisch die ContentId ermittelt und genau dieses Element
  * neu gerendert und ersetzt.
- * 
+ *
  * @copyright Copyright (c) 2014 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * @license http://www.gnu.org/licenses/lgpl.html
  * 			GNU Lesser General Public License, version 3 or later
@@ -20,28 +20,28 @@
  */
 /*
  * Sample to override the RequestCall:
- * 	DMK.Objects.AjaxContentAjaxRequest.prototype.onSuccess = function(){
-		// do something
-	}
+ *     DMK.Objects.AjaxContentAjaxRequest.prototype.onSuccess = function(data, parameters) {
+ *         // do some thinks
+ *     }
  */
 (function(DMK, w, $){
 	"use strict";
 	var AjaxRequest, AjaxContent, VERSION = "0.1.0";
-	
-	
+
+
 	AjaxContent = function AjaxContent() {
 		this.setData("version", VERSION);
 		this.setData("pageType", 9267);
 	};
-	
+
 	// Ajax Request definieren
 	AjaxRequest = DMK.Request.extend(function AjaxRequest() {});
 	AjaxRequest.prototype.getLoader = function() { return $(); };
-	
+
 	// wir erben von dem basis objekt
 	AjaxContent = DMK.Base.extend(AjaxContent);
-	
-	
+
+
 	AjaxContent.prototype.init = function() {
 		var _self = this,
 			_event = function(event, element) {
@@ -79,16 +79,16 @@
 				_event
 			);
 	};
-	
+
 	AjaxContent.prototype.handleAjaxClick = function(event, element) {
 		var _self = this, _request = DMK.Objects.getInstance("AjaxContentAjaxRequest"),
 			parameters = {type : this.getData("pageType")},
 			$el, $linkwrap, $content,
 			xhr
 		;
-		
+
 		element = _self.isDefined(element) ? element : event.target;
-		
+
 		// do request only if there is no target attribute
 		if (element.tagName.toLowerCase() === "a") {
 			if (
@@ -106,13 +106,13 @@
 				return;
 			}
 		}
-		
+
 		$el = $(element);
-		
+
 		if ($el.hasClass("ajax-autotrigger-ignore")) {
 			return;
 		}
-		
+
 		// wir suchen die contentid! (id="c516")
 		if ($el.data("ajaxreplaceid") && _self.isNumeric($el.data("ajaxreplaceid").slice(1))) {
 			$content = $el;
@@ -140,12 +140,12 @@
 		if (!_self.isObjectJQuery($content) || $content.length === 0) {
 			return ;
 		}
-		
+
 		$content.addClass("ajax-content");
 		if ($content.find(".waiting").length === 0) {
 			$content.append($("<div>").addClass("waiting").hide());
 		}
-		
+
 		// ajax parameter sammeln
 		if ($content.data("ajaxreplaceid")) {
 			parameters.contentid = $content.data("ajaxreplaceid").slice(1);
@@ -153,7 +153,7 @@
 		else {
 			parameters.contentid = $content.attr("id").slice(1);
 		}
-		
+
 		$linkwrap = $el.parent();
 		if ($linkwrap.hasClass("ajax-link-next") || $linkwrap.hasClass("browse_next")) {
 			parameters.page = "next";
@@ -165,9 +165,9 @@
 			// try to fetch page
 			parameters.page = "";
 		}
-		
+
 		parameters.useHistory = true;
-		
+
 		// die events anlegen
 		_request.onStart = function(data, parameters){
 			this.parent().onStart.call(this, data, parameters);
@@ -187,20 +187,20 @@
 				from = 1;
 			}
 			_self.replaceContent(parameters.contentid, data, from, to);
-		}; 
-		
+		};
+
 		if ($el.hasClass("notcachable")) {
 			_request.getCache = function() {
 				return false;
 			};
 		}
-		
+
 		if (xhr = _request.doCall($el, parameters)) {
 			event.preventDefault();
 		}
 		return xhr;
 	};
-	
+
 	AjaxContent.prototype.replaceContent = function(contentId, html, from, to) {
 		var $cOld = $("#c" + contentId), $cNew,
 			animateTime = 1000;
@@ -237,15 +237,15 @@
 					}, 250);
 				});
 			}
-			
+
 		}
-		
+
 		// normales ersetzen
 		if (from == to) {
 			$cOld.replaceWith(html);
 		}
 	};
-	
+
 	// add lib to basic library
 	DMK.Objects.add(AjaxRequest, "AjaxContentAjaxRequest");
 	DMK.Libraries.add(AjaxContent);
