@@ -68,3 +68,8 @@ if (mktools_getConf('systemLogLockThreshold')) {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'][]
 		= 'EXT:mktools/hook/class.tx_mktools_hook_GeneralUtility.php:tx_mktools_hook_GeneralUtility->preventSystemLogFlood';
 }
+
+// Robots-Meta Tag
+if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
+	$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] .= ',mkrobotsmetatag';
+}

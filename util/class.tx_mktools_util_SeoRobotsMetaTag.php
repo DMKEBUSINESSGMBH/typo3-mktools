@@ -94,18 +94,21 @@ class tx_mktools_util_SeoRobotsMetaTag {
 	 * Wert für ein individuelles Robots-Tag gesetzt ist
 	 * @return int
 	 */
-	private function getRobotsValue() 	{
-		$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		$rootLine = $sys_page->getRootLine($GLOBALS['TSFE']->id);
-		foreach ($rootLine as $curPage) {
-			$options['where'] = 'uid = \''.$curPage['uid'].'\' AND mkrobotsmetatag > \'0\'';
-			$results = tx_rnbase_util_DB::doSelect('*', 'pages', $options);
-			if (!empty($results))
-				return $results[0]['mkrobotsmetatag'];
+	protected function getRobotsValue() 	{
+		foreach ($this->getRootline() as $page) {
+			if (!empty($page['mkrobotsmetatag'])) {
+				return $page['mkrobotsmetatag'];
+			}
 		}
 		return 0;
 	}
 
+	/**
+	 * @return array
+	 */
+	protected function getRootline() {
+		return t3lib_div::makeInstance('t3lib_pageSelect')->getRootLine($GLOBALS['TSFE']->id);
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
