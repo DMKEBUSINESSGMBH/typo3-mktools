@@ -61,6 +61,6 @@ MK Tools
 	:titlesonly:
 	:glob:
 
-	Introduction/Index
-	Utilities/Index
+   Introduction/Index
+   Utilities/Index
    Changelog
