@@ -8,6 +8,10 @@
 
 Changelog
 =========
+1.0.18
+------
+* [TASK] Responsive Images for MarkDown Action
+
 1.0.16
 ------
 * [BUGFIX] fixed docu
