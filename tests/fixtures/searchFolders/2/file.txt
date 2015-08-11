@@ -1,0 +1,2 @@
+uppercase_exists_in_files_lowercase
+UPPERCASE_EXISTS_IN_FILES_UPPERCASE

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>general</type>
+		<description>test labels</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="lowercase_exists_in_files_lowercase"></label>
+			<label index="lowercase_exists_in_files_uppercase"></label>
+			<label index="UPPERCASE_EXISTS_IN_FILES_LOWERCASE"></label>
+			<label index="UPPERCASE_EXISTS_IN_FILES_UPPERCASE"></label>
+			<label index="exists_not_in_files"></label>
+			<label index="exists_also_not_in_files"></label>
+		</languageKey>
+	</data>
+</T3locallang>

@@ -73,3 +73,8 @@ if (mktools_getConf('systemLogLockThreshold')) {
 if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] .= ',mkrobotsmetatag';
 }
+
+if (TYPO3_MODE == 'BE' && tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['mktools_find_unused_locallang_labels'] =
+		array('EXT:mktools/Classes/Cli/FindUnusedLocallangLabels.php','_CLI_mktools_find_unused_locallang_labels');
+}

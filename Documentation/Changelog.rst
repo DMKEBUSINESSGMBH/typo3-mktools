@@ -8,6 +8,11 @@
 
 Changelog
 =========
+
+1.0.19
+------
+* [FEATURE] CLI task to find unused locallang labels
+
 1.0.18
 ------
 * [TASK] Responsive Images for MarkDown Action

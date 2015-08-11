@@ -15,6 +15,7 @@ Utilities
    :glob:
 
    AjaxContentRenderer/Index
+   CLI/Index
    ContentReplacer/Index
    ErrorHandling/Index
    FAL/Index
