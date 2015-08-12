@@ -38,6 +38,16 @@ class Tx_Mktools_FindUnusedLocallangLabels_testcase extends tx_rnbase_tests_Base
 
 	/**
 	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::setUp()
+	 */
+	protected function setUp() {
+		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			$this->markTestSkipped('This is feature is only available in TYPO3 6.2 and higher.');
+		}
+	}
+
+	/**
+	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::tearDown()
 	 */
 	protected function tearDown() {
