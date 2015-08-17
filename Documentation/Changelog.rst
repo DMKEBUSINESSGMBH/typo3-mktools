@@ -9,6 +9,10 @@
 Changelog
 =========
 
+1.0.20
+------
+* [BUGFIX] execute tests not before TYPO3 6.2 of CLI task to find unused locallang labels
+
 1.0.19
 ------
 * [FEATURE] CLI task to find unused locallang labels
