@@ -23,7 +23,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('Tx_Mktools_Cli_FindUnusedLocallangLabels');
 
 /**
  * Tx_Mktools_FindUnusedLocallangLabels_testcase
@@ -44,6 +43,7 @@ class Tx_Mktools_FindUnusedLocallangLabels_testcase extends tx_rnbase_tests_Base
 		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			$this->markTestSkipped('This is feature is only available in TYPO3 6.2 and higher.');
 		}
+		tx_rnbase::load('Tx_Mktools_Cli_FindUnusedLocallangLabels');
 	}
 
 	/**
