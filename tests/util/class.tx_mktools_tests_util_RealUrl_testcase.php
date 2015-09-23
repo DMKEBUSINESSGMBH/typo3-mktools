@@ -555,12 +555,16 @@ class tx_mktools_tests_util_RealUrl_testcase
 	/**
 	 * @group unit
 	 */
-	public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesNoFileIfNoPagesGiven() {
-		$this->assertFalse(
+	public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileEvenIfNoPagesGiven() {
+		$this->assertTrue(
 			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages(array())
 		);
 
-		$this->assertFileNotExists($this->realUrlConfigurationFile, 'Datei doch generiert.');
+		$this->assertEquals(
+			file_get_contents(t3lib_extMgm::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig3.php'),
+			file_get_contents($this->realUrlConfigurationFile),
+			'Datei falsch generiert'
+		);
 	}
 
 	/**

@@ -170,17 +170,14 @@ class tx_mktools_util_RealUrl {
 	public static function generateSerializedRealUrlConfigurationFileByPages(array $pages) {
 		$configurationFileWritten = FALSE;
 
-		$fixedPostVarPageStrings = self::getFixedPostVarPageStringsByPages($pages);
-
 		$realUrlConfigurationTemplate = self::getRealUrlConfigurationTemplateContent();
 		if (
-			!empty($fixedPostVarPageStrings) &&
 			(strlen($realUrlConfigurationTemplate) > 0) &&
 			($realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile())
 		) {
 			//wir brauchen erst eine datei ohne serialisierung damit das array korrekt gebaut wird
 			self::generateRealUrlConfigurationFileWithoutSerialization(
-				$fixedPostVarPageStrings
+				self::getFixedPostVarPageStringsByPages($pages)
 			);
 			$configurationFileWritten =
 				self::generateRealUrlConfigurationFileWithSerialization();
