@@ -1,7 +1,7 @@
 {
 	"name" : "dmk/mktools",
 	"description" : "Collection of some small tools.",
-	"version" : "1.0.21",
+	"version" : "1.0.22",
 	"type" : "typo3-cms-extension",
 	"keywords" : ["TYPO3 CMS", "tools"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
