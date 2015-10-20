@@ -9,6 +9,10 @@
 Changelog
 =========
 
+1.0.23
+------
+* [BUGFIX] generate realurl file even if no pages with FixedPostVar type exist
+
 1.0.20
 ------
 * [BUGFIX] execute tests not before TYPO3 6.2 of CLI task to find unused locallang labels
