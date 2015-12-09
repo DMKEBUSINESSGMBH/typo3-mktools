@@ -83,16 +83,28 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 			);
 		}
 
+		// die XClass wird eigentlich registriert bevor die Klasse das erste mal
+		// instantiert wird. Nun wird aber die Klasse durch prepareTsfe schon
+		// vorher instantiert, womit die XCLass keine Beachtung mehr findet.
+		// Also leeren wir den Klassen Cache von TYPO3 damit neu auf XClass
+		// geprüft wird.
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			$xclass =\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-				'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
+			$property = new ReflectionProperty('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility', 'finalClassNameCache');
+			$property->setAccessible(TRUE);
+			$classNameCache = $property->getValue(NULL);
+			$property->setValue(NULL, array());
+			$xclass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+				'\\TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
 				array(), 0, 0
 			);
+			$property->setValue(NULL, $classNameCache);
 		} else {
 			$property = new ReflectionProperty('t3lib_div', 'finalClassNameRegister');
 			$property->setAccessible(TRUE);
 			$property->setValue(NULL, array());
+			$classNameCache = $property->getValue(NULL);
 			$xclass = t3lib_div::makeInstance('tslib_fe', array(), 0, 0);
+			$property->setValue(NULL, $classNameCache);
 		}
 
 		$this->assertInstanceOf('ux_tslib_fe', $xclass, 'xclass falsch');
