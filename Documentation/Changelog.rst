@@ -9,6 +9,10 @@
 Changelog
 =========
 
+1.0.24
+------
+* [BUGFIX] für XClass Registrierung in TYPO3 6.2
+
 1.0.23
 ------
 * [BUGFIX] generate realurl file even if no pages with FixedPostVar type exist
