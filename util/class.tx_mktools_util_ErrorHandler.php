@@ -56,6 +56,10 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 * @throws tx_mktools_util_ErrorException
 	 */
 	public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine) {
+		// Don't do anything if error_reporting is disabled by an @ sign
+		if (error_reporting() === 0) {
+			return TRUE;
+		}
 		try {
 			$return = $this->handleErrorByParent(
 				$errorLevel, $errorMessage, $errorFile, $errorLine
