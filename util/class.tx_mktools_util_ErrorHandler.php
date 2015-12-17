@@ -109,6 +109,11 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 * @return boolean
 	 */
 	public function handleFatalError() {
+		// Don't do anything if error_reporting is disabled by an @ sign
+		if (error_reporting() === 0) {
+			return TRUE;
+		}
+
 		$error = $this->getLastError();
 
 		if(
