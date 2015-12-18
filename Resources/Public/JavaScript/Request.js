@@ -1,21 +1,21 @@
 /**
  * Request
- * 
+ *
  * Library for Ajax Calls
- * 
+ *
  * @copyright Copyright (c) 2014 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * @license http://www.gnu.org/licenses/lgpl.html
  * 			GNU Lesser General Public License, version 3 or later
  * @version 0.1.1
- * @requires Base, Registry 
+ * @requires Base, Registry
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 
 (function(DMK, w, $){
 	"use strict";
-	
+
 	var Request, VERSION = "0.1.1";
-	
+
 	Request = DMK.Base.extend(
 		function Request() {
 			this.setData("version", VERSION);
@@ -29,7 +29,7 @@
 			cacheable = this.isObject(cache),
 			cacheId = ""
 		;
-		
+
 		// Paremeter und URL sammeln.
 		if (!_request.isObjectJQuery(urlOrElement)) {
 			parameters = urlOrElement;
@@ -38,10 +38,10 @@
 			parameters = {};
 		}
 		_request.prepareParameters(urlOrElement, parameters),
-		
+
 		// Event Triggern
 		_request.onStart({}, parameters);
-		
+
 		cacheId = cacheable ? cache.buildCacheId(parameters) : cacheId;
 		// den Cache nach einem bereits getaetigten Request fragen.
 		if (cacheable && cache.hasData(cacheId)) {
@@ -51,7 +51,7 @@
 		}
 		// Den Ajax Request absenden.
 		else {
-			var ajaxOptions = 
+			var ajaxOptions =
 			{
 				url : parameters.href,
 				type : "POST", // make configurable
@@ -72,7 +72,7 @@
 					return _request.onComplete(arguments, parameters);
 				}
 			};
-			
+
 			// haben wir ein Formular?
 			if (
 				_request.isObjectJQuery(urlOrElement) &&
@@ -80,14 +80,14 @@
 				this.isFunction($.fn.ajaxForm)
 			){
 				var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first();
-				form.ajaxSubmit(ajaxOptions); 
+				form.ajaxSubmit(ajaxOptions);
 			} else {
 				return $.ajax(ajaxOptions);
 			}
 		}
 		return true;
 	};
-	
+
 	// Die URL fuer den Request suchen
 	Request.prototype.getUrl = function(urlOrElement) {
 		var url = urlOrElement;
@@ -120,7 +120,7 @@
 					isGet = form.attr("method").toLowerCase() === "get",
 					params = form.serializeArray(),
 					submitName = urlOrElement.is("input[type=submit]") ? urlOrElement.prop("name") : false;
-					
+
 				parameters.href += parameters.href.indexOf("?") >= 0 ? "&" : "?1=1";
 				// Parameter des Forumars sammeln
 				$.each(params, function(index, object){
@@ -134,7 +134,7 @@
 				if (_request.isString(submitName) && submitName.length > 0) {
 					if (isGet) {
 						parameters.href += "&" + submitName + "=" + urlOrElement.prop("value");
-					} else if (!_request.isDefined(parameters[object.name])) {
+					} else if (typeof object != 'undefined' && !_request.isDefined(parameters[object.name])) {
 						parameters[submitName] = urlOrElement.prop("value");
 					}
 				}
@@ -179,8 +179,8 @@
 	Request.prototype.onComplete = function(data, parameters) {
 		this.getLoader().hide();
 	};
-	
+
 	// add lib to basic library
 	DMK.Libraries.add(Request);
-	
+
 })(DMK, window, jQuery);
