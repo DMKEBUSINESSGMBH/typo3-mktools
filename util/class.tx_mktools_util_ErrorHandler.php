@@ -56,8 +56,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 * @throws tx_mktools_util_ErrorException
 	 */
 	public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine) {
-		// Don't do anything if error_reporting is disabled by an @ sign
-		if (error_reporting() === 0) {
+		if ($this->isErrorReportingDisabled()) {
 			return TRUE;
 		}
 		try {
@@ -78,6 +77,13 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 		}
 
 		return $return;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	protected function isErrorReportingDisabled() {
+		return error_reporting() === 0;
 	}
 
 	/**
@@ -109,8 +115,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 * @return boolean
 	 */
 	public function handleFatalError() {
-		// Don't do anything if error_reporting is disabled by an @ sign
-		if (error_reporting() === 0) {
+		if ($this->isErrorReportingDisabled()) {
 			return TRUE;
 		}
 

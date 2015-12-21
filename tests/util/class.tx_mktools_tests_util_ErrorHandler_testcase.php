@@ -31,9 +31,22 @@ tx_rnbase::load('t3lib_error_Exception');
  * @package TYPO3
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
-{
+class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase {
 
+	/**
+	 * @var int $originalErrorReporting
+	 */
+	protected $originalErrorReporting;
+
+	/**
+	 * {@inheritDoc}
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
+	protected function tearDown() {
+		if ($this->originalErrorReporting) {
+			error_reporting($this->originalErrorReporting);
+		}
+	}
 	/**
 	 * @group unit
 	 */
@@ -58,18 +71,24 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 	 * @dataProvider getErrorTypes
 	 */
 	public function testHandleFatalErrorCallsExceptionHandlerCorrectIfNotCatchableErrors(
-		$errorType, $errorHandled
+		$errorType, $errorHandled, $disableErrorRedprting = FALSE
 	) {
+		if ($disableErrorRedprting) {
+			$this->disableErrorReporting();
+		}
+
 		$errorHandler = $this->getMock(
 			'tx_mktools_util_ErrorHandler',
 			array('getLastError','getExceptionHandler','getTypo3Exception'),
 			array(array()), '', FALSE
 		);
 
-		$error = array('type' => $errorType, 'message' => 'my error', 'line' => 123, 'file' => '123.php');
-		$errorHandler->expects($this->once())
-			->method('getLastError')
-			->will($this->returnValue($error));
+		if (!$disableErrorRedprting) {
+			$error = array('type' => $errorType, 'message' => 'my error', 'line' => 123, 'file' => '123.php');
+			$errorHandler->expects($this->once())
+				->method('getLastError')
+				->will($this->returnValue($error));
+		}
 
 		$expectedErrorMessage = 'PHP Fatal Error: my error in ' . basename('123.php') . ' line 123';
 		$expectedException = new t3lib_error_Exception($expectedErrorMessage);
@@ -83,7 +102,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 			$errorHandler->expects($this->once())
 				->method('getExceptionHandler')
 				->will($this->returnValue($exceptionHandler));
-			
+
 			$errorHandler->expects($this->once())
 				->method('getTypo3Exception')
 				->with($expectedErrorMessage)
@@ -96,7 +115,15 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 
 		$errorHandler->handleFatalError();
 	}
-	
+
+	/**
+	 * @return void
+	 */
+	protected function disableErrorReporting() {
+		$this->originalErrorReporting = error_reporting();
+		error_reporting(0);
+	}
+
 	/**
 	 * @return array
 	 */
@@ -106,7 +133,12 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 			array(E_COMPILE_ERROR, TRUE),
 			array(E_CORE_ERROR, TRUE),
 			array(E_USER_ERROR, TRUE),
-			array(E_WARNING, FALSE)
+			array(E_WARNING, FALSE),
+			array(E_ERROR, FALSE, TRUE),
+			array(E_COMPILE_ERROR, FALSE, TRUE),
+			array(E_CORE_ERROR, FALSE, TRUE),
+			array(E_USER_ERROR, FALSE, TRUE),
+			array(E_WARNING, FALSE, TRUE)
 		);
 	}
 
@@ -126,96 +158,120 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 		);
 		$this->assertEquals($message, $exception->getMessage(), 'Exception Nachricht falsch');
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testHandleErrorLogsExceptionsIfShouldBeWrittenToDevLogAndThrowsMktoolsErrorException() {
 		$errorHandler = $this->getMock(
-			'tx_mktools_util_ErrorHandler', 
+			'tx_mktools_util_ErrorHandler',
 			array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
 			array(1)
 		);
-		
+
 		$exception = new t3lib_error_Exception('test');
 		$errorHandler->expects($this->once())
 			->method('handleErrorByParent')
 			->with(1,2,3,4)
 			->will($this->throwException($exception));
-			
+
 		$errorHandler->expects($this->once())
 			->method('shouldExceptionsBeWrittenToDevLog')
 			->will($this->returnValue(TRUE));
-		
+
 		$errorHandler->expects($this->once())
 			->method('writeExceptionToDevLog')
 			->with($exception);
-		
+
 		try {
-			$errorHandler->handleError(1,2,3,4);				
+			$errorHandler->handleError(1,2,3,4);
 		} catch (tx_mktools_util_ErrorException $e) {
 			$this->assertInstanceOf(
 				'tx_mktools_util_ErrorException', $e, 'Exception nicht durchgereicht'
 			);
 		}
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testHandleErrorLogsExceptionsNotIfShouldNotBeWrittenToDevLog() {
 		$errorHandler = $this->getMock(
-			'tx_mktools_util_ErrorHandler', 
+			'tx_mktools_util_ErrorHandler',
 			array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
 			array(1)
 		);
-		
+
 		$exception = new t3lib_error_Exception('test');
 		$errorHandler->expects($this->once())
 			->method('handleErrorByParent')
 			->with(1,2,3,4)
 			->will($this->throwException($exception));
-			
+
 		$errorHandler->expects($this->once())
 			->method('shouldExceptionsBeWrittenToDevLog')
 			->will($this->returnValue(FALSE));
-		
+
 		$errorHandler->expects($this->never())
 			->method('writeExceptionToDevLog');
-		
+
 		try {
-			$errorHandler->handleError(1,2,3,4);				
+			$errorHandler->handleError(1,2,3,4);
 		} catch (tx_mktools_util_ErrorException $e) {
 			$this->assertInstanceOf(
 				'tx_mktools_util_ErrorException', $e, 'Exception nicht durchgereicht'
 			);
 		}
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testHandleErrorLogsExceptionsNotIfNoExceptionThrown() {
 		$errorHandler = $this->getMock(
-			'tx_mktools_util_ErrorHandler', 
+			'tx_mktools_util_ErrorHandler',
 			array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
 			array(1)
 		);
-		
+
 		$exception = new t3lib_error_Exception('test');
 		$errorHandler->expects($this->once())
 			->method('handleErrorByParent')
 			->with(1,2,3,4)
 			->will($this->returnValue('test'));
-			
+
 		$errorHandler->expects($this->never())
 			->method('shouldExceptionsBeWrittenToDevLog');
-		
+
 		$errorHandler->expects($this->never())
 			->method('writeExceptionToDevLog');
-		
+
 		$this->assertEquals(
 			'test', $errorHandler->handleError(1,2,3,4), 'falscher return value'
 		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testHandleErrorDoesNothingIfDisabledErrorReporting() {
+		$this->disableErrorReporting();
+
+		$errorHandler = $this->getMock(
+			'tx_mktools_util_ErrorHandler',
+			array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+			array(1)
+		);
+
+		$errorHandler->expects(self::never())
+			->method('handleErrorByParent');
+
+		$errorHandler->expects(self::never())
+			->method('shouldExceptionsBeWrittenToDevLog');
+
+		$errorHandler->expects(self::never())
+			->method('writeExceptionToDevLog');
+
+		$errorHandler->handleError(1,2,3,4);
 	}
 }
