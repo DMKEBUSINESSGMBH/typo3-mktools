@@ -153,7 +153,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * @return boolean
 	 */
 	protected function shouldExceptionBeDebugged() {
-		return defined('TYPO3_ERRORHANDLER_MODE') && TYPO3_ERRORHANDLER_MODE == 'debug';
+		return (defined('TYPO3_ERRORHANDLER_MODE') && TYPO3_ERRORHANDLER_MODE == 'debug') || $this->debugMode;
 	}
 
 	/**
