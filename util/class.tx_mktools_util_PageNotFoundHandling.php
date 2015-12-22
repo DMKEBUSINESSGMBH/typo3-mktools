@@ -360,7 +360,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 *  @return string $countrycode
 	 */
 	private function getCurrentLanguage() {
-		if (t3lib_extMgm::isLoaded('realurl')) {
+		if (t3lib_extMgm::isLoaded('realurl') && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
 			$realurlConf = array_shift($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']);
 			if ($realurlConf &&
 				is_array($realurlConf['preVars']) &&
