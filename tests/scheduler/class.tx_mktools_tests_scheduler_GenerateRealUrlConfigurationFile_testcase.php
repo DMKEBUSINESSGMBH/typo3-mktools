@@ -45,14 +45,14 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 	public function testExecuteTaskCallsNotGenerationOfConfigFileIfNotNecessary() {
 		$realUrlUtil = $this->getRealUrlUtilMock();
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('needsRealUrlConfigurationToBeGenerated')
 			->will($this->returnValue(FALSE));
 
-		$realUrlUtil::staticExpects($this->never())
+		$realUrlUtil->expects($this->never())
 			->method('getPagesWithFixedPostVarType');
 
-		$realUrlUtil::staticExpects($this->never())
+		$realUrlUtil->expects($this->never())
 			->method('generateSerializedRealUrlConfigurationFileByPages');
 
 		$scheduler = $this->getMock(
@@ -88,15 +88,15 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 	public function testExecuteTaskCallsGenerationOfConfigFileIfNecessaryAndSetsCorrectDevLogIfGenerationWasSuccessful() {
 		$realUrlUtil = $this->getRealUrlUtilMock();
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('needsRealUrlConfigurationToBeGenerated')
 			->will($this->returnValue(TRUE));
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('getPagesWithFixedPostVarType')
 			->will($this->returnValue(array('mypages')));
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('generateSerializedRealUrlConfigurationFileByPages')
 			->with(array('mypages'))
 			->will($this->returnValue(TRUE));
@@ -134,15 +134,15 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 	public function testExecuteTaskCallsGenerationOfConfigFileIfNecessaryAndSetsCorrectDevLogIfGenerationWasNotSuccessful() {
 		$realUrlUtil = $this->getRealUrlUtilMock();
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('needsRealUrlConfigurationToBeGenerated')
 			->will($this->returnValue(TRUE));
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('getPagesWithFixedPostVarType')
 			->will($this->returnValue(array('mypages')));
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('generateSerializedRealUrlConfigurationFileByPages')
 			->with(array('mypages'))
 			->will($this->returnValue(FALSE));
@@ -177,7 +177,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
 	 * @return tx_mktools_util_RealUrl
 	 */
 	private function getRealUrlUtilMock() {
-		return $this->getMockClass(
+		return $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'needsRealUrlConfigurationToBeGenerated',

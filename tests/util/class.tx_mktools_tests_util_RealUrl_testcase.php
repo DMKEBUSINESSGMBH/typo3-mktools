@@ -24,7 +24,7 @@
 require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mktools_util_RealUrl');
-tx_rnbase::load('tx_rnbase_util_DB');
+tx_rnbase::load('Tx_Rnbase_Database_Connection');
 tx_rnbase::load('tx_mklib_tests_Util');
 
 /**
@@ -209,22 +209,22 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'where'				=> 'tx_mktools_fixedpostvartype > 0'
 		);
 
-		$dbUtil::staticExpects($this->once())
+		$dbUtil->expects($this->once())
 			->method('doSelect')
 			->with($expectedWhat, $expectedFrom, $expectedOptions)
 			->will($this->returnValue('test'));
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl', array('getDbUtil')
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('getDbUtil')
 			->will($this->returnValue($dbUtil));
 
 		$this->assertEquals(
 			'test',
-			$realUrlUtil::getPagesWithFixedPostVarType(),
+			$realUrlUtil->getPagesWithFixedPostVarType(),
 			'falscher rücgabewert'
 		);
 	}
@@ -245,21 +245,21 @@ class tx_mktools_tests_util_RealUrl_testcase
 									$modificationTimeStamp
 		);
 
-		$dbUtil::staticExpects($this->once())
+		$dbUtil->expects($this->once())
 			->method('doSelect')
 			->with($expectedWhat, $expectedFrom, $expectedOptions)
 			->will($this->returnValue(array(0 => array('uid_count' => 456))));
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl', array('getDbUtil')
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('getDbUtil')
 			->will($this->returnValue($dbUtil));
 
 		$this->assertTrue(
-			$realUrlUtil::areTherePagesWithFixedPostVarTypeModifiedLaterThan(
+			$realUrlUtil->areTherePagesWithFixedPostVarTypeModifiedLaterThan(
 				$modificationTimeStamp
 			)
 		);
@@ -281,32 +281,32 @@ class tx_mktools_tests_util_RealUrl_testcase
 									$modificationTimeStamp
 		);
 
-		$dbUtil::staticExpects($this->once())
+		$dbUtil->expects($this->once())
 			->method('doSelect')
 			->with($expectedWhat, $expectedFrom, $expectedOptions)
 			->will($this->returnValue(array(0 => array('uid_count' => 0))));
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl', array('getDbUtil')
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('getDbUtil')
 			->will($this->returnValue($dbUtil));
 
 		$this->assertFalse(
-			$realUrlUtil::areTherePagesWithFixedPostVarTypeModifiedLaterThan(
+			$realUrlUtil->areTherePagesWithFixedPostVarTypeModifiedLaterThan(
 				$modificationTimeStamp
 			)
 		);
 	}
 
 	/**
-	 * @return tx_rnbase_util_DB
+	 * @return Tx_Rnbase_Database_Connection
 	 */
 	private function getDbUtilMock() {
-		return $this->getMockClass(
-			'tx_rnbase_util_DB', array('doSelect')
+		return $this->getMock(
+			'Tx_Rnbase_Database_Connection', array('doSelect')
 		);
 	}
 
@@ -318,7 +318,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -327,18 +327,18 @@ class tx_mktools_tests_util_RealUrl_testcase
 		);
 
 		$expectedTimeStamp = 0;
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
 			->with($expectedTimeStamp);
 
-		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
+		$realUrlUtil->needsRealUrlConfigurationToBeGenerated();
 	}
 
 	/**
 	 * @group unit
 	 */
 	public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreTherePagesWithFixedPostVarTypeModifiedLaterThanWithTimestampOfConfigFile() {
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -348,11 +348,11 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 		touch($this->realUrlConfigurationFile);
 		$expectedTimeStamp = filemtime($this->realUrlConfigurationFile);
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
 			->with($expectedTimeStamp);
 
-		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
+		$realUrlUtil->needsRealUrlConfigurationToBeGenerated();
 	}
 
 	/**
@@ -363,7 +363,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -372,18 +372,18 @@ class tx_mktools_tests_util_RealUrl_testcase
 		);
 
 		$expectedTimeStamp = 0;
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->with($expectedTimeStamp);
 
-		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
+		$realUrlUtil->needsRealUrlConfigurationToBeGenerated();
 	}
 
 	/**
 	 * @group unit
 	 */
 	public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreThereFixedPostVarTypesModifiedLaterThanWithTimestampOfConfigFile() {
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -393,11 +393,11 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 		touch($this->realUrlConfigurationFile);
 		$expectedTimeStamp = filemtime($this->realUrlConfigurationFile);
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->with($expectedTimeStamp);
 
-		$realUrlUtil::needsRealUrlConfigurationToBeGenerated();
+		$realUrlUtil->needsRealUrlConfigurationToBeGenerated();
 	}
 
 	/**
@@ -408,7 +408,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -416,15 +416,15 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
 			->will($this->returnValue(TRUE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(TRUE));
 
 		$this->assertTrue(
-			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+			$realUrlUtil->needsRealUrlConfigurationToBeGenerated()
 		);
 	}
 
@@ -436,7 +436,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -444,15 +444,15 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
 			->will($this->returnValue(TRUE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(FALSE));
 
 		$this->assertTrue(
-			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+			$realUrlUtil->needsRealUrlConfigurationToBeGenerated()
 		);
 	}
 
@@ -464,7 +464,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -473,18 +473,18 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
 			->will($this->returnValue(FALSE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(TRUE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
 			->will($this->returnValue(FALSE));
 
 		$this->assertTrue(
-			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+			$realUrlUtil->needsRealUrlConfigurationToBeGenerated()
 		);
 	}
 
@@ -496,7 +496,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -505,18 +505,18 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
 			->will($this->returnValue(FALSE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(FALSE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
 			->will($this->returnValue(FALSE));
 
 		$this->assertFalse(
-			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+			$realUrlUtil->needsRealUrlConfigurationToBeGenerated()
 		);
 	}
 
@@ -528,7 +528,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'realUrlConfigurationFile', 'unknown', 'mktools'
 		);
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl',
 			array(
 				'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
@@ -537,18 +537,18 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areTherePagesWithFixedPostVarTypeModifiedLaterThan')
 			->will($this->returnValue(FALSE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('areThereFixedPostVarTypesModifiedLaterThan')
 			->will($this->returnValue(FALSE));
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('isTemplateFileModifiedLaterThan')
 			->will($this->returnValue(TRUE));
 
 		$this->assertTrue(
-			$realUrlUtil::needsRealUrlConfigurationToBeGenerated()
+			$realUrlUtil->needsRealUrlConfigurationToBeGenerated()
 		);
 	}
 
@@ -557,7 +557,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 	 */
 	public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileEvenIfNoPagesGiven() {
 		$this->assertTrue(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages(array())
+			tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(array())
 		);
 
 		$this->assertEquals(
@@ -586,7 +586,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 		$this->assertFalse(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages)
+			tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages($pages)
 		);
 
 		$this->assertFileNotExists($this->realUrlConfigurationFile, 'Datei doch generiert.');
@@ -609,7 +609,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 			)
 		);
 		$this->assertFalse(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages)
+			tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages($pages)
 		);
 
 		$this->assertFileNotExists($this->realUrlConfigurationFile, 'Datei doch generiert.');
@@ -636,7 +636,9 @@ class tx_mktools_tests_util_RealUrl_testcase
 			),
 		);
 		$this->assertTrue(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, FALSE),
+			tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(
+				$pages, FALSE
+			),
 			'datei doch nicht geschrieben'
 		);
 
@@ -667,7 +669,9 @@ class tx_mktools_tests_util_RealUrl_testcase
 			),
 		);
 		$this->assertTrue(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, FALSE),
+			tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(
+				$pages, FALSE
+			),
 			'datei doch nicht geschrieben'
 		);
 
@@ -693,21 +697,21 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'where'				=> 	'tstamp > ' . $modificationTimeStamp
 		);
 
-		$dbUtil::staticExpects($this->once())
+		$dbUtil->expects($this->once())
 			->method('doSelect')
 			->with($expectedWhat, $expectedFrom, $expectedOptions)
 			->will($this->returnValue(array(0 => array('uid_count' => 456))));
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl', array('getDbUtil')
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('getDbUtil')
 			->will($this->returnValue($dbUtil));
 
 		$this->assertTrue(
-			$realUrlUtil::areThereFixedPostVarTypesModifiedLaterThan(
+			$realUrlUtil->areThereFixedPostVarTypesModifiedLaterThan(
 				$modificationTimeStamp
 			)
 		);
@@ -728,21 +732,21 @@ class tx_mktools_tests_util_RealUrl_testcase
 			'where'				=> 	'tstamp > ' . $modificationTimeStamp
 		);
 
-		$dbUtil::staticExpects($this->once())
+		$dbUtil->expects($this->once())
 			->method('doSelect')
 			->with($expectedWhat, $expectedFrom, $expectedOptions)
 			->will($this->returnValue(array(0 => array('uid_count' => 0))));
 
-		$realUrlUtil = $this->getMockClass(
+		$realUrlUtil = $this->getMock(
 			'tx_mktools_util_RealUrl', array('getDbUtil')
 		);
 
-		$realUrlUtil::staticExpects($this->once())
+		$realUrlUtil->expects($this->once())
 			->method('getDbUtil')
 			->will($this->returnValue($dbUtil));
 
 		$this->assertFalse(
-			$realUrlUtil::areThereFixedPostVarTypesModifiedLaterThan(
+			$realUrlUtil->areThereFixedPostVarTypesModifiedLaterThan(
 				$modificationTimeStamp
 			)
 		);
@@ -768,7 +772,9 @@ class tx_mktools_tests_util_RealUrl_testcase
 			),
 		);
 		$this->assertTrue(
-			tx_mktools_util_RealUrl::generateSerializedRealUrlConfigurationFileByPages($pages, FALSE),
+			tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(
+				$pages, FALSE
+			),
 			'datei doch nicht geschrieben'
 		);
 
