@@ -80,7 +80,7 @@ class tx_mktools_action_ShowTemplate
 	 *
 	 * @return string
 	 */
-	public function getTemplateName() {
+	protected function getTemplateName() {
 		return 'showtemplate';
 	}
 
@@ -89,7 +89,7 @@ class tx_mktools_action_ShowTemplate
 	 *
 	 * @return string
 	 */
-	public function getViewClassName() {
+	protected function getViewClassName() {
 		return 'tx_mktools_view_ShowTemplate';
 	}
 }
