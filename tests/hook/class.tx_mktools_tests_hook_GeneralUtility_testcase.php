@@ -71,12 +71,6 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] =
 			$this->systemLogConfigurationBackup;
 
-		$systemLogConfigurationBackup = new ReflectionProperty(
-			'tx_mktools_hook_GeneralUtility', 'systemLogConfigurationBackup'
-		);
-		$systemLogConfigurationBackup->setAccessible(TRUE);
-		$systemLogConfigurationBackup->setValue(NULL, '');
-
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] =
 			$this->hooksConfigurationBackup;
 	}
@@ -140,14 +134,16 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 		);
 		$systemLogConfigurationBackup->setAccessible(TRUE);
 		$this->assertEquals(
-			'', $systemLogConfigurationBackup->getValue(),
+			'', $systemLogConfigurationBackup->getValue(tx_rnbase::makeInstance('tx_mktools_hook_GeneralUtility')),
 			'zu Beginn doch eine Konfiguration gespeichert'
 		);
 
-		tx_mktools_hook_GeneralUtility::preventSystemLogFlood(array());
+		$hook = tx_rnbase::makeInstance('tx_mktools_hook_GeneralUtility');
+		$hook->preventSystemLogFlood(array());
 
 		$this->assertEquals(
-			'someSystemLogDaemons', $systemLogConfigurationBackup->getValue(),
+			'someSystemLogDaemons',
+			$systemLogConfigurationBackup->getValue($hook),
 			'Konfiguration nicht gespeichert'
 		);
 	}
@@ -157,33 +153,34 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 	 */
 	public function testPreventSystemLogFloodStoresBackupOfSystemLogConfigurationNotIfAlreadySetButWritesBackupBackToGlobals() {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
+		$hook = $this->getMock(
+			'tx_mktools_hook_GeneralUtility', array('getLockUtility')
+		);
 
 		$systemLogConfigurationBackup = new ReflectionProperty(
 			'tx_mktools_hook_GeneralUtility', 'systemLogConfigurationBackup'
 		);
 		$systemLogConfigurationBackup->setAccessible(TRUE);
-		$systemLogConfigurationBackup->setValue(NULL, 'otherSystemLogDaemons');
+		$systemLogConfigurationBackup->setValue($hook, 'otherSystemLogDaemons');
 
 		$lockUtility = $this->getMock(
-				'tx_rnbase_util_Lock', array('isLocked', 'lockProcess'),
-				array(), '', FALSE
+			'tx_rnbase_util_Lock', array('isLocked', 'lockProcess'),
+			array(), '', FALSE
 		);
 
 		$lockUtility->expects($this->once())
 			->method('isLocked')
 			->will($this->returnValue(FALSE));
 
-		$hook = $this->getMockClass(
-			'tx_mktools_hook_GeneralUtility', array('getLockUtility')
-		);
-		$hook::staticExpects($this->once())
+		$hook->expects($this->once())
 			->method('getLockUtility')
 			->will($this->returnValue($lockUtility));
 
-		$hook::preventSystemLogFlood(array());
+		$hook->preventSystemLogFlood(array());
 
 		$this->assertEquals(
-			'otherSystemLogDaemons', $systemLogConfigurationBackup->getValue(),
+			'otherSystemLogDaemons',
+			$systemLogConfigurationBackup->getValue($hook),
 			'Konfiguration doch gespeichert'
 		);
 
@@ -228,15 +225,15 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 		$lockUtility->expects($this->never())
 			->method('lockProcess');
 
-		$hook = $this->getMockClass(
+		$hook = $this->getMock(
 			'tx_mktools_hook_GeneralUtility', array('getLockUtility')
 		);
-		$hook::staticExpects($this->once())
+		$hook->expects($this->once())
 			->method('getLockUtility')
 			->with($parameters)
 			->will($this->returnValue($lockUtility));
 
-		$hook::preventSystemLogFlood($parameters);
+		$hook->preventSystemLogFlood($parameters);
 
 		$this->assertEquals(
 			'', $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'],
@@ -262,15 +259,15 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 		$lockUtility->expects($this->once())
 			->method('lockProcess');
 
-		$hook = $this->getMockClass(
+		$hook = $this->getMock(
 			'tx_mktools_hook_GeneralUtility', array('getLockUtility')
 		);
-		$hook::staticExpects($this->once())
+		$hook->expects($this->once())
 			->method('getLockUtility')
 			->with($parameters)
 			->will($this->returnValue($lockUtility));
 
-		$hook::preventSystemLogFlood($parameters);
+		$hook->preventSystemLogFlood($parameters);
 
 		$this->assertEquals(
 			'someSystemLogDaemons', $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'],

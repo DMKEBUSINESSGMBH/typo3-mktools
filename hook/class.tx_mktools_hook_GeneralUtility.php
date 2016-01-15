@@ -41,7 +41,7 @@ class tx_mktools_hook_GeneralUtility {
 	/**
 	 * @var string
 	 */
-	private static $systemLogConfigurationBackup = '';
+	private $systemLogConfigurationBackup = '';
 
 	/**
 	 * wenn die nachricht nicht schon wieder geloggt werden soll
@@ -54,11 +54,11 @@ class tx_mktools_hook_GeneralUtility {
 	 * @todo refactoring to prevent the flooding in a more
 	 * sophisticated way
 	 */
-	public static function preventSystemLogFlood(array $parameters) {
-		static::handleSystemLogConfigurationBackup();
+	public function preventSystemLogFlood(array $parameters) {
+		$this->handleSystemLogConfigurationBackup();
 
 		/* @var $lockUtility tx_rnbase_util_Lock */
-		$lockUtility = static::getLockUtility($parameters);
+		$lockUtility = $this->getLockUtility($parameters);
 
 		if ($lockUtility->isLocked()) {
 			// prevent logging
@@ -71,18 +71,18 @@ class tx_mktools_hook_GeneralUtility {
 	/**
 	 * @return void
 	 */
-	private static function handleSystemLogConfigurationBackup() {
+	private function handleSystemLogConfigurationBackup() {
 		// initial die systemLog Konfiguration sichern um diese ggf.
 		// wieder zurück schreiben zu können
-		if (!self::$systemLogConfigurationBackup) {
-			self::$systemLogConfigurationBackup =
+		if (!$this->systemLogConfigurationBackup) {
+			$this->systemLogConfigurationBackup =
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'];
 		} else {
 			// wir schreiben die gesicherte Konfig zurück falls wir
 			// vorher $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] geleert haben
 			// um das logging zu verhindern
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] =
-				self::$systemLogConfigurationBackup;
+				$this->systemLogConfigurationBackup;
 		}
 	}
 
@@ -90,7 +90,7 @@ class tx_mktools_hook_GeneralUtility {
 	 * @param array $parameters
 	 * @return tx_rnbase_util_Lock
 	 */
-	protected static function getLockUtility(array $parameters) {
+	protected function getLockUtility(array $parameters) {
 		return tx_rnbase_util_Lock::getInstance(
 			md5(
 				$parameters['msg'] . $parameters['extKey'] . $parameters['severity']
