@@ -18,5 +18,12 @@
 	},
 	"replace": {
 		"typo3-ter/mktools": "*"
+	},
+	"require" : {
+		"typo3/cms-core" : ">=4.5.0 <=6.2.99",
+		"digedag/rn-base" : ">=0.16.0"
+	},
+	"autoload": {
+		"classmap": ["scheduler/", "exception/", "interface/", "model/", "treelib/", "util/", "validator/", "Classes/"]
 	}
 }
