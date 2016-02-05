@@ -2,6 +2,7 @@
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
 // pages erweitern
+tx_rnbase::load('tx_rnbase_util_TCA');
 tx_rnbase_util_TCA::loadTCA('pages');
 $fields = array(
 	'tx_mktools_fixedpostvartype' => array (
