@@ -92,6 +92,7 @@ class tx_mktools_util_miscTools {
 	 * @return array
 	 */
 	public static function getTcaPostProcessingExtensions() {
+		tx_rnbase::load('tx_rnbase_util_Strings');
 		return tx_rnbase_util_Strings::trimExplode(
 			',', self::getExtensionCfgValue('tcaPostProcessingExtensions'), TRUE
 		);
