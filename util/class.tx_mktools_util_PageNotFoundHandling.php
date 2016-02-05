@@ -411,7 +411,7 @@ class tx_mktools_util_PageNotFoundHandling
 			$reflector = new ReflectionClass("ux_tslib_fe");
 			$rPath = realpath($reflector->getFileName());
 			$tPath =  realpath(
-				tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tslib_fel.php')
+				tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tslib_fe.php')
 			);
 			// notice werfen wenn bisherige XClass nicht die von mktools ist
 			if (strpos($rPath, $tPath) === FALSE) {

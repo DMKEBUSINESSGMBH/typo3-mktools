@@ -56,6 +56,14 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		self::getTsFe()->pageNotFound = 0;
 
 		$this->requestUriBackup = $_SERVER['REQUEST_URI'];
+
+		if (tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
+			$property = new ReflectionProperty(
+				tx_rnbase_util_Typo3Classes::getGeneralUtilityClass(), 'indpEnvCache'
+			);
+			$property->setAccessible(TRUE);
+			$property->setValue(NULL, array());
+		}
 	}
 
 	/**
@@ -94,7 +102,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 			$classNameCache = $property->getValue(NULL);
 			$property->setValue(NULL, array());
 			$xclass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-				'\\TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
+				'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
 				array(), 0, 0
 			);
 			$property->setValue(NULL, $classNameCache);
