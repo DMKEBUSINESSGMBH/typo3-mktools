@@ -405,14 +405,27 @@ class tx_mktools_util_PageNotFoundHandling
 	 * Anpassung tslib_fe für 404
 	 */
 	public static function registerXclass() {
+		// kann schon durch autoloading da sein aber auch eine andere Klasse sein
+		// als die von mktools
 		if (class_exists('ux_tslib_fe')) {
-			throw new LogicException(
-				'There allready exists an ux_tslib_fe XCLASS!' .
-				' Remove the other XCLASS or the deacivate the page not found handling in mktools',
-				intval(ERROR_CODE_MKTOOLS  . '130')
+			$reflector = new ReflectionClass("ux_tslib_fe");
+			$rPath = realpath($reflector->getFileName());
+			$tPath =  realpath(
+				tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tslib_fel.php')
 			);
+			// notice werfen wenn bisherige XClass nicht die von mktools ist
+			if (strpos($rPath, $tPath) === FALSE) {
+				throw new LogicException(
+					'There allready exists an ux_tslib_fe XCLASS!' .
+					' Remove the other XCLASS or the deacivate the page not found handling in mktools',
+					intval(ERROR_CODE_MKTOOLS  . '130')
+				);
+			}
+			unset($reflector, $rPath, $tPath);
+		} else {
+			require_once tx_rnbase_util_Extensions::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
 		}
-		require_once tx_rnbase_util_Extensions::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
+
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
 				'className' => 'ux_tslib_fe',

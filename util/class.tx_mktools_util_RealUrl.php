@@ -297,15 +297,29 @@ class tx_mktools_util_RealUrl {
 		if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
 			return ;
 		}
+
+		// kann schon durch autoloading da sein aber auch eine andere Klasse sein
+		// als die von mktools
 		if (class_exists('ux_tx_realurl')) {
-			throw new LogicException(
-				'There allready exists an ux_tx_realurl XCLASS!' .
-				' Remove the other XCLASS or the deacivate the realurl' .
-				' handling in mktools',
-				intval(ERROR_CODE_MKTOOLS  . '130')
+			$reflector = new ReflectionClass("ux_tx_realurl");
+			$rPath = realpath($reflector->getFileName());
+			$tPath =  realpath(
+				tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tx_realurl.php')
 			);
+			// notice werfen wenn bisherige XClass nicht die von mktools ist
+			if (strpos($rPath, $tPath) === FALSE) {
+				throw new LogicException(
+					'There allready exists an ux_tx_realurl XCLASS!' .
+					' Remove the other XCLASS or the deacivate the realurl' .
+					' handling in mktools',
+					intval(ERROR_CODE_MKTOOLS  . '130')
+				);
+			}
+			unset($reflector, $rPath, $tPath);
+		} else {
+			require_once tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
 		}
-		require_once tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
+
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
 				'className' => 'ux_tx_realurl'
