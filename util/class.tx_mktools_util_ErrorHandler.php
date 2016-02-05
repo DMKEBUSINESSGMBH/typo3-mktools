@@ -21,7 +21,9 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
+tx_rnbase::load('Tx_Rnbase_Error_ErrorHandler');
+tx_rnbase::load('Tx_Rnbase_Error_Exception');
 
 /**
  * wie der TYPO3 error handler. aber wir behandeln noch fatal errors
@@ -30,7 +32,7 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
  * @package TYPO3
  * @subpackage tx_mktools
  */
-class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
+class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler {
 
 	/**
 	 * registriert den error handler auch für fatal errors
@@ -51,7 +53,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 * gefangen wird
 	 *
 	 * (non-PHPdoc)
-	 * @see t3lib_error_ErrorHandler::handleError()
+	 * @see Tx_Rnbase_Error_ErrorHandler::handleError()
 	 *
 	 * @throws tx_mktools_util_ErrorException
 	 */
@@ -88,7 +90,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 
 	/**
 	 * (non-PHPdoc)
-	 * @see t3lib_error_ErrorHandler::handleError()
+	 * @see Tx_Rnbase_Error_ErrorHandler::handleError()
 	 */
 	protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine) {
 		return parent::handleError($errorLevel, $errorMessage, $errorFile, $errorLine);
@@ -102,13 +104,14 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	}
 
 	/**
-	 * @param t3lib_error_Exception $exception
+	 * @param Exception $exception
 	 *
 	 * @return void
 	 */
 	protected function writeExceptionToDevLog(Exception $exception) {
 		$logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
-		t3lib_div::devLog($exception->getMessage(), $logTitle, 3);
+		tx_rnbase::load('tx_rnbase_util_Logger');
+		tx_rnbase_util_Logger::devLog($exception->getMessage(), $logTitle, 3);
 	}
 
 	/**
@@ -156,7 +159,7 @@ class tx_mktools_util_ErrorHandler extends t3lib_error_ErrorHandler {
 	 * @return tx_mktools_util_ExceptionHandler
 	 */
 	protected function getTypo3Exception($exceptionMessage) {
-		return new t3lib_error_Exception($exceptionMessage);
+		return new Tx_Rnbase_Error_Exception($exceptionMessage);
 	}
 
 	/**

@@ -2,7 +2,7 @@
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
 // pages erweitern
-t3lib_div::loadTCA('pages');
+tx_rnbase_util_TCA::loadTCA('pages');
 $fields = array(
 	'tx_mktools_fixedpostvartype' => array (
 		'exclude' => 1,
@@ -20,5 +20,5 @@ $fields = array(
 		)
 	),
 );
-t3lib_extMgm::addTCAcolumns('pages', $fields, 1);
-t3lib_extMgm::addToAllTCAtypes('pages','tx_mktools_fixedpostvartype','');
+tx_rnbase_util_Extensions::addTCAcolumns('pages', $fields, 1);
+tx_rnbase_util_Extensions::addToAllTCAtypes('pages','tx_mktools_fixedpostvartype','');

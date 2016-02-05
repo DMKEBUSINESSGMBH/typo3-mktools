@@ -29,7 +29,7 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('tx_mklib_tests_Util');
 tx_rnbase::load('tx_mktools_util_miscTools');
 
@@ -61,7 +61,7 @@ class tx_mktools_tests_TCA_testcase extends tx_phpunit_testcase {
 		global $TCA;
 		unset($TCA['tx_mktools_fixedpostvartypes']);
 		$_EXTKEY = 'mktools';
-		include(t3lib_extMgm::extPath('mktools', 'ext_tables.php'));
+		include(tx_rnbase_util_Extensions::extPath('mktools', 'ext_tables.php'));
 	}
 	
 	/**

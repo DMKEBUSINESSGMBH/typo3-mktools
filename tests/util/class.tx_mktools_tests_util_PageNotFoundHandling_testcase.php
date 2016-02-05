@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 
@@ -222,7 +222,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase
 		$printContentFile .= 'utilPageNotFoundHandlingRedirect.txt';
 		$ret = $util->handlePageNotFound('MKTOOLS_TYPOSCRIPT:'.$printContentFile);
 		$testData = $util->getTestValue();
-		$url = t3lib_div::locationHeaderUrl('/404.html');
+		$url = tx_rnbase_util_Network::locationHeaderUrl('/404.html');
 
 		$this->assertNull($ret);
 		$this->assertTrue(is_array($testData));

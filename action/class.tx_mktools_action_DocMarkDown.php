@@ -47,7 +47,7 @@ class tx_mktools_action_DocMarkDown
 			$tmpl = tx_rnbase_util_Templates::getTSTemplate();
 			foreach ($this->getFiles() as $file) {
 				$file = $tmpl->getFileName($file);
-				$rawContent = t3lib_div::getUrl($file);
+				$rawContent = tx_rnbase_util_Network::getUrl($file);
 				$content .= $this->parseContent($rawContent);
 			}
 		} else {

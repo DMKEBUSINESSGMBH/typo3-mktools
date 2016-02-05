@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 
 /**
  *
@@ -107,7 +107,7 @@ class tx_mktools_util_SeoRobotsMetaTag {
 	 * @return array
 	 */
 	protected function getRootline() {
-		return t3lib_div::makeInstance('t3lib_pageSelect')->getRootLine($GLOBALS['TSFE']->id);
+		return tx_rnbase_util_TYPO3::getSysPage()->getRootLine($GLOBALS['TSFE']->id);
 	}
 }
 

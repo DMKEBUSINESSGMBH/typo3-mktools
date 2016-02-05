@@ -69,12 +69,12 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends \TYPO3\CMS\Core\Controlle
 		} else {
 			$languageService = tx_rnbase::makeInstance('\\TYPO3\\CMS\\Lang\\LanguageService');
 			foreach ($this->cli_args['--locallangFile'] as $locallangFile) {
-				$locallangFile = GeneralUtility::getFileAbsFileName($locallangFile);
+				$locallangFile = tx_rnbase_util_Files::getFileAbsFileName($locallangFile);
 				$labels = $languageService->includeLLFile($locallangFile, FALSE);
 				foreach ($this->cli_args['--searchFolders'] as $folders) {
-					foreach (GeneralUtility::trimExplode(',', $folders) as $folder) {
+					foreach (tx_rnbase_util_Strings::trimExplode(',', $folders) as $folder) {
 						$this->getLabelsUsageInFolder(
-							$labels, GeneralUtility::getFileAbsFileName($folder), array($locallangFile)
+							$labels, tx_rnbase_util_Files::getFileAbsFileName($folder), array($locallangFile)
 						);
 					}
 				}
@@ -124,7 +124,7 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends \TYPO3\CMS\Core\Controlle
 	}
 }
 
-if (defined('TYPO3_cliMode')) {
+if (defined('TYPO3_cliMode') && !defined('MKTOOLS_TESTRUN')) {
 	$cleanerObj = tx_rnbase::makeInstance('Tx_Mktools_Cli_FindUnusedLocallangLabels');
 	$cleanerObj->showUnusedLocallangLabels();
 }

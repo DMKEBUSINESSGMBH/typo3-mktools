@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
@@ -48,11 +48,11 @@ class tx_mktools_hook_extTables_PostProcessing
 	public function processData() {
 		foreach (tx_mktools_util_miscTools::getTcaPostProcessingExtensions() as $extension) {
 			// load only, if extension is loaded!
-			if (!t3lib_extMgm::isLoaded($extension)) {
+			if (!tx_rnbase_util_Extensions::isLoaded($extension)) {
 				continue;
 			}
 			// Execute override files from Configuration/TCA/Overrides
-			$tcaOverridesPathForPackage = t3lib_extMgm::extPath(
+			$tcaOverridesPathForPackage = tx_rnbase_util_Extensions::extPath(
 				$extension,
 				'Configuration/TCA/Overrides'
 			);

@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_rnbase_util_DB');
 tx_rnbase::load('tx_mktools_util_miscTools');
 
@@ -294,7 +294,7 @@ class tx_mktools_util_RealUrl {
 	 * Anpassung realurl
 	 */
 	public function registerXclass() {
-		if (!t3lib_extMgm::isLoaded('realurl')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
 			return ;
 		}
 		if (class_exists('ux_tx_realurl')) {
@@ -305,14 +305,14 @@ class tx_mktools_util_RealUrl {
 				intval(ERROR_CODE_MKTOOLS  . '130')
 			);
 		}
-		require_once t3lib_extMgm::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
+		require_once tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
 				'className' => 'ux_tx_realurl'
 			);
 		} else {
 			$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realurl/class.tx_realurl.php']
-				= t3lib_extMgm::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
+				= tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
 		}
 	}
 }

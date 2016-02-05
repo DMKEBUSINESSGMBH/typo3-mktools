@@ -3,7 +3,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 if (!function_exists('mktools_getConf')) {
@@ -16,10 +16,10 @@ if (!function_exists('mktools_getConf')) {
 
 if (mktools_getConf('contentReplaceActive', 'FE')) {
 	// hook für Content Replace registrieren
-	require_once(t3lib_extMgm::extPath('mktools', 'hook/class.tx_mktools_hook_ContentReplace.php'));
+	require_once(tx_rnbase_util_Extensions::extPath('mktools', 'hook/class.tx_mktools_hook_ContentReplace.php'));
 	// wenn der scriptmerger installiert ist, muss der replacer wie der scriptmerger aufgerufen werden.
 	// der original replacer nutzt pageIndexing, der scripmerger die hooks contentPostProc-all und contentPostProc-output
-	if (t3lib_extMgm::isLoaded('scriptmerger')) {
+	if (tx_rnbase_util_Extensions::isLoaded('scriptmerger')) {
 		//@TODO: eine möglichkeit finden, die hooks erst nach dem scriptmerger
 		//aufzurufen, ohne die extlist in der localconf anzupassen.
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][]
@@ -44,7 +44,7 @@ if (mktools_getConf('realUrlXclass', 'FE')) {
 	tx_mktools_util_RealUrl::registerXclass();
 }
 
-require(t3lib_extMgm::extPath('mktools').'scheduler/ext_localconf.php');
+require(tx_rnbase_util_Extensions::extPath('mktools').'scheduler/ext_localconf.php');
 
 // es wird eine Warnung erzeugt wenn für einen Link Wizard nicht "params" in der TCA konfiguriert
 // ist, da das dann als string statt wie erwartet als array übergeben wird

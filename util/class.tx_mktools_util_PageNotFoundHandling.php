@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 
 /**
  *
@@ -32,7 +32,7 @@ class tx_mktools_util_PageNotFoundHandling
 {
 
 	/**
-	 * @var tslib_fe
+	 * @var Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
 	 */
 	private $tsfe = NULL;
 	private $reason = '';
@@ -45,15 +45,27 @@ class tx_mktools_util_PageNotFoundHandling
 
 	/**
 	 *
-	 * @param tslib_fe $tsfe
+	 * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
 	 * @return tx_mktools_util_PageNotFoundHandling
 	 */
-	public static function getInstance(tslib_fe $tsfe, $reason = '', $header = '') {
+	public static function getInstance($tsfe, $reason = '', $header = '') {
+		// wir können leider nicht mit einem typehint arbeiten auf Grund
+		// der verschiedenen Klassen abhängig von der TYPO3 Version
+		$typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
+		if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
+			throw new InvalidArgumentException(
+				'The first parameter has to be a instance of "tslib_fe"!',
+				intval(ERROR_CODE_MKTOOLS.'100')
+			);
+		}
 		return new self($tsfe);
 	}
 
-	public function __construct(tslib_fe $tsfe, $reason = '', $header = '') {
-		if (!($tsfe instanceof tslib_fe)) {
+	public function __construct($tsfe, $reason = '', $header = '') {
+		// wir können leider nicht mit einem typehint arbeiten auf Grund
+		// der verschiedenen Klassen abhängig von der TYPO3 Version
+		$typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
+		if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
 			throw new InvalidArgumentException(
 				'The first parameter has to be a instance of "tslib_fe"!',
 				intval(ERROR_CODE_MKTOOLS.'100')
@@ -71,7 +83,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 */
 	public function handlePageNotFound($code = ''){
 		// keine mktools config, weiter machen!
-		if (!t3lib_div::isFirstPartOfStr($code, 'MKTOOLS_')) {
+		if (!tx_rnbase_util_Strings::isFirstPartOfStr($code, 'MKTOOLS_')) {
 			return NULL;
 		}
 
@@ -89,7 +101,7 @@ class tx_mktools_util_PageNotFoundHandling
 
 		// Auf zu ignorierende Fehlercodes prüfen.
 		$ignorecodes = $confirgurations->get('pagenotfoundhandling.ignorecodes');
-		if (t3lib_div::inList($ignorecodes, $this->getTsFe()->pageNotFound)) {
+		if (tx_rnbase_util_Strings::inList($ignorecodes, $this->getTsFe()->pageNotFound)) {
 			return;
 		}
 
@@ -155,7 +167,7 @@ class tx_mktools_util_PageNotFoundHandling
 			array(
 				'reason'		=> $this->reason,
 				'code'			=> $this->getTsFe()->pageNotFound,
-				'REQUEST_URI' 	=> t3lib_div::getIndpEnv('REQUEST_URI'),
+				'REQUEST_URI' 	=> tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
 				'data'	 		=> $data,
 				'type'			=> $type
 			)
@@ -167,7 +179,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 * @return boolean
 	 */
 	protected function isRequestedPageAlready404Page($url) {
-		return $url == t3lib_div::getIndpEnv('REQUEST_URI');
+		return $url == tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI');
 	}
 
 	/**
@@ -177,7 +189,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 */
 	protected function printContent($url){
 		// wir versuchen erstmal den inhalt der URL zu holen
-		$content = t3lib_div::getURL(
+		$content = tx_rnbase_util_Network::getURL(
 			$this->getFileAbsFileName($url)
 		);
 
@@ -186,7 +198,7 @@ class tx_mktools_util_PageNotFoundHandling
 		if($content) {
 			$content = str_replace(
 				'###CURRENT_URL###',
-				t3lib_div::getIndpEnv('REQUEST_URI'),
+				tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
 				$content
 			);
 			$content = str_replace(
@@ -217,7 +229,7 @@ class tx_mktools_util_PageNotFoundHandling
 
 	/**
 	 *
-	 * @return tslib_fe
+	 * @return Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
 	 */
 	protected function getTsFe() {
 		return $this->tsfe;
@@ -242,7 +254,8 @@ class tx_mktools_util_PageNotFoundHandling
 	protected function setHeaderAndExit($contentOrUrl) {
 		$httpStatus = $this->getHttpStatus();
 		if ($this->isUri($contentOrUrl)) {
-			t3lib_utility_Http::redirect($contentOrUrl, $httpStatus);
+			$httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
+			$httpUtility::redirect($contentOrUrl, $httpStatus);
 		}
 		header($httpStatus);
 		exit($contentOrUrl);
@@ -256,8 +269,8 @@ class tx_mktools_util_PageNotFoundHandling
 	private function getFileAbsFileName($filename) {
 		$filename = trim($filename);
 		return substr($filename, 0, 4) == 'EXT:'
-			? t3lib_div::getFileAbsFileName($filename)
-			: t3lib_div::locationHeaderUrl($filename);
+			? tx_rnbase_util_Files::getFileAbsFileName($filename)
+			: tx_rnbase_util_Network::locationHeaderUrl($filename);
 	}
 
 	/**
@@ -281,8 +294,9 @@ class tx_mktools_util_PageNotFoundHandling
 			$httpStatus =
 				$this->TYPO3_CONF_VARS['FE']['pageNotFound_handling_statheader'];
 		}
+		$httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
 		return  empty($httpStatus)
-			? t3lib_utility_Http::HTTP_STATUS_404 : $httpStatus;
+			? $httpUtility::HTTP_STATUS_404 : $httpStatus;
 	}
 
 	/**
@@ -360,7 +374,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 *  @return string $countrycode
 	 */
 	private function getCurrentLanguage() {
-		if (t3lib_extMgm::isLoaded('realurl') && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
+		if (tx_rnbase_util_Extensions::isLoaded('realurl') && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
 			$realurlConf = array_shift($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']);
 			if ($realurlConf &&
 				is_array($realurlConf['preVars']) &&
@@ -373,7 +387,7 @@ class tx_mktools_util_PageNotFoundHandling
 							// we expect a part like "/de/" in requested url
 							if(
 								strpos(
-									t3lib_div::getIndpEnv('TYPO3_REQUEST_URL'),
+									tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'),
 									'/' . $countrycode . '/'
 								) !== FALSE
 							) {
@@ -398,14 +412,14 @@ class tx_mktools_util_PageNotFoundHandling
 				intval(ERROR_CODE_MKTOOLS  . '130')
 			);
 		}
-		require_once t3lib_extMgm::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
+		require_once tx_rnbase_util_Extensions::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
 		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
 				'className' => 'ux_tslib_fe',
 			);
 		} else {
 			$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_fe.php']
-				= t3lib_extMgm::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
+				= tx_rnbase_util_Extensions::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
 		}
 	}
 

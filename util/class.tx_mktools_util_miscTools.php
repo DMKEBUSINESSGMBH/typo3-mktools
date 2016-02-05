@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 
 /**
  * Miscellaneous common methods
@@ -92,7 +92,7 @@ class tx_mktools_util_miscTools {
 	 * @return array
 	 */
 	public static function getTcaPostProcessingExtensions() {
-		return t3lib_div::trimExplode(
+		return tx_rnbase_util_Strings::trimExplode(
 			',', self::getExtensionCfgValue('tcaPostProcessingExtensions'), TRUE
 		);
 	}
@@ -112,17 +112,18 @@ class tx_mktools_util_miscTools {
 	public static function getConfigurations($staticPath, $additionalPath=''){
 		tx_rnbase::load('tx_mklib_util_TS');
 
-		t3lib_extMgm::addPageTSConfig(
+		tx_rnbase_util_Extensions::addPageTSConfig(
 			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
 		);
 		if (!empty($additionalPath)) {
-			t3lib_extMgm::addPageTSConfig(
+			tx_rnbase_util_Extensions::addPageTSConfig(
 				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
 			);
 		}
 
 		$pageTSconfig = tx_mklib_util_TS::getPagesTSconfig(0);
-		$config = t3lib_div::array_merge_recursive_overrule(
+		tx_rnbase::load('tx_rnbase_util_Arrays');
+		$config = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 			(array) $pageTSconfig['config.']['tx_mktools.'],
 			(array) $pageTSconfig['plugin.']['tx_mktools.']
 		);
@@ -166,7 +167,7 @@ class tx_mktools_util_miscTools {
 	 * @return string
 	 */
 	private static function getAbsoluteFileName($filename) {
-		return t3lib_div::getFileAbsFileName($filename);
+		return tx_rnbase_util_Files::getFileAbsFileName($filename);
 	}
 }
 

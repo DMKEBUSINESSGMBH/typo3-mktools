@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('tx_mklib_tests_Util');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
@@ -84,7 +84,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			'',
 			'mktools'
 		);
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$this->assertEmpty(
 			$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing'],
@@ -105,7 +105,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			'ext1',
 			'mktools'
 		);
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$this->assertEquals(
 			array('EXT:mktools/hook/extTables/class.tx_mktools_hook_extTables_PostProcessing.php:tx_mktools_hook_extTables_PostProcessing'),
@@ -127,7 +127,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			'ext1',
 			'mktools'
 		);
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$this->assertEmpty(
 			$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing'],
@@ -142,7 +142,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			$this->markTestSkipped('geht nur in TYPO3 6.2');
 		}
-		if (!t3lib_extMgm::isLoaded('cal')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('cal')) {
 			$this->markTestSkipped('cal Extension muss geladen sein');
 		}
 
@@ -156,7 +156,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			1,
 			'mktools'
 		);
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$bootstrap = \TYPO3\CMS\Core\Core\Bootstrap::getInstance();
 
@@ -175,7 +175,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			$this->markTestSkipped('geht nur in TYPO3 6.2');
 		}
-		if (!t3lib_extMgm::isLoaded('cal')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('cal')) {
 			$this->markTestSkipped('cal Extension muss geladen sein');
 		}
 
@@ -190,7 +190,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			0,
 			'mktools'
 		);
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$bootstrap = \TYPO3\CMS\Core\Core\Bootstrap::getInstance();
 
@@ -209,7 +209,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			$this->markTestSkipped('geht nur in TYPO3 6.2');
 		}
-		if (!t3lib_extMgm::isLoaded('tt_news')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('tt_news')) {
 			$this->markTestSkipped('tt_news Extension muss geladen sein');
 		}
 
@@ -223,7 +223,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			1,
 			'mktools'
 		);
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$bootstrap = \TYPO3\CMS\Core\Core\Bootstrap::getInstance();
 
@@ -246,7 +246,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			$this->markTestSkipped('geht nur in TYPO3 6.2');
 		}
-		if (!t3lib_extMgm::isLoaded('tt_news')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('tt_news')) {
 			$this->markTestSkipped('tt_news Extension muss geladen sein');
 		}
 
@@ -261,7 +261,7 @@ class tx_mktools_tests_hook_extTables_PostProcessing_testcase
 			0,
 			'mktools'
 		);
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$bootstrap = \TYPO3\CMS\Core\Core\Bootstrap::getInstance();
 

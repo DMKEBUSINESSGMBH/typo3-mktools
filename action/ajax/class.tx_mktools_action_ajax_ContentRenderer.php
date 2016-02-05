@@ -28,7 +28,7 @@
 /**
  * Includes
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_mktools_util_T3Loader');
 
 /**
@@ -49,12 +49,12 @@ class tx_mktools_action_ajax_ContentRenderer {
 	 */
 	public function renderContent()	{
 		// content id auslesen
-		$contentId = (int) t3lib_div::_GP('contentid');
+		$contentId = (int) tx_rnbase_parameters::_GP('contentid');
 		if (empty($contentId)) {
 			$this->sendError(500, 'Missing required parameters.');
 		}
 
-		$ttContent = tx_mktools_util_T3Loader::getSysPage()->checkRecord(
+		$ttContent = tx_rnbase_util_TYPO3::getSysPage()->checkRecord(
 			'tt_content', $contentId
 		);
 		$cObj = tx_mktools_util_T3Loader::getContentObject($contentId);

@@ -21,14 +21,14 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+tx_rnbase::load('Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController');
 
 /**
  *
  * @package TYPO3
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class ux_tslib_fe extends tslib_fe {
+class ux_tslib_fe extends Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController {
 
 	/**
 	 * Page-not-found handler for use in frontend plugins from extensions.
@@ -40,7 +40,7 @@ class ux_tslib_fe extends tslib_fe {
 	public function pageNotFoundAndExit($reason='', $header='') {
 		// wir prüfen erstmal dne pageNotFound_handling wert auf mktools konfiguration
 		$code = $this->TYPO3_CONF_VARS['FE']['pageNotFound_handling'];
-		if (t3lib_div::isFirstPartOfStr($code, 'MKTOOLS_')) {
+		if (tx_rnbase_util_Strings::isFirstPartOfStr($code, 'MKTOOLS_')) {
 			tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 			tx_mktools_util_PageNotFoundHandling::getInstance($this, $reason, $header)
 				->handlePageNotFound($code);

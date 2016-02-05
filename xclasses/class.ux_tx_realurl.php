@@ -21,8 +21,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
-require_once t3lib_extMgm::extPath('realurl', 'class.tx_realurl.php');
+
+require_once tx_rnbase_util_Extensions::extPath('realurl', 'class.tx_realurl.php');
 
 /**
  * XCLASS to extend realurl
@@ -125,7 +125,7 @@ class ux_tx_realurl extends tx_realurl {
 					? $paramValue['language']['ids']
 					: $paramValue['language'];
 				// is current language in the set config? remove if not!
-				if (!t3lib_div::inList($allowedLanguages, $language)) {
+				if (!tx_rnbase_util_Strings::inList($allowedLanguages, $language)) {
 					unset($postVarSet[$paramKey][$paramSubKey]);
 				}
 				// remove the language config key

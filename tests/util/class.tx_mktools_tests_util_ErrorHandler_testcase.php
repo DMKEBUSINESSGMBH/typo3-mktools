@@ -21,11 +21,11 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('Tx_Phpunit_TestCase');
 tx_rnbase::load('tx_mktools_util_ErrorHandler');
 tx_rnbase::load('tx_mktools_util_ExceptionHandler');
-tx_rnbase::load('t3lib_error_Exception');
+tx_rnbase::load('Tx_Rnbase_Error_Exception');
 
 /**
  * @package TYPO3
@@ -91,7 +91,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase {
 		}
 
 		$expectedErrorMessage = 'PHP Fatal Error: my error in ' . basename('123.php') . ' line 123';
-		$expectedException = new t3lib_error_Exception($expectedErrorMessage);
+		$expectedException = new Tx_Rnbase_Error_Exception($expectedErrorMessage);
 		$exceptionHandler = $this->getMock(
 			'tx_mktools_util_ExceptionHandler', array('handleException')
 		);
@@ -153,7 +153,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase {
 
 		$exception = $method->invoke($handler, $message);
 		$this->assertInstanceOf(
-			't3lib_error_Exception',
+			'Tx_Rnbase_Error_Exception',
 			$exception, 'Exception nicht vom Typ '
 		);
 		$this->assertEquals($message, $exception->getMessage(), 'Exception Nachricht falsch');
@@ -169,7 +169,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase {
 			array(1)
 		);
 
-		$exception = new t3lib_error_Exception('test');
+		$exception = new Tx_Rnbase_Error_Exception('test');
 		$errorHandler->expects($this->once())
 			->method('handleErrorByParent')
 			->with(1,2,3,4)
@@ -202,7 +202,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase {
 			array(1)
 		);
 
-		$exception = new t3lib_error_Exception('test');
+		$exception = new Tx_Rnbase_Error_Exception('test');
 		$errorHandler->expects($this->once())
 			->method('handleErrorByParent')
 			->with(1,2,3,4)
@@ -234,7 +234,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase {
 			array(1)
 		);
 
-		$exception = new t3lib_error_Exception('test');
+		$exception = new Tx_Rnbase_Error_Exception('test');
 		$errorHandler->expects($this->once())
 			->method('handleErrorByParent')
 			->with(1,2,3,4)

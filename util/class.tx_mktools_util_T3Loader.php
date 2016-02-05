@@ -34,51 +34,32 @@
  */
 class tx_mktools_util_T3Loader {
 
-
-	/**
-	 * Control set fe session cookie (shold be FALSE in unittests)
-	 *
-	 * @var boolean
-	 */
-	public static $bUseCookies = TRUE;
-
 	/**
 	 *
-	 * @var array[tslib_cObj]
+	 * @var array[TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer]
 	 */
 	private static $cObj = array();
 
 	/**
 	 *
 	 * @param int $contentId
-	 * @return tslib_cObj
+	 * @return TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj
 	 */
 	public static function getContentObject($contentId = 0) {
-		if (!self::$cObj[$contentId] instanceof tslib_cObj) {
-			self::$cObj[$contentId] = t3lib_div::makeInstance('tslib_cObj');
+		$contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
+		if (!self::$cObj[$contentId] instanceof $contentObjectRendererClass) {
+			self::$cObj[$contentId] = tx_rnbase::makeInstance($contentObjectRendererClass);
 		}
 
 		return self::$cObj[$contentId];
 	}
 
 	/**
-	 * @return t3lib_pageSelect
+	 * @return \TYPO3\CMS\Frontend\Page\PageRepository or t3lib_pageSelect
+	 * @deprecated use tx_rnbase_util_TYPO3::getSysPage() instead. will be removed soon.
 	 */
 	public static function getSysPage() {
-		/* @var $TSFE tslib_fe */
-		global $TSFE;
-
-		static $syspage = NULL;
-
-		if (!$syspage) {
-			if ($TSFE instanceof tslib_fe
-					&& $TSFE->sys_page instanceof t3lib_pageSelect) {
-				$syspage = $TSFE->sys_page;
-			}
-			$syspage = t3lib_div::makeInstance('t3lib_pageSelect');
-		}
-
-		return $syspage;
+		return tx_rnbase_util_TYPO3::getSysPage();
 	}
 
 }

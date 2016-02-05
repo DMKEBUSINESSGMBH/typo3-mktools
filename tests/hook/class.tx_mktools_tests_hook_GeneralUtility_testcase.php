@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mklib_tests_Util');
 tx_rnbase::load('tx_mktools_hook_GeneralUtility');
@@ -81,7 +81,7 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 	public function testHookIsNotRegisteredIfNoSystemLogLockThresholdIsConfigured() {
 		tx_mklib_tests_Util::setExtConfVar('systemLogLockThreshold', 0, 'mktools');
 
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$hookFound = FALSE;
 		foreach ((array)$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
@@ -105,7 +105,7 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
 	public function testHookIsRegisteredIfSystemLogLockThresholdIsConfigured() {
 		tx_mklib_tests_Util::setExtConfVar('systemLogLockThreshold', 123, 'mktools');
 
-		require t3lib_extMgm::extPath('mktools', 'ext_localconf.php');
+		require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
 		$hookFound = FALSE;
 		foreach ((array)$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {

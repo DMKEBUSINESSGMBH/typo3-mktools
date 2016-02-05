@@ -42,7 +42,7 @@ class tx_mktools_hook_ContentReplace {
 
 	/**
 	 * Just a wrapper for the main function! It's used for the pageIndexing hook.
-	 * @param tslib_fe $obj
+	 * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
 	 * @return void The content is passed by reference
 	 */
 	public function hook_indexContent(&$obj) {
@@ -57,7 +57,7 @@ class tx_mktools_hook_ContentReplace {
 	 * static file cache like nc_staticfilecache.
 	 *
 	 * @param array $params
-	 * @param tslib_fe $obj
+	 * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
 	 * @return void The content is passed by reference
 	 */
 	public function contentPostProcOutput($params, &$obj) {
@@ -74,7 +74,7 @@ class tx_mktools_hook_ContentReplace {
 	 * always if the page wasn't cached or for the first hit!
 	 *
 	 * @param array $params
-	 * @param tslib_fe $obj
+	 * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
 	 * @return void The content is passed by reference
 	 */
 	public function contentPostProcAll($params, &$obj) {
@@ -105,7 +105,7 @@ class tx_mktools_hook_ContentReplace {
 	 * @TODO: use preg_replace instead of str_replace
 	 * @TODO: write tests
 	 *
-	 * @param tslib_fe $obj
+	 * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
 	 * @return void The content is passed by reference
 	 */
 	protected function doReplace(&$obj){

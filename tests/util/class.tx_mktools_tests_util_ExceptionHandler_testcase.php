@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('Tx_Phpunit_TestCase');
 tx_rnbase::load('tx_mktools_util_ExceptionHandler');
 tx_rnbase::load('tx_mklib_tests_Util');
@@ -36,12 +36,12 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	 * @var string
 	 */
 	private $defaultPageTsConfig;
-	
+
 	/**
 	 * @var string
 	 */
 	private $lockFile;
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::setUp()
@@ -49,171 +49,171 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	protected function setUp() {
 		tx_mklib_tests_Util::disableDevlog();
 		tx_mklib_tests_Util::storeExtConf('mktools');
-		
+
 		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
-		
+
 		$this->lockFile = PATH_site.'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt';
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::tearDown()
 	 */
 	protected function tearDown() {
 		tx_mklib_tests_Util::restoreExtConf('mktools');
-		
+
 		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
-		
+
 		@unlink(PATH_site.'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt');
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testEchoExceptionWebCallsSendStatusHeaderWithCorrectException() {
 		//damit der redirect nicht ausgeführt wird
 		tx_mklib_tests_Util::setExtConfVar('exceptionPage', '', 'mktools');
-		
+
 		$exceptionHandler = $this->getExceptionHandlerMock();
-		
+
 		$exception = new Exception('test exception');
 		$exceptionHandler->expects($this->once())
 			->method('sendStatusHeaders')
 			->with($exception);
-		
+
 		$exceptionHandler->echoExceptionWeb($exception);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testEchoExceptionWebCallsWriteLogEntriesCorrect() {
 		//damit der redirect nicht ausgeführt wird
 		tx_mklib_tests_Util::setExtConfVar('exceptionPage', '', 'mktools');
-		
+
 		$exceptionHandler = $this->getExceptionHandlerMock();
-		
+
 		$exception = new Exception('test exception');
 		$exceptionHandler->expects($this->once())
 			->method('writeLogEntries')
 			->with($exception, 'WEB');
-		
+
 		$exceptionHandler->echoExceptionWeb($exception);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testEchoExceptionWebCallsLogNoExceptionPageDefinedIfNoDefined() {
 		tx_mklib_tests_Util::setExtConfVar('exceptionPage', 'FILE:', 'mktools');
-		
+
 		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
-		
+
 		$exceptionHandler->expects($this->once())
 			->method('logNoExceptionPageDefined');
-			
+
 		$exceptionHandler->expects($this->never())
 			->method('echoExceptionPageAndExit');
-		
+
 		$exception = new Exception('test exception');
 		$exceptionHandler->echoExceptionWeb($exception);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testEchoExceptionWebCallsLogNoExceptionPageDefinedNotIfExceptionPageDefined() {
 		tx_mklib_tests_Util::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
-		
+
 		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
-		
+
 		$exceptionHandler->expects($this->never())
 			->method('logNoExceptionPageDefined');
-			
+
 		$exceptionHandler->expects($this->once())
 			->method('echoExceptionPageAndExit');
-		
+
 		$exception = new Exception('test exception');
 		$exceptionHandler->echoExceptionWeb($exception);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenFileIsDefinedAsExceptionPage() {
 		tx_mklib_tests_Util::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
-		
+
 		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
-		
+
 		$exceptionHandler->expects($this->once())
 			->method('echoExceptionPageAndExit')
-			->with(t3lib_div::locationHeaderUrl('index.php'));
-		
+			->with(tx_rnbase_util_Network::locationHeaderUrl('index.php'));
+
 		$exception = new Exception('test exception');
 		$exceptionHandler->echoExceptionWeb($exception);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenTypoScriptIsDefinedAsExceptionPage() {
 		tx_mklib_tests_Util::setExtConfVar(
-			'exceptionPage', 
-			'TYPOSCRIPT:typo3conf/ext/mktools/tests/fixtures/typoscript/errorHandling.txt', 
+			'exceptionPage',
+			'TYPOSCRIPT:typo3conf/ext/mktools/tests/fixtures/typoscript/errorHandling.txt',
 			'mktools'
 		);
-		
+
 		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
-		
+
 		$exceptionHandler->expects($this->once())
 			->method('echoExceptionPageAndExit')
-			->with(t3lib_div::locationHeaderUrl('index.php'));
-		
+			->with(tx_rnbase_util_Network::locationHeaderUrl('index.php'));
+
 		$exception = new Exception('test exception');
 		$exceptionHandler->echoExceptionWeb($exception);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testWriteLogEntriesCallsParentIfExceptionIsNoMktoolsErrorExceptionAndLockCouldBeAcquired() {
 		$exceptionHandler = $this->getMock(
-			'tx_mktools_util_ExceptionHandler', 
+			'tx_mktools_util_ExceptionHandler',
 			array('writeLogEntriesByParent', 'lockAcquired')
 		);
-		
+
 		$exceptionHandler->expects($this->once())
 			->method('lockAcquired')
 			->will($this->returnValue(TRUE));
-		
+
 		$exception = new Exception('test');
 		$context = 'egal';
 		$exceptionHandler->expects($this->once())
 			->method('writeLogEntriesByParent')
 			->with($exception, $context);
-		
+
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
 		);
 		$method->setAccessible(TRUE);
 		$method->invoke($exceptionHandler, $exception, $context);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testWriteLogEntriesCallsParentNotIfExceptionIsMktoolsErrorException() {
 		$exceptionHandler = $this->getMock(
-			'tx_mktools_util_ExceptionHandler', 
+			'tx_mktools_util_ExceptionHandler',
 			array('writeLogEntriesByParent', 'lockAcquired')
 		);
-		
+
 		$exceptionHandler->expects($this->never())
 			->method('lockAcquired');
-		
+
 		$exceptionHandler->expects($this->never())
 			->method('writeLogEntriesByParent');
-			
+
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
 		);
@@ -224,7 +224,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$context = 'egal';
 		$method->invoke($exceptionHandler, $exception, $context);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -233,14 +233,14 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 			'tx_mktools_util_ExceptionHandler',
 			array('writeLogEntriesByParent', 'lockAcquired')
 		);
-	
+
 		$exceptionHandler->expects($this->once())
 			->method('lockAcquired')
 			->will($this->returnValue(FALSE));
-	
+
 		$exceptionHandler->expects($this->never())
 			->method('writeLogEntriesByParent');
-			
+
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'writeLogEntries'
 		);
@@ -249,7 +249,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$context = 'egal';
 		$method->invoke($exceptionHandler, $exception, $context);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -257,9 +257,9 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$this->assertFileNotExists(
 			$this->lockFile, 'lock file schon da'
 		);
-		
+
 		$exceptionHandler = tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
-	
+
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'getLockFileByExceptionAndContext'
 		);
@@ -267,33 +267,33 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$exception = new Exception('test');
 		$context = 'egal';
 		$method->invoke($exceptionHandler, $exception, $context);
-		
+
 		$this->assertFileExists(
 			$this->lockFile, 'lock file nicht angelegt'
 		);
-		
+
 		$this->assertEmpty(file_get_contents(
 				$this->lockFile
-			), 
+			),
 			'lock file nicht leer'
 		);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testLockAcquiredReturnsFalseIfLockFileWasCreatedLessThanAMinuteAgo() {
 		file_put_contents($this->lockFile, time());
-		
+
 		$exceptionHandler = $this->getMock(
 			'tx_mktools_util_ExceptionHandler',
 			array('getLockFileByExceptionAndContext')
 		);
-	
+
 		$exceptionHandler->expects($this->once())
 			->method('getLockFileByExceptionAndContext')
 			->will($this->returnValue($this->lockFile));
-		
+
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'lockAcquired'
 		);
@@ -301,27 +301,27 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$exception = new Exception('test');
 		$context = 'egal';
 		$lockAcquired = $method->invoke($exceptionHandler, $exception, $context);
-	
+
 		$this->assertFalse(
 			$lockAcquired, 'lock doch bekommen'
 		);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
 	public function testLockAcquiredReturnsTrueIfLockFileWasCreatedMoreThanAMinuteAgo() {
 		file_put_contents($this->lockFile, time() - 61);
-	
+
 		$exceptionHandler = $this->getMock(
 			'tx_mktools_util_ExceptionHandler',
 			array('getLockFileByExceptionAndContext')
 		);
-	
+
 		$exceptionHandler->expects($this->once())
 			->method('getLockFileByExceptionAndContext')
 			->will($this->returnValue($this->lockFile));
-	
+
 		$method = new ReflectionMethod(
 			'tx_mktools_util_ExceptionHandler', 'lockAcquired'
 		);
@@ -329,30 +329,30 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$exception = new Exception('test');
 		$context = 'egal';
 		$lockAcquired = $method->invoke($exceptionHandler, $exception, $context);
-	
+
 		$this->assertTrue(
 			$lockAcquired, 'lock doch bekommen'
 		);
 	}
-	
+
 	/**
 	 * @param unknown_type $methods
-	 * 
+	 *
 	 * @return tx_mktools_util_ExceptionHandler
 	 */
 	private function getExceptionHandlerMock($methods = array()) {
 		$exceptionHandler = $this->getMock(
-			'tx_mktools_util_ExceptionHandler', 
+			'tx_mktools_util_ExceptionHandler',
 			array_merge(
 				$methods,
 				array('shouldExceptionBeDebugged', 'writeLogEntries', 'sendStatusHeaders', 'echoExceptionPageAndExit')
 			)
 		);
-		
+
 		$exceptionHandler->expects($this->once())
 			->method('shouldExceptionBeDebugged')
 			->will($this->returnValue(FALSE));
-			
+
 		return $exceptionHandler;
 	}
 }

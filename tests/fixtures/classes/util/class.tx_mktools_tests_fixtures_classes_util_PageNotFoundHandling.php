@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 /**
  * Erweitert die util klasse mit test methoden
@@ -40,10 +40,10 @@ class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling
 
 	/**
 	 *
-	 * @param tslib_fe $tsfe
+	 * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
 	 * @return tx_mktools_util_PageNotFoundHandling
 	 */
-	public static function getInstance(tslib_fe $tsfe, $reason = '')
+	public static function getInstance($tsfe, $reason = '')
 	{
 		return new self($tsfe, $reason);
 	}

@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mktools_util_RealUrl');
 tx_rnbase::load('Tx_Rnbase_Database_Connection');
@@ -44,19 +44,19 @@ class tx_mktools_tests_util_RealUrl_testcase
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
 	protected function setUp() {
-		if (!t3lib_extMgm::isLoaded('realurl')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
 			$this->markTestSkipped('realurl ist nicht installiert');
 		}
 
 		tx_mklib_tests_Util::storeExtConf('mktools');
 
-		$this->realUrlConfigurationFile = t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfig.php';
+		$this->realUrlConfigurationFile = tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfig.php';
 		tx_mklib_tests_Util::setExtConfVar(
 			'realUrlConfigurationFile', $this->realUrlConfigurationFile, 'mktools'
 		);
 		tx_mklib_tests_Util::setExtConfVar(
 			'realUrlConfigurationTemplate',
-			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+			tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
 			'mktools'
 		);
 
@@ -76,20 +76,19 @@ class tx_mktools_tests_util_RealUrl_testcase
 	 * @return ux_tx_realurl
 	 */
 	protected function getRealUrlInstance() {
-		if (!t3lib_extMgm::isLoaded('realurl')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
 			$this->markTestSkipped(
 				'There is another allready registred xclass!'
 			);
 		}
-		t3lib_div::requireOnce(t3lib_extMgm::extPath('realurl', 'class.tx_realurl.php'));
-		return t3lib_div::makeInstance('tx_realurl');
+		return tx_rnbase::makeInstance('tx_realurl');
 	}
 
 	/**
 	 * @group unit
 	 */
 	public function testRegisterXclass() {
-		if (!t3lib_extMgm::isLoaded('realurl')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
 			$this->markTestSkipped(
 				'There is another allready registred xclass!'
 			);
@@ -561,7 +560,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 		);
 
 		$this->assertEquals(
-			file_get_contents(t3lib_extMgm::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig3.php'),
+			file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig3.php'),
 			file_get_contents($this->realUrlConfigurationFile),
 			'Datei falsch generiert'
 		);
@@ -573,7 +572,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 	public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesNoFileIfPagesGivenButNoTemplate() {
 		tx_mklib_tests_Util::setExtConfVar(
 			'realUrlConfigurationTemplate',
-			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/empty',
+			tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/empty',
 			'mktools'
 		);
 		$pages = array(
@@ -643,7 +642,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 		);
 
 		$this->assertEquals(
-			file_get_contents(t3lib_extMgm::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig.php'),
+			file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig.php'),
 			file_get_contents($this->realUrlConfigurationFile),
 			'Datei falsch generiert'
 		);
@@ -655,7 +654,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 	public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfMarkerExistsSeveralTimes() {
 		tx_mklib_tests_Util::setExtConfVar(
 			'realUrlConfigurationTemplate',
-			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate2.php',
+			tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate2.php',
 			'mktools'
 		);
 
@@ -676,7 +675,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 		);
 
 		$this->assertEquals(
-			file_get_contents(t3lib_extMgm::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig2.php'),
+			file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig2.php'),
 			file_get_contents($this->realUrlConfigurationFile),
 			'Datei falsch generiert'
 		);
@@ -758,7 +757,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 	public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfTypoConfVarsVariableIsUsed() {
 		tx_mklib_tests_Util::setExtConfVar(
 			'realUrlConfigurationTemplate',
-			t3lib_extMgm::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate3.php',
+			tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate3.php',
 			'mktools'
 		);
 
@@ -779,7 +778,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 		);
 
 		$this->assertEquals(
-			file_get_contents(t3lib_extMgm::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig2.php'),
+			file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig2.php'),
 			file_get_contents($this->realUrlConfigurationFile),
 			'Datei falsch generiert'
 		);

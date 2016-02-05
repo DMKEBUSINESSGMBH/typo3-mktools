@@ -23,6 +23,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
+define('MKTOOLS_TESTRUN', TRUE);
 
 /**
  * Tx_Mktools_FindUnusedLocallangLabels_testcase

@@ -5,7 +5,7 @@ if(!tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
 	return;
 }
 
-t3lib_div::loadTCA('tt_news');
+tx_rnbase_util_TCA::loadTCA('tt_news');
 tx_rnbase::load('tx_rnbase_util_TSFAL');
 $fields = array(
 	'tx_mktools_fal_images' => tx_rnbase_util_TSFAL::getMediaTCA(
@@ -24,7 +24,7 @@ $fields = array(
 		)
 	),
 );
-t3lib_extMgm::addTCAcolumns('tt_news', $fields, 1);
-t3lib_extMgm::addToAllTCAtypes(
+tx_rnbase_util_Extensions::addTCAcolumns('tt_news', $fields, 1);
+tx_rnbase_util_Extensions::addToAllTCAtypes(
 	'tt_news', 'tx_mktools_fal_images,tx_mktools_fal_media', '', 'after:image'
 );

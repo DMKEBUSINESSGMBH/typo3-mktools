@@ -21,12 +21,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
+
+tx_rnbase::load('Tx_Rnbase_Error_ProductionExceptionHandler');
 
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHandler {
+class tx_mktools_util_ExceptionHandler extends Tx_Rnbase_Error_ProductionExceptionHandler {
 
 	/**
 	 * @var tx_rnbase_configurations
@@ -40,7 +41,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 
 	/**
 	 * (non-PHPdoc)
-	 * @see t3lib_error_AbstractExceptionHandler::writeLogEntries()
+	 * @see Tx_Rnbase_Error_ProductionExceptionHandler::writeLogEntries()
 	 */
 	protected function writeLogEntries(Exception $exception, $context) {
 		//tx_mktools_util_ErrorException wird nur von
@@ -57,7 +58,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 * damit wir mocken können
 	 *
 	 * (non-PHPdoc)
-	 * @see t3lib_error_AbstractExceptionHandler::writeLogEntries()
+	 * @see Tx_Rnbase_Error_ProductionExceptionHandler::writeLogEntries()
 	 */
 	protected function writeLogEntriesByParent(Exception $exception, $context) {
 		//warnungen beim Logging interessieren uns nicht. Ohne @ führt dies dazu dass
@@ -74,7 +75,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 	 */
 	protected function lockAcquired(Exception $exception, $context) {
 		if (!is_dir(PATH_site.'typo3temp/mktools/locks/')) {
-			t3lib_div::mkdir_deep(PATH_site . 'typo3temp/', 'mktools/locks');
+			tx_rnbase_util_Files::mkdir_deep(PATH_site . 'typo3temp/', 'mktools/locks');
 		}
 
 		$lockFile = $this->getLockFileByExceptionAndContext($exception, $context);
@@ -103,7 +104,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 
 		$lockFilePath = PATH_site . 'typo3temp/mktools/locks/';
 		if (!is_dir($lockFilePath)) {
-			t3lib_div::mkdir_deep($lockFilePath);
+			tx_rnbase_util_Files::mkdir_deep($lockFilePath);
 		}
 
 		$lockFile = $lockFilePath . $lockFileName . '.txt';
@@ -140,7 +141,7 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 
 		if(
 			(!$exceptionPage = $this->getExceptionPage()) ||
-			(!$absoluteExceptionPageUrl = t3lib_div::locationHeaderUrl($exceptionPage))
+			(!$absoluteExceptionPageUrl = tx_rnbase_util_Network::locationHeaderUrl($exceptionPage))
 		) {
 			$this->logNoExceptionPageDefined();
 			return;
@@ -236,17 +237,14 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 		// wenn wir schon auf der Fehlerseite sind, dann holen wir nicht nochmal
 		// die Fehlerseite falls auf dieser der Fehler auch auftritt. Sonst laufen
 		// wir in einen infinite loop
-		if(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
-			echo t3lib_div::getURL($absoluteExceptionPageUrl);
+		if(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
+			echo tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl);
 		}
 		exit(1);
 	}
 
 	/**
 	 * Methode ist in TYPO3 4.5.x noch nicht vorhanden. Daher selbst eingefügt.
-	 *
-	 * Sends the HTTP Status 500 code, if $exception is *not* a t3lib_error_http_StatusException
-	 * and headers are not sent, yet.
 	 *
 	 * @param Exception $exception
 	 * @return void
@@ -259,7 +257,8 @@ class tx_mktools_util_ExceptionHandler extends t3lib_error_ProductionExceptionHa
 			if (method_exists($exception, 'getStatusHeaders')) {
 				$headers = $exception->getStatusHeaders();
 			} else {
-				$headers = array(t3lib_utility_Http::HTTP_STATUS_500);
+				$httpUtilityClass = tx_rnbase_util_Typo3Classes::getHttpUtilityClass();
+				$headers = array($httpUtilityClass::HTTP_STATUS_500);
 			}
 			if (!headers_sent()) {
 				foreach($headers as $header) {

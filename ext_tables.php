@@ -1,7 +1,7 @@
 <?php
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
-require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
+
 tx_rnbase::load('tx_mktools_util_miscTools');
 
 ////////////////////////////////
@@ -13,21 +13,21 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_mktools']='layou
 // Das tt_content-Feld pi_flexform einblenden
 $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mktools']='pi_flexform';
 
-t3lib_extMgm::addPiFlexFormValue('tx_mktools','FILE:EXT:'.$_EXTKEY.'/flexform_main.xml');
-t3lib_extMgm::addPlugin(Array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label','tx_mktools'));
+tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mktools','FILE:EXT:'.$_EXTKEY.'/flexform_main.xml');
+tx_rnbase_util_Extensions::addPlugin(Array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label','tx_mktools'));
 
-t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/action/', 'MK Tools - Show Template');
-t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/onsiteseo/', 'MK Tools - Onsite Seo');
-t3lib_extMgm::addStaticFile($_EXTKEY,'Configuration/TypoScript/tsbasic/', 'MK Tools - Basis TypoScript');
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentrenderer', 'MK Tools - Ajax Content Renderer');
+tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'Configuration/TypoScript/action/', 'MK Tools - Show Template');
+tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'Configuration/TypoScript/onsiteseo/', 'MK Tools - Onsite Seo');
+tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'Configuration/TypoScript/tsbasic/', 'MK Tools - Basis TypoScript');
+tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentrenderer', 'MK Tools - Ajax Content Renderer');
 
 // default TS für den content replacer
 if(tx_mktools_util_miscTools::isContentReplacerActive()) {
-	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentreplacer', 'MK Tools - Content Replacer');
+	tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentreplacer', 'MK Tools - Content Replacer');
 }
 
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentmodal', 'MK Tools - Ajax Modal Renderer');
+tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentmodal', 'MK Tools - Ajax Modal Renderer');
 
 // Robots-Meta Tag
 if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
@@ -35,8 +35,8 @@ if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
 	tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
 
 	// default TS
-	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/seorobotsmetatag', 'MK Tools - SEO Robots Meta Tag');
-	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/PagesRobotsMetaTag.php');
+	tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/seorobotsmetatag', 'MK Tools - SEO Robots Meta Tag');
+	require(tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/PagesRobotsMetaTag.php');
 }
 
 // realurl optimierungen
@@ -55,19 +55,19 @@ if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
 			'tstamp' => 'tstamp',
 			'crdate' => 'crdate',
 			'cruser_id' => 'cruser_id',
-			'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/FixedPostVarTypes.php',
-			'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
+			'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/FixedPostVarTypes.php',
+			'iconfile' => tx_rnbase_util_Extensions::extRelPath($_EXTKEY).'ext_icon.gif',
 		),
 	);
-	require(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/PagesFixedPostVarType.php');
+	require(tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/PagesFixedPostVarType.php');
 }
 
 if(tx_mktools_util_miscTools::shouldFalImagesBeAddedToCalEvent()) {
 	// default TS
-	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/cal', 'MK Tools - FAL Images für Cal Event');
+	tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/cal', 'MK Tools - FAL Images für Cal Event');
 }
 
 if(tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
 	// default TS
-	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/tt_news', 'MK Tools - FAL Images für TT_News');
+	tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/tt_news', 'MK Tools - FAL Images für TT_News');
 }
