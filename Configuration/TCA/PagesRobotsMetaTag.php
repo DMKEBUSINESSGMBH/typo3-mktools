@@ -1,7 +1,7 @@
 <?php
 if (!defined ('TYPO3_MODE')) { die ('Access denied.'); }
 
-
+tx_rnbase::load('tx_rnbase_util_TCA');
 tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
 
 // pages erweitern
