@@ -353,8 +353,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 
 		// wir prüfen einfach nur ob scheinbar 2 mal die Debug Meldung
 		// von TYPO3 ausgegeben wird.
-		$regularExpression = 	'/.*function debug\(\).*Mehr.*infos.*' .
-								'function debug\(\).*specialexception.*/s';
+		$regularExpression = 	'/.*Mehr.*infos.*specialexception.*/s';
 		$this->expectOutputRegex($regularExpression);
 
 		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'), TRUE);
