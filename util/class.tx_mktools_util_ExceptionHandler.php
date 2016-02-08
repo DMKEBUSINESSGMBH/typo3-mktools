@@ -155,13 +155,10 @@ class tx_mktools_util_ExceptionHandler extends Tx_Rnbase_Error_ProductionExcepti
 	 * @return boolean
 	 */
 	protected function shouldExceptionBeDebugged() {
-		$isDevelopmentIp = tx_rnbase_util_Network::cmpIP(
+		return 	tx_rnbase_util_Network::cmpIP(
 			tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR'),
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']
 		);
-		// TYPO3_ERRORHANDLER_MODE wurde nur bis TYPO3 6.2 gesetzt
-		return 	(defined('TYPO3_ERRORHANDLER_MODE') && TYPO3_ERRORHANDLER_MODE == 'debug')
-				|| $isDevelopmentIp;
 	}
 
 	/**
