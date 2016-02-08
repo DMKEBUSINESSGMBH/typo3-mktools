@@ -25,12 +25,13 @@
 tx_rnbase::load('Tx_Phpunit_TestCase');
 tx_rnbase::load('tx_mktools_util_ExceptionHandler');
 tx_rnbase::load('tx_mklib_tests_Util');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * @package TYPO3
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCase{
+class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_BaseTestCase{
 
 	/**
 	 * @var string
@@ -43,6 +44,11 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	private $lockFile;
 
 	/**
+	 * @var string $devIpMaskBackup
+	 */
+	protected $devIpMaskBackup;
+
+	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
@@ -53,6 +59,8 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
 
 		$this->lockFile = PATH_site.'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt';
+
+		$this->devIpMaskBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'];
 	}
 
 	/**
@@ -65,6 +73,8 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 		$GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
 
 		@unlink(PATH_site.'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt');
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = $this->devIpMaskBackup;
 	}
 
 	/**
@@ -336,11 +346,57 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 	}
 
 	/**
-	 * @param unknown_type $methods
+	 * @group unit
+	 */
+	public function testEchoExceptionWebOutPutsDebug() {
+		tx_mklib_tests_Util::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
+
+		// wir prüfen einfach nur ob scheinbar 2 mal die Debug Meldung
+		// von TYPO3 ausgegeben wird.
+		$regularExpression = 	'/.*function debug\(\).*Mehr.*infos.*' .
+								'function debug\(\).*specialexception.*/s';
+		$this->expectOutputRegex($regularExpression);
+
+		$exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'), TRUE);
+
+		$exceptionHandler->expects($this->once())
+			->method('echoExceptionPageAndExit');
+
+		$exception = new Exception('test specialexception');
+		$exceptionHandler->echoExceptionWeb($exception);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testShouldExceptionBeDebuggedIfDevIpMaskMatches() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR');
+		self::assertTrue(
+			$this->callInaccessibleMethod(
+				tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler'), 'shouldExceptionBeDebugged'
+			)
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testShouldExceptionBeDebuggedIfDevIpMaskMatchesNot() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = 'invalid';
+		self::assertFalse(
+			$this->callInaccessibleMethod(
+				tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler'), 'shouldExceptionBeDebugged'
+			)
+		);
+	}
+
+	/**
+	 * @param array $methods
+	 * @param boolean $shouldExceptionBeDebugged
 	 *
 	 * @return tx_mktools_util_ExceptionHandler
 	 */
-	private function getExceptionHandlerMock($methods = array()) {
+	private function getExceptionHandlerMock($methods = array(), $shouldExceptionBeDebugged = FALSE) {
 		$exceptionHandler = $this->getMock(
 			'tx_mktools_util_ExceptionHandler',
 			array_merge(
@@ -351,7 +407,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends Tx_Phpunit_TestCas
 
 		$exceptionHandler->expects($this->once())
 			->method('shouldExceptionBeDebugged')
-			->will($this->returnValue(FALSE));
+			->will($this->returnValue($shouldExceptionBeDebugged));
 
 		return $exceptionHandler;
 	}

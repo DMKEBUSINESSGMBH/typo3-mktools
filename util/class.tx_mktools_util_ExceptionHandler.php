@@ -23,6 +23,7 @@
  ***************************************************************/
 
 tx_rnbase::load('Tx_Rnbase_Error_ProductionExceptionHandler');
+tx_rnbase::load('tx_rnbase_util_Network');
 
 /**
  * @author Hannes Bochmann
@@ -154,7 +155,13 @@ class tx_mktools_util_ExceptionHandler extends Tx_Rnbase_Error_ProductionExcepti
 	 * @return boolean
 	 */
 	protected function shouldExceptionBeDebugged() {
-		return (defined('TYPO3_ERRORHANDLER_MODE') && TYPO3_ERRORHANDLER_MODE == 'debug') || $this->debugMode;
+		$isDevelopmentIp = tx_rnbase_util_Network::cmpIP(
+			tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR'),
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']
+		);
+		// TYPO3_ERRORHANDLER_MODE wurde nur bis TYPO3 6.2 gesetzt
+		return 	(defined('TYPO3_ERRORHANDLER_MODE') && TYPO3_ERRORHANDLER_MODE == 'debug')
+				|| $isDevelopmentIp;
 	}
 
 	/**
@@ -238,7 +245,7 @@ class tx_mktools_util_ExceptionHandler extends Tx_Rnbase_Error_ProductionExcepti
 		// die Fehlerseite falls auf dieser der Fehler auch auftritt. Sonst laufen
 		// wir in einen infinite loop
 		if(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
-			echo tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl);
+			echo tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl,0,FALSE, $report);
 		}
 		exit(1);
 	}
