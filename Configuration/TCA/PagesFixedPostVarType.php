@@ -10,6 +10,7 @@ $fields = array(
 		'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartype',
 		'config' => array (
 			'type' => 'select',
+			'renderType' => 'selectSingle',
 			'items' => array (
 				array('LLL:EXT:mktools/locallang_db.xml:general.choose', '')
 			),

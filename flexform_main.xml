@@ -19,6 +19,7 @@
 							<label>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action</label>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="16" type="array">
 										<numIndex index="0">LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.ShowTemplate</numIndex>
@@ -34,7 +35,7 @@
 				</el>
 			</ROOT>
 		</sDEF>
-		
+
 		<s_registerApplicant>
 			<ROOT>
 				<TCEforms>
@@ -59,6 +60,7 @@
 											<title>Link</title>
 											<icon>link_popup.gif</icon>
 											<script>browse_links.php?mode=wizard&amp;act=file</script>
+											<module><name>wizard_link</name></module>
 											<params type="array">
 												<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
 												<allowedExtensions>html</allowedExtensions>
