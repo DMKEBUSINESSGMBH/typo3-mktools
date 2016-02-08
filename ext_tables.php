@@ -56,7 +56,7 @@ if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
 			'crdate' => 'crdate',
 			'cruser_id' => 'cruser_id',
 			'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/FixedPostVarTypes.php',
-			'iconfile' => tx_rnbase_util_Extensions::extRelPath($_EXTKEY).'ext_icon.gif',
+			'iconfile' => 'EXT:mktools/ext_icon.gif',
 		),
 	);
 	require(tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/PagesFixedPostVarType.php');
