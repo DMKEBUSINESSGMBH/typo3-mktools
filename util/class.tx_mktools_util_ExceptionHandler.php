@@ -155,10 +155,7 @@ class tx_mktools_util_ExceptionHandler extends Tx_Rnbase_Error_ProductionExcepti
 	 * @return boolean
 	 */
 	protected function shouldExceptionBeDebugged() {
-		return 	tx_rnbase_util_Network::cmpIP(
-			tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR'),
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']
-		);
+		return 	tx_rnbase_util_Network::isDevelopmentIp();
 	}
 
 	/**
