@@ -24,6 +24,7 @@
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+tx_rnbase::load('Tx_Rnbase_CommandLine_Controller');
 
 /**
  * Tx_Mktools_Cli_FindUnusedLocallangLabels
@@ -34,7 +35,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
  * @license 		http://www.gnu.org/licenses/lgpl.html
  * 					GNU Lesser General Public License, version 3 or later
  */
-class Tx_Mktools_Cli_FindUnusedLocallangLabels extends \TYPO3\CMS\Core\Controller\CommandLineController {
+class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Controller {
 
 	/**
 	 * @var array
