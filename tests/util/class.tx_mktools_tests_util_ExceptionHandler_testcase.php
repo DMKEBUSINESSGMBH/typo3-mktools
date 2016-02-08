@@ -49,6 +49,11 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 	protected $devIpMaskBackup;
 
 	/**
+	 * @var string $devIpMaskBackup
+	 */
+	protected $remoteAddressBackup;
+
+	/**
 	 * (non-PHPdoc)
 	 * @see PHPUnit_Framework_TestCase::setUp()
 	 */
@@ -61,6 +66,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 		$this->lockFile = PATH_site.'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt';
 
 		$this->devIpMaskBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'];
+		$this->remoteAddressBackup = $_SERVER['REMOTE_ADDR'];
 	}
 
 	/**
@@ -75,6 +81,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 		@unlink(PATH_site.'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt');
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = $this->devIpMaskBackup;
+		$_SERVER['REMOTE_ADDR'] = $this->remoteAddressBackup;
 	}
 
 	/**
@@ -369,6 +376,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 	 * @group unit
 	 */
 	public function testShouldExceptionBeDebuggedIfDevIpMaskMatches() {
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR');
 		self::assertTrue(
 			$this->callInaccessibleMethod(
@@ -381,6 +389,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 	 * @group unit
 	 */
 	public function testShouldExceptionBeDebuggedIfDevIpMaskMatchesNot() {
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = 'invalid';
 		self::assertFalse(
 			$this->callInaccessibleMethod(
