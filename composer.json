@@ -1,7 +1,7 @@
 {
 	"name" : "dmk/mktools",
 	"description" : "Collection of some small tools.",
-	"version" : "1.0.27",
+	"version" : "1.0.28",
 	"type" : "typo3-cms-extension",
 	"keywords" : ["TYPO3 CMS", "tools"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
@@ -21,7 +21,7 @@
 	},
 	"require" : {
 		"typo3/cms-core" : ">=4.5.0 <=7.6.99",
-		"digedag/rn-base" : ">=0.16.4"
+		"digedag/rn-base" : ">=1.0.0"
 	},
 	"autoload": {
 		"classmap": ["action/", "hook/", "model/", "scheduler/", "util/", "view/", "xclasses/", "Classes/"]
