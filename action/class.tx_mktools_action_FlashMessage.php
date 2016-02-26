@@ -23,7 +23,6 @@
  ***************************************************************/
 
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_rnbase_view_List');
 
 /**
  * ShowTemplate Controller
@@ -47,6 +46,9 @@ class tx_mktools_action_FlashMessage
 	 */
 	protected function handleRequest(&$parameters, &$configurations, &$viewdata)
 	{
+		tx_rnbase::load('tx_mktools_util_FlashMessage');
+		tx_rnbase::load('tx_rnbase_view_List');
+
 		// convert to user int. dont cache this output!
 		$this->getConfigurations()->convertToUserInt();
 
