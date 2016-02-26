@@ -185,12 +185,7 @@ class tx_mktools_util_FlashMessage
 	 */
 	public function getMessages()
 	{
-		return new ArrayObject(
-			array_merge(
-				$this->prevMessages->getArrayCopy(),
-				$this->nextMessages->getArrayCopy()
-			)
-		);
+		return $this->prevMessages;
 	}
 
 	/**
