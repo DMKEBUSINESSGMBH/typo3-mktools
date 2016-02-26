@@ -26,6 +26,14 @@ plugin.tx_mktools {
 			#index = EXT:myext/Documentation/index.md
 		}
 	}
+	flashmessagesTemplate = EXT:mktools/Resources/Private/Templates/FlashMessage.html
+	flashmessages {
+		template {
+			itempath = message
+			markerclass = tx_rnbase_util_SimpleMarker
+			subpart = ###FLASHMESSAGES###
+		}
+	}
 }
 
 ### pagetype for the docu

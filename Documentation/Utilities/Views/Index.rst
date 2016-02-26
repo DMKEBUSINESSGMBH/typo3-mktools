@@ -8,6 +8,35 @@
 Views
 =====
 
+
+FlashMessages
+-------------
+
+Mit den FlashMessages können Fehler, Bestätigungen, etc. erzeugt und beim nächsten Request ausgegeben werden.
+
+Beispielsweise beim Absenden eines Formulars,
+sollte anschließen ein Redirect durchgeführt werden,
+um Doppelte Posts durch neu laden der Seite zu verhindern.
+
+Um dann auf der Nächsten Seite eine Entsprechende Meldung auszugeben,
+muss diese vor dem Redirect in der Session abgelegt
+und beim Nächsten Request dort wieder ausgelesen werden.
+
+Dafür gibt es die FlasMessages in MKTOOLS.
+
+Beispiel für das hinzufügen einer Meldung für den Nächsten Request:
+
+.. code-block:: php
+    tx_mktools_util_FlashMessage::addSuccess(
+        'Ihre Daten wurden erfolgreich gespeichert.'
+    );
+
+
+Für die Ausgabe ist die FlashMessage-Action von MKTOOLS zuständig.
+Diese kann entweder direkt im Backend über ein Plugin auf der Seite abgelegt
+oder über eine lib direkt im Rahmentemplate immer mit abgefragt werden.
+
+
 Show Template
 -------------
 

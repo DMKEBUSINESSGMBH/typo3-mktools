@@ -25,6 +25,10 @@
 										<numIndex index="0">LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.ShowTemplate</numIndex>
 										<numIndex index="1">tx_mktools_action_ShowTemplate</numIndex>
 									</numIndex>
+									<numIndex index="100" type="array">
+										<numIndex index="0">LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.FlashMessage</numIndex>
+										<numIndex index="1">tx_mktools_action_FlashMessage</numIndex>
+									</numIndex>
 								</items>
 								<multiple>0</multiple>
 								<maxitems>10</maxitems>
