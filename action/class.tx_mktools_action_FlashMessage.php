@@ -37,7 +37,7 @@ class tx_mktools_action_FlashMessage
 {
 
 	/**
-	 * do the Magic
+	 * Do the Magic
 	 *
 	 * @param tx_rnbase_IParameters $parameters
 	 * @param tx_rnbase_configurations $configurations
@@ -47,6 +47,9 @@ class tx_mktools_action_FlashMessage
 	 */
 	protected function handleRequest(&$parameters, &$configurations, &$viewdata)
 	{
+		// convert to user int. dont cache this output!
+		$this->getConfigurations()->convertToUserInt();
+
 		$this->getViewData()->offsetSet(
 			tx_rnbase_view_List::VIEWDATA_ITEMS,
 			tx_mktools_util_FlashMessage::getInstance()->getMessages()
