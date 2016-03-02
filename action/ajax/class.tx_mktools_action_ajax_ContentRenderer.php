@@ -49,7 +49,7 @@ class tx_mktools_action_ajax_ContentRenderer {
 	 */
 	public function renderContent()	{
 		// content id auslesen
-		$contentId = (int) tx_rnbase_parameters::_GP('contentid');
+		$contentId = (int) tx_rnbase_parameters::getPostOrGetParameter('contentid');
 		if (empty($contentId)) {
 			$this->sendError(500, 'Missing required parameters.');
 		}
