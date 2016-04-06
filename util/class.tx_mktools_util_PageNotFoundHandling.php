@@ -442,11 +442,11 @@ class tx_mktools_util_PageNotFoundHandling
 		$pageNotFoundCode = $this->getTsFe()->pageNotFound;
 		$value = $this->getConfigurations()->get(
 			'pagenotfoundhandling.pageNotFoundCodes.' . $pageNotFoundCode .
-			'.' . $typoScriptKey
+			'.' . $typoScriptKey, TRUE
 		);
 
 		if (!$value) {
-			$value = $this->getConfigurations()->get('pagenotfoundhandling.' . $typoScriptKey);
+			$value = $this->getConfigurations()->get('pagenotfoundhandling.' . $typoScriptKey, TRUE);
 		}
 
 		return $value;
