@@ -330,10 +330,12 @@ class tx_mktools_util_PageNotFoundHandling
 		$filename = trim($filename);
 
 		if (substr($filename, 0, 4) === 'EXT:') {
-			tx_rnbase_util_Files::getFileAbsFileName($filename);
+			$filename = tx_rnbase_util_Files::getFileAbsFileName($filename);
+		} else {
+			$filename = tx_rnbase_util_Network::locationHeaderUrl($filename);
 		}
 
-		return tx_rnbase_util_Network::locationHeaderUrl($filename);
+		return $filename;
 	}
 
 	/**
