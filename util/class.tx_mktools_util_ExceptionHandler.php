@@ -125,7 +125,7 @@ class tx_mktools_util_ExceptionHandler extends Tx_Rnbase_Error_ProductionExcepti
 	 * @param Exception $exception The exception
 	 * @return void
 	 */
-	public function echoExceptionWeb($exception) {
+	public function echoExceptionWeb(Exception $exception) {
 		$this->sendStatusHeaders($exception);
 
 		$this->writeLogEntries($exception, self::CONTEXT_WEB);
