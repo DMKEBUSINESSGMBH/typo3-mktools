@@ -9,6 +9,12 @@
 Changelog
 =========
 
+2.0.1
+-----
+* added support for TYPO3 7.6
+* New FlashMessage feature implemented
+* check Typoscript cObject upon PagaNotFoundHandling
+
 1.0.24
 ------
 * [BUGFIX] für XClass Registrierung in TYPO3 6.2
