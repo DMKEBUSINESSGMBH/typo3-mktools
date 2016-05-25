@@ -16,7 +16,7 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mktools']='pi_flexfo
 tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mktools','FILE:EXT:'.$_EXTKEY.'/flexform_main.xml');
 tx_rnbase_util_Extensions::addPlugin(Array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label','tx_mktools'));
 
-tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'Configuration/TypoScript/action/', 'MK Tools - Show Template');
+tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'Configuration/TypoScript/action/', 'MK Tools - Actions');
 tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'Configuration/TypoScript/onsiteseo/', 'MK Tools - Onsite Seo');
 tx_rnbase_util_Extensions::addStaticFile($_EXTKEY,'Configuration/TypoScript/tsbasic/', 'MK Tools - Basis TypoScript');
 tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentrenderer', 'MK Tools - Ajax Content Renderer');
