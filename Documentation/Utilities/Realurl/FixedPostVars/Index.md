@@ -83,7 +83,7 @@ Wenn die URLs noch nicht verkürzt dargestellt werden, dann sollte das Leeren de
 Es gilt noch darauf zu achten dass alte URLs mit den fixedPostVars nicht mehr erreichbar sind. Bei obigen Beispiel ist dann z.B. /einzelartikel/Artikel/\$newname.html nicht mehr erreichbar. Dass lässt sich aber durch htaccess umleiten:
 
 ~~~~ {.sourceCode .html}
-RewriteRule ^aktuell/einzelartikel/Artikel/(.*)$ http://tegut.project.dmknet.de/aktuell/einzelartikel/$1 [R=301,L]
+RewriteRule ^aktuell/einzelartikel/Artikel/(.*)$ http://mydomain.tld/aktuell/einzelartikel/$1 [R=301,L]
 ~~~~
 
 Wenn die Seite bisher direkt über Parameter angesteuert wurde und jetzt eine sprechende URL besitzt, dann werden die alten URLs mit Parameter nicht mehr funktionieren. Außer in der Konfig wird 'optional' =\> true gesetzt.
