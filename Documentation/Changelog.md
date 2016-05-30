@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.2
+-----
+
+-   static action ts template renamed
+-   converted manual to markdown
+
 2.0.1
 -----
 
