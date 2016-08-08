@@ -96,6 +96,16 @@ class tx_mktools_util_PageNotFoundHandling
 		$this->tsfe = $tsfe;
 		$this->reason = $reason;
 		$this->header = $header;
+		
+		tx_rnbase_util_Misc::callHook(
+				'mktools',
+				'general_hook_for_page_not_found_handling',
+				array(
+						'tsfe' => $this->tsfe,
+						'reason' => $this->reason,
+						'header' => $this->header,
+				)
+		);
 	}
 
 	/**
