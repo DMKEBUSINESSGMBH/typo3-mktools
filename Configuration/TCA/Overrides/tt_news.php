@@ -7,24 +7,29 @@ if(!tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
 
 tx_rnbase_util_TCA::loadTCA('tt_news');
 tx_rnbase::load('tx_rnbase_util_TSFAL');
-$fields = array(
-	'tx_mktools_fal_images' => tx_rnbase_util_TSFAL::getMediaTCA(
-		'tx_mktools_fal_images',
-		array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fal_images',
-		)
+tx_rnbase::load('tx_rnbase_util_TYPO3');
+tx_rnbase_util_Extensions::addTCAcolumns(
+	'tt_news',
+	array(
+		'tx_mktools_fal_images' => tx_rnbase_util_TSFAL::getMediaTCA(
+			'tx_mktools_fal_images',
+			array(
+				'exclude' => 1,
+				'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fal_images',
+			)
+		),
+		'tx_mktools_fal_media' => tx_rnbase_util_TSFAL::getMediaTCA(
+			'tx_mktools_fal_media',
+			array(
+				'exclude' => 1,
+				'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fal_media',
+				'type' => 'media',
+			)
+		),
 	),
-	'tx_mktools_fal_media' => tx_rnbase_util_TSFAL::getMediaTCA(
-		'tx_mktools_fal_media',
-		array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fal_media',
-			'type' => 'media',
-		)
-	),
+	!tx_rnbase_util_TYPO3::isTYPO62OrHigher()
 );
-tx_rnbase_util_Extensions::addTCAcolumns('tt_news', $fields, 1);
+
 tx_rnbase_util_Extensions::addToAllTCAtypes(
 	'tt_news', 'tx_mktools_fal_images,tx_mktools_fal_media', '', 'after:image'
 );
