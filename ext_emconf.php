@@ -22,7 +22,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => 'DMK E-Business GmbH',
 	'shy' => '',
 	'dependencies' => 'rn_base, mklib',
-	'version' => '2.0.5',
+	'version' => '2.0.6',
 	'conflicts' => '',
 	'priority' => '',
 	'createDirs' => 'typo3temp/mktools/locks/',
@@ -35,7 +35,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'lockType' => '',
 	'constraints' => array(
 		'depends' => array(
- 			'rn_base' => '1.0.0-0.0.0',
+			'rn_base' => '1.0.0-0.0.0',
 			'mklib' => '',
 			'typo3' => '4.3.0-7.6.99',
 		),
