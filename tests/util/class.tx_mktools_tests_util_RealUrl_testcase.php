@@ -86,6 +86,7 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 	/**
 	 * @group unit
+	 * @TODO refactoring seit realurl 2.x funktioniert diese xclass nicht mehr
 	 */
 	public function testRegisterXclass() {
 		if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
@@ -93,6 +94,11 @@ class tx_mktools_tests_util_RealUrl_testcase
 				'There is another allready registred xclass!'
 			);
 		}
+
+		if (!tx_mklib_util_MiscTools::getExtensionValue('realUrlXclass', 'mktools')) {
+			self::markTestSkipped('die realurl xclass soll nicht eingebunden werden');
+		}
+
 		try {
 			tx_mktools_util_RealUrl::registerXclass();
 		} catch (LogicException $e) {
@@ -110,8 +116,13 @@ class tx_mktools_tests_util_RealUrl_testcase
 
 	/**
 	 * @group unit
+	 * @TODO refactoring seit realurl 2.x funktioniert diese xclass nicht mehr
 	 */
 	public function testXclassGetLocalizedPostVarSet() {
+		if (!tx_mklib_util_MiscTools::getExtensionValue('realUrlXclass', 'mktools')) {
+			self::markTestSkipped('die realurl xclass soll nicht eingebunden werden');
+		}
+
 		$realUrl = $this->getRealUrlInstance();
 		$realUrl->orig_paramKeyValues = array(
 			'id' => 50,

@@ -30,6 +30,8 @@ require_once tx_rnbase_util_Extensions::extPath('realurl', 'class.tx_realurl.php
  * @package TYPO3
  * @package TYPO3_xclasses
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
+ *
+ * @TODO refactoring seit realurl 2.x funktioniert diese xclass nicht mehr
  */
 class ux_tx_realurl extends tx_realurl {
 
