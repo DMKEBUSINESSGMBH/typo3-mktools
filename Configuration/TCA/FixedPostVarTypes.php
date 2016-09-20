@@ -1,6 +1,11 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
+tx_rnbase::load('tx_mktools_util_miscTools');
+if (!tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
+	return;
+}
+
 $TCA['tx_mktools_fixedpostvartypes'] = array (
 	'ctrl' => $TCA['tx_mktools_fixedpostvartypes']['ctrl'],
 	'interface' => array (
