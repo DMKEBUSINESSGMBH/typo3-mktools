@@ -1,5 +1,8 @@
-mktools
-=======
+MK TOOLS
+========
+
+[![Latest Stable Version](https://img.shields.io/packagist/v/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
+[![License](https://img.shields.io/packagist/l/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
 
 What does it do?
 ----------------
