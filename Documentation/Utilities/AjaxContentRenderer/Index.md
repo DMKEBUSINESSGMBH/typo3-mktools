@@ -22,6 +22,10 @@ Mit der Klasse ajax-autotrigger im form Element, wird bei Änderungen an nicht t
    <input type="checkbox" class="ajax-autotrigger-ignore"...
 ~~~~
 
+Die ajaxreplaceid ist optional. Per default wird ein Elternelement des Formular gesucht mit einer Content ID. Diese wird dann ersetzt.
+
+Hinweis: Per default wird ein div mit der Klasse waiting eingefügt wenn es dieses noch nicht gibt. Dafür muss das gewünschte CSS bereitgestellt werden.
+
 mkforms Formulare
 -----------------
 
