@@ -32,7 +32,7 @@
 
 		// Paremeter und URL sammeln.
 		if (!_request.isObjectJQuery(urlOrElement)) {
-			parameters = urlOrElement;
+			parameters.href = urlOrElement;
 		}
 		if (!_request.isObject(parameters)) {
 			parameters = {};
@@ -113,6 +113,7 @@
 		// Die URL fuer den Request bauen
 		if (!_request.isDefined(parameters.href)) {
 			parameters.href = _request.getUrl(urlOrElement);
+			parameters.useHistory = parameters.useHistory; 
 		}
 		if (_request.isObjectJQuery(urlOrElement)) {
 			if(urlOrElement.is("form, input, select")) {
