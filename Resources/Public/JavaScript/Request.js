@@ -112,8 +112,7 @@
 		var _request = this;
 		// Die URL fuer den Request bauen
 		if (!_request.isDefined(parameters.href)) {
-			parameters.href = _request.getUrl(urlOrElement);
-			parameters.useHistory = parameters.useHistory; 
+			parameters.href = _request.getUrl(urlOrElement); 
 		}
 		if (_request.isObjectJQuery(urlOrElement)) {
 			if(urlOrElement.is("form, input, select")) {
