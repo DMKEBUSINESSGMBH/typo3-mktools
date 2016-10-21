@@ -113,7 +113,7 @@
 			return;
 		}
 
-		// wir suchen die contentid! (id="c516")
+		// wir suchen die contentid! (e.g. id="c516")
 		if ($el.data("ajaxreplaceid") && _self.isNumeric($el.data("ajaxreplaceid").slice(1))) {
 			$content = $el;
 		}
@@ -165,8 +165,11 @@
 			// try to fetch page
 			parameters.page = "";
 		}
-
-		parameters.useHistory = true;
+		
+		// decide whether action url is written in history or not
+		if (!$el.hasClass("ajax-no-history")) {
+			parameters.useHistory = true;
+		}
 
 		// die events anlegen
 		_request.onStart = function(data, parameters){
