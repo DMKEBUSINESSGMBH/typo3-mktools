@@ -31,9 +31,6 @@
 		;
 
 		// Paremeter und URL sammeln.
-		if (!_request.isObjectJQuery(urlOrElement)) {
-			parameters.href = urlOrElement;
-		}
 		if (!_request.isObject(parameters)) {
 			parameters = {};
 		}
