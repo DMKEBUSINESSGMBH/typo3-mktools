@@ -70,6 +70,7 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
 		} else {
 			$languageService = tx_rnbase::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
 			foreach ($this->cli_args['--locallangFile'] as $locallangFile) {
+				tx_rnbase::load('tx_rnbase_util_Files');
 				$locallangFile = tx_rnbase_util_Files::getFileAbsFileName($locallangFile);
 				$labels = $languageService->includeLLFile($locallangFile, FALSE);
 				foreach ($this->cli_args['--searchFolders'] as $folders) {

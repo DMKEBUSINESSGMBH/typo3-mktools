@@ -82,6 +82,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	 */
 	protected function lockAcquired(Exception $exception, $context) {
 		if (!is_dir(PATH_site.'typo3temp/mktools/locks/')) {
+			tx_rnbase::load('tx_rnbase_util_Files');
 			tx_rnbase_util_Files::mkdir_deep(PATH_site . 'typo3temp/', 'mktools/locks');
 		}
 
@@ -111,6 +112,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 
 		$lockFilePath = PATH_site . 'typo3temp/mktools/locks/';
 		if (!is_dir($lockFilePath)) {
+			tx_rnbase::load('tx_rnbase_util_Files');
 			tx_rnbase_util_Files::mkdir_deep($lockFilePath);
 		}
 
@@ -243,6 +245,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 		// wenn wir schon auf der Fehlerseite sind, dann holen wir nicht nochmal
 		// die Fehlerseite falls auf dieser der Fehler auch auftritt. Sonst laufen
 		// wir in einen infinite loop
+		tx_rnbase::load('tx_rnbase_util_Misc');
 		if(tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
 			echo tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl,0,FALSE, $report);
 		}
@@ -256,7 +259,6 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	 * @return void
 	 */
 	protected function sendStatusHeaders(Exception $exception) {
-		tx_rnbase::load('tx_rnbase_util_TYPO3');
 		if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
 			@parent::sendStatusHeaders($exception);
 		} else {

@@ -168,6 +168,7 @@ class tx_mktools_util_miscTools {
 	 * @return string
 	 */
 	private static function getAbsoluteFileName($filename) {
+		tx_rnbase::load('tx_rnbase_util_Files');
 		return tx_rnbase_util_Files::getFileAbsFileName($filename);
 	}
 }

@@ -96,7 +96,8 @@ class tx_mktools_util_PageNotFoundHandling
 		$this->tsfe = $tsfe;
 		$this->reason = $reason;
 		$this->header = $header;
-		
+
+		tx_rnbase::load('tx_rnbase_util_Misc');
 		tx_rnbase_util_Misc::callHook(
 				'mktools',
 				'general_hook_for_page_not_found_handling',
@@ -118,6 +119,7 @@ class tx_mktools_util_PageNotFoundHandling
 	public function handlePageNotFound($code = '')
 	{
 		// keine mktools config, weiter machen!
+		tx_rnbase::load('tx_rnbase_util_Strings');
 		if (!tx_rnbase_util_Strings::isFirstPartOfStr($code, 'MKTOOLS_')) {
 			return NULL;
 		}
@@ -199,6 +201,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 */
 	private function logPageNotFound($data, $type)
 	{
+		tx_rnbase::load('tx_rnbase_util_Misc');
 		tx_rnbase::load('tx_rnbase_util_Logger');
 		tx_rnbase_util_Logger::info(
 			'Seite nicht gefunden',
@@ -222,6 +225,7 @@ class tx_mktools_util_PageNotFoundHandling
 	 */
 	protected function isRequestedPageAlready404Page($url)
 	{
+		tx_rnbase::load('tx_rnbase_util_Misc');
 		return $url == tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI');
 	}
 
@@ -235,6 +239,7 @@ class tx_mktools_util_PageNotFoundHandling
 	protected function printContent($url)
 	{
 		// wir versuchen erstmal den inhalt der URL zu holen
+		tx_rnbase::load('tx_rnbase_util_Network');
 		$content = tx_rnbase_util_Network::getURL(
 			$this->getFileAbsFileName($url)
 		);
@@ -242,6 +247,7 @@ class tx_mktools_util_PageNotFoundHandling
 		// wir liefern den 404 aus, ohne einen redirect!
 		// damit bleibt auch die url die gleiche :)
 		if ($content) {
+			tx_rnbase::load('tx_rnbase_util_Misc');
 			$content = str_replace(
 				'###CURRENT_URL###',
 				tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
@@ -340,8 +346,10 @@ class tx_mktools_util_PageNotFoundHandling
 		$filename = trim($filename);
 
 		if (substr($filename, 0, 4) === 'EXT:') {
+			tx_rnbase::load('tx_rnbase_util_Files');
 			$filename = tx_rnbase_util_Files::getFileAbsFileName($filename);
 		} else {
+			tx_rnbase::load('tx_rnbase_util_Network');
 			$filename = tx_rnbase_util_Network::locationHeaderUrl($filename);
 		}
 
