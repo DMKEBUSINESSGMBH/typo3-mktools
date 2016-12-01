@@ -238,6 +238,13 @@ class tx_mktools_util_PageNotFoundHandling
 	 */
 	protected function printContent($url)
 	{
+			tx_rnbase_util_Misc::callHook(
+			'mktools',
+			'pagenotfoundhandling_beforePrintContent',
+			array(
+				'url' => &$url,
+			)
+		);
 		// wir versuchen erstmal den inhalt der URL zu holen
 		tx_rnbase::load('tx_rnbase_util_Network');
 		$content = tx_rnbase_util_Network::getURL(
