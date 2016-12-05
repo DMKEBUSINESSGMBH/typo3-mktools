@@ -19,6 +19,9 @@ plugin.tx_mktools {
 		### define cryptet auth data here!
 		auth.crypt {
 			## dmk default auth
+			## wenn PHP mit CGI/Fast CGI eingebunden wird, dann funktioniert die Abfrage nur
+			## wenn folgende Zeile in der .htaccess vorhanden ist (am besten ganz ans Ende schieben)
+			## RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 			kunde = #$Sg81OdSmC7w
 			#username = <?php echo crypt('here the pwd!', 'A SALT');
 		}
