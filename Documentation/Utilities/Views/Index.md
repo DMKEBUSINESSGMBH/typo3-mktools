@@ -22,6 +22,20 @@ Beispiel für das hinzufügen einer Meldung für den Nächsten Request:
 
 Für die Ausgabe ist die FlashMessage-Action von MKTOOLS zuständig. Diese kann entweder direkt im Backend über ein Plugin auf der Seite abgelegt oder über eine lib direkt im Rahmentemplate immer mit abgefragt werden.
 
+TypoScript Lib
+--------------
+
+Creates output based on TypoScript.  
+The TypoScript can be added in the TS Tab of the Plugin like this
+
+```
+	tslib = COA
+	tslib {
+		10 = TEXT
+		10.value = Hello World
+	}
+```
+
 Show Template
 -------------
 

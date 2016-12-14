@@ -8,8 +8,11 @@
 		<languageKey index="default" type="array">
 			<label index="plugin.mktools.label">Mk Tools</label>
 			<label index="plugin.mktools.flexform.tab.common">Mk Tools</label>
+			<label index="plugin.mktools.flexform.tab.tssetup">TS</label>
+			<label index="plugin.mktools.flexform.tssetup">TypoScript Setup (plugin.tx_mktools.)</label>
 			<label index="plugin.mktools.flexform.action">Action</label>
 			<label index="plugin.mktools.flexform.action.ShowTemplate">Show Template</label>
+			<label index="plugin.mktools.flexform.action.TsLib">TypoScript Lib (tslib.)</label>
 			<label index="plugin.mktools.flexform.action.FlashMessage">Flash Message Output</label>
 			<label index="plugin.mktools.flexform.formHtml">HTML Template</label>
 

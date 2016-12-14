@@ -21,9 +21,13 @@
 								<type>select</type>
 								<renderType>selectSingle</renderType>
 								<items type="array">
-									<numIndex index="16" type="array">
+									<numIndex index="10" type="array">
 										<numIndex index="0">LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.ShowTemplate</numIndex>
 										<numIndex index="1">tx_mktools_action_ShowTemplate</numIndex>
+									</numIndex>
+									<numIndex index="20" type="array">
+										<numIndex index="0">LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.TsLib</numIndex>
+										<numIndex index="1">tx_mktools_action_TsLib</numIndex>
 									</numIndex>
 									<numIndex index="100" type="array">
 										<numIndex index="0">LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.FlashMessage</numIndex>
@@ -40,7 +44,7 @@
 			</ROOT>
 		</sDEF>
 
-		<s_registerApplicant>
+		<s_registerApplicant> <!-- @TODO: rename this! -->
 			<ROOT>
 				<TCEforms>
 					<sheetTitle>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.action.ShowTemplate</sheetTitle>
@@ -90,5 +94,27 @@
 				</el>
 			</ROOT>
 		</s_registerApplicant>
+
+		<s_tssetup>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.tab.tssetup</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<flexformTS>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:mktools/locallang_db.xml:plugin.mktools.flexform.tssetup</label>
+							<config>
+								<type>text</type>
+								<cols>80</cols>
+								<rows>10</rows>
+							</config>
+						</TCEforms>
+					</flexformTS>
+				</el>
+			</ROOT>
+		</s_tssetup>
 	</sheets>
 </T3DataStructure>

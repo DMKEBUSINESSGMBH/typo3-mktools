@@ -37,6 +37,11 @@ plugin.tx_mktools {
 			subpart = ###FLASHMESSAGES###
 		}
 	}
+	tslib = COA
+	tslib {
+		10 = TEXT
+		10.value = Hello World
+	}
 }
 
 ### pagetype for the docu
