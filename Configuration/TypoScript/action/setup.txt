@@ -70,6 +70,11 @@ docu {
 
 	10 =< plugin.tx_mktools
 	10.action = tx_mktools_action_DocMarkDown
+
+	headerData {
+		10 = TEXT
+		10.value = <title>Dokumentation</title>
+	}
 }
 
 /*
