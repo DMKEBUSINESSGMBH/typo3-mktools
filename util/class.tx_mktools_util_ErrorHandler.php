@@ -33,12 +33,11 @@ tx_rnbase::load('Tx_Rnbase_Error_Exception');
  * @subpackage tx_mktools
  */
 class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler {
-
 	/**
 	 * registriert den error handler auch für fatal errors
-	 * @param int $errorHandlerErrors
+	 * tx_mktools_util_ErrorHandler constructor.
 	 *
-	 * @return void
+	 * @param int $errorHandlerErrors
 	 */
 	public function __construct($errorHandlerErrors) {
 		parent::__construct($errorHandlerErrors);
@@ -104,11 +103,9 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler {
 	}
 
 	/**
-	 * @param Exception $exception
-	 *
-	 * @return void
+	 * @param \Exception|\Throwable $exception
 	 */
-	protected function writeExceptionToDevLog(Exception $exception) {
+	protected function writeExceptionToDevLog($exception) {
 		$logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
 		tx_rnbase::load('tx_rnbase_util_Logger');
 		tx_rnbase_util_Logger::devLog($exception->getMessage(), $logTitle, 3);
@@ -156,7 +153,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler {
 	 *
 	 * @param string $exceptionMessage
 	 *
-	 * @return tx_mktools_util_ExceptionHandler
+	 * @return Tx_Rnbase_Error_Exception
 	 */
 	protected function getTypo3Exception($exceptionMessage) {
 		return new Tx_Rnbase_Error_Exception($exceptionMessage);

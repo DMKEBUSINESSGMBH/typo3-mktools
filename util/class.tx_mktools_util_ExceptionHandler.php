@@ -46,11 +46,14 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	 */
 	private $exceptionPageExtensionConfiguration = array();
 
+
 	/**
-	 * (non-PHPdoc)
+	 * @param \Exception|\Throwable $exception
+	 * @param string				$context
+	 *
 	 * @see Tx_Rnbase_Error_ProductionExceptionHandler::writeLogEntries()
 	 */
-	protected function writeLogEntries(Exception $exception, $context) {
+	protected function writeLogEntries($exception, $context) {
 		//tx_mktools_util_ErrorException wird nur von
 		//tx_mktools_util_ErrorHandler::handleError geworfen und wurde schon geloggt
 		if (
@@ -62,12 +65,12 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	}
 
 	/**
-	 * damit wir mocken können
+	 * @param \Exception|\Throwable $exception
+	 * @param string				$context
 	 *
-	 * (non-PHPdoc)
 	 * @see Tx_Rnbase_Error_ProductionExceptionHandler::writeLogEntries()
 	 */
-	protected function writeLogEntriesByParent(Exception $exception, $context) {
+	protected function writeLogEntriesByParent($exception, $context) {
 		//warnungen beim Logging interessieren uns nicht. Ohne @ führt dies dazu dass
 		//die Warnung beim Logging festgehalten wird, nicht aber die eigentliche
 		//Meldung, wenn die Warnung vor dem Schreiben des Logs auftritt
@@ -75,12 +78,12 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	}
 
 	/**
-	 * @param Exception $exception
-	 * @param string $context
+	 * @param \Exception|\Throwable $exception
+	 * @param string				$context
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	protected function lockAcquired(Exception $exception, $context) {
+	protected function lockAcquired($exception, $context) {
 		if (!is_dir(PATH_site.'typo3temp/mktools/locks/')) {
 			tx_rnbase::load('tx_rnbase_util_Files');
 			tx_rnbase_util_Files::mkdir_deep(PATH_site . 'typo3temp/', 'mktools/locks');
@@ -99,12 +102,12 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	}
 
 	/**
-	 * @param Exception $exception
-	 * @param unknown_type $context
+	 * @param \Exception|\Throwable $exception
+	 * @param string				$context
 	 *
 	 * @return string
 	 */
-	protected function getLockFileByExceptionAndContext(Exception $exception, $context) {
+	protected function getLockFileByExceptionAndContext($exception, $context) {
 		$lockFileName = md5(
 				$exception->getCode() . $exception->getMessage() .
 				$exception->getPrevious() . $context
@@ -130,10 +133,10 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	 * TYPOSCRIPT:typo3conf/ext/myext/static/mktools.setup.txt. Wie man das TS angibt lässt sich in
 	 * EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt sehen.
 	 *
-	 * @param Exception $exception The exception
+	 * @param \Exception|\Throwable $exception
 	 * @return void
 	 */
-	protected function echoExceptionInWebEnvironment(Exception $exception) {
+	protected function echoExceptionInWebEnvironment($exception) {
 		$this->sendStatusHeaders($exception);
 
 		$this->writeLogEntries($exception, self::CONTEXT_WEB);
@@ -258,7 +261,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	 * @param Exception $exception
 	 * @return void
 	 */
-	protected function sendStatusHeaders(Exception $exception) {
+	protected function sendStatusHeaders($exception) {
 		if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
 			@parent::sendStatusHeaders($exception);
 		} else {
