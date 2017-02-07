@@ -293,7 +293,7 @@ class tx_mktools_util_RealUrl {
 	/**
 	 * Anpassung realurl
 	 */
-	public function registerXclass() {
+	public static function registerXclass() {
 		if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
 			return ;
 		}
