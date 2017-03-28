@@ -101,8 +101,8 @@ class tx_mktools_action_DocMarkDown
 			tx_rnbase::load('tx_mktools_util_Composer');
 			tx_mktools_util_Composer::autoload();
 			$this->parser = new Parsedown();
-			$this->parser->setMarkupEscaped(FALSE);
-			$this->parser->setBreaksEnabled(TRUE);
+			$this->parser->setMarkupEscaped(false);
+			$this->parser->setBreaksEnabled(false);
 		}
 
 		return $this->parser;
