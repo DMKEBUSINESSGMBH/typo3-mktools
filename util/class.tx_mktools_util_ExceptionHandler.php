@@ -53,7 +53,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	 *
 	 * @see Tx_Rnbase_Error_ProductionExceptionHandler::writeLogEntries()
 	 */
-	protected function writeLogEntries($exception, $context) {
+	protected function writeLogEntriesEnvironment($exception, $context) {
 		//tx_mktools_util_ErrorException wird nur von
 		//tx_mktools_util_ErrorHandler::handleError geworfen und wurde schon geloggt
 		if (
@@ -261,7 +261,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 	 * @param Exception $exception
 	 * @return void
 	 */
-	protected function sendStatusHeaders($exception) {
+	protected function sendStatusHeadersEnvironment($exception) {
 		if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
 			@parent::sendStatusHeaders($exception);
 		} else {
@@ -282,10 +282,47 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 
-// vor TYPO3 7.6 war das Interface noch anders
-if (tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
+// vor TYPO3 8 war das Interface noch anders
+if (tx_rnbase_util_TYPO3::isTYPO80OrHigher()) {
 	class tx_mktools_util_ExceptionHandler extends tx_mktools_util_ExceptionHandlerBase {
-
+		/**
+		 * {@inheritDoc}
+		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+		 */
+		public function writeLogEntries(\Throwable $exception, $context) {
+			parent::writeLogEntriesEnvironment($exception, $context);
+		}
+		/**
+		 * {@inheritDoc}
+		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+		 */
+		public function sendStatusHeaders(\Throwable $exception) {
+			parent::sendStatusHeadersEnvironment($exception);
+		}
+		/**
+		 * {@inheritDoc}
+		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+		 */
+		public function echoExceptionWeb(\Throwable $exception) {
+			parent::echoExceptionInWebEnvironment($exception);
+		}
+	}
+} elseif (tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
+	class tx_mktools_util_ExceptionHandler extends tx_mktools_util_ExceptionHandlerBase {
+		/**
+		 * {@inheritDoc}
+		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+		 */
+		public function writeLogEntries($exception, $context) {
+			parent::writeLogEntriesEnvironment($exception, $context);
+		}
+		/**
+		 * {@inheritDoc}
+		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+		 */
+		public function sendStatusHeaders($exception) {
+			parent::sendStatusHeadersEnvironment($exception);
+		}
 		/**
 		 * {@inheritDoc}
 		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
@@ -296,7 +333,20 @@ if (tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
 	}
 } else {
 	class tx_mktools_util_ExceptionHandler extends tx_mktools_util_ExceptionHandlerBase {
-
+		/**
+		 * {@inheritDoc}
+		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+		 */
+		public function writeLogEntries($exception, $context) {
+			parent::writeLogEntriesEnvironment($exception, $context);
+		}
+		/**
+		 * {@inheritDoc}
+		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+		 */
+		public function sendStatusHeaders($exception) {
+			parent::sendStatusHeadersEnvironment($exception);
+		}
 		/**
 		 * {@inheritDoc}
 		 * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
