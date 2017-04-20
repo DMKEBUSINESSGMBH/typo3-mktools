@@ -189,12 +189,15 @@ class tx_mktools_util_RealUrl {
 	 *
 	 * @return string
 	 */
-	private function getRealUrlConfigurationTemplateContent() {
+	private function getRealUrlConfigurationTemplateContent()
+	{
+		$template = tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
+		if (empty($template)) {
+			return '';
+		}
 		return str_replace(
 			'$TYPO3_CONF_VARS', '$GLOBALS[\'TYPO3_CONF_VARS\']',
-			file_get_contents(
-				tx_mktools_util_miscTools::getRealUrlConfigurationTemplate()
-			)
+			file_get_contents($template)
 		);
 	}
 
