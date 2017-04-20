@@ -1,18 +1,24 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
-tx_rnbase::load('tx_mktools_util_miscTools');
-if (!tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
-	return;
-}
-
-$TCA['tx_mktools_fixedpostvartypes'] = array (
-	'ctrl' => $TCA['tx_mktools_fixedpostvartypes']['ctrl'],
+return array (
+	'ctrl' => array (
+		'title' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartypes',
+		'label' => 'title',
+		'default_sortby' => 'ORDER BY title',
+		'delete' => 'deleted',
+		'enablecolumns' => array (
+			'disabled' => 'hidden',
+		),
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'iconfile' => 'EXT:mktools/ext_icon.gif',
+	),
 	'interface' => array (
 		'showRecordFieldList' => 'hidden,title,identifier',
 		'maxDBListItems' => '10'
 	),
-	'feInterface' => $TCA['tx_mktools_fixedpostvartypes']['feInterface'],
 	'columns' => array (
 		'hidden' => array (
 			'exclude' => 0,

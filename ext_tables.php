@@ -31,36 +31,25 @@ tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/con
 
 // Robots-Meta Tag
 if(tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
-
 	tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
-
 	// default TS
 	tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/seorobotsmetatag', 'MK Tools - SEO Robots Meta Tag');
-	require(tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/PagesRobotsMetaTag.php');
 }
 
-// realurl optimierungen
-if(tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
 
-	global $TCA;
-	$TCA['tx_mktools_fixedpostvartypes'] = array (
-		'ctrl' => array (
-			'title' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fixedpostvartypes',
-			'label' => 'title',
-			'default_sortby' => 'ORDER BY title',
-			'delete' => 'deleted',
-			'enablecolumns' => array (
-				'disabled' => 'hidden',
-			),
-			'tstamp' => 'tstamp',
-			'crdate' => 'crdate',
-			'cruser_id' => 'cruser_id',
-			'dynamicConfigFile' => tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/FixedPostVarTypes.php',
-			'iconfile' => 'EXT:mktools/ext_icon.gif',
-		),
+if (!tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+	if (tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
+		$GLOBALS['TCA']['tx_mktools_fixedpostvartypes'] = require tx_rnbase_util_Extensions::extPath(
+			$_EXTKEY,
+			'Configuration/TCA/tx_mktools_fixedpostvartypes.php'
+		);
+	}
+	require_once tx_rnbase_util_Extensions::extPath(
+		$_EXTKEY,
+		'Configuration/TCA/Overrides/pages.php'
 	);
-	require(tx_rnbase_util_Extensions::extPath($_EXTKEY).'Configuration/TCA/PagesFixedPostVarType.php');
 }
+
 
 if(tx_mktools_util_miscTools::shouldFalImagesBeAddedToCalEvent()) {
 	// default TS
