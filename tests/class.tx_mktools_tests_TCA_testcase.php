@@ -26,13 +26,16 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mklib_tests_Util');
 tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_tests_TCA_testcase extends tx_phpunit_testcase {
+class tx_mktools_tests_TCA_testcase
+	extends tx_rnbase_tests_BaseTestCase
+{
 
 	/**
 	 * (non-PHPdoc)
@@ -53,8 +56,16 @@ class tx_mktools_tests_TCA_testcase extends tx_phpunit_testcase {
 	/**
 	 * Setzt die TCA zurück und lädt die ext_tables.php erneut
 	 */
-	private static function loadExtTables(){
+	private static function loadExtTables() {
 		global $TCA;
+
+		// seit typo3 6 ist die tca immer vorhanden und wird nicht nachgeladen
+		// @TODO: führt das ggf. zu problemen?
+		//        muss die tca bei deaktivierter extconf wirklich entfernt werden?
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			return;
+		}
+
 		unset($TCA['tx_mktools_fixedpostvartypes']);
 		$_EXTKEY = 'mktools';
 		include(tx_rnbase_util_Extensions::extPath('mktools', 'ext_tables.php'));
@@ -65,6 +76,13 @@ class tx_mktools_tests_TCA_testcase extends tx_phpunit_testcase {
 	 */
 	public function testTcaForFixedPostVarTypesIsNotIncludedIfNotSet(){
 		global $TCA;
+
+		// seit typo3 6 ist die tca immer vorhanden und wird nicht nachgeladen
+		// @TODO: führt das ggf. zu problemen?
+		//        muss die tca bei deaktivierter extconf wirklich entfernt werden?
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$this->markTestSkipped('not relevant since typo3 6.');
+		}
 
 		tx_mklib_tests_Util::setExtConfVar('tableFixedPostVarTypes', 0, 'mktools');
 		self::loadExtTables();
@@ -87,6 +105,13 @@ class tx_mktools_tests_TCA_testcase extends tx_phpunit_testcase {
 	public function testTcaForFixedPostVarTypesIsIncludedIfSet(){
 		global $TCA;
 
+		// seit typo3 6 ist die tca immer vorhanden und wird nicht nachgeladen
+		// @TODO: führt das ggf. zu problemen?
+		//        muss die tca bei deaktivierter extconf wirklich entfernt werden?
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$this->markTestSkipped('not relevant since typo3 6.');
+		}
+
 		tx_mklib_tests_Util::setExtConfVar('tableFixedPostVarTypes', 1, 'mktools');
 		self::loadExtTables();
 
@@ -105,6 +130,7 @@ class tx_mktools_tests_TCA_testcase extends tx_phpunit_testcase {
 			'Die TCA für die tx_mktools_fixedpostvartypes Tabelle wurde nicht richtig geladen.'
 		);
 	}
+
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/util/class.tx_mklib_tests_TCA_testcase.php']) {
