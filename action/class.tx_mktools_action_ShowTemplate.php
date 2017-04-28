@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package TYPO3
- *  @subpackage tx_mktools
- *  @author Hannes Bochmann
+ * @package TYPO3
+ * @subpackage tx_mktools
+ * @author Hannes Bochmann
  *
  *  Copyright notice
  *
@@ -33,67 +33,72 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
  * @package TYPO3
  * @subpackage tx_mktools
  */
-class tx_mktools_action_ShowTemplate
-	extends tx_rnbase_action_BaseIOC {
+class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC
+{
 
-	/**
-	 * Kindklassen führen hier die eigentliche Arbeit durch. Zugriff auf das
-	 * Backend und befüllen der viewdata
-	 *
-	 * @param tx_rnbase_IParameters &$parameters
-	 * @param tx_rnbase_configurations &$configurations
-	 * @param ArrayObject &$viewdata
-	 *
-	 * @return string Errorstring or NULL
-	 */
-	protected function handleRequest(&$parameters, &$configurations, &$viewdata) {
-		$viewdata->offsetSet('item', $this->getItem());
+    /**
+     * Kindklassen führen hier die eigentliche Arbeit durch. Zugriff auf das
+     * Backend und befüllen der viewdata
+     *
+     * @param tx_rnbase_IParameters &$parameters
+     * @param tx_rnbase_configurations &$configurations
+     * @param ArrayObject &$viewdata
+     *
+     * @return string Errorstring or NULL
+     */
+    protected function handleRequest(&$parameters, &$configurations, &$viewdata)
+    {
+        $viewdata->offsetSet('item', $this->getItem());
 
-		return NULL;
-	}
+        return null;
+    }
 
-	/**
-	 * Returns the data to render for the view
-	 *
-	 * @return array
-	 */
-	protected function getItem() {
-		$data = $this->getData();
+    /**
+     * Returns the data to render for the view
+     *
+     * @return array
+     */
+    protected function getItem()
+    {
+        $data = $this->getData();
 
-		return tx_rnbase::makeInstance(
-			'tx_rnbase_model_base',
-			is_array($data) ? $data : array()
-		);
-	}
+        return tx_rnbase::makeInstance(
+            'tx_rnbase_model_base',
+            is_array($data) ? $data : array()
+        );
+    }
 
-	/**
-	 * Returns the data to render for the view
-	 *
-	 * @return array
-	 */
-	protected function getData() {
-		return array();
-	}
+    /**
+     * Returns the data to render for the view
+     *
+     * @return array
+     */
+    protected function getData()
+    {
+        return array();
+    }
 
-	/**
-	 * Gibt den Name des zugehörigen Templates zurück
-	 *
-	 * @return string
-	 */
-	protected function getTemplateName() {
-		return 'showtemplate';
-	}
+    /**
+     * Gibt den Name des zugehörigen Templates zurück
+     *
+     * @return string
+     */
+    protected function getTemplateName()
+    {
+        return 'showtemplate';
+    }
 
-	/**
-	 * Gibt den Name der zugehörigen View-Klasse zurück
-	 *
-	 * @return string
-	 */
-	protected function getViewClassName() {
-		return 'tx_mktools_view_ShowTemplate';
-	}
+    /**
+     * Gibt den Name der zugehörigen View-Klasse zurück
+     *
+     * @return string
+     */
+    protected function getViewClassName()
+    {
+        return 'tx_mktools_view_ShowTemplate';
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php']);
 }

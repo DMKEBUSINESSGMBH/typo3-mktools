@@ -34,42 +34,40 @@ tx_rnbase::load('tx_mktools_util_miscTools');
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_hook_extTables_PostProcessing
-	implements \TYPO3\CMS\Core\Database\TableConfigurationPostProcessingHookInterface
+class tx_mktools_hook_extTables_PostProcessing implements \TYPO3\CMS\Core\Database\TableConfigurationPostProcessingHookInterface
 {
 
-	/**
-	 * Wir erweitern die TCA um einige felder in TYPO3 6.2
-	 * Dies machen wir über einen TCA-Hook, um sicherzustellen,
-	 * das alle abhängigen extensions bereits geladen wurden.
-	 *
-	 * @return void
-	 */
-	public function processData() {
-		foreach (tx_mktools_util_miscTools::getTcaPostProcessingExtensions() as $extension) {
-			// load only, if extension is loaded!
-			if (!tx_rnbase_util_Extensions::isLoaded($extension)) {
-				continue;
-			}
-			// Execute override files from Configuration/TCA/Overrides
-			$tcaOverridesPathForPackage = tx_rnbase_util_Extensions::extPath(
-				$extension,
-				'Configuration/TCA/Overrides'
-			);
-			if (is_dir($tcaOverridesPathForPackage)) {
-				$files = scandir($tcaOverridesPathForPackage);
-				foreach ($files as $file) {
-					if (
-						is_file($tcaOverridesPathForPackage . '/' . $file)
-						&& ($file !== '.')
-						&& ($file !== '..')
-						&& (substr($file, -4, 4) === '.php')
-					) {
-						require $tcaOverridesPathForPackage . '/' . $file;
-					}
-				}
-			}
-		}
-	}
-
+    /**
+     * Wir erweitern die TCA um einige felder in TYPO3 6.2
+     * Dies machen wir über einen TCA-Hook, um sicherzustellen,
+     * das alle abhängigen extensions bereits geladen wurden.
+     *
+     * @return void
+     */
+    public function processData()
+    {
+        foreach (tx_mktools_util_miscTools::getTcaPostProcessingExtensions() as $extension) {
+            // load only, if extension is loaded!
+            if (!tx_rnbase_util_Extensions::isLoaded($extension)) {
+                continue;
+            }
+            // Execute override files from Configuration/TCA/Overrides
+            $tcaOverridesPathForPackage = tx_rnbase_util_Extensions::extPath(
+                $extension,
+                'Configuration/TCA/Overrides'
+            );
+            if (is_dir($tcaOverridesPathForPackage)) {
+                $files = scandir($tcaOverridesPathForPackage);
+                foreach ($files as $file) {
+                    if (is_file($tcaOverridesPathForPackage . '/' . $file)
+                        && ($file !== '.')
+                        && ($file !== '..')
+                        && (substr($file, -4, 4) === '.php')
+                    ) {
+                        require $tcaOverridesPathForPackage . '/' . $file;
+                    }
+                }
+            }
+        }
+    }
 }

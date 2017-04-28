@@ -28,110 +28,119 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
- *
  * tx_mktools_tests_util_SeoRobotsMetaTag_testcase
  *
- * @package 		TYPO3
- * @subpackage	 	mktools
- * @author 			Hannes Bochmann
- * @author 			Michael Wagner
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mktools
+ * @author          Hannes Bochmann
+ * @author          Michael Wagner
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_tests_util_SeoRobotsMetaTag_testcase  extends tx_rnbase_tests_BaseTestCase {
+class tx_mktools_tests_util_SeoRobotsMetaTag_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		if (!tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
-			$this->markTestSkipped('SEO Robots Metatag Feature not activated in extension manager');
-		}
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        if (!tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
+            $this->markTestSkipped('SEO Robots Metatag Feature not activated in extension manager');
+        }
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetSeoRobotsMetaTagValueReturnsDefaultValueWhenNoValueSetAndNoInheritedValueExists() {
-		$util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
-		$util->expects(self::once())
-			->method('getRobotsValue')
-			->will(self::returnValue(0));
+    /**
+     * @group unit
+     */
+    public function testGetSeoRobotsMetaTagValueReturnsDefaultValueWhenNoValueSetAndNoInheritedValueExists()
+    {
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
+        $util->expects(self::once())
+            ->method('getRobotsValue')
+            ->will(self::returnValue(0));
 
-		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
+        $value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
 
-		self::assertEquals('test', $value ,'Falscher Wert zurückgeliefert');
-	}
+        self::assertEquals('test', $value, 'Falscher Wert zurückgeliefert');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetSeoRobotsMetaTagValueReturnsOptionByValueIfRobotsValueFound() {
-		$util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
-		$util->expects(self::once())
-			->method('getRobotsValue')
-			->will(self::returnValue(123));
+    /**
+     * @group unit
+     */
+    public function testGetSeoRobotsMetaTagValueReturnsOptionByValueIfRobotsValueFound()
+    {
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
+        $util->expects(self::once())
+            ->method('getRobotsValue')
+            ->will(self::returnValue(123));
 
-		$util::$options[123] = 'robots tag value';
+        $util::$options[123] = 'robots tag value';
 
-		$value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
+        $value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
 
-		self::assertEquals('robots tag value', $value ,'Falscher Wert zurückgeliefert');
-	}
+        self::assertEquals('robots tag value', $value, 'Falscher Wert zurückgeliefert');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetRootlineReturnsCorrectData() {
-		tx_rnbase_util_Misc::prepareTSFE();
-		$GLOBALS['TSFE']->id = 1;
-		$rootline = $this->callInaccessibleMethod(
-			tx_rnbase::makeInstance('tx_mktools_util_SeoRobotsMetaTag'), 'getRootline'
-		);
+    /**
+     * @group unit
+     */
+    public function testGetRootlineReturnsCorrectData()
+    {
+        tx_rnbase_util_Misc::prepareTSFE();
+        $GLOBALS['TSFE']->id = 1;
+        $rootline = $this->callInaccessibleMethod(
+            tx_rnbase::makeInstance('tx_mktools_util_SeoRobotsMetaTag'),
+            'getRootline'
+        );
 
-		self::assertTrue(is_array($rootline), 'es wurde kein array geliefert');
-		self::assertGreaterThan(0, count($rootline), 'es wurde ein leeres array geliefert');
-		// haben wir scheinbar einen Seitendatensatz?
-		self::assertArrayHasKey(
-			'mkrobotsmetatag', $rootline[0],
-			'der erste page Eintrag hat nicht das Feld mkrobotsmetatag. Evtl. den System Cache leeren?'
-		);
-	}
+        self::assertTrue(is_array($rootline), 'es wurde kein array geliefert');
+        self::assertGreaterThan(0, count($rootline), 'es wurde ein leeres array geliefert');
+        // haben wir scheinbar einen Seitendatensatz?
+        self::assertArrayHasKey(
+            'mkrobotsmetatag',
+            $rootline[0],
+            'der erste page Eintrag hat nicht das Feld mkrobotsmetatag. Evtl. den System Cache leeren?'
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetRobotsValueIfNoPagesInRootline() {
-		$util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
-		$util->expects(self::once())
-			->method('getRootline')
-			->will(self::returnValue(array()));
+    /**
+     * @group unit
+     */
+    public function testGetRobotsValueIfNoPagesInRootline()
+    {
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
+        $util->expects(self::once())
+            ->method('getRootline')
+            ->will(self::returnValue(array()));
 
-		self::assertSame(0, $this->callInaccessibleMethod($util, 'getRobotsValue'));
-	}
+        self::assertSame(0, $this->callInaccessibleMethod($util, 'getRobotsValue'));
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetRobotsValueIfNoPageInRootlineHasRobotsMetaTag() {
-		$util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
-		$util->expects(self::once())
-			->method('getRootline')
-			->will(self::returnValue(array(0 => array('uid' => 123))));
+    /**
+     * @group unit
+     */
+    public function testGetRobotsValueIfNoPageInRootlineHasRobotsMetaTag()
+    {
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
+        $util->expects(self::once())
+            ->method('getRootline')
+            ->will(self::returnValue(array(0 => array('uid' => 123))));
 
-		self::assertSame(0, $this->callInaccessibleMethod($util, 'getRobotsValue'));
-	}
+        self::assertSame(0, $this->callInaccessibleMethod($util, 'getRobotsValue'));
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetRobotsValueIfPageInRootlineHasRobotsMetaTag() {
-		$util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
-		$util->expects(self::once())
-			->method('getRootline')
-			->will(self::returnValue(array(0 => array('uid' => 123), 1 => array('mkrobotsmetatag' => 'NOINDEX'))));
+    /**
+     * @group unit
+     */
+    public function testGetRobotsValueIfPageInRootlineHasRobotsMetaTag()
+    {
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
+        $util->expects(self::once())
+            ->method('getRootline')
+            ->will(self::returnValue(array(0 => array('uid' => 123), 1 => array('mkrobotsmetatag' => 'NOINDEX'))));
 
-		self::assertSame('NOINDEX', $this->callInaccessibleMethod($util, 'getRobotsValue'));
-	}
+        self::assertSame('NOINDEX', $this->callInaccessibleMethod($util, 'getRobotsValue'));
+    }
 }

@@ -1,33 +1,45 @@
 {
-	"name" : "dmk/mktools",
-	"description" : "Collection of some small tools.",
-	"version" : "2.0.14",
-	"type" : "typo3-cms-extension",
-	"keywords" : ["TYPO3 CMS", "tools"],
-	"homepage" : "http://www.dmk-ebusiness.de/",
-	"license" : "GPL-2.0+",
-	"authors" : [
-		{
-			"name" : "DMK E-Business GmbH",
-			"email" : "dev@dmk-ebusiness.de",
-			"role" : "Developer"
-		}
-	],
-	"support": {
-		"email": "dev@dmk-ebusiness.de",
-		"source": "https://github.com/DMKEBUSINESSGMBH/typo3-mktools",
-		"issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mktools"
-	},
-	"replace": {
-		"mktools": "self.version",
-		"typo3-ter/mktools": "self.version"
-	},
-	"require" : {
-		"typo3/cms-core" : ">=4.5.0 <=8.7.99",
-		"typo3-ter/mklib" : ">=2.0.0",
-		"typo3-ter/rn-base" : ">=1.0.0"
-	},
-	"autoload": {
-		"classmap": ["action/", "hook/", "model/", "scheduler/", "util/", "view/", "xclasses/", "Classes/"]
-	}
+    "name": "dmk/mktools",
+    "description": "Collection of some small tools.",
+    "version": "2.0.14",
+    "type": "typo3-cms-extension",
+    "keywords": [
+        "TYPO3 CMS",
+        "tools"
+    ],
+    "homepage": "http://www.dmk-ebusiness.de/",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "DMK E-Business GmbH",
+            "email": "dev@dmk-ebusiness.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "dev@dmk-ebusiness.de",
+        "source": "https://github.com/DMKEBUSINESSGMBH/typo3-mktools",
+        "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mktools"
+    },
+    "replace": {
+        "mktools": "self.version",
+        "typo3-ter/mktools": "self.version"
+    },
+    "require": {
+        "typo3/cms-core": ">=4.5.0 <=8.7.99",
+        "typo3-ter/mklib": ">=2.0.0",
+        "typo3-ter/rn-base": ">=1.0.0"
+    },
+    "autoload": {
+        "classmap": [
+            "action/",
+            "hook/",
+            "model/",
+            "scheduler/",
+            "util/",
+            "view/",
+            "xclasses/",
+            "Classes/"
+        ]
+    }
 }

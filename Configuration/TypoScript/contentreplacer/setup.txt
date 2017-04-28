@@ -1,29 +1,29 @@
 config.tx_mktools.contentreplace {
-	enable = {$config.tx_mktools.contentreplace.enable}
-	search {
-		fileadmin1 ="/fileadmin/
-		fileadmin2 ="fileadmin/
-		uploads1 ="/uploads/
-		uploads2 ="uploads/
-		typo3conf1 ="/typo3conf/
-		typo3conf2 ="typo3conf/
-		typo3temp1 ="/typo3temp/
-		typo3temp2 ="typo3temp/
-		
-		### das captcha von mkforms darf nicht auf die static domain zeigen
-		mkformscaptcha ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/ext/mkforms/widgets/captcha/
-	}
-	replace {
-		fileadmin1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}fileadmin/
-		fileadmin2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}fileadmin/
-		uploads1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}uploads/
-		uploads2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}uploads/
-		typo3conf1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/
-		typo3conf2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/
-		typo3temp1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
-		typo3temp2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
-		
-		### das captcha von mkforms darf nicht auf die static domain zeigen
-		mkformscaptcha ="typo3conf/ext/mkforms/widgets/captcha/
-	}
+    enable = {$config.tx_mktools.contentreplace.enable}
+    search {
+        fileadmin1 ="/fileadmin/
+        fileadmin2 ="fileadmin/
+        uploads1 ="/uploads/
+        uploads2 ="uploads/
+        typo3conf1 ="/typo3conf/
+        typo3conf2 ="typo3conf/
+        typo3temp1 ="/typo3temp/
+        typo3temp2 ="typo3temp/
+
+        ### das captcha von mkforms darf nicht auf die static domain zeigen
+        mkformscaptcha ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/ext/mkforms/widgets/captcha/
+    }
+    replace {
+        fileadmin1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}fileadmin/
+        fileadmin2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}fileadmin/
+        uploads1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}uploads/
+        uploads2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}uploads/
+        typo3conf1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/
+        typo3conf2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3conf/
+        typo3temp1 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
+        typo3temp2 ="{$config.tx_mktools.contentreplace.staticBaseUrl}typo3temp/
+
+        ### das captcha von mkforms darf nicht auf die static domain zeigen
+        mkformscaptcha ="typo3conf/ext/mkforms/widgets/captcha/
+    }
 }

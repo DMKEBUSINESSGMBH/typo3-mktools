@@ -1,40 +1,40 @@
 config.tx_mktools.pagenotfoundhandling {
-	### Kommaseparierte Liste mit Codes, welche ignoriert werden sollen
-	### Es wird dann kein Exit gemacht, sondern eine einfache Weiterleitung.
-	### 0 => 'Unknown',
-	### 1 => 'ID was not an accessible page',
-	### 2 => 'Subsection was found and not accessible',
-	### 3 => 'ID was outside the domain',
-	### 4 => 'The requested page alias does not exist'
-	ignorecodes = 1,2
-	
-	### Default wird TYPO3_CONF_VARS['FE']['pageNotFound_handling_statheader'] genutzt
-	httpStatus = 
-	
-	### Der Typ für die Konfiguration (REDIRECT, READFILE)
-	type = 
-	### Die Daten für den Typ
-	data =
-	### Für mehrsprachige Fehlerseiten wird der TS-Pfad zu den jeweiligen Fehlerseiten mit Länderkürzel angegeben
-	en.data = 
-	fr.data = 
-	
-	###sollen 404 Zugriffe geloggt werden?
-	logPageNotFound = 0
-	
-	### die gesamte Konfig kann auch für jeden der o.g. pageNotFoundCodes einzeln konfiguriert werden
-	### bei diesem Beispiel wird ein redirect auf die Startseite gemacht bei fehlenden Berechtigungen
-#	pageNotFoundCodes {
-#		1 {
-#			type = REDIRECT
-#			data = /
-#			httpStatus...
-#			logPageNotFound...
-#		}
-#		2 {
-#			type = REDIRECT
-#			data = /
-#		}
-#	}
-	
+    ### Kommaseparierte Liste mit Codes, welche ignoriert werden sollen
+    ### Es wird dann kein Exit gemacht, sondern eine einfache Weiterleitung.
+    ### 0 => 'Unknown',
+    ### 1 => 'ID was not an accessible page',
+    ### 2 => 'Subsection was found and not accessible',
+    ### 3 => 'ID was outside the domain',
+    ### 4 => 'The requested page alias does not exist'
+    ignorecodes = 1,2
+
+    ### Default wird TYPO3_CONF_VARS['FE']['pageNotFound_handling_statheader'] genutzt
+    httpStatus =
+
+    ### Der Typ für die Konfiguration (REDIRECT, READFILE)
+    type =
+    ### Die Daten für den Typ
+    data =
+    ### Für mehrsprachige Fehlerseiten wird der TS-Pfad zu den jeweiligen Fehlerseiten mit Länderkürzel angegeben
+    en.data =
+    fr.data =
+
+    ###sollen 404 Zugriffe geloggt werden?
+    logPageNotFound = 0
+
+    ### die gesamte Konfig kann auch für jeden der o.g. pageNotFoundCodes einzeln konfiguriert werden
+    ### bei diesem Beispiel wird ein redirect auf die Startseite gemacht bei fehlenden Berechtigungen
+#    pageNotFoundCodes {
+#        1 {
+#            type = REDIRECT
+#            data = /
+#            httpStatus...
+#            logPageNotFound...
+#        }
+#        2 {
+#            type = REDIRECT
+#            data = /
+#        }
+#    }
+
 }

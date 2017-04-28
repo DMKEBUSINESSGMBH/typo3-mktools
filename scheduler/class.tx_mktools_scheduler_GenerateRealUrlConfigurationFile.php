@@ -29,46 +29,50 @@ tx_rnbase::load('tx_mktools_util_RealUrl');
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_scheduler_Generic {
+class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_scheduler_Generic
+{
 
-	/**
-	 *
-	 * @param 	array 	$options
-	 * @return 	string
-	 */
-	protected function executeTask(array $options, array &$devLog) {
-		$realUrlUtil = $this->getRealUrlUtil();
+    /**
+     *
+     * @param   array   $options
+     * @return  string
+     */
+    protected function executeTask(array $options, array &$devLog)
+    {
+        $realUrlUtil = $this->getRealUrlUtil();
 
-		if ($realUrlUtil->needsRealUrlConfigurationToBeGenerated()) {
-			$pagesWithFixedPostVarType = $realUrlUtil->getPagesWithFixedPostVarType();
-			$realUrlConfigurationFileGenerated =
-				$realUrlUtil->generateSerializedRealUrlConfigurationFileByPages(
-					$pagesWithFixedPostVarType
-				);
-			$devLogMessage = $realUrlConfigurationFileGenerated ?
-				'realUrl Konfigurationsdatei wurde neu erstellt.' :
-				'realUrl Konfigurationsdatei musste neu erstellt werden, was nicht funktioniert hat. Entweder stimmt die Extension Konfiguration nicht oder es gab einen Fehler beim Schreiben der Datei.';
-		} else {
-			$devLogMessage = 'realUrl Konfigurationsdatei muss nicht erstellt werden.';
-		}
+        if ($realUrlUtil->needsRealUrlConfigurationToBeGenerated()) {
+            $pagesWithFixedPostVarType = $realUrlUtil->getPagesWithFixedPostVarType();
+            $realUrlConfigurationFileGenerated =
+                $realUrlUtil->generateSerializedRealUrlConfigurationFileByPages(
+                    $pagesWithFixedPostVarType
+                );
+            $devLogMessage = $realUrlConfigurationFileGenerated ?
+                'realUrl Konfigurationsdatei wurde neu erstellt.' :
+                'realUrl Konfigurationsdatei musste neu erstellt werden, was nicht funktioniert hat. Entweder stimmt die Extension Konfiguration nicht oder es gab einen Fehler beim Schreiben der Datei.';
+        } else {
+            $devLogMessage = 'realUrl Konfigurationsdatei muss nicht erstellt werden.';
+        }
 
-		$devLog[tx_rnbase_util_Logger::LOGLEVEL_INFO] = array(
-			'message' => $devLogMessage,
-		);
-	}
+        $devLog[tx_rnbase_util_Logger::LOGLEVEL_INFO] = array(
+            'message' => $devLogMessage,
+        );
+    }
 
-	/**
-	 * @return tx_mktools_util_RealUrl
-	 */
-	protected function getRealUrlUtil() {
-		return tx_rnbase::makeInstance('tx_mktools_util_RealUrl');
-	}
+    /**
+     * @return tx_mktools_util_RealUrl
+     */
+    protected function getRealUrlUtil()
+    {
+        return tx_rnbase::makeInstance('tx_mktools_util_RealUrl');
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_mklib_scheduler_Generic::getExtKey()
-	 */
-	protected function getExtKey() {
-		return 'mktools';
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_mklib_scheduler_Generic::getExtKey()
+     */
+    protected function getExtKey()
+    {
+        return 'mktools';
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
- * 	@package TYPO3
- *  @subpackage tx_mktools
+ * @package TYPO3
+ * @subpackage tx_mktools
  *
  *  Copyright notice
  *
@@ -29,33 +29,36 @@
  * es wird eine Warnung erzeugt wenn für einen Link Wizard nicht "params" in der TCA konfiguriert
  * ist, da das dann als string statt wie erwartet als array übergeben wird
  *
- * @author	Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- * @package	TYPO3
+ * @author  Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @package     TYPO3
  * @subpackage tx_mktools
  */
-class tx_mktools_hook_BrowseLinks {
+class tx_mktools_hook_BrowseLinks
+{
 
-	/**
-	 * @param string $mode
-	 * @param mixed (e.g. can be SC_browse_links or tx_rtehtmlarea_SC_browse_links) $parentObject
-	 */
-	public function isValid($mode, $parentObject) {
-		// params muss array sein damit die Warnung nicht erzeugt wird
-		if (is_array($_GET['P']) && !is_array($_GET['P']['params'])) {
-			$_GET['P']['params'] = array();
-		}
+    /**
+     * @param string $mode
+     * @param mixed (e.g. can be SC_browse_links or tx_rtehtmlarea_SC_browse_links) $parentObject
+     */
+    public function isValid($mode, $parentObject)
+    {
+        // params muss array sein damit die Warnung nicht erzeugt wird
+        if (is_array($_GET['P']) && !is_array($_GET['P']['params'])) {
+            $_GET['P']['params'] = array();
+        }
 
-		// wir geben immer FALSE zurück damit nicht render im Hook aufgerufen wird
-		return FALSE;
-	}
+        // wir geben immer FALSE zurück damit nicht render im Hook aufgerufen wird
+        return false;
+    }
 
-	/**
-	 * nichts zu tun. muss nur vorhanden sein, wird aber nie aufgerufen wenn isValid FALSE
-	 * liefert
-	 *
-	 * @param string $mode
-	 * @param mixed (e.g. can be SC_browse_links or tx_rtehtmlarea_SC_browse_links) $parentObject
-	 */
-	public function render($mode, $parentObject) {
-	}
+    /**
+     * nichts zu tun. muss nur vorhanden sein, wird aber nie aufgerufen wenn isValid FALSE
+     * liefert
+     *
+     * @param string $mode
+     * @param mixed (e.g. can be SC_browse_links or tx_rtehtmlarea_SC_browse_links) $parentObject
+     */
+    public function render($mode, $parentObject)
+    {
+    }
 }

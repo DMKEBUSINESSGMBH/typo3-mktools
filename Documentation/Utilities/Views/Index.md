@@ -29,11 +29,11 @@ Creates output based on TypoScript.
 The TypoScript can be added in the TS Tab of the Plugin like this
 
 ```
-	tslib = COA
-	tslib {
-		10 = TEXT
-		10.value = Hello World
-	}
+    tslib = COA
+    tslib {
+        10 = TEXT
+        10.value = Hello World
+    }
 ```
 
 Show Template

@@ -28,35 +28,39 @@ tx_rnbase::load('tx_rnbase_model_base');
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_model_Pages extends tx_rnbase_model_base {
+class tx_mktools_model_Pages extends tx_rnbase_model_base
+{
 
-	/**
-	 * @var tx_mktools_fixedpostvartype|NULL
-	 */
-	private $fixedPostVarType = FALSE;
+    /**
+     * @var tx_mktools_fixedpostvartype|NULL
+     */
+    private $fixedPostVarType = false;
 
-	/**
-	 * (non-PHPdoc)
-	 * @see tx_rnbase_model_base::getTableName()
-	 */
-	public function getTableName() {
-		return 'pages';
-	}
+    /**
+     * (non-PHPdoc)
+     * @see tx_rnbase_model_base::getTableName()
+     */
+    public function getTableName()
+    {
+        return 'pages';
+    }
 
-	/**
-	 * @return tx_mktools_model_FixedPostVarType
-	 */
-	public function getFixedPostVarType() {
-		if ($this->fixedPostVarType === FALSE) {
-			if ($this->record['tx_mktools_fixedpostvartype']) {
-				$this->fixedPostVarType = tx_rnbase::makeInstance(
-					'tx_mktools_model_FixedPostVarType',
-					$this->record['tx_mktools_fixedpostvartype']
-				);
-			} else {
-				$this->fixedPostVarType = NULL;
-			}
-		}
-		return $this->fixedPostVarType;
-	}
+    /**
+     * @return tx_mktools_model_FixedPostVarType
+     */
+    public function getFixedPostVarType()
+    {
+        if ($this->fixedPostVarType === false) {
+            if ($this->record['tx_mktools_fixedpostvartype']) {
+                $this->fixedPostVarType = tx_rnbase::makeInstance(
+                    'tx_mktools_model_FixedPostVarType',
+                    $this->record['tx_mktools_fixedpostvartype']
+                );
+            } else {
+                $this->fixedPostVarType = null;
+            }
+        }
+
+        return $this->fixedPostVarType;
+    }
 }

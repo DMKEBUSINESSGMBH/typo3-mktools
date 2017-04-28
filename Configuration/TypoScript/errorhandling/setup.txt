@@ -1,4 +1,4 @@
 config.tx_mktools.errorhandling {
-	### relativer link zu Seite in TYPO3
-	exceptionPage = 
+    ### relativer link zu Seite in TYPO3
+    exceptionPage = 
 }

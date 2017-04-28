@@ -28,57 +28,56 @@ tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
  * @package TYPO3
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling
-	extends tx_mktools_util_PageNotFoundHandling
+class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling extends tx_mktools_util_PageNotFoundHandling
 {
 
-	/**
-	 * ist nur wahr, wenn wir uns im unittest befinden, um die exits zu vermeiden.
-	 * @var boolean
-	 */
-	private $isTest = FALSE;
+    /**
+     * ist nur wahr, wenn wir uns im unittest befinden, um die exits zu vermeiden.
+     * @var boolean
+     */
+    private $isTest = false;
 
-	/**
-	 *
-	 * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
-	 * @return tx_mktools_util_PageNotFoundHandling
-	 */
-	public static function getInstance($tsfe, $reason = '')
-	{
-		return new self($tsfe, $reason);
-	}
+    /**
+     *
+     * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
+     * @return tx_mktools_util_PageNotFoundHandling
+     */
+    public static function getInstance($tsfe, $reason = '')
+    {
+        return new self($tsfe, $reason);
+    }
 
-	/**
-	 * enthält einen Wert zum auswerden in den tests
-	 * @var array
-	 */
-	private $testValues = array();
+    /**
+     * enthält einen Wert zum auswerden in den tests
+     * @var array
+     */
+    private $testValues = array();
 
-	public function setTestMode()
-	{
-		$this->isTest = TRUE;
-	}
-	public function getTestValue()
-	{
-		return $this->testValues;
-	}
+    public function setTestMode()
+    {
+        $this->isTest = true;
+    }
+    public function getTestValue()
+    {
+        return $this->testValues;
+    }
 
-	protected function setHeaderAndExit($contentOrUrl = '', $httpStatus = '')
-	{
-		$httpStatus = $this->getHttpStatus($httpStatus);
-		if ($this->isTest) {
-			$this->testValues['contentOrUrl'] = $contentOrUrl;
-			$this->testValues['httpStatus'] = $httpStatus;
-			return;
-		}
+    protected function setHeaderAndExit($contentOrUrl = '', $httpStatus = '')
+    {
+        $httpStatus = $this->getHttpStatus($httpStatus);
+        if ($this->isTest) {
+            $this->testValues['contentOrUrl'] = $contentOrUrl;
+            $this->testValues['httpStatus'] = $httpStatus;
 
-		return parent::setHeaderAndExit($contentOrUrl, $httpStatus);
-	}
+            return;
+        }
 
+        return parent::setHeaderAndExit($contentOrUrl, $httpStatus);
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php']);
+        ['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
+        ['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php']);
 }

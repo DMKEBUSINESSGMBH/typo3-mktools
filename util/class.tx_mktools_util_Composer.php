@@ -27,23 +27,23 @@
  * @subpackage tx_mktools
  * @author Michael Wagner
  */
-class tx_mktools_util_Composer {
+class tx_mktools_util_Composer
+{
 
-	/**
-	 * preloads the composer
-	 *
-	 * @param string $extKey
-	 * @param string $composerDir
-	 * @return NULL
-	 */
-	public static function autoload(
-		$extKey = 'mktools',
-		$composerDir = 'Resources/Private/PHP/Composer/'
-	)
-	{
-		require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(
-			$extKey,
-			trim($composerDir, '/') . '/autoload.php'
-		);
-	}
+    /**
+     * preloads the composer
+     *
+     * @param string $extKey
+     * @param string $composerDir
+     * @return NULL
+     */
+    public static function autoload(
+        $extKey = 'mktools',
+        $composerDir = 'Resources/Private/PHP/Composer/'
+    ) {
+        require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(
+            $extKey,
+            trim($composerDir, '/') . '/autoload.php'
+        );
+    }
 }

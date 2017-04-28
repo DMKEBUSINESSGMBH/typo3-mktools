@@ -1,36 +1,36 @@
 mktoolsModalHandler = PAGE
 mktoolsModalHandler {
-	typeNum = 9266
+    typeNum = 9266
 
-	typeNum = 400
-	config	{
-		metaCharset = utf-8
-		### X-Robots-Tag, wir wollen vermeiden, dass der inhalt des calls indiziert wird.
-		additionalHeaders = Content-Type: text/plain; charset=utf-8|X-Robots-Tag: noindex;
-		xhtml_cleaning = 0
-		admPanel = 0
-		sendNoCacheHeaders = 1
-		no_cache = 1
-		metaCharset = 
-		renderCharset =
-		noPageTitle = 1
-		baseURL =
-	}
-	
-	includeCSS >
-	includeJS >
-	headerData >
-	additionalHeaderData >
-	config.additionalHeaders = Content-Type: text/plain; charset=utf-8|X-Robots-Tag: noindex;
-	config.disableAllHeaderCode = 1
-	1 >
-	8 >
-	
+    typeNum = 400
+    config {
+        metaCharset = utf-8
+        ### X-Robots-Tag, wir wollen vermeiden, dass der inhalt des calls indiziert wird.
+        additionalHeaders = Content-Type: text/plain; charset=utf-8|X-Robots-Tag: noindex;
+        xhtml_cleaning = 0
+        admPanel = 0
+        sendNoCacheHeaders = 1
+        no_cache = 1
+        metaCharset =
+        renderCharset =
+        noPageTitle = 1
+        baseURL =
+    }
+
+    includeCSS >
+    includeJS >
+    headerData >
+    additionalHeaderData >
+    config.additionalHeaders = Content-Type: text/plain; charset=utf-8|X-Robots-Tag: noindex;
+    config.disableAllHeaderCode = 1
+    1 >
+    8 >
+
 }
 
 page.includeJS {
-	#mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
-	#mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
-	#mktoolsModalBootstrap = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalBootstrap.js
-	#mktoolsModalFoundation = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalFoundation.js
+    #mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
+    #mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
+    #mktoolsModalBootstrap = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalBootstrap.js
+    #mktoolsModalFoundation = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalFoundation.js
 }

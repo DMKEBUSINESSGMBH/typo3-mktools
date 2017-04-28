@@ -34,529 +34,534 @@
 class tx_mktools_util_PageNotFoundHandling
 {
 
-	/**
-	 * Current ts fe controller
-	 *
-	 * @var Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
-	 */
-	private $tsfe = NULL;
-	private $reason = '';
-	private $header = '';
+    /**
+     * Current ts fe controller
+     *
+     * @var Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
+     */
+    private $tsfe = null;
+    private $reason = '';
+    private $header = '';
 
-	/**
-	 * The optionaly ts config for 404 handling
-	 *
-	 * @var tx_rnbase_configurations
-	 */
-	private $configurations = NULL;
+    /**
+     * The optionaly ts config for 404 handling
+     *
+     * @var tx_rnbase_configurations
+     */
+    private $configurations = null;
 
-	/**
-	 * Create an instance of this util.
-	 *
-	 * @param mixed|Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
-	 * @param string $reason
-	 * @param string $header
-	 *
-	 * @return tx_mktools_util_PageNotFoundHandling
-	 */
-	public static function getInstance($tsfe, $reason = '', $header = '')
-	{
-		// wir können leider nicht mit einem typehint arbeiten auf Grund
-		// der verschiedenen Klassen abhängig von der TYPO3 Version
-		$typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
-		if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
-			throw new InvalidArgumentException(
-				'The first parameter has to be a instance of "tslib_fe"!',
-				intval(ERROR_CODE_MKTOOLS . '100')
-			);
-		}
-		return new self($tsfe);
-	}
+    /**
+     * Create an instance of this util.
+     *
+     * @param mixed|Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
+     * @param string $reason
+     * @param string $header
+     *
+     * @return tx_mktools_util_PageNotFoundHandling
+     */
+    public static function getInstance($tsfe, $reason = '', $header = '')
+    {
+        // wir können leider nicht mit einem typehint arbeiten auf Grund
+        // der verschiedenen Klassen abhängig von der TYPO3 Version
+        $typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
+        if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
+            throw new InvalidArgumentException(
+                'The first parameter has to be a instance of "tslib_fe"!',
+                intval(ERROR_CODE_MKTOOLS . '100')
+            );
+        }
 
-	/**
-	 * Construct
-	 *
-	 * @param mixed|Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
-	 * @param string $reason
-	 * @param string $header
-	 *
-	 * @return tx_mktools_util_PageNotFoundHandling
-	 */
-	public function __construct($tsfe, $reason = '', $header = '')
-	{
-		// wir können leider nicht mit einem typehint arbeiten auf Grund
-		// der verschiedenen Klassen abhängig von der TYPO3 Version
-		$typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
-		if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
-			throw new InvalidArgumentException(
-				'The first parameter has to be a instance of "tslib_fe"!',
-				intval(ERROR_CODE_MKTOOLS . '100')
-			);
-		}
-		$this->tsfe = $tsfe;
-		$this->reason = $reason;
-		$this->header = $header;
+        return new self($tsfe);
+    }
 
-		tx_rnbase::load('tx_rnbase_util_Misc');
-		tx_rnbase_util_Misc::callHook(
-				'mktools',
-				'general_hook_for_page_not_found_handling',
-				array(
-						'tsfe' => $this->tsfe,
-						'reason' => $this->reason,
-						'header' => $this->header,
-				)
-		);
-	}
+    /**
+     * Construct
+     *
+     * @param mixed|Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
+     * @param string $reason
+     * @param string $header
+     *
+     * @return tx_mktools_util_PageNotFoundHandling
+     */
+    public function __construct($tsfe, $reason = '', $header = '')
+    {
+        // wir können leider nicht mit einem typehint arbeiten auf Grund
+        // der verschiedenen Klassen abhängig von der TYPO3 Version
+        $typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
+        if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
+            throw new InvalidArgumentException(
+                'The first parameter has to be a instance of "tslib_fe"!',
+                intval(ERROR_CODE_MKTOOLS . '100')
+            );
+        }
+        $this->tsfe = $tsfe;
+        $this->reason = $reason;
+        $this->header = $header;
 
-	/**
-	 * Do the Magic and handle the 404
-	 *
-	 * @param string $code Der Inhalt von TYPO3_CONF_VARS->FE->pageNotFound_handling
-	 *
-	 * @return bool
-	 */
-	public function handlePageNotFound($code = '')
-	{
-		// keine mktools config, weiter machen!
-		tx_rnbase::load('tx_rnbase_util_Strings');
-		if (!tx_rnbase_util_Strings::isFirstPartOfStr($code, 'MKTOOLS_')) {
-			return NULL;
-		}
+        tx_rnbase::load('tx_rnbase_util_Misc');
+        tx_rnbase_util_Misc::callHook(
+            'mktools',
+            'general_hook_for_page_not_found_handling',
+            array(
+                        'tsfe' => $this->tsfe,
+                        'reason' => $this->reason,
+                        'header' => $this->header,
+                )
+        );
+    }
 
-		$code = substr($code, strlen('MKTOOLS_'));
-		$type = substr($code, 0, strpos($code, ':'));
-		$data = substr($code, strlen($type) + 1);
+    /**
+     * Do the Magic and handle the 404
+     *
+     * @param string $code Der Inhalt von TYPO3_CONF_VARS->FE->pageNotFound_handling
+     *
+     * @return bool
+     */
+    public function handlePageNotFound($code = '')
+    {
+        // keine mktools config, weiter machen!
+        tx_rnbase::load('tx_rnbase_util_Strings');
+        if (!tx_rnbase_util_Strings::isFirstPartOfStr($code, 'MKTOOLS_')) {
+            return null;
+        }
 
-		if ($type == 'TYPOSCRIPT') {
-			if (!empty($data)) {
-				$addTs = $data;
-			}
-		}
+        $code = substr($code, strlen('MKTOOLS_'));
+        $type = substr($code, 0, strpos($code, ':'));
+        $data = substr($code, strlen($type) + 1);
+
+        if ($type == 'TYPOSCRIPT') {
+            if (!empty($data)) {
+                $addTs = $data;
+            }
+        }
 
 
-		// die Config initial anlegen!
-		$confirgurations = $this->getConfigurations($addTs);
+        // die Config initial anlegen!
+        $confirgurations = $this->getConfigurations($addTs);
 
-		// Auf zu ignorierende Fehlercodes prüfen.
-		$ignorecodes = $confirgurations->get('pagenotfoundhandling.ignorecodes');
-		if (tx_rnbase_util_Strings::inList($ignorecodes, $this->getTsFe()->pageNotFound)) {
-			return;
-		}
+        // Auf zu ignorierende Fehlercodes prüfen.
+        $ignorecodes = $confirgurations->get('pagenotfoundhandling.ignorecodes');
+        if (tx_rnbase_util_Strings::inList($ignorecodes, $this->getTsFe()->pageNotFound)) {
+            return;
+        }
 
-		// Type und data aus dem TS holen.
-		if ($type == 'TYPOSCRIPT') {
-			$type = $this->getTypeFromConfiguration();
-			$data = $this->getDataFromConfiguration();
-			$logPageNotFound = $this->getLogPageNotFoundFromConfiguration();
-		}
+        // Type und data aus dem TS holen.
+        if ($type == 'TYPOSCRIPT') {
+            $type = $this->getTypeFromConfiguration();
+            $data = $this->getDataFromConfiguration();
+            $logPageNotFound = $this->getLogPageNotFoundFromConfiguration();
+        }
 
-		// Handling von mehrsprachigen 404 Seiten
-		$languageCode = $this->getCurrentLanguage();
-		if ($languageCode) {
-			if ($this->getDataFromConfiguration($languageCode)) {
-				$data = $this->getDataFromConfiguration($languageCode);
-			}
-		}
+        // Handling von mehrsprachigen 404 Seiten
+        $languageCode = $this->getCurrentLanguage();
+        if ($languageCode) {
+            if ($this->getDataFromConfiguration($languageCode)) {
+                $data = $this->getDataFromConfiguration($languageCode);
+            }
+        }
 
-		if (empty($type) || empty($data)) {
-			throw new InvalidArgumentException(
-				'Type or data missing! (MKTOOLS_[TYPE]:[DATA])',
-				intval(ERROR_CODE_MKTOOLS . '110')
-			);
-		}
+        if (empty($type) || empty($data)) {
+            throw new InvalidArgumentException(
+                'Type or data missing! (MKTOOLS_[TYPE]:[DATA])',
+                intval(ERROR_CODE_MKTOOLS . '110')
+            );
+        }
 
-		if ($logPageNotFound) {
-			$this->logPageNotFound($data, $type);
-		}
+        if ($logPageNotFound) {
+            $this->logPageNotFound($data, $type);
+        }
 
-		// Rekursion verhindern falls die 404 Seite selbst nicht gefunden werden konnte.
-		if ($this->isRequestedPageAlready404Page($data)) {
-			$this->setHeaderAndExit('Unerwarteter Fehler. Die 404 Seite wurde nicht gefunden.');
-		}
+        // Rekursion verhindern falls die 404 Seite selbst nicht gefunden werden konnte.
+        if ($this->isRequestedPageAlready404Page($data)) {
+            $this->setHeaderAndExit('Unerwarteter Fehler. Die 404 Seite wurde nicht gefunden.');
+        }
 
-		switch ($type) {
-			case 'READFILE':
-				$this->printContent($data);
-				break;
-			case 'REDIRECT':
-				$this->redirectTo($data);
-				break;
-			default:
-				throw new InvalidArgumentException(
-					'Unknown type "' . $type . '" found!',
-					intval(ERROR_CODE_MKTOOLS . '110')
-				);
-		}
+        switch ($type) {
+            case 'READFILE':
+                $this->printContent($data);
+                break;
+            case 'REDIRECT':
+                $this->redirectTo($data);
+                break;
+            default:
+                throw new InvalidArgumentException(
+                    'Unknown type "' . $type . '" found!',
+                    intval(ERROR_CODE_MKTOOLS . '110')
+                );
+        }
+    }
 
-	}
+    /**
+     * Log the handling
+     *
+     * @param mixed $data
+     * @param string $type
+     *
+     * @return void
+     */
+    private function logPageNotFound($data, $type)
+    {
+        tx_rnbase::load('tx_rnbase_util_Misc');
+        tx_rnbase::load('tx_rnbase_util_Logger');
+        tx_rnbase_util_Logger::info(
+            'Seite nicht gefunden',
+            'mktools',
+            array(
+                'reason'        => $this->reason,
+                'code'            => $this->getTsFe()->pageNotFound,
+                'REQUEST_URI'    => tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
+                'data'            => $data,
+                'type'            => $type
+            )
+        );
+    }
 
-	/**
-	 * Log the handling
-	 *
-	 * @param mixed $data
-	 * @param string $type
-	 *
-	 * @return void
-	 */
-	private function logPageNotFound($data, $type)
-	{
-		tx_rnbase::load('tx_rnbase_util_Misc');
-		tx_rnbase::load('tx_rnbase_util_Logger');
-		tx_rnbase_util_Logger::info(
-			'Seite nicht gefunden',
-			'mktools',
-			array(
-				'reason'		=> $this->reason,
-				'code'			=> $this->getTsFe()->pageNotFound,
-				'REQUEST_URI' 	=> tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
-				'data'	 		=> $data,
-				'type'			=> $type
-			)
-		);
-	}
+    /**
+     * Um Rekursion zu verhindern
+     *
+     * @param string $url The Url to check
+     *
+     * @return bool
+     */
+    protected function isRequestedPageAlready404Page($url)
+    {
+        tx_rnbase::load('tx_rnbase_util_Misc');
 
-	/**
-	 * Um Rekursion zu verhindern
-	 *
-	 * @param string $url The Url to check
-	 *
-	 * @return bool
-	 */
-	protected function isRequestedPageAlready404Page($url)
-	{
-		tx_rnbase::load('tx_rnbase_util_Misc');
-		return $url == tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI');
-	}
+        return $url == tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI');
+    }
 
-	/**
-	 * Get the content of the file or url and print to out.
-	 *
-	 * @param string $url The url or file with the content to print out
-	 *
-	 * @return NULL
-	 */
-	protected function printContent($url)
-	{
-			tx_rnbase_util_Misc::callHook(
-			'mktools',
-			'pagenotfoundhandling_beforePrintContent',
-			array(
-				'url' => &$url,
-			)
-		);
-		// wir versuchen erstmal den inhalt der URL zu holen
-		tx_rnbase::load('tx_rnbase_util_Network');
-		$content = tx_rnbase_util_Network::getURL(
-			$this->getFileAbsFileName($url)
-		);
+    /**
+     * Get the content of the file or url and print to out.
+     *
+     * @param string $url The url or file with the content to print out
+     *
+     * @return NULL
+     */
+    protected function printContent($url)
+    {
+        tx_rnbase_util_Misc::callHook(
+            'mktools',
+            'pagenotfoundhandling_beforePrintContent',
+            array(
+                'url' => &$url,
+            )
+        );
+        // wir versuchen erstmal den inhalt der URL zu holen
+        tx_rnbase::load('tx_rnbase_util_Network');
+        $content = tx_rnbase_util_Network::getURL(
+            $this->getFileAbsFileName($url)
+        );
 
-		// wir liefern den 404 aus, ohne einen redirect!
-		// damit bleibt auch die url die gleiche :)
-		if ($content) {
-			tx_rnbase::load('tx_rnbase_util_Misc');
-			$content = str_replace(
-				'###CURRENT_URL###',
-				tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
-				$content
-			);
-			$content = str_replace(
-				'###REASON###',
-				htmlspecialchars($this->reason),
-				$content
-			);
-			$this->setHeaderAndExit($content);
-			// wichtig für die testcases
-			return NULL;
-		}
-		// else, wir leiten weiter.
+        // wir liefern den 404 aus, ohne einen redirect!
+        // damit bleibt auch die url die gleiche :)
+        if ($content) {
+            tx_rnbase::load('tx_rnbase_util_Misc');
+            $content = str_replace(
+                '###CURRENT_URL###',
+                tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
+                $content
+            );
+            $content = str_replace(
+                '###REASON###',
+                htmlspecialchars($this->reason),
+                $content
+            );
+            $this->setHeaderAndExit($content);
+            // wichtig für die testcases
+            return null;
+        }
+        // else, wir leiten weiter.
 
-		$this->redirectTo($url);
+        $this->redirectTo($url);
 
-		// wichtig für die testcases
-		return NULL;
-	}
+        // wichtig für die testcases
+        return null;
+    }
 
-	/**
-	 * Performs an reditect
-	 *
-	 * @param string $url The url to redirect to
-	 *
-	 * @return NULL
-	 */
-	protected function redirectTo($url)
-	{
-		$this->setHeaderAndExit(
-			$this->getFileAbsFileName($url)
-		);
+    /**
+     * Performs an reditect
+     *
+     * @param string $url The url to redirect to
+     *
+     * @return NULL
+     */
+    protected function redirectTo($url)
+    {
+        $this->setHeaderAndExit(
+            $this->getFileAbsFileName($url)
+        );
 
-		// wichtig für die testcases
-		return NULL;
-	}
+        // wichtig für die testcases
+        return null;
+    }
 
-	/**
-	 * Returns the current TS FE controller
-	 *
-	 * @return Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
-	 */
-	protected function getTsFe()
-	{
-		return $this->tsfe;
-	}
+    /**
+     * Returns the current TS FE controller
+     *
+     * @return Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
+     */
+    protected function getTsFe()
+    {
+        return $this->tsfe;
+    }
 
-	/**
-	 * The current ext ts conf
-	 *
-	 * @param string $additionalPath Optionaly aditional ts file path
-	 *
-	 * @return 	tx_rnbase_configurations
-	 */
-	protected function &getConfigurations($additionalPath = '')
-	{
-		if (is_null($this->configurations)) {
-			/* @var $miscTools tx_mktools_util_miscTools */
-			$miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
-			$staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
-			$this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
-		}
+    /**
+     * The current ext ts conf
+     *
+     * @param string $additionalPath Optionaly aditional ts file path
+     *
+     * @return  tx_rnbase_configurations
+     */
+    protected function &getConfigurations($additionalPath = '')
+    {
+        if (is_null($this->configurations)) {
+            /* @var $miscTools tx_mktools_util_miscTools */
+            $miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
+            $staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
+            $this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
+        }
 
-		return $this->configurations;
-	}
+        return $this->configurations;
+    }
 
-	/**
-	 * Sets the header and stop code execution.
-	 *
-	 * @param string $contentOrUrl Content to print or url to redirect to
-	 *
-	 * @return void
-	 */
-	protected function setHeaderAndExit($contentOrUrl)
-	{
-		$httpStatus = $this->getHttpStatus();
-		if ($this->isUri($contentOrUrl)) {
-			$httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
-			$httpUtility::redirect($contentOrUrl, $httpStatus);
-		}
-		header($httpStatus);
-		exit($contentOrUrl);
-	}
+    /**
+     * Sets the header and stop code execution.
+     *
+     * @param string $contentOrUrl Content to print or url to redirect to
+     *
+     * @return void
+     */
+    protected function setHeaderAndExit($contentOrUrl)
+    {
+        $httpStatus = $this->getHttpStatus();
+        if ($this->isUri($contentOrUrl)) {
+            $httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
+            $httpUtility::redirect($contentOrUrl, $httpStatus);
+        }
+        header($httpStatus);
+        exit($contentOrUrl);
+    }
 
-	/**
-	 * Returns the absolute filename of a relative reference
-	 *
-	 * @param string $filename The Path to the file
-	 *
-	 * @return string
-	 */
-	private function getFileAbsFileName($filename)
-	{
-		$filename = trim($filename);
+    /**
+     * Returns the absolute filename of a relative reference
+     *
+     * @param string $filename The Path to the file
+     *
+     * @return string
+     */
+    private function getFileAbsFileName($filename)
+    {
+        $filename = trim($filename);
 
-		if (substr($filename, 0, 4) === 'EXT:') {
-			tx_rnbase::load('tx_rnbase_util_Files');
-			$filename = tx_rnbase_util_Files::getFileAbsFileName($filename);
-		} else {
-			tx_rnbase::load('tx_rnbase_util_Network');
-			$filename = tx_rnbase_util_Network::locationHeaderUrl($filename);
-		}
+        if (substr($filename, 0, 4) === 'EXT:') {
+            tx_rnbase::load('tx_rnbase_util_Files');
+            $filename = tx_rnbase_util_Files::getFileAbsFileName($filename);
+        } else {
+            tx_rnbase::load('tx_rnbase_util_Network');
+            $filename = tx_rnbase_util_Network::locationHeaderUrl($filename);
+        }
 
-		return $filename;
-	}
+        return $filename;
+    }
 
-	/**
-	 * Checks if the url is an uri
-	 *
-	 * @param string $url The url to check
-	 *
-	 * @return bool
-	 */
-	private function isUri($url)
-	{
-		return is_array($parsedUrl = parse_url($url)) && $parsedUrl['scheme'];
-	}
+    /**
+     * Checks if the url is an uri
+     *
+     * @param string $url The url to check
+     *
+     * @return bool
+     */
+    private function isUri($url)
+    {
+        return is_array($parsedUrl = parse_url($url)) && $parsedUrl['scheme'];
+    }
 
-	/**
-	 * The HTTP status to set for 404
-	 *
-	 * @return string
-	 */
-	protected function getHttpStatus()
-	{
-		$httpStatus = $this->header;
-		if (empty($httpStatus)) {
-			$httpStatus = $this->getHttpStatusFromConfiguration();
-		}
-		if (empty($httpStatus)) {
-			$httpStatus = $this->TYPO3_CONF_VARS['FE']['pageNotFound_handling_statheader'];
-		}
-		$httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
-		return  empty($httpStatus) ? $httpUtility::HTTP_STATUS_404 : $httpStatus;
-	}
+    /**
+     * The HTTP status to set for 404
+     *
+     * @return string
+     */
+    protected function getHttpStatus()
+    {
+        $httpStatus = $this->header;
+        if (empty($httpStatus)) {
+            $httpStatus = $this->getHttpStatusFromConfiguration();
+        }
+        if (empty($httpStatus)) {
+            $httpStatus = $this->TYPO3_CONF_VARS['FE']['pageNotFound_handling_statheader'];
+        }
+        $httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
 
-	/**
-	 * Reads the Type from TS
-	 *
-	 * @return string
-	 */
-	private function getTypeFromConfiguration()
-	{
-		return $this->getConfigurationKeyValueByPageNotFoundCode('type');
-	}
+        return  empty($httpStatus) ? $httpUtility::HTTP_STATUS_404 : $httpStatus;
+    }
 
-	/**
-	 * Reads data from TS
-	 *
-	 * @param string $languageCode An optionaly Language code
-	 *
-	 * @return string
-	 */
-	private function getDataFromConfiguration($languageCode = FALSE)
-	{
-		$typoScriptKey = $languageCode ? $languageCode . '.data' : 'data';
-		return $this->getConfigurationKeyValueByPageNotFoundCode($typoScriptKey);
-	}
+    /**
+     * Reads the Type from TS
+     *
+     * @return string
+     */
+    private function getTypeFromConfiguration()
+    {
+        return $this->getConfigurationKeyValueByPageNotFoundCode('type');
+    }
 
-	/**
-	 * Log 404 handling?
-	 *
-	 * @return bool
-	 */
-	private function getLogPageNotFoundFromConfiguration()
-	{
-		return (boolean) $this->getConfigurationKeyValueByPageNotFoundCode(
-			'logPageNotFound'
-		);
-	}
+    /**
+     * Reads data from TS
+     *
+     * @param string $languageCode An optionaly Language code
+     *
+     * @return string
+     */
+    private function getDataFromConfiguration($languageCode = false)
+    {
+        $typoScriptKey = $languageCode ? $languageCode . '.data' : 'data';
 
-	/**
-	 * HTTP status from Config
-	 *
-	 * @return string
-	 */
-	private function getHttpStatusFromConfiguration()
-	{
-		return $this->getConfigurationKeyValueByPageNotFoundCode('httpStatus');
-	}
+        return $this->getConfigurationKeyValueByPageNotFoundCode($typoScriptKey);
+    }
 
-	/**
-	 * Entweder den default Wert oder den für den spezifischen Code
-	 * Beispiel Konfig:
-	 * config.tx_mktools.pagenotfoundhandling {
-	 *		### default
-	 *		type = READFILE
-	 *		data = /404
-	 *
-	 *		### wenn der Nutzer keine Berechtigungen hat, dann soll er auf die Startseite umgeleitet werden
-	 *		pageNotFoundCodes {
-	 *			1 {
-	 *				type = REDIRECT
-	 *				data = /
-	 *				httpStatus...
-	 *				logPageNotFound...
-	 *			}
-	 *			2 {
-	 *				data = /
-	 *			}
-	 *		}
-	 *	}
-	 *
-	 * @param string $typoScriptKey ConfId
-	 *
-	 * @return string
-	 */
-	private function getConfigurationKeyValueByPageNotFoundCode($typoScriptKey)
-	{
-		$pageNotFoundCode = $this->getTsFe()->pageNotFound;
-		$value = $this->getConfigurations()->get(
-			'pagenotfoundhandling.pageNotFoundCodes.' . $pageNotFoundCode .
-			'.' . $typoScriptKey, TRUE
-		);
+    /**
+     * Log 404 handling?
+     *
+     * @return bool
+     */
+    private function getLogPageNotFoundFromConfiguration()
+    {
+        return (boolean) $this->getConfigurationKeyValueByPageNotFoundCode(
+            'logPageNotFound'
+        );
+    }
 
-		if (!$value) {
-			$value = $this->getConfigurations()->get('pagenotfoundhandling.' . $typoScriptKey, TRUE);
-		}
+    /**
+     * HTTP status from Config
+     *
+     * @return string
+     */
+    private function getHttpStatusFromConfiguration()
+    {
+        return $this->getConfigurationKeyValueByPageNotFoundCode('httpStatus');
+    }
 
-		return $value;
-	}
+    /**
+     * Entweder den default Wert oder den für den spezifischen Code
+     * Beispiel Konfig:
+     * config.tx_mktools.pagenotfoundhandling {
+     *      ### default
+     *      type = READFILE
+     *      data = /404
+     *
+     *      ### wenn der Nutzer keine Berechtigungen hat, dann soll er auf die Startseite umgeleitet werden
+     *      pageNotFoundCodes {
+     *          1 {
+     *              type = REDIRECT
+     *              data = /
+     *              httpStatus...
+     *              logPageNotFound...
+     *          }
+     *          2 {
+     *              data = /
+     *          }
+     *      }
+     *  }
+     *
+     * @param string $typoScriptKey ConfId
+     *
+     * @return string
+     */
+    private function getConfigurationKeyValueByPageNotFoundCode($typoScriptKey)
+    {
+        $pageNotFoundCode = $this->getTsFe()->pageNotFound;
+        $value = $this->getConfigurations()->get(
+            'pagenotfoundhandling.pageNotFoundCodes.' . $pageNotFoundCode .
+            '.' . $typoScriptKey,
+            true
+        );
 
-	/**
-	 * Liefert Kürzel der aktuell gesetzten Sprache.
-	 * Bei aktivierten realurl kann diese nicht auf dem üblichen Weg ausgewertet
-	 * werden. Realurl kann die URL nicht auflösen, da es keine gültige Seite hat.
-	 * Demzufolge kann der L-Parameter nicht einfach z.B: über TS abgefragt werden
-	 *
-	 * @return string With countrycode or NULL
-	 */
-	private function getCurrentLanguage()
-	{
-		if (tx_rnbase_util_Extensions::isLoaded('realurl') && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
-			$realurlConf = array_shift($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']);
-			if ($realurlConf &&
-				is_array($realurlConf['preVars']) &&
-				$realurlConf['pagePath']['languageGetVar']
-			) {
-				// look for language configuration
-				foreach ($realurlConf['preVars'] as $conf) {
-					if ($conf['GETvar'] == $realurlConf['pagePath']['languageGetVar']) {
-						foreach ($conf['valueMap'] as $countrycode => $value) {
-							// we expect a part like "/de/" in requested url
-							if ((
-								strpos(
-									tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'),
-									'/' . $countrycode . '/'
-								) !== FALSE
-							)) {
-								return $countrycode;
-							}
-						}
-					}
-				}
-			}
-		}
-		return FALSE;
-	}
+        if (!$value) {
+            $value = $this->getConfigurations()->get('pagenotfoundhandling.' . $typoScriptKey, true);
+        }
 
-	/**
-	 * Anpassung tslib_fe für 404
-	 *
-	 * @return void
-	 */
-	public static function registerXclass()
-	{
-		// kann schon durch autoloading da sein aber auch eine andere Klasse sein
-		// als die von mktools
-		if (class_exists('ux_tslib_fe')) {
-			$reflector = new ReflectionClass('ux_tslib_fe');
-			$rPath = realpath($reflector->getFileName());
-			$tPath = realpath(
-				tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tslib_fe.php')
-			);
-			// notice werfen wenn bisherige XClass nicht die von mktools ist
-			if (strpos($rPath, $tPath) === FALSE) {
-				throw new LogicException(
-					'There allready exists an ux_tslib_fe XCLASS!' .
-					' Remove the other XCLASS or the deacivate the page not found handling in mktools',
-					intval(ERROR_CODE_MKTOOLS  . '130')
-				);
-			}
-			unset($reflector, $rPath, $tPath);
-		} else {
-			require_once tx_rnbase_util_Extensions::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
-		}
+        return $value;
+    }
 
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
-				'className' => 'ux_tslib_fe',
-			);
-		} else {
-			$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_fe.php']
-				= tx_rnbase_util_Extensions::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
-		}
-	}
+    /**
+     * Liefert Kürzel der aktuell gesetzten Sprache.
+     * Bei aktivierten realurl kann diese nicht auf dem üblichen Weg ausgewertet
+     * werden. Realurl kann die URL nicht auflösen, da es keine gültige Seite hat.
+     * Demzufolge kann der L-Parameter nicht einfach z.B: über TS abgefragt werden
+     *
+     * @return string With countrycode or NULL
+     */
+    private function getCurrentLanguage()
+    {
+        if (tx_rnbase_util_Extensions::isLoaded('realurl') && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
+            $realurlConf = array_shift($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']);
+            if ($realurlConf &&
+                is_array($realurlConf['preVars']) &&
+                $realurlConf['pagePath']['languageGetVar']
+            ) {
+                // look for language configuration
+                foreach ($realurlConf['preVars'] as $conf) {
+                    if ($conf['GETvar'] == $realurlConf['pagePath']['languageGetVar']) {
+                        foreach ($conf['valueMap'] as $countrycode => $value) {
+                            // we expect a part like "/de/" in requested url
+                            if ((
+                                strpos(
+                                    tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'),
+                                    '/' . $countrycode . '/'
+                                ) !== false
+                            )) {
+                                return $countrycode;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Anpassung tslib_fe für 404
+     *
+     * @return void
+     */
+    public static function registerXclass()
+    {
+        // kann schon durch autoloading da sein aber auch eine andere Klasse sein
+        // als die von mktools
+        if (class_exists('ux_tslib_fe')) {
+            $reflector = new ReflectionClass('ux_tslib_fe');
+            $rPath = realpath($reflector->getFileName());
+            $tPath = realpath(
+                tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tslib_fe.php')
+            );
+            // notice werfen wenn bisherige XClass nicht die von mktools ist
+            if (strpos($rPath, $tPath) === false) {
+                throw new LogicException(
+                    'There allready exists an ux_tslib_fe XCLASS!' .
+                    ' Remove the other XCLASS or the deacivate the page not found handling in mktools',
+                    intval(ERROR_CODE_MKTOOLS  . '130')
+                );
+            }
+            unset($reflector, $rPath, $tPath);
+        } else {
+            require_once tx_rnbase_util_Extensions::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
+        }
+
+        if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
+                'className' => 'ux_tslib_fe',
+            );
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/class.tslib_fe.php']
+                = tx_rnbase_util_Extensions::extPath('mktools') . 'xclasses/class.ux_tslib_fe.php';
+        }
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']);
+        ['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
+        ['ext/mktools/util/class.tx_mktools_util_PageNotFoundHandling.php']);
 }

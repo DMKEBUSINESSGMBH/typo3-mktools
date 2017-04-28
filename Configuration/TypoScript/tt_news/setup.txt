@@ -1,28 +1,28 @@
 includeLibs.tx_rnbase_util_TSFAL = EXT:rn_base/util/class.tx_rnbase_util_TSFAL.php
 lib.tx_mktools.tt_news.news {
-	image = USER
-	image {
-		userFunc = tx_rnbase_util_TSFAL->printImages
-		refField = tx_mktools_fal_images
-		refTable = tt_news
-		#template = ...
-		#subpartName = ...
-		media {
-			file = IMG_RESOURCE
-			file.file.import.field = file
-		}
-	}
-	
-	media = USER
-	media {
-		userFunc = tx_rnbase_util_TSFAL->printImages
-		refField = tx_mktools_fal_media
-		refTable = tt_news
-		#template = ...
-		#subpartName = ...
-		media {
-			file = IMG_RESOURCE
-			file.file.import.field = file
-		}
-	}
+    image = USER
+    image {
+        userFunc = tx_rnbase_util_TSFAL->printImages
+        refField = tx_mktools_fal_images
+        refTable = tt_news
+        #template = ...
+        #subpartName = ...
+        media {
+            file = IMG_RESOURCE
+            file.file.import.field = file
+        }
+    }
+
+    media = USER
+    media {
+        userFunc = tx_rnbase_util_TSFAL->printImages
+        refField = tx_mktools_fal_media
+        refTable = tt_news
+        #template = ...
+        #subpartName = ...
+        media {
+            file = IMG_RESOURCE
+            file.file.import.field = file
+        }
+    }
 }

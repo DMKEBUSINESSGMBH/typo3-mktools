@@ -25,64 +25,71 @@
 
 /**
  * @package TYPO3
- * @author	Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @author  Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_tests_hook_BrowseLinks_testcase extends Tx_Phpunit_TestCase {
+class tx_mktools_tests_hook_BrowseLinks_testcase extends Tx_Phpunit_TestCase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		if (isset($_GET['P']['params'])) {
-			unset($_GET['P']['params']);
-		}
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        if (isset($_GET['P']['params'])) {
+            unset($_GET['P']['params']);
+        }
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testRenderReturnsNull() {
-		$this->assertNull($this->callHookFunction('render'), 'render liefert nicht NULL');
-	}
+    /**
+     * @group unit
+     */
+    public function testRenderReturnsNull()
+    {
+        $this->assertNull($this->callHookFunction('render'), 'render liefert nicht NULL');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testIsValidReturnsFalse() {
-		$this->assertFalse($this->callHookFunction('isValid'));
-	}
+    /**
+     * @group unit
+     */
+    public function testIsValidReturnsFalse()
+    {
+        $this->assertFalse($this->callHookFunction('isValid'));
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testIsValidChangesParamsParameterNotIfIsAlreadyArray() {
-		$_GET['P']['params'] = array('test');
-		$this->callHookFunction('isValid');
+    /**
+     * @group unit
+     */
+    public function testIsValidChangesParamsParameterNotIfIsAlreadyArray()
+    {
+        $_GET['P']['params'] = array('test');
+        $this->callHookFunction('isValid');
 
-		$this->assertEquals(array('test'), $_GET['P']['params'], 'params Parameter doch verändert');
-	}
+        $this->assertEquals(array('test'), $_GET['P']['params'], 'params Parameter doch verändert');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testIsValidChangesParamsParameterToEmptyArrayIfIsNotAlreadyArray() {
-		$_GET['P']['params'] = 'test';
-		$this->callHookFunction('isValid');
+    /**
+     * @group unit
+     */
+    public function testIsValidChangesParamsParameterToEmptyArrayIfIsNotAlreadyArray()
+    {
+        $_GET['P']['params'] = 'test';
+        $this->callHookFunction('isValid');
 
-		$this->assertEquals(array(), $_GET['P']['params'], 'params Parameter kein leeres array');
-	}
+        $this->assertEquals(array(), $_GET['P']['params'], 'params Parameter kein leeres array');
+    }
 
-	/**
-	 *
-	 * @param string $function
-	 *
-	 * @return mixed
-	 */
-	private function callHookFunction($function) {
-		$hook = tx_rnbase::makeInstance('tx_mktools_hook_BrowseLinks');
-		$browseLinksObject = $this->getMock('SC_browse_links');
+    /**
+     *
+     * @param string $function
+     *
+     * @return mixed
+     */
+    private function callHookFunction($function)
+    {
+        $hook = tx_rnbase::makeInstance('tx_mktools_hook_BrowseLinks');
+        $browseLinksObject = $this->getMock('SC_browse_links');
 
-		return $hook->$function('', $browseLinksObject);
-	}
+        return $hook->$function('', $browseLinksObject);
+    }
 }

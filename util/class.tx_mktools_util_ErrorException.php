@@ -26,6 +26,6 @@ tx_rnbase::load('Tx_Rnbase_Error_Exception');
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_util_ErrorException extends Tx_Rnbase_Error_Exception {
-
+class tx_mktools_util_ErrorException extends Tx_Rnbase_Error_Exception
+{
 }

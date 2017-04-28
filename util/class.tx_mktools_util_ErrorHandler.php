@@ -32,139 +32,155 @@ tx_rnbase::load('Tx_Rnbase_Error_Exception');
  * @package TYPO3
  * @subpackage tx_mktools
  */
-class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler {
-	/**
-	 * registriert den error handler auch für fatal errors
-	 * tx_mktools_util_ErrorHandler constructor.
-	 *
-	 * @param int $errorHandlerErrors
-	 */
-	public function __construct($errorHandlerErrors) {
-		parent::__construct($errorHandlerErrors);
-		register_shutdown_function(array($this, "handleFatalError" ));
-	}
+class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
+{
+    /**
+     * registriert den error handler auch für fatal errors
+     * tx_mktools_util_ErrorHandler constructor.
+     *
+     * @param int $errorHandlerErrors
+     */
+    public function __construct($errorHandlerErrors)
+    {
+        parent::__construct($errorHandlerErrors);
+        register_shutdown_function(array($this, 'handleFatalError' ));
+    }
 
-	/**
-	 * wir loggen immer alle, Fehler, die exceptional sind für folgenden Fall:
-	 * wenn ein Error geworfen wird, der exceptional ist und der Error
-	 * wird in einem try-catch-block geworfen, dann wird der fehler verschluckt
-	 * da die exception, welche für den exception handler geworfen wird,
-	 * gefangen wird
-	 *
-	 * (non-PHPdoc)
-	 * @see Tx_Rnbase_Error_ErrorHandler::handleError()
-	 *
-	 * @throws tx_mktools_util_ErrorException
-	 */
-	public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine) {
-		if ($this->isErrorReportingDisabled()) {
-			return TRUE;
-		}
-		try {
-			$return = $this->handleErrorByParent(
-				$errorLevel, $errorMessage, $errorFile, $errorLine
-			);
-		} catch (Exception $exception) {
-			if ($this->shouldExceptionsBeWrittenToDevLog()) {
-				$this->writeExceptionToDevLog($exception);
-			}
+    /**
+     * wir loggen immer alle, Fehler, die exceptional sind für folgenden Fall:
+     * wenn ein Error geworfen wird, der exceptional ist und der Error
+     * wird in einem try-catch-block geworfen, dann wird der fehler verschluckt
+     * da die exception, welche für den exception handler geworfen wird,
+     * gefangen wird
+     *
+     * (non-PHPdoc)
+     *
+     * @see Tx_Rnbase_Error_ErrorHandler::handleError()
+     *
+     * @throws tx_mktools_util_ErrorException
+     */
+    public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine)
+    {
+        if ($this->isErrorReportingDisabled()) {
+            return true;
+        }
+        try {
+            $return = $this->handleErrorByParent(
+                $errorLevel,
+                $errorMessage,
+                $errorFile,
+                $errorLine
+            );
+        } catch (Exception $exception) {
+            if ($this->shouldExceptionsBeWrittenToDevLog()) {
+                $this->writeExceptionToDevLog($exception);
+            }
 
-			//damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
-			//dieser tut das nur für exceptions != tx_mktools_util_ErrorException
-			throw tx_rnbase::makeInstance(
-				'tx_mktools_util_ErrorException',
-				$exception->getMessage(), $exception->getCode()
-			);
-		}
+            //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
+            //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
+            throw tx_rnbase::makeInstance(
+                'tx_mktools_util_ErrorException',
+                $exception->getMessage(),
+                $exception->getCode()
+            );
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	protected function isErrorReportingDisabled() {
-		return error_reporting() === 0;
-	}
+    /**
+     * @return bool
+     */
+    protected function isErrorReportingDisabled()
+    {
+        return error_reporting() === 0;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see Tx_Rnbase_Error_ErrorHandler::handleError()
-	 */
-	protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine) {
-		return parent::handleError($errorLevel, $errorMessage, $errorFile, $errorLine);
-	}
+    /**
+     * (non-PHPdoc)
+     * @see Tx_Rnbase_Error_ErrorHandler::handleError()
+     */
+    protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine)
+    {
+        return parent::handleError($errorLevel, $errorMessage, $errorFile, $errorLine);
+    }
 
-	/**
-	 * @return boolean
-	 */
-	protected function shouldExceptionsBeWrittenToDevLog()  {
-		return TYPO3_EXCEPTION_DLOG;
-	}
+    /**
+     * @return bool
+     */
+    protected function shouldExceptionsBeWrittenToDevLog()
+    {
+        return TYPO3_EXCEPTION_DLOG;
+    }
 
-	/**
-	 * @param \Exception|\Throwable $exception
-	 */
-	protected function writeExceptionToDevLog($exception) {
-		$logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
-		tx_rnbase::load('tx_rnbase_util_Logger');
-		tx_rnbase_util_Logger::devLog($exception->getMessage(), $logTitle, 3);
-	}
+    /**
+     * @param \Exception|\Throwable $exception
+     */
+    protected function writeExceptionToDevLog($exception)
+    {
+        $logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
+        tx_rnbase::load('tx_rnbase_util_Logger');
+        tx_rnbase_util_Logger::devLog($exception->getMessage(), $logTitle, 3);
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function handleFatalError() {
-		if ($this->isErrorReportingDisabled()) {
-			return TRUE;
-		}
+    /**
+     * @return bool
+     */
+    public function handleFatalError()
+    {
+        if ($this->isErrorReportingDisabled()) {
+            return true;
+        }
 
-		$error = $this->getLastError();
+        $error = $this->getLastError();
 
-		if(
-			$error['type'] == E_ERROR ||
-			$error['type'] == E_COMPILE_ERROR ||
-			$error['type'] == E_CORE_ERROR ||
-			$error['type'] == E_USER_ERROR
-		) {
-			$errorMessage = $error['message'];
-			$errorFile = $error['file'];
-			$errorLine = $error['line'];
-			$message = 	'PHP Fatal Error: ' . $errorMessage . ' in ' .
-						basename($errorFile) . ' line ' . $errorLine;
+        if ($error['type'] == E_ERROR ||
+            $error['type'] == E_COMPILE_ERROR ||
+            $error['type'] == E_CORE_ERROR ||
+            $error['type'] == E_USER_ERROR
+        ) {
+            $errorMessage = $error['message'];
+            $errorFile = $error['file'];
+            $errorLine = $error['line'];
+            $message =    'PHP Fatal Error: ' . $errorMessage . ' in ' .
+                        basename($errorFile) . ' line ' . $errorLine;
 
-			$exception = $this->getTypo3Exception($message);
-			$this->getExceptionHandler()->handleException($exception);
-			return TRUE;
-		}
-	}
+            $exception = $this->getTypo3Exception($message);
+            $this->getExceptionHandler()->handleException($exception);
 
-	/**
-	 * wird in Tests gemocked
-	 *
-	 * @return array
-	 */
-	protected function getLastError() {
-		return error_get_last();
-	}
+            return true;
+        }
+    }
 
-	/**
-	 * wird in Tests gemocked
-	 *
-	 * @param string $exceptionMessage
-	 *
-	 * @return Tx_Rnbase_Error_Exception
-	 */
-	protected function getTypo3Exception($exceptionMessage) {
-		return new Tx_Rnbase_Error_Exception($exceptionMessage);
-	}
+    /**
+     * wird in Tests gemocked
+     *
+     * @return array
+     */
+    protected function getLastError()
+    {
+        return error_get_last();
+    }
 
-	/**
-	 * wird in Tests gemocked
-	 *
-	 * @return tx_mktools_util_ExceptionHandler
-	 */
-	protected function getExceptionHandler() {
-		return tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
-	}
+    /**
+     * wird in Tests gemocked
+     *
+     * @param string $exceptionMessage
+     *
+     * @return Tx_Rnbase_Error_Exception
+     */
+    protected function getTypo3Exception($exceptionMessage)
+    {
+        return new Tx_Rnbase_Error_Exception($exceptionMessage);
+    }
+
+    /**
+     * wird in Tests gemocked
+     *
+     * @return tx_mktools_util_ExceptionHandler
+     */
+    protected function getExceptionHandler()
+    {
+        return tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
+    }
 }

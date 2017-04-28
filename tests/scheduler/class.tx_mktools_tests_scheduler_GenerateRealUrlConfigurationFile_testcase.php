@@ -29,161 +29,170 @@ tx_rnbase::load('tx_mktools_util_RealUrl');
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase extends tx_phpunit_testcase{
+class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase extends tx_phpunit_testcase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		tx_mklib_tests_Util::disableDevlog();
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        tx_mklib_tests_Util::disableDevlog();
+    }
 
-	/**
-	* @group unit
-	*/
-	public function testExecuteTaskCallsNotGenerationOfConfigFileIfNotNecessary() {
-		$realUrlUtil = $this->getRealUrlUtilMock();
+    /**
+     * @group unit
+     */
+    public function testExecuteTaskCallsNotGenerationOfConfigFileIfNotNecessary()
+    {
+        $realUrlUtil = $this->getRealUrlUtilMock();
 
-		$realUrlUtil->expects($this->once())
-			->method('needsRealUrlConfigurationToBeGenerated')
-			->will($this->returnValue(FALSE));
+        $realUrlUtil->expects($this->once())
+            ->method('needsRealUrlConfigurationToBeGenerated')
+            ->will($this->returnValue(false));
 
-		$realUrlUtil->expects($this->never())
-			->method('getPagesWithFixedPostVarType');
+        $realUrlUtil->expects($this->never())
+            ->method('getPagesWithFixedPostVarType');
 
-		$realUrlUtil->expects($this->never())
-			->method('generateSerializedRealUrlConfigurationFileByPages');
+        $realUrlUtil->expects($this->never())
+            ->method('generateSerializedRealUrlConfigurationFileByPages');
 
-		$scheduler = $this->getMock(
-			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
-			array('getRealUrlUtil')
-		);
+        $scheduler = $this->getMock(
+            'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
+            array('getRealUrlUtil')
+        );
 
-		$scheduler->expects($this->once())
-			->method('getRealUrlUtil')
-			->will($this->returnValue($realUrlUtil));
+        $scheduler->expects($this->once())
+            ->method('getRealUrlUtil')
+            ->will($this->returnValue($realUrlUtil));
 
-		$options = $devLog = array();
-		$executeTaskMethod = new ReflectionMethod(
-			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile', 'executeTask'
-		);
-		$executeTaskMethod->setAccessible(TRUE);
-		$arguments = array($options, &$devLog);
-		$executeTaskMethod->invokeArgs($scheduler, $arguments);
-
-
-		$expectedDevLog = array(
-			tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
-				'message' => 'realUrl Konfigurationsdatei muss nicht erstellt werden.',
-			)
-		);
-
-		$this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
-	}
-
-	/**
-	* @group unit
-	*/
-	public function testExecuteTaskCallsGenerationOfConfigFileIfNecessaryAndSetsCorrectDevLogIfGenerationWasSuccessful() {
-		$realUrlUtil = $this->getRealUrlUtilMock();
-
-		$realUrlUtil->expects($this->once())
-			->method('needsRealUrlConfigurationToBeGenerated')
-			->will($this->returnValue(TRUE));
-
-		$realUrlUtil->expects($this->once())
-			->method('getPagesWithFixedPostVarType')
-			->will($this->returnValue(array('mypages')));
-
-		$realUrlUtil->expects($this->once())
-			->method('generateSerializedRealUrlConfigurationFileByPages')
-			->with(array('mypages'))
-			->will($this->returnValue(TRUE));
-
-		$scheduler = $this->getMock(
-			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
-			array('getRealUrlUtil')
-		);
-
-		$scheduler->expects($this->once())
-			->method('getRealUrlUtil')
-			->will($this->returnValue($realUrlUtil));
-
-		$options = $devLog = array();
-		$executeTaskMethod = new ReflectionMethod(
-			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile', 'executeTask'
-		);
-		$executeTaskMethod->setAccessible(TRUE);
-		$arguments = array($options, &$devLog);
-		$executeTaskMethod->invokeArgs($scheduler, $arguments);
+        $options = $devLog = array();
+        $executeTaskMethod = new ReflectionMethod(
+            'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
+            'executeTask'
+        );
+        $executeTaskMethod->setAccessible(true);
+        $arguments = array($options, &$devLog);
+        $executeTaskMethod->invokeArgs($scheduler, $arguments);
 
 
-		$expectedDevLog = array(
-			tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
-				'message' => 'realUrl Konfigurationsdatei wurde neu erstellt.',
-			)
-		);
+        $expectedDevLog = array(
+            tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
+                'message' => 'realUrl Konfigurationsdatei muss nicht erstellt werden.',
+            )
+        );
 
-		$this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
-	}
+        $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
+    }
 
-	/**
-	* @group unit
-	*/
-	public function testExecuteTaskCallsGenerationOfConfigFileIfNecessaryAndSetsCorrectDevLogIfGenerationWasNotSuccessful() {
-		$realUrlUtil = $this->getRealUrlUtilMock();
+    /**
+     * @group unit
+     */
+    public function testExecuteTaskCallsGenerationOfConfigFileIfNecessaryAndSetsCorrectDevLogIfGenerationWasSuccessful()
+    {
+        $realUrlUtil = $this->getRealUrlUtilMock();
 
-		$realUrlUtil->expects($this->once())
-			->method('needsRealUrlConfigurationToBeGenerated')
-			->will($this->returnValue(TRUE));
+        $realUrlUtil->expects($this->once())
+            ->method('needsRealUrlConfigurationToBeGenerated')
+            ->will($this->returnValue(true));
 
-		$realUrlUtil->expects($this->once())
-			->method('getPagesWithFixedPostVarType')
-			->will($this->returnValue(array('mypages')));
+        $realUrlUtil->expects($this->once())
+            ->method('getPagesWithFixedPostVarType')
+            ->will($this->returnValue(array('mypages')));
 
-		$realUrlUtil->expects($this->once())
-			->method('generateSerializedRealUrlConfigurationFileByPages')
-			->with(array('mypages'))
-			->will($this->returnValue(FALSE));
+        $realUrlUtil->expects($this->once())
+            ->method('generateSerializedRealUrlConfigurationFileByPages')
+            ->with(array('mypages'))
+            ->will($this->returnValue(true));
 
-		$scheduler = $this->getMock(
-			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
-			array('getRealUrlUtil')
-		);
+        $scheduler = $this->getMock(
+            'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
+            array('getRealUrlUtil')
+        );
 
-		$scheduler->expects($this->once())
-			->method('getRealUrlUtil')
-			->will($this->returnValue($realUrlUtil));
+        $scheduler->expects($this->once())
+            ->method('getRealUrlUtil')
+            ->will($this->returnValue($realUrlUtil));
 
-		$options = $devLog = array();
-		$executeTaskMethod = new ReflectionMethod(
-			'tx_mktools_scheduler_GenerateRealUrlConfigurationFile', 'executeTask'
-		);
-		$executeTaskMethod->setAccessible(TRUE);
-		$arguments = array($options, &$devLog);
-		$executeTaskMethod->invokeArgs($scheduler, $arguments);
+        $options = $devLog = array();
+        $executeTaskMethod = new ReflectionMethod(
+            'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
+            'executeTask'
+        );
+        $executeTaskMethod->setAccessible(true);
+        $arguments = array($options, &$devLog);
+        $executeTaskMethod->invokeArgs($scheduler, $arguments);
 
-		$expectedDevLog = array(
-			tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
-				'message' => 'realUrl Konfigurationsdatei musste neu erstellt werden, was nicht funktioniert hat. Entweder stimmt die Extension Konfiguration nicht oder es gab einen Fehler beim Schreiben der Datei.',
-			)
-		);
 
-		$this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
-	}
+        $expectedDevLog = array(
+            tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
+                'message' => 'realUrl Konfigurationsdatei wurde neu erstellt.',
+            )
+        );
 
-	/**
-	 * @return tx_mktools_util_RealUrl
-	 */
-	private function getRealUrlUtilMock() {
-		return $this->getMock(
-			'tx_mktools_util_RealUrl',
-			array(
-				'needsRealUrlConfigurationToBeGenerated',
-				'getPagesWithFixedPostVarType',
-				'generateSerializedRealUrlConfigurationFileByPages'
-			)
-		);
-	}
+        $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
+    }
+
+    /**
+     * @group unit
+     */
+    public function testExecuteTaskCallsGenerationOfConfigFileIfNecessaryAndSetsCorrectDevLogIfGenerationWasNotSuccessful()
+    {
+        $realUrlUtil = $this->getRealUrlUtilMock();
+
+        $realUrlUtil->expects($this->once())
+            ->method('needsRealUrlConfigurationToBeGenerated')
+            ->will($this->returnValue(true));
+
+        $realUrlUtil->expects($this->once())
+            ->method('getPagesWithFixedPostVarType')
+            ->will($this->returnValue(array('mypages')));
+
+        $realUrlUtil->expects($this->once())
+            ->method('generateSerializedRealUrlConfigurationFileByPages')
+            ->with(array('mypages'))
+            ->will($this->returnValue(false));
+
+        $scheduler = $this->getMock(
+            'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
+            array('getRealUrlUtil')
+        );
+
+        $scheduler->expects($this->once())
+            ->method('getRealUrlUtil')
+            ->will($this->returnValue($realUrlUtil));
+
+        $options = $devLog = array();
+        $executeTaskMethod = new ReflectionMethod(
+            'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
+            'executeTask'
+        );
+        $executeTaskMethod->setAccessible(true);
+        $arguments = array($options, &$devLog);
+        $executeTaskMethod->invokeArgs($scheduler, $arguments);
+
+        $expectedDevLog = array(
+            tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
+                'message' => 'realUrl Konfigurationsdatei musste neu erstellt werden, was nicht funktioniert hat. Entweder stimmt die Extension Konfiguration nicht oder es gab einen Fehler beim Schreiben der Datei.',
+            )
+        );
+
+        $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
+    }
+
+    /**
+     * @return tx_mktools_util_RealUrl
+     */
+    private function getRealUrlUtilMock()
+    {
+        return $this->getMock(
+            'tx_mktools_util_RealUrl',
+            array(
+                'needsRealUrlConfigurationToBeGenerated',
+                'getPagesWithFixedPostVarType',
+                'generateSerializedRealUrlConfigurationFileByPages'
+            )
+        );
+    }
 }

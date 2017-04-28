@@ -33,118 +33,119 @@ require_once tx_rnbase_util_Extensions::extPath('realurl', 'class.tx_realurl.php
  *
  * @TODO refactoring seit realurl 2.x funktioniert diese xclass nicht mehr
  */
-class ux_tx_realurl extends tx_realurl {
+class ux_tx_realurl extends tx_realurl
+{
+    const MODE_NONE = '';
+    const MODE_ENCODE = 'encode';
+    const MODE_DECODE = 'decode';
 
-	const MODE_NONE = '';
-	const MODE_ENCODE = 'encode';
-	const MODE_DECODE = 'decode';
+    /**
+     * the current mode of realurl
+     *
+     * @var string
+     */
+    protected $currentMode = '';
 
-	/**
-	 * the current mode of realurl
-	 *
-	 * @var string
-	 */
-	protected $currentMode = '';
+    /**
+     * sets the current mode
+     *
+     * @param string $mode
+     */
+    public function setMode($mode = self::MODE_NONE)
+    {
+        $this->currentMode = $mode;
+    }
 
-	/**
-	 * sets the current mode
-	 *
-	 * @param string $mode
-	 */
-	public function setMode($mode = self::MODE_NONE) {
-		$this->currentMode = $mode;
-	}
+    /**
+     * Translates a URL with query string (GET parameters) into Speaking URL.
+     * Called from t3lib_tstemplate::linkData
+     *
+     * @param array &$params
+     * @return void
+     */
+    public function encodeSpURL(&$params)
+    {
+        $this->setMode(self::MODE_ENCODE);
+        parent::encodeSpURL($params);
+        $this->setMode();
+    }
 
-	/**
-	 * Translates a URL with query string (GET parameters) into Speaking URL.
-	 * Called from t3lib_tstemplate::linkData
-	 *
-	 * @param array &$params
-	 * @return void
-	 */
-	public function encodeSpURL(&$params) {
-		$this->setMode(self::MODE_ENCODE);
-		parent::encodeSpURL($params);
-		$this->setMode();
-	}
+    /**
+     * Parse speaking URL and translate it to parameters understood by TYPO3
+     *
+     * @param array $params
+     * @return void
+     */
+    public function decodeSpURL($params)
+    {
+        $this->setMode(self::MODE_DECODE);
+        parent::decodeSpURL($params);
+        $this->setMode();
+    }
 
-	/**
-	 * Parse speaking URL and translate it to parameters understood by TYPO3
-	 *
-	 * @param array $params
-	 * @return void
-	 */
-	public function decodeSpURL($params) {
-		$this->setMode(self::MODE_DECODE);
-		parent::decodeSpURL($params);
-		$this->setMode();
-	}
+    /**
+     * Returns configuration for a postVarSet (default) based on input page id
+     *
+     * @param int $pageId
+     * @param string $mainCat Default is "postVarSets" but could be "fixedPostVars"
+     * @return array
+     */
+    public function getPostVarSetConfig($pageId, $mainCat = 'postVarSets')
+    {
+        // call real url (parent)
+        $cfg = parent::getPostVarSetConfig($pageId, $mainCat);
+        // remove sets for other localisations
+        return $this->getLocalizedPostVarSet($cfg);
+    }
 
-	/**
-	 * Returns configuration for a postVarSet (default) based on input page id
-	 *
-	 * @param integer $pageId
-	 * @param string $mainCat Default is "postVarSets" but could be "fixedPostVars"
-	 * @return array
-	 */
-	public function getPostVarSetConfig($pageId, $mainCat = 'postVarSets') {
-		// call real url (parent)
-		$cfg = parent::getPostVarSetConfig($pageId, $mainCat);
-		// remove sets for other localisations
-		return $this->getLocalizedPostVarSet($cfg);
-	}
+    /**
+     * reduces the post var set config with categories
+     * other than the current language
+     *
+     * @param array $postVarSet
+     * @return array
+     */
+    protected function getLocalizedPostVarSet($postVarSet = array())
+    {
+        // check only, if we have an array and we are in the encode mode.
+        // in the decode mode we dont have a language. realurl will find the right mapping it self
+        if ($this->currentMode !== self::MODE_ENCODE
+            || !is_array($postVarSet)
+            || empty($postVarSet)
+        ) {
+            return $postVarSet;
+        }
+        // get language from input query parameters
+        $language = empty($this->orig_paramKeyValues['L']) ? 0 : $this->orig_paramKeyValues['L'];
 
-	/**
-	 * reduces the post var set config with categories
-	 * other than the current language
-	 *
-	 * @param array $postVarSet
-	 * @return array
-	 */
-	protected function getLocalizedPostVarSet($postVarSet = array()) {
-		// check only, if we have an array and we are in the encode mode.
-		// in the decode mode we dont have a language. realurl will find the right mapping it self
-		if (
-			$this->currentMode !== self::MODE_ENCODE
-			|| !is_array($postVarSet)
-			|| empty($postVarSet)
-		) {
-			return $postVarSet;
-		}
-		// get language from input query parameters
-		$language = empty($this->orig_paramKeyValues['L'])
-			? 0 : $this->orig_paramKeyValues['L'];
+        // remove all sets for other languages
+        foreach ($postVarSet as $paramKey => $paramCfg) {
+            foreach ($paramCfg as $paramSubKey => $paramValue) {
+                // no language set, skip!
+                if (!isset($paramValue['language'])) {
+                    continue;
+                }
+                // the language ids, to match with the current
+                $allowedLanguages = is_array($paramValue['language']) ? $paramValue['language']['ids'] : $paramValue['language'];
+                // is current language in the set config? remove if not!
+                if (!tx_rnbase_util_Strings::inList($allowedLanguages, $language)) {
+                    unset($postVarSet[$paramKey][$paramSubKey]);
+                }
+                // remove the language config key
+                // unset($postVarSet[$paramKey]['language']);
+            }
+            // remove complete set, if there ar no more get vars
+            if (empty($postVarSet[$paramKey])) {
+                unset($postVarSet[$paramKey]);
+            }
+        }
 
-		// remove all sets for other languages
-		foreach($postVarSet as $paramKey => $paramCfg) {
-			foreach($paramCfg as $paramSubKey => $paramValue) {
-				// no language set, skip!
-				if (!isset($paramValue['language'])) {
-					continue;
-				}
-				// the language ids, to match with the current
-				$allowedLanguages = is_array($paramValue['language'])
-					? $paramValue['language']['ids']
-					: $paramValue['language'];
-				// is current language in the set config? remove if not!
-				if (!tx_rnbase_util_Strings::inList($allowedLanguages, $language)) {
-					unset($postVarSet[$paramKey][$paramSubKey]);
-				}
-				// remove the language config key
-				// unset($postVarSet[$paramKey]['language']);
-			}
-			// remove complete set, if there ar no more get vars
-			if (empty($postVarSet[$paramKey])) {
-				unset($postVarSet[$paramKey]);
-			}
-		}
-		return $postVarSet;
-	}
-
+        return $postVarSet;
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/xclasses/class.ux_tx_realurl.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/xclasses/class.ux_tx_realurl.php']);
+        ['ext/mktools/xclasses/class.ux_tx_realurl.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
+        ['ext/mktools/xclasses/class.ux_tx_realurl.php']);
 }

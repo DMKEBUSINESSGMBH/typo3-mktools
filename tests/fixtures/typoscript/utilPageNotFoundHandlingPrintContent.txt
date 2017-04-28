@@ -1,19 +1,19 @@
 plugin.tx_mktools.pagenotfoundhandling {
-	### Kommaseparierte Liste mit Codes, welche ignoriert werden sollen
-	### Es wird dann kein Exit gemacht, sondern eine einfache Weiterleitung.
-	### 0 => 'Unknown',
-	### 1 => 'ID was not an accessible page',
-	### 2 => 'Subsection was found and not accessible',
-	### 3 => 'ID was outside the domain',
-	### 4 => 'The requested page alias does not exist'
-	ignorecodes = 1,2
-	
-	httpStatus = HTTP/1.1 403 Forbidden
-	
-	### Der Typ für die Konfiguration
-	type = READFILE
-	### Die Daten für den Typ
-	data = EXT:mktools/tests/fixtures/html/utilPageNotFoundHandlingPrintContent.html
-	
-	pageNotFoundCodes.4.data = EXT:mktools/tests/fixtures/html/utilPageNotFoundHandlingPrintContentForCode4.html
+    ### Kommaseparierte Liste mit Codes, welche ignoriert werden sollen
+    ### Es wird dann kein Exit gemacht, sondern eine einfache Weiterleitung.
+    ### 0 => 'Unknown',
+    ### 1 => 'ID was not an accessible page',
+    ### 2 => 'Subsection was found and not accessible',
+    ### 3 => 'ID was outside the domain',
+    ### 4 => 'The requested page alias does not exist'
+    ignorecodes = 1,2
+
+    httpStatus = HTTP/1.1 403 Forbidden
+
+    ### Der Typ für die Konfiguration
+    type = READFILE
+    ### Die Daten für den Typ
+    data = EXT:mktools/tests/fixtures/html/utilPageNotFoundHandlingPrintContent.html
+
+    pageNotFoundCodes.4.data = EXT:mktools/tests/fixtures/html/utilPageNotFoundHandlingPrintContentForCode4.html
 }

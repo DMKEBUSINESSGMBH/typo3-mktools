@@ -2,28 +2,28 @@ includeLibs.tx_mktools_action_ajax_ContentRenderer = EXT:mktools/action/ajax/tx_
 
 mktoolsAjaxHandler = PAGE
 mktoolsAjaxHandler {
-	typeNum = 9267
-	config {
-		locale_all = de.utf-8
-		language = de
-		htmlTag_langKey = de
-		disableAllHeaderCode = 1
-		additionalHeaders = Content-Type: application/xhtml+xml; charset=UTF-8|X-Robots-Tag: noindex;
-		metaCharset = utf-8
-		xhtml_cleaning = 0
-		admPanel = 0
-		debug = 0
-	}
-	1 >
-	8 >
-	10 = USER
-	10.userFunc = tx_mktools_action_ajax_ContentRenderer->renderContent
+    typeNum = 9267
+    config {
+        locale_all = de.utf-8
+        language = de
+        htmlTag_langKey = de
+        disableAllHeaderCode = 1
+        additionalHeaders = Content-Type: application/xhtml+xml; charset=UTF-8|X-Robots-Tag: noindex;
+        metaCharset = utf-8
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+    }
+    1 >
+    8 >
+    10 = USER
+    10.userFunc = tx_mktools_action_ajax_ContentRenderer->renderContent
 }
 
 page.includeJS {
-	mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
-	mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
-	mktoolsAjaxContent = typo3conf/ext/mktools/Resources/Public/JavaScript/AjaxContent.js
-	### falls ein Formular mit Bildupload verwendet wird, dann folgendes JS einbinden
-	#mktoolsAjaxForm = typo3conf/ext/mktools/Resources/Public/JavaScript/jquery.form.min.js
+    mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
+    mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
+    mktoolsAjaxContent = typo3conf/ext/mktools/Resources/Public/JavaScript/AjaxContent.js
+    ### falls ein Formular mit Bildupload verwendet wird, dann folgendes JS einbinden
+    #mktoolsAjaxForm = typo3conf/ext/mktools/Resources/Public/JavaScript/jquery.form.min.js
 }

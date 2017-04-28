@@ -28,91 +28,98 @@
  * @package TYPO3
  * @author Christian Riesche <christian.riesche@dmk-ebusiness.de>
  */
-class tx_mktools_util_SeoRobotsMetaTag {
+class tx_mktools_util_SeoRobotsMetaTag
+{
 
-	/**
-	 * Werte für das robots Meta Tag
-	 * @var array
-	 */
-	public static $options = array(
-		0 => 'by TS',
-		1 => 'INDEX,FOLLOW',
-		2 => 'INDEX,NOFOLLOW',
-		3 => 'NOINDEX,FOLLOW',
-		4 => 'NOINDEX,NOFOLLOW',
-		5 => 'NOODP,NOINDEX,FOLLOW',
-	);
-
-
-	/**
-	 * Formattierte Ausgabe der Werte für das TCA
-	 * @return array
-	 */
-	public static function getOptionsForTCA() {
- 		$tcaOptions = array();
- 		foreach (self::$options as $key => $option) {
- 			$tcaOptions[] = array($option, $key);
- 		}
-
- 		return $tcaOptions;
-	}
-
-	/**
-	 * Gibt passenden Wert des Robots Tag zurück
-	 * @param int $key
-	 * @return string
-	 */
-	private function getOptionByValue($key) {
-		if(array_key_exists($key, self::$options)) {
-			return self::$options[$key];
-		}
-
-		return '';
-	}
-
-	/**
-	 * Liefert den Wert des für diese Seite relevanten Robots Meta Tag
-	 * zurück. Wird keiner gefunden, dann wird als Default der Wert der
-	 * Konstanten {$config.tx_mktools.seorobotsmetatag.default} zurückgegeben
-	 *
-	 * @param string $sContent
-	 * @param array $aConfig
-	 * @return string
-	 */
-	public function getSeoRobotsMetaTagValue($sContent = '', array $aConfig = array()) {
-		$robotsValue = $this->getRobotsValue();
-		if ($robotsValue > 0) {
-			return $this->getOptionByValue($robotsValue);
-		}
-
-		return $aConfig['default'];
-	}
+    /**
+     * Werte für das robots Meta Tag
+     * @var array
+     */
+    public static $options = array(
+        0 => 'by TS',
+        1 => 'INDEX,FOLLOW',
+        2 => 'INDEX,NOFOLLOW',
+        3 => 'NOINDEX,FOLLOW',
+        4 => 'NOINDEX,NOFOLLOW',
+        5 => 'NOODP,NOINDEX,FOLLOW',
+    );
 
 
-	/**
-	 * Sucht rekursiv von der aktuellen Seite aus, ob ein
-	 * Wert für ein individuelles Robots-Tag gesetzt ist
-	 * @return int
-	 */
-	protected function getRobotsValue() 	{
-		foreach ($this->getRootline() as $page) {
-			if (!empty($page['mkrobotsmetatag'])) {
-				return $page['mkrobotsmetatag'];
-			}
-		}
-		return 0;
-	}
+    /**
+     * Formattierte Ausgabe der Werte für das TCA
+     * @return array
+     */
+    public static function getOptionsForTCA()
+    {
+        $tcaOptions = array();
+        foreach (self::$options as $key => $option) {
+            $tcaOptions[] = array($option, $key);
+        }
 
-	/**
-	 * @return array
-	 */
-	protected function getRootline() {
-		return tx_rnbase_util_TYPO3::getSysPage()->getRootLine($GLOBALS['TSFE']->id);
-	}
+        return $tcaOptions;
+    }
+
+    /**
+     * Gibt passenden Wert des Robots Tag zurück
+     * @param int $key
+     * @return string
+     */
+    private function getOptionByValue($key)
+    {
+        if (array_key_exists($key, self::$options)) {
+            return self::$options[$key];
+        }
+
+        return '';
+    }
+
+    /**
+     * Liefert den Wert des für diese Seite relevanten Robots Meta Tag
+     * zurück. Wird keiner gefunden, dann wird als Default der Wert der
+     * Konstanten {$config.tx_mktools.seorobotsmetatag.default} zurückgegeben
+     *
+     * @param string $sContent
+     * @param array $aConfig
+     * @return string
+     */
+    public function getSeoRobotsMetaTagValue($sContent = '', array $aConfig = array())
+    {
+        $robotsValue = $this->getRobotsValue();
+        if ($robotsValue > 0) {
+            return $this->getOptionByValue($robotsValue);
+        }
+
+        return $aConfig['default'];
+    }
+
+
+    /**
+     * Sucht rekursiv von der aktuellen Seite aus, ob ein
+     * Wert für ein individuelles Robots-Tag gesetzt ist
+     * @return int
+     */
+    protected function getRobotsValue()
+    {
+        foreach ($this->getRootline() as $page) {
+            if (!empty($page['mkrobotsmetatag'])) {
+                return $page['mkrobotsmetatag'];
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRootline()
+    {
+        return tx_rnbase_util_TYPO3::getSysPage()->getRootLine($GLOBALS['TSFE']->id);
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/util/class.tx_mktools_util_SeoRobotsMetaTag.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-		['ext/mktools/util/tx_mktools_util_SeoRobotsMetaTag.php']);
+        ['ext/mktools/util/class.tx_mktools_util_SeoRobotsMetaTag.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
+        ['ext/mktools/util/tx_mktools_util_SeoRobotsMetaTag.php']);
 }

@@ -1,86 +1,86 @@
 ### setup
 includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
 
-plugin.tx_mktools		= USER_INT
+plugin.tx_mktools = USER_INT
 plugin.tx_mktools {
-	flexform			= flexform_main.xml
-	userFunc			= tx_rnbase_controller->main
-	defaultAction		= tx_mktools_action_ShowTemplate
-	qualifier			= mktools
-	templatePath		= EXT:mktools/Ressources/Private/Html
-	locallangFilename 	= locallang.xml
+    flexform = flexform_main.xml
+    userFunc = tx_rnbase_controller->main
+    defaultAction = tx_mktools_action_ShowTemplate
+    qualifier = mktools
+    templatePath = EXT:mktools/Ressources/Private/Html
+    locallangFilename = locallang.xml
 }
 
 tt_content.list.20.tx_mktools =< plugin.tx_mktools
 
 plugin.tx_mktools {
-	docmarkdownTemplate = EXT:mktools/Resources/Private/Templates/DocMarkDown.html
-	docmarkdown {
-		### define cryptet auth data here!
-		auth.crypt {
-			## dmk default auth
-			## wenn PHP mit CGI/Fast CGI eingebunden wird, dann funktioniert die Abfrage nur
-			## wenn folgende Zeile in der .htaccess vorhanden ist (am besten ganz ans Ende schieben)
-			## RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-			kunde = #$Sg81OdSmC7w
-			#username = <?php echo crypt('here the pwd!', 'A SALT');
-		}
-		files {
-			#index = EXT:myext/Documentation/index.md
-		}
-	}
-	flashmessagesTemplate = EXT:mktools/Resources/Private/Templates/FlashMessage.html
-	flashmessages {
-		template {
-			itempath = message
-			markerclass = tx_rnbase_util_SimpleMarker
-			subpart = ###FLASHMESSAGES###
-		}
-	}
-	tslib = COA
-	tslib {
-		10 = TEXT
-		10.value = Hello World
-	}
+    docmarkdownTemplate = EXT:mktools/Resources/Private/Templates/DocMarkDown.html
+    docmarkdown {
+        ### define cryptet auth data here!
+        auth.crypt {
+            ## dmk default auth
+            ## wenn PHP mit CGI/Fast CGI eingebunden wird, dann funktioniert die Abfrage nur
+            ## wenn folgende Zeile in der .htaccess vorhanden ist (am besten ganz ans Ende schieben)
+            ## RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+            kunde = #$Sg81OdSmC7w
+            #username = <?php echo crypt('here the pwd!', 'A SALT');
+        }
+        files {
+            #index = EXT:myext/Documentation/index.md
+        }
+    }
+    flashmessagesTemplate = EXT:mktools/Resources/Private/Templates/FlashMessage.html
+    flashmessages {
+        template {
+            itempath = message
+            markerclass = tx_rnbase_util_SimpleMarker
+            subpart = ###FLASHMESSAGES###
+        }
+    }
+    tslib = COA
+    tslib {
+        10 = TEXT
+        10.value = Hello World
+    }
 }
 
 ### pagetype for the docu
 docu = PAGE
 docu {
-	typeNum = 480
-	config.metaCharset = utf-8
-	### X-Robots-Tag, wir wollen vermeiden, dass der inhalt indiziert wird.
-	config.additionalHeaders = Content-Type: text/html; charset=utf-8|X-Robots-Tag: noindex;
-	config.admPanel = 0
-	config.sendNoCacheHeaders = 1
-	config.no_cache = 1
+    typeNum = 480
+    config.metaCharset = utf-8
+    ### X-Robots-Tag, wir wollen vermeiden, dass der inhalt indiziert wird.
+    config.additionalHeaders = Content-Type: text/html; charset=utf-8|X-Robots-Tag: noindex;
+    config.admPanel = 0
+    config.sendNoCacheHeaders = 1
+    config.no_cache = 1
 
-	includeCSS {
-		bootstrap = //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css
-		bootstrap {
-			external = 1
-			forceOnTop = 1
-			compressed = 1
-			disableCompression = 1
-			excludeFromConcatenation = 1
-		}
-		bootswatch < .bootstrap
-		bootswatch = //bootswatch.com/readable/bootstrap.min.css
-	}
+    includeCSS {
+        bootstrap = //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css
+        bootstrap {
+            external = 1
+            forceOnTop = 1
+            compressed = 1
+            disableCompression = 1
+            excludeFromConcatenation = 1
+        }
+        bootswatch < .bootstrap
+        bootswatch = //bootswatch.com/readable/bootstrap.min.css
+    }
 
-	10 =< plugin.tx_mktools
-	10.action = tx_mktools_action_DocMarkDown
+    10 =< plugin.tx_mktools
+    10.action = tx_mktools_action_DocMarkDown
 
-	headerData {
-		10 = TEXT
-		10.value = <title>Dokumentation</title>
-	}
+    headerData {
+        10 = TEXT
+        10.value = <title>Dokumentation</title>
+    }
 }
 
 /*
  * copy this in your config.tss!
 # set baseurl, so images cen be readed
 [globalVar = GP:type = 480]
-	config.baseURL = http://{$domain}/typo3conf/ext/mkgesundheit/Documentation/
+    config.baseURL = http://{$domain}/typo3conf/ext/mkgesundheit/Documentation/
 [global]
 */

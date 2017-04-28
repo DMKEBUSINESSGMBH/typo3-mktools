@@ -27,28 +27,33 @@
  * @package TYPO3
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_model_Pages_testcase extends Tx_Phpunit_TestCase {
+class tx_mktools_tests_model_Pages_testcase extends Tx_Phpunit_TestCase
+{
 
-	/**
-	 * @group unit
-	 */
-	public function testGetFixedPostVarTypeReturnsNullIfNoTypeSet() {
-		$record = array('tx_mktools_fixedpostvartype' => 0);
-		$page = tx_rnbase::makeInstance('tx_mktools_model_Pages', $record);
-		
-		$this->assertNull($page->getFixedPostVarType());
-	}
-	
-	/**
-	 * @group unit
-	 */
-	public function testGetFixedPostVarTypeReturnsCorrectModelIfTypeSet() {
-		$record = array('tx_mktools_fixedpostvartype' => array('uid' => 123));
-		$page = tx_rnbase::makeInstance('tx_mktools_model_Pages', $record);
-		$fixedPostVarType = $page->getFixedPostVarType();
-		$this->assertInstanceOf(
-			'tx_mktools_model_FixedPostVarType', $fixedPostVarType, 'falsches model'
-		);
-		$this->assertEquals(123,$fixedPostVarType->getUid(),'falsche model uid');
-	}
+    /**
+     * @group unit
+     */
+    public function testGetFixedPostVarTypeReturnsNullIfNoTypeSet()
+    {
+        $record = array('tx_mktools_fixedpostvartype' => 0);
+        $page = tx_rnbase::makeInstance('tx_mktools_model_Pages', $record);
+        
+        $this->assertNull($page->getFixedPostVarType());
+    }
+    
+    /**
+     * @group unit
+     */
+    public function testGetFixedPostVarTypeReturnsCorrectModelIfTypeSet()
+    {
+        $record = array('tx_mktools_fixedpostvartype' => array('uid' => 123));
+        $page = tx_rnbase::makeInstance('tx_mktools_model_Pages', $record);
+        $fixedPostVarType = $page->getFixedPostVarType();
+        $this->assertInstanceOf(
+            'tx_mktools_model_FixedPostVarType',
+            $fixedPostVarType,
+            'falsches model'
+        );
+        $this->assertEquals(123, $fixedPostVarType->getUid(), 'falsche model uid');
+    }
 }

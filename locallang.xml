@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>general</type>
-		<description>General Language labels belonging to extension 'mkmarketplace'</description>
-	</meta>
-	<data type="array">
-		<languageKey index="default" type="array">
-			<label index="label_form_undefined">Undefined</label>
-			<label index="label_form_picture_delete_confirm">Möchten Sie das Bild wirklich löschen?</label>
-			<label index="msg_form_report-email_required">Please enter a  Email-Adress.</label>
-			<label index="msg_form_report-receiver_invalid">Please enter a valid email adress.</label>
-			
-			<!-- Monatsnamen -->
-			<label index="month_1">January</label>
-			<label index="month_2">February</label>
-			<label index="month_3">March</label>
-			<label index="month_4">April</label>
-			<label index="month_5">May</label>
-			<label index="month_6">June</label>
-			<label index="month_7">July</label>
-			<label index="month_8">August</label>
-			<label index="month_9">September</label>
-			<label index="month_10">October</label>
-			<label index="month_11">November</label>
-			<label index="month_12">December</label>
+    <meta type="array">
+        <type>general</type>
+        <description>General Language labels belonging to extension 'mkmarketplace'</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="label_form_undefined">Undefined</label>
+            <label index="label_form_picture_delete_confirm">Möchten Sie das Bild wirklich löschen?</label>
+            <label index="msg_form_report-email_required">Please enter a  Email-Adress.</label>
+            <label index="msg_form_report-receiver_invalid">Please enter a valid email adress.</label>
 
-			<label index="label_ziperror">PLZ Fehler</label>
-			<label index="label_ziperror_r1">Die PLZ darf aus maximal %d Zeichen ohne Leerzeichen bestehen.</label>
-			<label index="label_ziperror_r2">Die PLZ darf aus maximal %d Ziffern ohne Leerzeichen bestehen.</label>
-			<label index="label_ziperror_r3">Die PLZ muss genau %d Zeichen ohne Leerzeichen bestehen.</label>
-			<label index="label_ziperror_r4">Die PLZ muss aus genau %d Ziffern ohne Leerzeichen bestehen.</label>
-			<label index="label_ziperror_r5">Die PLZ darf aus maximal %d Zeichen bestehen.</label>
-			<label index="label_ziperror_r6">Die PLZ darf aus maximal %d Ziffern bestehen.</label>
-			<label index="label_ziperror_r7">Die PLZ muss genau %d Zeichen bestehen.</label>
-			<label index="label_ziperror_r8">Die PLZ muss aus genau %d Ziffern bestehen.</label>
-			<label index="label_ziperror_r9_">Fehler: kein ISO-Code gefunden.</label>
-			<label index="label_ziperror_r9_CA">Die PLZ muss in folgendem Format angegeben werden (A-Buchstabe, N-Ziffer): ANA-NAN</label>
-			<label index="label_ziperror_r9_NL">Die PLZ muss in folgendem Format angegeben werden (A-Buchstabe, N-Ziffer): NNNN AA</label>
-			<label index="label_ziperror_r9_PL">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NN-NNN</label>
-			<label index="label_ziperror_r9_GR">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
-			<label index="label_ziperror_r9_SE">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
-			<label index="label_ziperror_r9_SW">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
-			<label index="label_ziperror_r9_SK">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
-			<label index="label_ziperror_r9_CZ">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
-			<label index="label_ziperror_r9_KR">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN-NNN</label>
-			<label index="label_ziperror_r9_PT">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNNN-NNN oder NNNN</label>
+            <!-- Monatsnamen -->
+            <label index="month_1">January</label>
+            <label index="month_2">February</label>
+            <label index="month_3">March</label>
+            <label index="month_4">April</label>
+            <label index="month_5">May</label>
+            <label index="month_6">June</label>
+            <label index="month_7">July</label>
+            <label index="month_8">August</label>
+            <label index="month_9">September</label>
+            <label index="month_10">October</label>
+            <label index="month_11">November</label>
+            <label index="month_12">December</label>
 
-			<label index="ERROR_default">Leider ist ein Fehler aufgetreten!</label>
-			<label index="ERROR_4001">Leider ist ein Fehler aufgetreten!</label>
-		</languageKey>
-		<languageKey index="de" type="array">
-			<label index="label_form_undefined">Undefiniert</label>
-			<label index="label_form_picture_delete_confirm">Möchten Sie das Bild wirklich löschen?</label>
-			<label index="msg_form_report-email_required">Bitte geben Sie eine Email-Adresse ein.</label>
-			<label index="msg_form_report-receiver_invalid">Bitte geben Sie eine gültige Email-Adresse an.</label>
-			
-			<!-- Monatsnamen -->
-			<label index="month_1">Januar</label>
-			<label index="month_2">Februar</label>
-			<label index="month_3">März</label>
-			<label index="month_4">April</label>
-			<label index="month_5">Mai</label>
-			<label index="month_6">Juni</label>
-			<label index="month_7">Juli</label>
-			<label index="month_8">August</label>
-			<label index="month_9">September</label>
-			<label index="month_10">Oktober</label>
-			<label index="month_11">November</label>
-			<label index="month_12">Dezember</label>
-			
-			<label index="ERROR_default">Leider ist ein Fehler aufgetreten!</label>
-			<label index="ERROR_4001">Leider ist ein Fehler aufgetreten!</label>
-		</languageKey>
-	</data>
+            <label index="label_ziperror">PLZ Fehler</label>
+            <label index="label_ziperror_r1">Die PLZ darf aus maximal %d Zeichen ohne Leerzeichen bestehen.</label>
+            <label index="label_ziperror_r2">Die PLZ darf aus maximal %d Ziffern ohne Leerzeichen bestehen.</label>
+            <label index="label_ziperror_r3">Die PLZ muss genau %d Zeichen ohne Leerzeichen bestehen.</label>
+            <label index="label_ziperror_r4">Die PLZ muss aus genau %d Ziffern ohne Leerzeichen bestehen.</label>
+            <label index="label_ziperror_r5">Die PLZ darf aus maximal %d Zeichen bestehen.</label>
+            <label index="label_ziperror_r6">Die PLZ darf aus maximal %d Ziffern bestehen.</label>
+            <label index="label_ziperror_r7">Die PLZ muss genau %d Zeichen bestehen.</label>
+            <label index="label_ziperror_r8">Die PLZ muss aus genau %d Ziffern bestehen.</label>
+            <label index="label_ziperror_r9_">Fehler: kein ISO-Code gefunden.</label>
+            <label index="label_ziperror_r9_CA">Die PLZ muss in folgendem Format angegeben werden (A-Buchstabe, N-Ziffer): ANA-NAN</label>
+            <label index="label_ziperror_r9_NL">Die PLZ muss in folgendem Format angegeben werden (A-Buchstabe, N-Ziffer): NNNN AA</label>
+            <label index="label_ziperror_r9_PL">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NN-NNN</label>
+            <label index="label_ziperror_r9_GR">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
+            <label index="label_ziperror_r9_SE">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
+            <label index="label_ziperror_r9_SW">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
+            <label index="label_ziperror_r9_SK">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
+            <label index="label_ziperror_r9_CZ">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</label>
+            <label index="label_ziperror_r9_KR">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN-NNN</label>
+            <label index="label_ziperror_r9_PT">Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNNN-NNN oder NNNN</label>
+
+            <label index="ERROR_default">Leider ist ein Fehler aufgetreten!</label>
+            <label index="ERROR_4001">Leider ist ein Fehler aufgetreten!</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="label_form_undefined">Undefiniert</label>
+            <label index="label_form_picture_delete_confirm">Möchten Sie das Bild wirklich löschen?</label>
+            <label index="msg_form_report-email_required">Bitte geben Sie eine Email-Adresse ein.</label>
+            <label index="msg_form_report-receiver_invalid">Bitte geben Sie eine gültige Email-Adresse an.</label>
+
+            <!-- Monatsnamen -->
+            <label index="month_1">Januar</label>
+            <label index="month_2">Februar</label>
+            <label index="month_3">März</label>
+            <label index="month_4">April</label>
+            <label index="month_5">Mai</label>
+            <label index="month_6">Juni</label>
+            <label index="month_7">Juli</label>
+            <label index="month_8">August</label>
+            <label index="month_9">September</label>
+            <label index="month_10">Oktober</label>
+            <label index="month_11">November</label>
+            <label index="month_12">Dezember</label>
+
+            <label index="ERROR_default">Leider ist ein Fehler aufgetreten!</label>
+            <label index="ERROR_4001">Leider ist ein Fehler aufgetreten!</label>
+        </languageKey>
+    </data>
 </T3locallang>

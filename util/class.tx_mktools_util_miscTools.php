@@ -27,152 +27,173 @@
 /**
  * Miscellaneous common methods
  */
-class tx_mktools_util_miscTools {
+class tx_mktools_util_miscTools
+{
 
-	/**
-	 * Get fields to expand
-	 *
-	 * @return int
-	 */
-	private static function getExtensionCfgValue($configValue){
-		tx_rnbase::load('tx_rnbase_configurations');
-		return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
-	}
+    /**
+     * Get fields to expand
+     *
+     * @return int
+     */
+    private static function getExtensionCfgValue($configValue)
+    {
+        tx_rnbase::load('tx_rnbase_configurations');
 
-	/**
-	 * @return Ambigous <number, mixed, boolean>
-	 */
-	public static function isSeoRobotsMetaTagActive() {
-		return self::getExtensionCfgValue('seoRobotsMetaTagActive');
-	}
+        return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
+    }
 
-	/**
-	 * @return Ambigous <number, mixed, boolean>
-	 */
-	public static function isContentReplacerActive() {
-		return self::getExtensionCfgValue('contentReplaceActive');
-	}
+    /**
+     * @return Ambigous <number, mixed, boolean>
+     */
+    public static function isSeoRobotsMetaTagActive()
+    {
+        return self::getExtensionCfgValue('seoRobotsMetaTagActive');
+    }
 
-	/**
-	 * @return Ambigous <number, mixed, boolean>
-	 */
-	public static function isAjaxContentRendererActive() {
-		return self::getExtensionCfgValue('ajaxContentRendererActive');
-	}
+    /**
+     * @return Ambigous <number, mixed, boolean>
+     */
+    public static function isContentReplacerActive()
+    {
+        return self::getExtensionCfgValue('contentReplaceActive');
+    }
 
-	/**
-	 * @return Ambigous <number, mixed, boolean>
-	 */
-	public static function pageNotFoundHandlingActive() {
-		return self::getExtensionCfgValue('pageNotFoundHandling');
-	}
+    /**
+     * @return Ambigous <number, mixed, boolean>
+     */
+    public static function isAjaxContentRendererActive()
+    {
+        return self::getExtensionCfgValue('ajaxContentRendererActive');
+    }
 
-	/**
-	 * @return string
-	 */
-	public static function getExceptionPage() {
-		return self::getExtensionCfgValue('exceptionPage');
-	}
+    /**
+     * @return Ambigous <number, mixed, boolean>
+     */
+    public static function pageNotFoundHandlingActive()
+    {
+        return self::getExtensionCfgValue('pageNotFoundHandling');
+    }
 
-	/**
-	 * @return Ambigous <number, mixed, boolean>
-	 */
-	public static function shouldFalImagesBeAddedToCalEvent() {
-		return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
-	}
+    /**
+     * @return string
+     */
+    public static function getExceptionPage()
+    {
+        return self::getExtensionCfgValue('exceptionPage');
+    }
 
-	/**
-	 * @return Ambigous <number, mixed, boolean>
-	 */
-	public static function shouldFalImagesBeAddedToTtNews() {
-		return self::getExtensionCfgValue('shouldFalImagesBeAddedToTtNews');
-	}
+    /**
+     * @return Ambigous <number, mixed, boolean>
+     */
+    public static function shouldFalImagesBeAddedToCalEvent()
+    {
+        return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
+    }
 
-	/**
-	 * @return array
-	 */
-	public static function getTcaPostProcessingExtensions() {
-		tx_rnbase::load('tx_rnbase_util_Strings');
-		return tx_rnbase_util_Strings::trimExplode(
-			',', self::getExtensionCfgValue('tcaPostProcessingExtensions'), TRUE
-		);
-	}
+    /**
+     * @return Ambigous <number, mixed, boolean>
+     */
+    public static function shouldFalImagesBeAddedToTtNews()
+    {
+        return self::getExtensionCfgValue('shouldFalImagesBeAddedToTtNews');
+    }
 
-	/**
-	 * @return number
-	 */
-	public static function getSystemLogLockThreshold() {
-		return self::getExtensionCfgValue('systemLogLockThreshold');
-	}
+    /**
+     * @return array
+     */
+    public static function getTcaPostProcessingExtensions()
+    {
+        tx_rnbase::load('tx_rnbase_util_Strings');
 
-	/**
-	 * @param string $staticPath
-	 * @param string $additionalPath
-	 * @return 	tx_rnbase_configurations
-	 */
-	public static function getConfigurations($staticPath, $additionalPath=''){
-		tx_rnbase::load('tx_mklib_util_TS');
+        return tx_rnbase_util_Strings::trimExplode(
+            ',',
+            self::getExtensionCfgValue('tcaPostProcessingExtensions'),
+            true
+        );
+    }
 
-		tx_rnbase_util_Extensions::addPageTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
-		);
-		if (!empty($additionalPath)) {
-			tx_rnbase_util_Extensions::addPageTSConfig(
-				'<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
-			);
-		}
+    /**
+     * @return number
+     */
+    public static function getSystemLogLockThreshold()
+    {
+        return self::getExtensionCfgValue('systemLogLockThreshold');
+    }
 
-		$pageTSconfig = tx_mklib_util_TS::getPagesTSconfig(0);
-		tx_rnbase::load('tx_rnbase_util_Arrays');
-		$config = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-			(array) $pageTSconfig['config.']['tx_mktools.'],
-			(array) $pageTSconfig['plugin.']['tx_mktools.']
-		);
+    /**
+     * @param string $staticPath
+     * @param string $additionalPath
+     * @return  tx_rnbase_configurations
+     */
+    public static function getConfigurations($staticPath, $additionalPath = '')
+    {
+        tx_rnbase::load('tx_mklib_util_TS');
 
-		$configurations = new tx_rnbase_configurations();
-		$configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
-		$configurations->setParameters(
-			tx_rnbase::makeInstance('tx_rnbase_parameters')
-		);
+        tx_rnbase_util_Extensions::addPageTSConfig(
+            '<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
+        );
+        if (!empty($additionalPath)) {
+            tx_rnbase_util_Extensions::addPageTSConfig(
+                '<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
+            );
+        }
 
-		return $configurations;
-	}
+        $pageTSconfig = tx_mklib_util_TS::getPagesTSconfig(0);
+        tx_rnbase::load('tx_rnbase_util_Arrays');
+        $config = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            (array) $pageTSconfig['config.']['tx_mktools.'],
+            (array) $pageTSconfig['plugin.']['tx_mktools.']
+        );
 
-	/**
-	 * @return boolean
-	 */
-	public static function loadFixedPostVarTypesTable() {
-		return self::getExtensionCfgValue('tableFixedPostVarTypes');
-	}
+        $configurations = new tx_rnbase_configurations();
+        $configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
+        $configurations->setParameters(
+            tx_rnbase::makeInstance('tx_rnbase_parameters')
+        );
 
-	/**
-	 * @return string
-	 */
-	public static function getRealUrlConfigurationFile() {
-		return self::getAbsoluteFileName(self::getExtensionCfgValue(
-			'realUrlConfigurationFile'
-		));
-	}
+        return $configurations;
+    }
 
-	/**
-	 * @return string
-	 */
-	public static function getRealUrlConfigurationTemplate() {
-		return self::getAbsoluteFileName(self::getExtensionCfgValue(
-			'realUrlConfigurationTemplate'
-		));
-	}
+    /**
+     * @return bool
+     */
+    public static function loadFixedPostVarTypesTable()
+    {
+        return self::getExtensionCfgValue('tableFixedPostVarTypes');
+    }
 
-	/**
-	 * @param string $filename
-	 * @return string
-	 */
-	private static function getAbsoluteFileName($filename) {
-		tx_rnbase::load('tx_rnbase_util_Files');
-		return tx_rnbase_util_Files::getFileAbsFileName($filename);
-	}
+    /**
+     * @return string
+     */
+    public static function getRealUrlConfigurationFile()
+    {
+        return self::getAbsoluteFileName(self::getExtensionCfgValue(
+            'realUrlConfigurationFile'
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public static function getRealUrlConfigurationTemplate()
+    {
+        return self::getAbsoluteFileName(self::getExtensionCfgValue(
+            'realUrlConfigurationTemplate'
+        ));
+    }
+
+    /**
+     * @param string $filename
+     * @return string
+     */
+    private static function getAbsoluteFileName($filename)
+    {
+        tx_rnbase::load('tx_rnbase_util_Files');
+
+        return tx_rnbase_util_Files::getFileAbsFileName($filename);
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']);
 }
