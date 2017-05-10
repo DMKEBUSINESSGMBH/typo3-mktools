@@ -54,6 +54,8 @@ if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
                     'items' =>  tx_mktools_util_SeoRobotsMetaTag::getOptionsForTca(),
                     'size' => 1,
                     'maxitems' => 1,
+                    // @see tx_mktools_util_SeoRobotsMetaTag::$options
+                    'default' => 0
                 ),
             ),
         ),

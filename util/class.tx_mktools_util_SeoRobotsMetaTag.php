@@ -36,7 +36,8 @@ class tx_mktools_util_SeoRobotsMetaTag
      * @var array
      */
     public static $options = array(
-        0 => 'by TS',
+        -1 => 'use default value from TypoScript (page.meta.robots.cObject.default)',
+        0 => 'use default value from TypoScript (check rootline for explicit value first)',
         1 => 'INDEX,FOLLOW',
         2 => 'INDEX,NOFOLLOW',
         3 => 'NOINDEX,FOLLOW',
@@ -78,24 +79,25 @@ class tx_mktools_util_SeoRobotsMetaTag
      * zurück. Wird keiner gefunden, dann wird als Default der Wert der
      * Konstanten {$config.tx_mktools.seorobotsmetatag.default} zurückgegeben
      *
-     * @param string $sContent
-     * @param array $aConfig
+     * @param string $content
+     * @param array $configuration
      * @return string
      */
-    public function getSeoRobotsMetaTagValue($sContent = '', array $aConfig = array())
+    public function getSeoRobotsMetaTagValue($content = '', array $configuration = array())
     {
         $robotsValue = $this->getRobotsValue();
         if ($robotsValue > 0) {
             return $this->getOptionByValue($robotsValue);
         }
 
-        return $aConfig['default'];
+        return $configuration['default'];
     }
 
 
     /**
      * Sucht rekursiv von der aktuellen Seite aus, ob ein
-     * Wert für ein individuelles Robots-Tag gesetzt ist
+     * Wert für ein individuelles Robots-Tag gesetzt ist. Wir stoppen sobald eine
+     * Seite nicht auf 0 steht.
      * @return int
      */
     protected function getRobotsValue()

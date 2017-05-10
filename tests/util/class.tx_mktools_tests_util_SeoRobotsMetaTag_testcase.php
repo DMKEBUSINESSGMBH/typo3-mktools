@@ -69,7 +69,7 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase extends tx_rnbase_tests_Ba
     /**
      * @group unit
      */
-    public function testGetSeoRobotsMetaTagValueReturnsOptionByValueIfRobotsValueFound()
+    public function testGetSeoRobotsMetaTagValueReturnsOptionByValueIfPositiveRobotsValueFound()
     {
         $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
         $util->expects(self::once())
@@ -81,6 +81,21 @@ class tx_mktools_tests_util_SeoRobotsMetaTag_testcase extends tx_rnbase_tests_Ba
         $value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
 
         self::assertEquals('robots tag value', $value, 'Falscher Wert zurückgeliefert');
+    }
+
+    /**
+     * @group unit
+     */
+    public function testGetSeoRobotsMetaTagValueReturnsOptionByValueIfNegativeRobotsValueFound()
+    {
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
+        $util->expects(self::once())
+            ->method('getRobotsValue')
+            ->will(self::returnValue(-1));
+
+        $value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
+
+        self::assertEquals('test', $value, 'Falscher Wert zurückgeliefert');
     }
 
     /**

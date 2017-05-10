@@ -13,7 +13,7 @@ Muss im Extension-Manager aktiviert werden.
 
 Mit dieser Option kann für jede Seite ein individuelles Robots Meta Tag vergeben werden.
 
-Dazu gibt es in den Seiteneigenschaften eine Select-Box mit den möglichen Werten. Wird kein Wert gesetzt ("by TS"), dann wird rekursiv in den parent-Seiten nach einem gesetzten Robots-Tag gesucht und dieser übernommen falls vorhanden.
+Dazu gibt es in den Seiteneigenschaften eine Select-Box mit den möglichen Werten. Wird der default Wert verwendet ("use default value from TypoScript (check rootline for explicit value first)"), dann wird rekursiv in den parent-Seiten nach einem gesetzten Robots-Tag gesucht und dieser übernommen falls vorhanden. Wird keiner gefunden, dann wird der default Wert aus TypoScript (page.meta.robots.cObject.default) verwendet. Wird der Wert auf "use default value from TypoScript (page.meta.robots.cObject.default)" gesetzt, dann wird direkt der default Wert aus TypoScript verwendet, ohne die ganze Rootline zu prüfen.
 
 Falls kein Wert gefunden werden kann, dann gilt der TS-Default, der wie folgt gesetzt wird:
 
@@ -21,7 +21,11 @@ Falls kein Wert gefunden werden kann, dann gilt der TS-Default, der wie folgt ge
 config.tx_mktools.seorobotsmetatag.default = NOINDEX,NOFOLLOW
 ~~~~
 
-Somit ist eigentlich "by TS" missverständlich. Besser wäre z.B. "use parent or default".
+Mit ein bisschen TSConfig kann der default Wert z.B. auf -1 gesetzt werden. Damit würde immer nur der default Wert aus TypoScript verwendet, ohne die Rootline zu prüfen.
+
+~~~~ {.sourceCode .ts}
+TCAdefaults.pages.mkrobotsmetatag = -1
+~~~~
 
 Hinweis: Das statische TypoScript Template "MK Tools - SEO Robots Meta Tag" muss inkludiert werden.
 
