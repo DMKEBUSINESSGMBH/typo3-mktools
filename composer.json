@@ -1,7 +1,7 @@
 {
     "name": "dmk/mktools",
     "description": "Collection of some small tools.",
-"version" : "2.0.16",
+    "version": "3.0.0",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
@@ -26,9 +26,9 @@
         "typo3-ter/mktools": "self.version"
     },
     "require": {
-        "typo3/cms-core": ">=4.5.0 <=8.7.99",
-        "typo3-ter/mklib": ">=2.0.0",
-        "typo3-ter/rn-base": ">=1.0.0"
+        "typo3/cms": "~4.5 || ~6.2 || ~7.6 || ~8.7",
+        "digedag/rn-base": ">=1.4",
+        "dmk/mklib": ">=3"
     },
     "autoload": {
         "classmap": [

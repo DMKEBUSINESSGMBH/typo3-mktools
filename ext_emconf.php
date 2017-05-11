@@ -5,14 +5,13 @@
  * @subpackage tx_mktools
  */
 
-// 
+//
 // Extension Manager/Repository config file for ext "mktools".
-// 
+//
 // Manual updates:
 // Only the data in the array - everything else is removed by next
 // writing. "version" and "dependencies" must not be touched!
-// 
-
+//
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'MK Tools',
     'description' => 'Collection of some useful tools',
@@ -22,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array(
     'author_company' => 'DMK E-Business GmbH',
     'shy' => '',
     'dependencies' => 'rn_base, mklib',
-'version' => '2.0.16',
+    'version' => '3.0.0',
     'conflicts' => '',
     'priority' => '',
     'createDirs' => 'typo3temp/mktools/locks/',
@@ -35,13 +34,11 @@ $EM_CONF[$_EXTKEY] = array(
     'lockType' => '',
     'constraints' => array(
         'depends' => array(
-            'rn_base' => '1.0.0-0.0.0',
-            'mklib' => '',
-            'typo3' => '4.3.0-8.7.99',
+            'rn_base' => '1.4.0-',
+            'typo3' => '4.5.0-8.7.99',
+            'mklib' => '3.0.0-'
         ),
-        'conflicts' => array(
-        ),
-        'suggests' => array(
-        ),
+        'conflicts' => array(),
+        'suggests' => array(),
     ),
 );
