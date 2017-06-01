@@ -77,3 +77,9 @@ if (TYPO3_MODE == 'BE' && tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['mktools_find_unused_locallang_labels'] =
         array('EXT:mktools/Classes/Cli/FindUnusedLocallangLabels.php','_CLI_mktools_find_unused_locallang_labels');
 }
+
+if (tx_mktools_util_miscTools::getExceptionPage() && tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
+    // wenn wir eine Exception Page haben, wird wohl auch das Exception Handling mit mktools erledigt.
+    // In diesem Fall soll das Exception Handling von Content Objects deaktiviert werden.
+    tx_rnbase_util_Extensions::addTypoScript('mktools', 'setup', 'config.contentObjectExceptionHandler = 0');
+}
