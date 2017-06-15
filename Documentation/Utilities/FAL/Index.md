@@ -105,4 +105,11 @@ Beispiel Template:
 
 **Migration von dam\_ttnews**
 
-Um DAM Bilder nach FAL zu migrieren, einfach mittels der DAM2FAL Migration das Feld tx\_damnews\_dam\_images in der Tabelle tt\_news nach tx\_mktools\_fal\_images und tx\_damnews\_dam\_media nach tx\_mktools\_fal\_media übertragen.
+Um DAM Bilder nach FAL zu migrieren, einfach das folgende Mapping verwenden:
+
+| Tabelle | Feldname | Referenz DAM | Referenz FAL |
+| --- | --- | --- | --- |
+| tt_news | Images | tx\_damnews\_dam\_images | tx\_mktools\_fal\_images |
+| tt_news | Media | tx\_damnews\_dam\_media | tx\_mktools\_fal\_media |
+
+
