@@ -160,7 +160,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     public function testHandlePageNotFoundWithReadfile()
     {
         $reason = 'Test html/utilPageNotFoundHandlingPrintContent.';
-        $util = self::getPageNotFoundHandlingUtil($reason);
+        $util = self::getPageNotFoundHandlingUtil($reason, 'HTTP/1.1 404 Not Found');
         $printContentFile  = 'EXT:mktools/tests/fixtures/html/';
         $printContentFile .= 'utilPageNotFoundHandlingPrintContent.html';
         $ret = $util->handlePageNotFound('MKTOOLS_READFILE:'.$printContentFile);
@@ -183,7 +183,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
      */
     public function testHandlePageNotFoundWithRedirect()
     {
-        $util = self::getPageNotFoundHandlingUtil();
+        $util = self::getPageNotFoundHandlingUtil('', 'HTTP/1.1 404 Not Found');
         $url = 'http://www.dmk-ebusiness.de/';
         $ret = $util->handlePageNotFound('MKTOOLS_REDIRECT:'.$url);
         $testData = $util->getTestValue();
@@ -274,12 +274,13 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     /**
      * @return tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling
      */
-    private static function getPageNotFoundHandlingUtil($reason = '')
+    private static function getPageNotFoundHandlingUtil($reason = '', $httpStatus = '')
     {
         tx_rnbase::load('tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling');
         $obj = tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling::getInstance(
             self::getTsFe(),
-            $reason
+            $reason,
+            $httpStatus
         );
         $obj->setTestMode(true);
 

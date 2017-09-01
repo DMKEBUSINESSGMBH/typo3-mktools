@@ -42,9 +42,9 @@ class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling extends tx_mkt
      * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
      * @return tx_mktools_util_PageNotFoundHandling
      */
-    public static function getInstance($tsfe, $reason = '')
+    public static function getInstance($tsfe, $reason = '', $header = '')
     {
-        return new self($tsfe, $reason);
+        return new self($tsfe, $reason, $header);
     }
 
     /**
