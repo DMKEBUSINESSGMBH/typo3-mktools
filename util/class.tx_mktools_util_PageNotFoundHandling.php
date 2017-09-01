@@ -388,7 +388,7 @@ class tx_mktools_util_PageNotFoundHandling
             $httpStatus = $this->getHttpStatusFromConfiguration();
         }
         if (empty($httpStatus)) {
-            $httpStatus = $this->TYPO3_CONF_VARS['FE']['pageNotFound_handling_statheader'];
+            $httpStatus = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFound_handling_statheader'];
         }
         $httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
 
