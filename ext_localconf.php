@@ -83,3 +83,19 @@ if (tx_mktools_util_miscTools::getExceptionPage() && tx_rnbase_util_TYPO3::isTYP
     // In diesem Fall soll das Exception Handling von Content Objects deaktiviert werden.
     tx_rnbase_util_Extensions::addTypoScript('mktools', 'setup', 'config.contentObjectExceptionHandler = 0');
 }
+
+// TYPO3 bringt ab 7.x die meisten dieser Parameter per default mit.
+// wir brauchen aber z.B. auch noch gclid und außerdem wollen wir das
+// auch schon in TYPO3 6.2
+tx_rnbase::load('Tx_Rnbase_Utility_Cache');
+Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash(array(
+    'pk_campaign',
+    'pk_kwd',
+    'piwa',
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_term',
+    'utm_content',
+    'gclid'
+));
