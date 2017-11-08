@@ -52,7 +52,7 @@ return array(
         ),
     ),
     'types' => array(
-        '0' => array('showitem' => 'hidden;;1;;1-1-1, title,identifier'
+        '0' => array('showitem' => 'hidden, title,identifier'
                     )
     ),
     'palettes' => array(
