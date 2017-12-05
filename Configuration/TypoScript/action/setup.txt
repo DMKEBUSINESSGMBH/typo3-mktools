@@ -22,7 +22,7 @@ plugin.tx_mktools {
             ## wenn PHP mit CGI/Fast CGI eingebunden wird, dann funktioniert die Abfrage nur
             ## wenn folgende Zeile in der .htaccess vorhanden ist (am besten ganz ans Ende schieben)
             ## RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-            kunde = #$Sg81OdSmC7w
+            #kunde = myCryptedPassword
             #username = <?php echo crypt('here the pwd!', 'aValidDesSalt');
         }
         files {
