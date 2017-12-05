@@ -23,7 +23,7 @@ plugin.tx_mktools {
             ## wenn folgende Zeile in der .htaccess vorhanden ist (am besten ganz ans Ende schieben)
             ## RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
             kunde = #$Sg81OdSmC7w
-            #username = <?php echo crypt('here the pwd!', 'A SALT');
+            #username = <?php echo crypt('here the pwd!', 'aValidDesSalt');
         }
         files {
             #index = EXT:myext/Documentation/index.md
