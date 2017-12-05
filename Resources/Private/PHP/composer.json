@@ -1,9 +1,9 @@
 {
-	"config": {
-		"vendor-dir": "Composer"
-	},
-	"require": {
-		"erusev/parsedown": "1.1.1"
-	},
-	"prefer-stable" : true
+    "config": {
+        "vendor-dir": "Composer"
+    },
+    "require": {
+        "erusev/parsedown": "1.6.0"
+    },
+    "prefer-stable" : true
 }
