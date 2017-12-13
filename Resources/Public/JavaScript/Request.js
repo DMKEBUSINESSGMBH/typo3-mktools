@@ -123,7 +123,7 @@
                 $.each(params, function(index, object){
                     if (isGet) {
                         var parameterGlue = '&';
-                        if (isFirstParameter && parameters.href.indexOf("?") == 0) {
+                        if (isFirstParameter && parameters.href.indexOf("?") == -1) {
                             parameterGlue = '?';
                         }
                         parameters.href += parameterGlue + object.name + "=" + object.value;
