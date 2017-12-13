@@ -61,3 +61,7 @@ page.includeJS.mktoolsAjaxForm = typo3conf/ext/mktools/Resources/Public/JavaScri
 ~~~~
 
 Dann muss dem Formular noch die Klasse "notcachable" gegeben.
+
+cHash Probleme vermeiden
+------------------------
+Formulare mit der Ajaxfunktion sollten immer mit abgeschickt POST stehen. Ansonsten kann folgendes passieren: Es wird eine Seite mit Parametern und cHash aufgerufen, z.B. eine Newsdetailseite. Beim Ajaxrequest werden die Daten des Formular an die URL angehangen, was dann je nach TYPO3 Konfiguration einen 404 Fehler erzeugt weil der cHash nicht zu den Parametern passt. Auf einer Seite ohne weitere Parameter würde das wahrscheinlich nicht passieren. Es ist dennoch ratsam Formulare immer per POST abzuschicken.

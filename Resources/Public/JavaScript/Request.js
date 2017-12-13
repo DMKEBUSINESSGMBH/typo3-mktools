@@ -118,14 +118,19 @@
                     params = form.serializeArray(),
                     submitName = urlOrElement.is("input[type=submit]") ? urlOrElement.prop("name") : false;
 
-                parameters.href += parameters.href.indexOf("?") >= 0 ? "&" : "?1=1";
                 // Parameter des Forumars sammeln
+                var isFirstParameter = true;
                 $.each(params, function(index, object){
                     if (isGet) {
-                        parameters.href += "&" + object.name + "=" + object.value;
+                        var parameterGlue = '&';
+                        if (isFirstParameter && parameters.href.indexOf("?") == 0) {
+                            parameterGlue = '?';
+                        }
+                        parameters.href += parameterGlue + object.name + "=" + object.value;
                     } else if (!_request.isDefined(parameters[object.name])) {
                         parameters[object.name] = object.value;
                     }
+                    isFirstParameter = false;
                 });
                 // Den Wert des aktuellen Submit-Buttons mitsenden!
                 if (_request.isString(submitName) && submitName.length > 0) {
