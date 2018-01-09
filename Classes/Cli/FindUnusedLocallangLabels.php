@@ -134,7 +134,7 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
     }
 }
 
-if (defined('TYPO3_cliMode') && !defined('MKTOOLS_TESTRUN')) {
+if (tx_rnbase_util_TYPO3::isCliMode() && !defined('MKTOOLS_TESTRUN')) {
     $cleanerObj = tx_rnbase::makeInstance('Tx_Mktools_Cli_FindUnusedLocallangLabels');
     $cleanerObj->showUnusedLocallangLabels();
 }
