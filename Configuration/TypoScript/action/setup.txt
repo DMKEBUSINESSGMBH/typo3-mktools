@@ -48,12 +48,17 @@ plugin.tx_mktools {
 docu = PAGE
 docu {
     typeNum = 480
-    config.metaCharset = utf-8
-    ### X-Robots-Tag, wir wollen vermeiden, dass der inhalt indiziert wird.
-    config.additionalHeaders = Content-Type: text/html; charset=utf-8|X-Robots-Tag: noindex;
-    config.admPanel = 0
-    config.sendNoCacheHeaders = 1
-    config.no_cache = 1
+    config {
+        metaCharset = utf-8
+        ### X-Robots-Tag, wir wollen vermeiden, dass der inhalt indiziert wird.
+        additionalHeaders = Content-Type: text/html; charset=utf-8|X-Robots-Tag: noindex;
+        admPanel = 0
+        sendNoCacheHeaders = 1
+        no_cache = 1
+
+        ### in case sourceopt is enabled/installed
+        sourceopt.enabled = 0
+    }
 
     includeCSS {
         bootstrap = //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css
