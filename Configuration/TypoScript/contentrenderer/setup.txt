@@ -1,4 +1,4 @@
-includeLibs.tx_mktools_action_ajax_ContentRenderer = EXT:mktools/action/ajax/tx_mktools_action_ajax_ContentRenderer.php
+includeLibs.tx_mktools_action_ajax_ContentRenderer = EXT:mktools/action/ajax/class.tx_mktools_action_ajax_ContentRenderer.php
 
 mktoolsAjaxHandler = PAGE
 mktoolsAjaxHandler {
