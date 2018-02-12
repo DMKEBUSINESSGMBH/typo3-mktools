@@ -265,7 +265,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
         // wir in einen infinite loop
         tx_rnbase::load('tx_rnbase_util_Misc');
         if (tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
-            echo tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl, 0, false, $report);
+            echo tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl);
         }
         exit(1);
     }
