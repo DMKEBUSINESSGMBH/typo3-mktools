@@ -44,7 +44,7 @@ plugin.tx_mktools {
     }
 }
 
-### pagetype for the docu
+### pagetype for the documentation
 docu = PAGE
 docu {
     typeNum = 480
@@ -84,7 +84,7 @@ docu {
 
 /*
  * copy this in your config.tss!
-# set baseurl, so images cen be readed
+# set baseurl, so images can be opened
 [globalVar = GP:type = 480]
     config.baseURL = http://{$domain}/typo3conf/ext/mkgesundheit/Documentation/
 [global]

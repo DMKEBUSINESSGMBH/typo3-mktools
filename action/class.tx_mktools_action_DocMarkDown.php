@@ -102,7 +102,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
         if ($this->parser === null) {
             tx_rnbase::load('tx_mktools_util_Composer');
             tx_mktools_util_Composer::autoload();
-            $this->parser = new Parsedown();
+            $this->parser = new ParsedownExtra();
             $this->parser->setMarkupEscaped(false);
             $this->parser->setBreaksEnabled(false);
         }
