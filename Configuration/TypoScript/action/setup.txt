@@ -82,10 +82,9 @@ docu {
     }
 }
 
-/*
- * copy this in your config.tss!
+
+# copy this in your config.tss!
 # set baseurl, so images can be opened
-[globalVar = GP:type = 480]
-    config.baseURL = http://{$domain}/typo3conf/ext/mkgesundheit/Documentation/
-[global]
-*/
+#[globalVar = GP:type = 480]
+#    config.baseURL = http://www.mydomain.tld/typo3conf/ext/myExtension/Documentation/
+#[global]
