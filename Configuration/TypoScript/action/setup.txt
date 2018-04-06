@@ -1,7 +1,7 @@
 ### setup
 includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
 
-plugin.tx_mktools = USER_INT
+plugin.tx_mktools = USER
 plugin.tx_mktools {
     flexform = flexform_main.xml
     userFunc = tx_rnbase_controller->main
@@ -16,6 +16,8 @@ tt_content.list.20.tx_mktools =< plugin.tx_mktools
 plugin.tx_mktools {
     docmarkdownTemplate = EXT:mktools/Resources/Private/Templates/DocMarkDown.html
     docmarkdown {
+        toUserInt = 1
+
         ### define cryptet auth data here!
         auth.crypt {
             ## dmk default auth
@@ -31,6 +33,8 @@ plugin.tx_mktools {
     }
     flashmessagesTemplate = EXT:mktools/Resources/Private/Templates/FlashMessage.html
     flashmessages {
+        toUserInt = 1
+
         template {
             itempath = message
             markerclass = tx_rnbase_util_SimpleMarker

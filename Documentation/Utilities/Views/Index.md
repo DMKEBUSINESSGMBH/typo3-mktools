@@ -25,7 +25,7 @@ Für die Ausgabe ist die FlashMessage-Action von MKTOOLS zuständig. Diese kann 
 TypoScript Lib
 --------------
 
-Creates output based on TypoScript.  
+Creates output based on TypoScript.
 The TypoScript can be added in the TS Tab of the Plugin like this
 
 ```
@@ -35,6 +35,8 @@ The TypoScript can be added in the TS Tab of the Plugin like this
         10.value = Hello World
     }
 ```
+
+If you want it to be uncached, use a COA_INT for example.
 
 Show Template
 -------------
