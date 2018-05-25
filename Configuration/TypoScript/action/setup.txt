@@ -55,7 +55,13 @@ docu {
     config {
         metaCharset = utf-8
         ### X-Robots-Tag, wir wollen vermeiden, dass der inhalt indiziert wird.
+        ### notation for TYPO3 6.2
         additionalHeaders = Content-Type: text/html; charset=utf-8|X-Robots-Tag: noindex;
+        ### notation since TYPO3 7.6
+        additionalHeaders {
+            10.header = Content-Type: text/html; charset=UTF-8
+            20.header = X-Robots-Tag: noindex;
+        }
         admPanel = 0
         sendNoCacheHeaders = 1
         no_cache = 1
