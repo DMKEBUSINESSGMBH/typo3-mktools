@@ -25,8 +25,9 @@ Für die Ausgabe ist die FlashMessage-Action von MKTOOLS zuständig. Diese kann 
 TypoScript Lib
 --------------
 
-Creates output based on TypoScript.
-The TypoScript can be added in the TS Tab of the Plugin like this
+Rendered TypoScript Objekte im Pfad plugin.tx_mktools.tslib
+
+Im TypoScript Setup Teil des Plugins (Flexform) kann das wie folgt konfiguriert werden:
 
 ```
     tslib = COA
@@ -36,7 +37,21 @@ The TypoScript can be added in the TS Tab of the Plugin like this
     }
 ```
 
-If you want it to be uncached, use a COA_INT for example.
+Wenn ein ungeachtes Objekt wie COA_INT oder USER_INT gerendert werden soll, dann muss das mktools tslib Plugin ebenfalls ungeached sein. Das kann mit der TypoScript Konfiguration plugin.tx_mktools.toUserInt = 1 gesetzt werden. Im Flexform eines Plugins kann das im TypoScript Setup Teil des Plugins (Flexform) ebenfalls mit toUserInt = 1 gesetzt werden.
+
+**Vorsicht wenn andere rn_base Actions gerendert werden sollen.** Das Problem ist, dass die Flexform Konfiguration des mktools Plugins ebenfalls für die andere rn_base Action verwendet wird. Das hat zur Folge dass die action Konfiguration immer durch den Wert aus dem Flexform überschrieben wird, womit man in einer Endlosschleife landet, die immer wieder das mktools Plugin rendert. Die Lösung ist rn_base mitzuteilen, dass die für die andere Action die Flexform Konfiguration ignoriert werden soll. Das geht so:
+
+Flexform Konfiguration im TypoScript Setup Teil des Plugins:
+```
+    tslib =< lib.myOtherAction
+```
+
+TypoScript Konfiguration für lib.:
+```
+    lib.myOtherAction < plugin.tx_myotherext
+    lib.myOtherAction.action = myOtherAction
+    lib.myOtherAction.ignoreFlexFormConfiguration = 1
+```
 
 Show Template
 -------------
