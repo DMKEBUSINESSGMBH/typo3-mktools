@@ -126,7 +126,7 @@
             }
         }
         else {
-            $el.parents("div[id^='c']").each(
+            $el.parents("div[id^='c'], section[id^='c']").each(
                 function(index, element) {
                     $content = $(element);
                     if (_self.isNumeric($content.attr("id").slice(1))) {
