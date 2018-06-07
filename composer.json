@@ -40,6 +40,9 @@
             "view/",
             "xclasses/",
             "Classes/"
-        ]
+        ],
+        "psr-4": {
+            "DMK\\Mktools\\" : "Classes"
+        }
     }
 }
