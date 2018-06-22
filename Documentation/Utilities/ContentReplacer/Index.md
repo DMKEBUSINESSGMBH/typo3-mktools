@@ -1,9 +1,6 @@
 Content Replacer
 ================
 
-Funktioniert ab TYPO3 7.6 nicht mehr vollständig. Es werden z.B. die Pfade zu den CSS/JS Dateien, die von TYPO3 generiert werden, nicht mehr ersetzt, weil TYPO3 das einbinden vornimmt, nachdem der Hook aufgerufen wird, den wir nutzen.
-
-
 Muss im Extension-Manager aktiviert werden. Bietet zurzeit die selbe Funktionalität wie die ja\_replacer Extension, mit der Ausnahme, das sie auch im Zusammenhang mit der Scriptmerger Extension funktioniert und eine Basiskonfiguration bietet. Dazu muss nur sicher gestellt werden, das mktools in der extlist der localconf.php nach dem scriptmerger angegeben wird.
 
 Basiskonfiguration

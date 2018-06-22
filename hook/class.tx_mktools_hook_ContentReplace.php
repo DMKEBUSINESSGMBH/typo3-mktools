@@ -106,10 +106,8 @@ class tx_mktools_hook_ContentReplace
      *
      * Don't forget to clear the cache afterwards!
      *
-     * @TODO use preg_replace instead of str_replace
-     * @TODO write tests
-     * @TODO make it work for CSS/JS files which get included with TYPO3 core features (they
-     * are not yet inserted when we reach this point)
+     * @TODO: use preg_replace instead of str_replace
+     * @TODO: write tests
      *
      * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
      * @return void The content is passed by reference
