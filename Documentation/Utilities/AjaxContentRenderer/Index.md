@@ -1,7 +1,11 @@
 Ajax Content Renderer
 =====================
 
-Ermöglicht das Laden einzelner Content-Elemente per Ajax.
+Ermöglicht das Laden einzelner Content-Elemente per Ajax. Muss im Extension Manager aktiviert werden im Konfigurationskey ajaxContentRendererActive. Außerdem muss das TypoScript Template eingebunden werden.
+
+~~~~ {.sourceCode .ts}
+<INCLUDE_TYPOSCRIPT: source="FILE: EXT:mktools/Configuration/TypoScript/contentrenderer/setup.txt">
+~~~~
 
 Angestoßen wird der Ajax-Call per Klick auf einen Link mit der Klasse "ajax-link", beim Absenden eines Formulars mit Klasse "ajax-form" oder beim Klicken auf einen Radiobutton oder mit Checkbox mit Klasse "ajax-autotrigger". Die ID des zu ersetzenden Content-Element muss im Quelltext als
 
@@ -49,7 +53,7 @@ jQuery('.draftButton').on('click',function(event) {
 Caching
 -------
 
-Wenn das Caching nicht gewünscht ist, dann einfach noch die Klasse "notcachable" hinzufügen.
+Wenn das clientseitige Caching der Ajax Requests nicht gewünscht ist, dann einfach noch die Klasse "notcachable" hinzufügen.
 
 Formulare mit Bildupload
 ------------------------
@@ -65,3 +69,7 @@ Dann muss dem Formular noch die Klasse "notcachable" gegeben.
 cHash Probleme vermeiden
 ------------------------
 Formulare mit der Ajaxfunktion sollten immer mit abgeschickt POST stehen. Ansonsten kann folgendes passieren: Es wird eine Seite mit Parametern und cHash aufgerufen, z.B. eine Newsdetailseite. Beim Ajaxrequest werden die Daten des Formular an die URL angehangen, was dann je nach TYPO3 Konfiguration einen 404 Fehler erzeugt weil der cHash nicht zu den Parametern passt. Auf einer Seite ohne weitere Parameter würde das wahrscheinlich nicht passieren. Es ist dennoch ratsam Formulare immer per POST abzuschicken.
+
+Inhaltselemente direkt initial mit Ajax nachladen
+------------------------
+Es ist auch möglich, dass ein Inhaltselement direkt initial per Ajax nachgeladen wird. Wichtig ist, dass es sich dabei um ein nicht cachebares Plugin (USER_INT) handelt. Für andere Typen macht das wenig Sinn und wurde daher nicht implementiert. Somit kann eine Seite z.B. über Varnish ausgeliefert, obwohl diese USER_INT enthält, da nach außen keine USER_INT Objekte enthalten sind. Es muss nichts weiter gemacht werden, als im betroffenen tt_content Element den Haken bei "mit Ajax nachladen?" zu setzen.

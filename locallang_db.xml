@@ -29,6 +29,7 @@
 
             <label index="tx_mktools_fal_images">FAL Bilder:</label>
             <label index="tx_mktools_fal_media">FAL Media:</label>
+            <label index="tx_mktools_load_with_ajax">mit Ajax nachladen?</label>
         </languageKey>
 
         <languageKey index="de" type="array">

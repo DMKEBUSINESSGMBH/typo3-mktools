@@ -78,6 +78,10 @@
                 "form.ajax-autotrigger select",
                 _event
             );
+
+        $('.ajax-links-autoload').each(function() {
+            _self.handleAjaxClick(null, $(this)[0]);
+        });
     };
 
     AjaxContent.prototype.handleAjaxClick = function(event, element) {
@@ -153,6 +157,10 @@
         else {
             parameters.contentid = $content.attr("id").slice(1);
         }
+
+        // so we know in DMK\Mktools\ContentObject\UserInternalContentObject
+        // that the content should be rendered for real
+        parameters.mktoolsAjaxRequest = true;
 
         $linkwrap = $el.parent();
         if ($linkwrap.hasClass("ajax-link-next") || $linkwrap.hasClass("browse_next")) {
