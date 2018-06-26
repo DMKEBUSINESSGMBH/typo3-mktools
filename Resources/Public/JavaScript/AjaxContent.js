@@ -255,6 +255,14 @@
         if (from == to) {
             $cOld.replaceWith(html);
         }
+
+        this.onAfterReplaceContent();
+    };
+
+    /**
+     * Overwrite this method if you want to do something after the content is replaced
+     */
+    AjaxContent.prototype.onAfterReplaceContent = function() {
     };
 
     // add lib to basic library
