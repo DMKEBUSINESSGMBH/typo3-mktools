@@ -108,7 +108,16 @@
             _self.updateContent(data, parameters);
             this.parent().onSuccess.call(this, data, parameters);
         };
-        _request.doCall(el, parameters);
+        //test if href of element is an image, if so put a <img> tag around it and return
+        if (el.is("a") &&
+            /\.(jpg|jpeg|gif|png|tiff|bmp)$/.test(el.get(0).href) == true
+        ) {
+            _request.onStart({}, parameters);
+            _request.onSuccess('<img src="'+ el.get(0).href + '"/>', parameters);
+            _request.onComplete('<img src="'+ el.get(0).href + '"/>', parameters);
+        } else {
+            _request.doCall(el, parameters);
+        }
     };
 
     // wir ersetzen den inhalt vom calls und oeffnen die box

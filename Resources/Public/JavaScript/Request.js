@@ -48,46 +48,39 @@
         }
         // Den Ajax Request absenden.
         else {
-            //test if href of urlOrElement is an image, if so put a <img> tag around it and return 
-            if (/\.(jpg|jpeg|gif|png|tiff|bmp)$/.test(urlOrElement.get(0).href) == true) {
-                _request.onComplete($('<img src="'+ urlOrElement.get(0).href + '"/>'), parameters);
-                _request.onSuccess($('<img src="'+ urlOrElement.get(0).href + '"/>'), parameters);
-            } else {
-                var ajaxOptions =
-                {
-                    url : parameters.href,
-                    type : "POST", // make configurable
-                    dataType : "html", // make configurable
-                    data : parameters,
-                    success : function(data) {
-                        // Cachen!
-                        if (cacheable) {
-                            cache.setData(cacheId, data);
-                        }
-                        _request.handleHistoryOnSuccess(parameters);
-                        return _request.onSuccess(data, parameters);
-                    },
-                    error : function() {
-                        return _request.onFailure(arguments, parameters);
-                    },
-                    complete : function() {
-                        return _request.onComplete(arguments, parameters);
+            var ajaxOptions =
+            {
+                url : parameters.href,
+                type : "POST", // make configurable
+                dataType : "html", // make configurable
+                data : parameters,
+                success : function(data) {
+                    // Cachen!
+                    if (cacheable) {
+                        cache.setData(cacheId, data);
                     }
-                };
-    
-                // haben wir ein Formular?
-                if (
-                    _request.isObjectJQuery(urlOrElement) &&
-                    urlOrElement.is("form, input, select") &&
-                    this.isFunction($.fn.ajaxForm)
-                ){
-                    var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first();
-                    form.ajaxSubmit(ajaxOptions);
-                } else {
-                    return $.ajax(ajaxOptions);
+                    _request.handleHistoryOnSuccess(parameters);
+                    return _request.onSuccess(data, parameters);
+                },
+                error : function() {
+                    return _request.onFailure(arguments, parameters);
+                },
+                complete : function() {
+                    return _request.onComplete(arguments, parameters);
                 }
+            };
+
+            // haben wir ein Formular?
+            if (
+                _request.isObjectJQuery(urlOrElement) &&
+                urlOrElement.is("form, input, select") &&
+                this.isFunction($.fn.ajaxForm)
+            ){
+                var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first();
+                form.ajaxSubmit(ajaxOptions);
+            } else {
+                return $.ajax(ajaxOptions);
             }
-            
         }
         return true;
     };
