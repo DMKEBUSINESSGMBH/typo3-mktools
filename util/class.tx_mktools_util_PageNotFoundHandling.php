@@ -246,10 +246,22 @@ class tx_mktools_util_PageNotFoundHandling
                 'url' => &$url,
             )
         );
+
+        $report = [];
         // wir versuchen erstmal den inhalt der URL zu holen
         tx_rnbase::load('tx_rnbase_util_Network');
         $content = tx_rnbase_util_Network::getURL(
-            $this->getFileAbsFileName($url)
+            $this->getFileAbsFileName($url), 0, false, $report
+        );
+
+        tx_rnbase_util_Misc::callHook(
+            'mktools',
+            'pagenotfoundhandling_afterGetContentByUrl',
+            array(
+                'url'       => &$url,
+                'content'   => &$content,
+                'debug'     => $report
+            )
         );
 
         // wir liefern den 404 aus, ohne einen redirect!
