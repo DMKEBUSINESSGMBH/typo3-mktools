@@ -128,6 +128,17 @@
                         }
                         parameters.href += parameterGlue + object.name + "=" + object.value;
                     } else if (!_request.isDefined(parameters[object.name])) {
+                        // The [] at the end of the parameter name means we have a multi-select or multi-checkbox
+                        // without dedicated indexes for each option like tx_news_pi1[search][articletype][]
+                        // if multiple options have been selected only the first one get's
+                        // added to the parameter array as the object.name would be the same
+                        // for all options if they don't have indexes.
+                        // That's why we insert an index to make sure every option has it's own index
+                        // and unique parameter name like
+                        // tx_news_pi1[search][articletype][9], tx_news_pi1[search][articletype][10] etc.
+                        if (object.name.endsWith('[]')) {
+                            object.name = object.name.replace('[]', '[' + index + ']')
+                        }
                         parameters[object.name] = object.value;
                     }
                     isFirstParameter = false;
