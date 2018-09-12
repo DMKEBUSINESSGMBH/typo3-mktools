@@ -138,9 +138,8 @@
                         // tx_news_pi1[search][articletype][9], tx_news_pi1[search][articletype][10] etc.
                         // @todo use object.name.endsWith('[]') when support for browsers
                         // without ECMAScript 6 is dropped.
-                        var endOfUnindexedMultiSelectParameterNames = '[]';
-                        if (object.name.substring(object.name.length - endOfUnindexedMultiSelectParameterNames.length, object.name.length) === endOfUnindexedMultiSelectParameterNames) {
-                            object.name = object.name.replace(endOfUnindexedMultiSelectParameterNames, '[' + index + ']')
+                        if (object.name.substring(object.name.length - 2, object.name.length) === "[]") {
+                            object.name = object.name.replace("[]", '[' + index + ']')
                         }
                         parameters[object.name] = object.value;
                     }
