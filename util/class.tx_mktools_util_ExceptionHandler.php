@@ -185,11 +185,11 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
         if ($exceptionPageType == 'FILE') {
             $exceptionPage = $fileLink;
         } elseif ($exceptionPageType == 'TYPOSCRIPT') {
-            $confirgurations = $this->getConfigurations($fileLink);
-            $exceptionPage = $confirgurations->get('errorhandling.exceptionPage');
+            $configurations = $this->getConfigurations($fileLink);
+            $exceptionPage = $configurations->get('errorhandling.exceptionPage');
         } else {
             tx_rnbase::load('tx_rnbase_util_Logger');
-            tx_rnbase_util_Logger::warn('unbekannter error page type "' . $exceptionPageType . '" (möglich: FILE, TYPOSCRIPT)', 'mktools');
+            tx_rnbase_util_Logger::warn('unbekannter error page type "' . $exceptionPageType . '" (möglich: FILE, TYPOSCRIPT), Exception Page: ' . $exceptionPage, 'mktools');
         }
 
         return $exceptionPage;

@@ -137,10 +137,10 @@ class tx_mktools_util_PageNotFoundHandling
 
 
         // die Config initial anlegen!
-        $confirgurations = $this->getConfigurations($addTs);
+        $configurations = $this->getConfigurations($addTs);
 
         // Auf zu ignorierende Fehlercodes prüfen.
-        $ignorecodes = $confirgurations->get('pagenotfoundhandling.ignorecodes');
+        $ignorecodes = $configurations->get('pagenotfoundhandling.ignorecodes');
         if (tx_rnbase_util_Strings::inList($ignorecodes, $this->getTsFe()->pageNotFound)) {
             return;
         }
