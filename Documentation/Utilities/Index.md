@@ -3,6 +3,8 @@ Utilities
 
 [AjaxContentRenderer](AjaxContentRenderer/Index.md)
 
+[Cache](Cache/Index.md)
+
 [CLI](CLI/Index.md)
 
 [ContentReplacer](ContentReplacer/Index.md)
