@@ -91,5 +91,10 @@ class CacheUtility
     public static function setCacheBackend($backendClassName, $cacheName)
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheName]['backend'] = $backendClassName;
+        // compression is often set for the database cache backends but it's not supported by the
+        // APC cache backend
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheName]['options']['compression'])) {
+            unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheName]['options']['compression']);
+        }
     }
 }
