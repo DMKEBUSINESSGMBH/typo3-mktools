@@ -51,6 +51,8 @@ class CacheUtility
             self::setCacheBackend($cacheBackendClass, 'cache_pagesection');
             self::setCacheBackend($cacheBackendClass, 'cache_rootline');
             self::setCacheBackend($cacheBackendClass, 'extbase_datamapfactory_datamap');
+            // This is taken from the example of Mittwald but
+            // why is it a problem to use APC for extbase_object on CLI?
             if (PHP_SAPI !== 'cli') {
                 self::setCacheBackend($cacheBackendClass, 'extbase_object');
             }
@@ -66,7 +68,7 @@ class CacheUtility
         $apcExtensionLoaded = extension_loaded('apc');
         $apcuExtensionLoaded = extension_loaded('apcu');
         $apcAvailable = $apcExtensionLoaded || $apcuExtensionLoaded;
-        $apcEnabled = ini_get('apc.enabled') == TRUE;
+        $apcEnabled = (bool) ((PHP_SAPI === 'cli') ? ini_get('apc.enable_cli') : ini_get('apc.enabled'));
 
         return $apcAvailable && $apcEnabled;
     }
@@ -77,7 +79,7 @@ class CacheUtility
     public static function getApcCacheBackendClass()
     {
         return extension_loaded('apc')
-            ? 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcBackend'
+        ? 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcBackend'
             : 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcuBackend';
     }
 
