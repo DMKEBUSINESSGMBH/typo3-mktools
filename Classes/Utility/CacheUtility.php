@@ -79,7 +79,7 @@ class CacheUtility
     public static function getApcCacheBackendClass()
     {
         return extension_loaded('apc')
-        ? 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcBackend'
+            ? 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcBackend'
             : 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcuBackend';
     }
 
