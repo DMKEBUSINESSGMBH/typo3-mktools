@@ -27,6 +27,7 @@ plugin.tx_mktools {
             #kunde = myCryptedPassword
             #username = <?php echo crypt('here the pwd!', 'aValidDesSalt');
         }
+        # use in own conditions if you need more than one documentation
         files {
             #index = EXT:myext/Documentation/index.md
         }
@@ -34,7 +35,6 @@ plugin.tx_mktools {
     flashmessagesTemplate = EXT:mktools/Resources/Private/Templates/FlashMessage.html
     flashmessages {
         toUserInt = 1
-
         template {
             itempath = message
             markerclass = tx_rnbase_util_SimpleMarker
@@ -79,8 +79,10 @@ docu {
             disableCompression = 1
             excludeFromConcatenation = 1
         }
-        bootswatch < .bootstrap
-        bootswatch = //bootswatch.com/readable/bootstrap.min.css
+        ### alternative kann auch ein anderes Theme ergänzend genommen
+        ### werden z.B. von Bootswatch
+        #bootswatch < .bootstrap
+        #bootswatch = //bootswatch.com/3/readable/bootstrap.min.css
     }
 
     10 =< plugin.tx_mktools
@@ -91,9 +93,12 @@ docu {
         10.value = <title>Dokumentation</title>
     }
 }
+# you can create more than one documentation
+#docu2 < docu
+#docu2.typeNum=481
 
 
-# copy this in your config.tss!
+# copy this in your config.tss for every docu in your project
 # set baseurl, so images can be opened
 #[globalVar = GP:type = 480]
 #    config.baseURL = /typo3conf/ext/myExtension/Documentation/
