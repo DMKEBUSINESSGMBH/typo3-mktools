@@ -206,7 +206,7 @@
             };
         }
 
-        if (xhr = _request.doCall($el, parameters)) {
+        if (xhr = _request.doCall($el, parameters) && event) {
             event.preventDefault();
         }
         return xhr;
