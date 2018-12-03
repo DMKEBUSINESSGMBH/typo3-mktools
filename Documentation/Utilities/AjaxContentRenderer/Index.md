@@ -73,3 +73,7 @@ Formulare mit der Ajaxfunktion sollten immer mit abgeschickt POST stehen. Ansons
 Inhaltselemente direkt initial mit Ajax nachladen
 ------------------------
 Es ist auch möglich, dass ein Inhaltselement direkt initial per Ajax nachgeladen wird. Wichtig ist, dass es sich dabei um ein nicht cachebares Plugin (USER_INT) handelt. Für andere Typen macht das wenig Sinn und wurde daher nicht implementiert. Somit kann eine Seite z.B. über Varnish ausgeliefert, obwohl diese USER_INT enthält, da nach außen keine USER_INT Objekte enthalten sind. Es muss nichts weiter gemacht werden, als im betroffenen tt_content Element den Haken bei "mit Ajax nachladen?" zu setzen.
+
+Ajax Request Typ festlegen
+------------------------
+Per default werden alle Ajax Requests als POST abgeschickt. In Formularen lässt sich das wie üblich konfigurieren. Bei normalen Links kann die Klasse "ajax-get-request" genutzt werden. Bei GET Requests ist es manchmal wünschenswert, dass die URL so verwendet wird, wie sie ist (normalerweise fügt mktools Parameter wie den type 9267 hinzu etc.). Dazu muss die Klassen "ajax-dont-add-parameters-to-request" gesetzt werden. Dann muss man sich aber natürlich selbst darum kümmern, dass die URL alle notwendigen Parameter wie den type etc. enthält.

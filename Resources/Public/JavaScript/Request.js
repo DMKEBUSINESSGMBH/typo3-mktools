@@ -51,9 +51,8 @@
             var ajaxOptions =
             {
                 url : parameters.href,
-                type : "POST", // make configurable
+                type : parameters.requestType,
                 dataType : "html", // make configurable
-                data : parameters,
                 success : function(data) {
                     // Cachen!
                     if (cacheable) {
@@ -69,6 +68,10 @@
                     return _request.onComplete(arguments, parameters);
                 }
             };
+
+            if (!urlOrElement.hasClass('ajax-dont-add-parameters-to-request')) {
+                ajaxOptions.data = parameters;
+            }
 
             // haben wir ein Formular?
             if (
@@ -153,6 +156,10 @@
                         parameters[submitName] = urlOrElement.prop("value");
                     }
                 }
+
+                parameters.requestType = isGet ? 'GET' : 'POST';
+            } else {
+                parameters.requestType = urlOrElement.hasClass('ajax-get-request') ? 'GET' : 'POST';
             }
         }
         return parameters;
