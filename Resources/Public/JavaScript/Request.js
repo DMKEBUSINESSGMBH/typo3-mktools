@@ -69,7 +69,10 @@
                 }
             };
 
-            if (_request.isObjectJQuery(urlOrElement) && !urlOrElement.hasClass('ajax-dont-add-parameters-to-request')) {
+            if (
+                !_request.isObjectJQuery(urlOrElement) ||
+                !urlOrElement.hasClass('ajax-dont-add-parameters-to-request')
+            ) {
                 ajaxOptions.data = parameters;
             }
 
