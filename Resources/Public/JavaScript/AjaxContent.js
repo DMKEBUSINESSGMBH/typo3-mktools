@@ -184,12 +184,12 @@
             this.parent().onStart.call(this, data, parameters);
             $content.find(".waiting").clearQueue().fadeIn();
         };
-        _request.onComplete = function(data, parameters){
-            this.parent().onComplete.call(this, data, parameters);
+        _request.onComplete = function(data, parameters, jqXHR, textStatus){
+            this.parent().onComplete.call(this, data, parameters, jqXHR, textStatus);
             $content.find(".waiting").clearQueue().fadeOut();
         };
-        _request.onSuccess = function(data, parameters) {
-            this.parent().onSuccess.call(this, data, parameters);
+        _request.onSuccess = function(data, parameters, textStatus, jqXHR) {
+            this.parent().onSuccess.call(this, data, parameters, textStatus, jqXHR);
             var from = 0, to = 0;
             if (parameters.page === "next") {
                 to = 1;

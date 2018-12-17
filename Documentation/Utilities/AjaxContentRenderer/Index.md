@@ -77,3 +77,11 @@ Es ist auch möglich, dass ein Inhaltselement direkt initial per Ajax nachgelade
 Ajax Request Typ festlegen
 ------------------------
 Per default werden alle Ajax Requests als POST abgeschickt. In Formularen lässt sich das wie üblich konfigurieren. Bei normalen Links kann die Klasse "ajax-get-request" genutzt werden. Bei GET Requests ist es manchmal wünschenswert, dass die URL so verwendet wird, wie sie ist (normalerweise fügt mktools Parameter wie den type 9267 hinzu etc.). Dazu muss die Klassen "ajax-dont-add-parameters-to-request" gesetzt werden. Dann muss man sich aber natürlich selbst darum kümmern, dass die URL alle notwendigen Parameter wie den type etc. enthält.
+
+Redirects per Ajax auswerten
+------------------------
+Wenn der normale Location Header für Redirects verwendet wird, dann folgen Browser diesem Redirect innerhalb des Ajax Requests, womit am Ende der Inhalt des Redirects steht und das JavaScript nicht weiß, dass es einen Redirect gab. Daher muss in solchen Fällen ein dedizierter Header verwendet werden. Dieser heißt **Mktools_Location**.
+
+~~~~ {.sourceCode .php}
+header('Mktools_Location: https://www.example.com');
+~~~~

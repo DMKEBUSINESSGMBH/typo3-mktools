@@ -53,19 +53,19 @@
                 url : parameters.href,
                 type : parameters.requestType,
                 dataType : "html", // make configurable
-                success : function(data) {
+                success : function(data, textStatus, jqXHR) {
                     // Cachen!
                     if (cacheable) {
                         cache.setData(cacheId, data);
                     }
                     _request.handleHistoryOnSuccess(parameters);
-                    return _request.onSuccess(data, parameters);
+                    return _request.onSuccess(data, parameters, textStatus, jqXHR);
                 },
-                error : function() {
-                    return _request.onFailure(arguments, parameters);
+                error : function(jqXHR, textStatus, errorThrown) {
+                    return _request.onFailure(arguments, parameters, jqXHR, textStatus, errorThrown);
                 },
-                complete : function() {
-                    return _request.onComplete(arguments, parameters);
+                complete : function(jqXHR, textStatus) {
+                    return _request.onComplete(arguments, parameters, jqXHR, textStatus);
                 }
             };
 
@@ -197,11 +197,15 @@
         this.getLoader().show();
     };
     // Wird bei erfolgreichem Call aufgerufen
-    Request.prototype.onSuccess = function(data, parameters) {};
+    Request.prototype.onSuccess = function(data, parameters, textStatus, jqXHR) {};
     // Wird im Fehlerfall ausgerufen
-    Request.prototype.onFailure = function(data, parameters) {};
+    Request.prototype.onFailure = function(data, parameters, jqXHR, textStatus, errorThrown) {};
     // Wird immer nach onStart nach abschluss eines Calls aufgerufen
-    Request.prototype.onComplete = function(data, parameters) {
+    Request.prototype.onComplete = function(data, parameters, jqXHR, textStatus) {
+        if (typeof jqXHR !== "undefined" && jqXHR.getResponseHeader('Mktools_Location') !== null) {
+            // @todo make it possible to open the location in a new tab instead of the current one.
+            window.location = jqXHR.getResponseHeader('Mktools_Location');
+        }
         this.getLoader().hide();
     };
 
