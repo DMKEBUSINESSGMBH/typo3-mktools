@@ -205,8 +205,9 @@
         if (typeof jqXHR !== "undefined" && jqXHR.getResponseHeader('Mktools_Location') !== null) {
             // @todo make it possible to open the location in a new tab instead of the current one.
             window.location = jqXHR.getResponseHeader('Mktools_Location');
+        } else {
+            this.getLoader().hide();
         }
-        this.getLoader().hide();
     };
 
     // add lib to basic library
