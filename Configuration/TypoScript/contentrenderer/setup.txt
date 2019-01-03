@@ -4,9 +4,6 @@ mktoolsAjaxHandler = PAGE
 mktoolsAjaxHandler {
     typeNum = 9267
     config {
-        locale_all = de.utf-8
-        language = de
-        htmlTag_langKey = de
         disableAllHeaderCode = 1
         additionalHeaders = Content-Type: text/html; charset=UTF-8|X-Robots-Tag: noindex;
         metaCharset = utf-8
