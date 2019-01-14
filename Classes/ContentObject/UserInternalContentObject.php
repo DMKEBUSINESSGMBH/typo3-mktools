@@ -46,10 +46,18 @@ class UserInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserIn
         if ($this->cObj->data['tx_mktools_load_with_ajax'] &&
             !\tx_rnbase_parameters::getPostOrGetParameter('mktoolsAjaxRequest')
         ) {
+            // we need a link per element so caching (chash) works correct in the ajax
+            // page type. Otherwise it's not possible to render more than one element
+            // per page
+            $link = \tx_rnbase::makeInstance(\tx_rnbase_util_Link::class)
+                ->destination($GLOBALS['TSFE']->id)
+                ->parameters(['contentId' => $this->getContentObjectRenderer()->data['uid']])
+                ->makeUrl();
+
             // We only need dummy content which indicates to start the ajax load.
-            // The rest is handled with JS and the sourrounding div with the content id.
+            // The rest is handled with JS and the surrounding div with the content id.
             // @see AjaxContent.js
-            $content = '<a class="ajax-links-autoload" href="#"></a>';
+            $content = '<a class="ajax-links-autoload" href="' . $link . '"></a>';
         } else {
             $content = parent::render($conf);
         }

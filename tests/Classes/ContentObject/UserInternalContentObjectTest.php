@@ -120,12 +120,13 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
     {
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
+        $contentObject->data['uid'] = 123;
         \tx_rnbase_parameters::setGetParameter(0, 'mktoolsAjaxRequest');
 
         $this->initializeFixtures($contentObject);
 
-        self::assertEquals(
-            '<a class="ajax-links-autoload" href="#"></a>',
+        self::assertRegExp(
+    '/\<a class="ajax-links-autoload" href="\?id=.*\&amp\;contentId=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
             $this->userInternalObject->render()
         );
     }
