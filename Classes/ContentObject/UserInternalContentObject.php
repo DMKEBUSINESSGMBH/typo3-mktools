@@ -51,7 +51,7 @@ class UserInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserIn
             // per page
             $link = \tx_rnbase::makeInstance(\tx_rnbase_util_Link::class)
                 ->destination($GLOBALS['TSFE']->id)
-                ->parameters(['contentId' => $this->getContentObjectRenderer()->data['uid']])
+                ->parameters(['contentid' => $this->getContentObjectRenderer()->data['uid']])
                 ->makeUrl();
 
             // We only need dummy content which indicates to start the ajax load.
