@@ -113,6 +113,7 @@
     // Alle Parameter fuer den Request zusammen suchen.
     Request.prototype.prepareParameters = function(urlOrElement, parameters) {
         var _request = this;
+        var indexesByParameters = [];
         // Die URL fuer den Request bauen
         if (!_request.isDefined(parameters.href)) {
             parameters.href = _request.getUrl(urlOrElement);
@@ -142,10 +143,17 @@
                         // That's why we insert an index to make sure every option has it's own index
                         // and unique parameter name like
                         // tx_news_pi1[search][articletype][9], tx_news_pi1[search][articletype][10] etc.
+                        // We mimic the behaviour of browsers and start the index per parameter
+                        // at 0 and increment step by step.
+                        if (typeof indexesByParameters[object.name] === 'undefined') {
+                            indexesByParameters[object.name] = 0;
+                        } else {
+                            indexesByParameters[object.name]++;
+                        }
                         // @todo use object.name.endsWith('[]') when support for browsers
                         // without ECMAScript 6 is dropped.
                         if (object.name.substring(object.name.length - 2, object.name.length) === "[]") {
-                            object.name = object.name.replace("[]", '[' + index + ']')
+                            object.name = object.name.replace("[]", '[' + indexesByParameters[object.name] + ']')
                         }
                         parameters[object.name] = object.value;
                     }
