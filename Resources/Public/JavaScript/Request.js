@@ -127,14 +127,21 @@
 
                 // Parameter des Formulars sammeln
                 var isFirstParameter = true;
-                $.each(params, function(index, object){
+                // We need to reverse the form data for a simple reason. First of all
+                // we want the possibility to inject parameters for POST requests that can't
+                // be overwritten (why not for GET requests, too?). So we check if the
+                // parameters already exist. If not we want the last form value
+                // of a field in case there a fields with the same name. That's the same behaviour
+                // like a normal request would be done. As we check if parameters already exist
+                // we need to start from the bottom.
+                $.each(params.reverse(), function(index, object){
                     if (isGet) {
                         var parameterGlue = '&';
                         if (isFirstParameter && parameters.href.indexOf("?") == -1) {
                             parameterGlue = '?';
                         }
                         parameters.href += parameterGlue + object.name + "=" + object.value;
-                    } else {
+                    } else if (!_request.isDefined(parameters[object.name])) {
                         // The [] at the end of the parameter name means we have a multi-select or multi-checkbox
                         // without dedicated indexes for each option like tx_news_pi1[search][articletype][]
                         // if multiple options have been selected only the first one get's
@@ -145,14 +152,14 @@
                         // tx_news_pi1[search][articletype][9], tx_news_pi1[search][articletype][10] etc.
                         // We mimic the behaviour of browsers and start the index per parameter
                         // at 0 and increment step by step.
-                        if (typeof indexesByParameters[object.name] === 'undefined') {
-                            indexesByParameters[object.name] = 0;
-                        } else {
-                            indexesByParameters[object.name]++;
-                        }
                         // @todo use object.name.endsWith('[]') when support for browsers
                         // without ECMAScript 6 is dropped.
                         if (object.name.substring(object.name.length - 2, object.name.length) === "[]") {
+                            if (!_request.isDefined(indexesByParameters[object.name])) {
+                                indexesByParameters[object.name] = 0;
+                            } else {
+                                indexesByParameters[object.name]++;
+                            }
                             object.name = object.name.replace("[]", '[' + indexesByParameters[object.name] + ']')
                         }
                         parameters[object.name] = object.value;
