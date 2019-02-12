@@ -127,14 +127,7 @@
 
                 // Parameter des Formulars sammeln
                 var isFirstParameter = true;
-                // We need to reverse the form data for a simple reason. First of all
-                // we want the possibility to inject parameters for POST requests that can't
-                // be overwritten (why not for GET requests, too?). So we check if the
-                // parameters already exist. If not we want the last form value
-                // of a field in case there a fields with the same name. That's the same behaviour
-                // like a normal request would be done. As we check if parameters already exist
-                // we need to start from the bottom.
-                $.each(params.reverse(), function(index, object){
+                $.each(params, function(index, object){
                     if (isGet) {
                         var parameterGlue = '&';
                         if (isFirstParameter && parameters.href.indexOf("?") == -1) {
