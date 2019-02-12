@@ -30,6 +30,10 @@ Die ajaxreplaceid ist optional. Per default wird ein Elternelement des Formular 
 
 Hinweis: Per default wird ein div mit der Klasse waiting eingefügt wenn es dieses noch nicht gibt. Dafür muss das gewünschte CSS bereitgestellt werden.
 
+Hinweis: Es sollten keine Formularefelder mit 
+gleichem Name vorkommen außer multiplen Select-/Checkboxen. Ansonsten wird immer nur der Wert
+des ersten Feldes übermittelt. Browser würden hingegen den letzten übermitteln.
+
 mkforms Formulare
 -----------------
 
