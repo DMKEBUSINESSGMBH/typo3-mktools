@@ -24,3 +24,14 @@ page.includeJS {
     ### falls ein Formular mit Bildupload verwendet wird, dann folgendes JS einbinden
     #mktoolsAjaxForm = typo3conf/ext/mktools/Resources/Public/JavaScript/jquery.form.min.js
 }
+
+### Configuration for the rn_base the link which loads USER_INT objects with ajax.
+### Can be extended if you need parameters in that link for USER_INT plugins like a news ID.
+### By default we link to the current page ID. The parameter contentid is added automatically.
+### Attention: You should never set noHash or noCache for those links for performance reasons.
+lib.tx_mktools.loadUserIntWithAjaxUrl{
+    ### This adds the tx_ttnews[tt_news] parameter to the link if present.
+    ### Might be useful if you want to load a comment plugin for news for example
+    # useKeepVars = 1
+    # useKeepVars.add = tx_ttnews::tt_news
+}

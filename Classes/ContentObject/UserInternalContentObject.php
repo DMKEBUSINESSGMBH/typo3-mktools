@@ -49,9 +49,15 @@ class UserInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserIn
             // we need a link per element so caching (chash) works correct in the ajax
             // page type. Otherwise it's not possible to render more than one element
             // per page
-            $link = \tx_rnbase::makeInstance(\tx_rnbase_util_Link::class)
-                ->destination($GLOBALS['TSFE']->id)
-                ->parameters(['contentid' => $this->getContentObjectRenderer()->data['uid']])
+            $configuration = \tx_rnbase::makeInstance('Tx_Rnbase_Configuration_Processor');
+            $configuration->init($GLOBALS['TSFE']->tmpl->setup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
+            $link = $configuration
+                ->createLink()
+                ->initByTS(
+                    $configuration,
+                    'lib.tx_mktools.loadUserIntWithAjaxUrl.',
+                    ['::contentid' => $this->getContentObjectRenderer()->data['uid']]
+                )
                 ->makeUrl();
 
             // We only need dummy content which indicates to start the ajax load.
