@@ -134,7 +134,7 @@
                             parameterGlue = '?';
                         }
                         parameters.href += parameterGlue + object.name + "=" + object.value;
-                    } else if (!_request.isDefined(parameters[object.name])) {
+                    } else {
                         // The [] at the end of the parameter name means we have a multi-select or multi-checkbox
                         // without dedicated indexes for each option like tx_news_pi1[search][articletype][]
                         // if multiple options have been selected only the first one get's
