@@ -63,7 +63,7 @@ class UserInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserIn
             // We only need dummy content which indicates to start the ajax load.
             // The rest is handled with JS and the surrounding div with the content id.
             // @see AjaxContent.js
-            $content = '<a class="ajax-links-autoload" href="' . $link . '"></a>';
+            $content = '<a class="ajax-links-autoload ajax-no-history" href="' . $link . '"></a>';
         } else {
             $content = parent::render($conf);
         }

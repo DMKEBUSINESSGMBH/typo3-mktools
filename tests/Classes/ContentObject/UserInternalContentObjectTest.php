@@ -132,7 +132,7 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         ];
 
         self::assertRegExp(
-            '/\<a class="ajax-links-autoload" href="\?id=.*\&amp\;mktools%5Btest%5D=testValue&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
+            '/\<a class="ajax-links-autoload ajax-no-history" href="\?id=.*\&amp\;mktools%5Btest%5D=testValue&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
             $this->userInternalObject->render()
         );
     }
@@ -152,7 +152,7 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         $this->initializeFixtures($contentObject);
 
         self::assertRegExp(
-            '/\<a class="ajax-links-autoload" href="\?id=.*\&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
+            '/\<a class="ajax-links-autoload ajax-no-history" href="\?id=.*\&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
             $this->userInternalObject->render()
         );
     }
