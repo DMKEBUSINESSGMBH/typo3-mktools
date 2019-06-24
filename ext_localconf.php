@@ -1,4 +1,5 @@
 <?php
+use DMK\Mktools\ContentObject\UserContentObject;
 use DMK\Mktools\ContentObject\UserInternalContentObject;
 
 defined('TYPO3_MODE') || die('Access denied.');
@@ -110,4 +111,5 @@ Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash(array(
 
 if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['USER_INT'] = UserInternalContentObject::class;
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['USER'] = UserContentObject::class;
 }
