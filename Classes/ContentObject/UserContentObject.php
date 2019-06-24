@@ -24,7 +24,7 @@ namespace DMK\Mktools\ContentObject;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
+ /**
  * If element should be loaded with Ajax, we insert
  * only a placeholder which get's replaced with Ajax by the mktools
  * Ajax Renderer.
@@ -35,11 +35,10 @@ namespace DMK\Mktools\ContentObject;
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class UserInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject
+class UserContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserContentObject
 {
-
-    private $tsConfig = 'lib.tx_mktools.loadUserIntWithAjaxUrl.';
+    private $tsConfig = 'lib.tx_mktools.loadUserWithAjaxUrl.';
     
     use LoadPluginWithAjaxTrait;
-    
 }
+
