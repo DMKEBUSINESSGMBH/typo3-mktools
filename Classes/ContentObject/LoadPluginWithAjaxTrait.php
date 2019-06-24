@@ -6,7 +6,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 trait LoadPluginWithAjaxTrait
 {
     public function render($conf = [])
-    {var_dump($this->tsConfig);
+    {
         if ($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] &&
             !\tx_rnbase_parameters::getPostOrGetParameter('mktoolsAjaxRequest')
             ) {
