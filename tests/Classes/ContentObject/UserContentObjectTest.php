@@ -1,10 +1,11 @@
 <?php
+
 namespace DMK\Mktools\ContentObject;
 
 /**
  *  Copyright notice
  *
- *  (c) Hannes Bochmann <dev@dmk-ebusiness.de>
+ *  (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,8 +28,6 @@ namespace DMK\Mktools\ContentObject;
 /**
  * DMK\Mktools\ContentObject$UserContentObjectTest
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
@@ -97,7 +96,6 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjaxAndUseKeepVarsForLink()
     {
-        
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
         $contentObject->data['uid'] = 123;
@@ -123,7 +121,6 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjax()
     {
-        
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
         $contentObject->data['uid'] = 123;

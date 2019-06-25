@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\Mktools\ContentObject;
 
 /***************************************************************
@@ -29,8 +30,6 @@ namespace DMK\Mktools\ContentObject;
  * only a placeholder which get's replaced with Ajax by the mktools
  * Ajax Renderer.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
@@ -46,4 +45,3 @@ class UserContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserContentObj
     
     use LoadPluginWithAjaxTrait;
 }
-
