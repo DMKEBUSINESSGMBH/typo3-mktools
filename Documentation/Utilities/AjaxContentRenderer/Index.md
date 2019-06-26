@@ -76,7 +76,7 @@ Formulare mit der Ajaxfunktion sollten immer mit abgeschickt POST stehen. Ansons
 
 Inhaltselemente direkt initial mit Ajax nachladen
 ------------------------
-Es ist auch möglich, dass ein Inhaltselement direkt initial per Ajax nachgeladen wird. Wichtig ist, dass es sich dabei um ein nicht cachebares Plugin (USER_INT) handelt. Für andere Typen macht das wenig Sinn und wurde daher nicht implementiert. Somit kann eine Seite z.B. über Varnish ausgeliefert, obwohl diese USER_INT enthält, da nach außen keine USER_INT Objekte enthalten sind. Es muss nichts weiter gemacht werden, als im betroffenen tt_content Element den Haken bei "mit Ajax nachladen?" zu setzen.
+Es ist auch möglich, dass ein Inhaltselement direkt initial per Ajax nachgeladen wird. Dies funktioniert für die Plugins vom Typ USER und USER_INT. Für andere Typen macht das wenig Sinn und wurde daher nicht implementiert. Somit kann eine Seite z.B. über Varnish ausgeliefert, obwohl diese USER_INT enthält, da nach außen keine USER_INT Objekte enthalten sind. Es muss nichts weiter gemacht werden, als im betroffenen tt_content Element den Haken bei "mit Ajax nachladen?" zu setzen.
 
 Wenn in dem Plugin allerdings ein Formular vorhanden ist, dann muss sichergestellt werden, dass das Formular selbst auch per Ajax abgeschickt wird. Dazu muss z.B. einfach die Klassen ajax-form ins form-Tag.
 

@@ -38,3 +38,12 @@ lib.tx_mktools.loadUserIntWithAjaxUrl{
     # useKeepVars = 1
     # useKeepVars.add = tx_ttnews::tt_news
 }
+
+### Adds the same possibility for configutation as the TS above.
+### But for USER plugins.
+lib.tx_mktools.loadUserWithAjaxUrl{
+    ### This adds the tx_ttnews[tt_news] parameter to the link if present.
+    ### Might be useful if you want to load a comment plugin for news for example
+    # useKeepVars = 1
+    # useKeepVars.add = tx_ttnews::tt_news
+}
