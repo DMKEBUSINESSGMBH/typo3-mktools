@@ -21,7 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_mktools_action_ShowTemplate');
 
 /**
  * Controller for markdown documentations.
@@ -44,7 +43,6 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
         $content = '';
         if ($this->auth()) {
             // get real filenames!
-            tx_rnbase::load('tx_rnbase_util_Templates');
             $tmpl = tx_rnbase_util_Templates::getTSTemplate();
             foreach ($this->getFiles() as $file) {
                 $file = $tmpl->getFileName($file);
@@ -67,7 +65,6 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
      */
     protected function auth()
     {
-        tx_rnbase::load('tx_mklib_util_MiscTools');
         tx_mklib_util_MiscTools::enableHttpAuthForCgi();
 
         $auth = $this->getConfigurations()->get(
@@ -100,7 +97,6 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     protected function getParser()
     {
         if ($this->parser === null) {
-            tx_rnbase::load('tx_mktools_util_Composer');
             tx_mktools_util_Composer::autoload();
             $this->parser = new ParsedownExtra();
             $this->parser->setMarkupEscaped(false);

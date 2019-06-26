@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('Tx_Rnbase_Error_ErrorHandler');
-tx_rnbase::load('Tx_Rnbase_Error_Exception');
 
 /**
  * wie der TYPO3 error handler. aber wir behandeln noch fatal errors
@@ -110,7 +108,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      */
     protected function shouldExceptionsBeWrittenToDevLog()
     {
-        return TYPO3_EXCEPTION_DLOG;
+        return true;
     }
 
     /**
@@ -119,7 +117,6 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     protected function writeExceptionToDevLog($exception)
     {
         $logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
-        tx_rnbase::load('tx_rnbase_util_Logger');
         tx_rnbase_util_Logger::devLog($exception->getMessage(), $logTitle, 3);
     }
 

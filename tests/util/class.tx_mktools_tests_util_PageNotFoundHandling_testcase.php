@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 
 /**
  *
@@ -92,26 +90,17 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
         // vorher instantiert, womit die XCLass keine Beachtung mehr findet.
         // Also leeren wir den Klassen Cache von TYPO3 damit neu auf XClass
         // geprüft wird.
-        if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-            $property = new ReflectionProperty('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility', 'finalClassNameCache');
-            $property->setAccessible(true);
-            $classNameCache = $property->getValue(null);
-            $property->setValue(null, array());
-            $xclass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
-                array(),
-                0,
-                0
-            );
-            $property->setValue(null, $classNameCache);
-        } else {
-            $property = new ReflectionProperty('t3lib_div', 'finalClassNameRegister');
-            $property->setAccessible(true);
-            $property->setValue(null, array());
-            $classNameCache = $property->getValue(null);
-            $xclass = t3lib_div::makeInstance('tslib_fe', array(), 0, 0);
-            $property->setValue(null, $classNameCache);
-        }
+        $property = new ReflectionProperty('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility', 'finalClassNameCache');
+        $property->setAccessible(true);
+        $classNameCache = $property->getValue(null);
+        $property->setValue(null, array());
+        $xclass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
+            array(),
+            0,
+            0
+        );
+        $property->setValue(null, $classNameCache);
 
         $this->assertInstanceOf('ux_tslib_fe', $xclass, 'xclass falsch');
     }
@@ -276,7 +265,6 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
      */
     private static function getPageNotFoundHandlingUtil($reason = '', $httpStatus = '')
     {
-        tx_rnbase::load('tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling');
         $obj = tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling::getInstance(
             self::getTsFe(),
             $reason,
@@ -293,7 +281,6 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     private static function getTsFe()
     {
         if (!is_object($GLOBALS['TSFE'])) {
-            tx_rnbase::load('tx_rnbase_util_Misc');
             tx_rnbase_util_Misc::prepareTSFE();
             $GLOBALS['TSFE']->id = '';
             $GLOBALS['TSFE']->pageNotFound = 0;

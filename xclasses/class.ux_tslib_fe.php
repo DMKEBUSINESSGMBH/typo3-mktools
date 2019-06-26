@@ -21,7 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-tx_rnbase::load('Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController');
 
 /**
  *
@@ -43,7 +42,6 @@ class ux_tslib_fe extends Tx_Rnbase_Frontend_Controller_TypoScriptFrontendContro
         // wir prüfen erstmal dne pageNotFound_handling wert auf mktools konfiguration
         $code = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFound_handling'];
         if (tx_rnbase_util_Strings::isFirstPartOfStr($code, 'MKTOOLS_')) {
-            tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
             tx_mktools_util_PageNotFoundHandling::getInstance($this, $reason, $header)
                 ->handlePageNotFound($code);
         }

@@ -23,7 +23,6 @@
  ***************************************************************/
 
 
-tx_rnbase::load('tx_rnbase_model_base');
 
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>

@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('Tx_Rnbase_Error_ProductionExceptionHandler');
-tx_rnbase::load('tx_rnbase_util_Network');
 
 /**
  * tx_mktools_util_ExceptionHandlerBase
@@ -87,9 +85,8 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
      */
     protected function lockAcquired($exception, $context)
     {
-        if (!is_dir(PATH_site.'typo3temp/mktools/locks/')) {
-            tx_rnbase::load('tx_rnbase_util_Files');
-            tx_rnbase_util_Files::mkdir_deep(PATH_site . 'typo3temp/', 'mktools/locks');
+        if (!is_dir(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/mktools/locks/')) {
+            tx_rnbase_util_Files::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath() . 'typo3temp/', 'mktools/locks');
         }
 
         $lockFile = $this->getLockFileByExceptionAndContext($exception, $context);
@@ -117,9 +114,8 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
                 $exception->getPrevious() . $context
         );
 
-        $lockFilePath = PATH_site . 'typo3temp/mktools/locks/';
+        $lockFilePath = \Sys25\RnBase\Utility\Environment::getPublicPath() . 'typo3temp/mktools/locks/';
         if (!is_dir($lockFilePath)) {
-            tx_rnbase::load('tx_rnbase_util_Files');
             tx_rnbase_util_Files::mkdir_deep($lockFilePath);
         }
 
@@ -147,7 +143,6 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
         $this->writeLogEntries($exception, self::CONTEXT_WEB);
 
         if ($this->shouldExceptionBeDebugged()) {
-            tx_rnbase::load('tx_rnbase_util_Debug');
             tx_rnbase_util_Debug::debug(array(
                     'Exception! Mehr infos im devlog.'
             ), __METHOD__.' Line: '.__LINE__);
@@ -188,7 +183,6 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
             $configurations = $this->getConfigurations($fileLink);
             $exceptionPage = $configurations->get('errorhandling.exceptionPage');
         } else {
-            tx_rnbase::load('tx_rnbase_util_Logger');
             tx_rnbase_util_Logger::warn('unbekannter error page type "' . $exceptionPageType . '" (möglich: FILE, TYPOSCRIPT)', 'mktools');
         }
 
@@ -221,7 +215,6 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
     private function getExceptionPageExtensionConfiguration()
     {
         if (!$this->exceptionPageExtensionConfiguration) {
-            tx_rnbase::load('tx_mktools_util_miscTools');
             $exceptionPageConfiguration = tx_mktools_util_miscTools::getExceptionPage();
             $this->exceptionPageExtensionConfiguration = explode(':', $exceptionPageConfiguration);
         }
@@ -249,7 +242,6 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
      */
     protected function logNoExceptionPageDefined()
     {
-        tx_rnbase::load('tx_rnbase_util_Logger');
         tx_rnbase_util_Logger::warn('keine Fehlerseite definiert', 'mktools');
     }
 
@@ -263,7 +255,6 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
         // wenn wir schon auf der Fehlerseite sind, dann holen wir nicht nochmal
         // die Fehlerseite falls auf dieser der Fehler auch auftritt. Sonst laufen
         // wir in einen infinite loop
-        tx_rnbase::load('tx_rnbase_util_Misc');
         if (tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
             echo tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl);
         }
@@ -278,109 +269,41 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
      */
     protected function sendStatusHeadersEnvironment($exception)
     {
-        if (tx_rnbase_util_TYPO3::isTYPO46OrHigher()) {
-            @parent::sendStatusHeaders($exception);
-        } else {
-            if (method_exists($exception, 'getStatusHeaders')) {
-                $headers = $exception->getStatusHeaders();
-            } else {
-                $httpUtilityClass = tx_rnbase_util_Typo3Classes::getHttpUtilityClass();
-                $headers = array($httpUtilityClass::HTTP_STATUS_500);
-            }
-            if (!headers_sent()) {
-                foreach ($headers as $header) {
-                    header($header);
-                }
-            }
-        }
+        @parent::sendStatusHeaders($exception);
     }
 }
 
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-
-// vor TYPO3 8 war das Interface noch anders
-if (tx_rnbase_util_TYPO3::isTYPO80OrHigher()) {
-    class tx_mktools_util_ExceptionHandler extends tx_mktools_util_ExceptionHandlerBase
+/**
+ * Class tx_mktools_util_ExceptionHandler.
+ *
+ * @author  Hannes Bochmann
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
+ */
+class tx_mktools_util_ExceptionHandler extends tx_mktools_util_ExceptionHandlerBase
+{
+    /**
+     * {@inheritDoc}
+     * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+     */
+    public function writeLogEntries(\Throwable $exception, $context)
     {
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function writeLogEntries(\Throwable $exception, $context)
-        {
-            parent::writeLogEntriesEnvironment($exception, $context);
-        }
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function sendStatusHeaders(\Throwable $exception)
-        {
-            parent::sendStatusHeadersEnvironment($exception);
-        }
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function echoExceptionWeb(\Throwable $exception)
-        {
-            parent::echoExceptionInWebEnvironment($exception);
-        }
+        parent::writeLogEntriesEnvironment($exception, $context);
     }
-} elseif (tx_rnbase_util_TYPO3::isTYPO76OrHigher()) {
-    class tx_mktools_util_ExceptionHandler extends tx_mktools_util_ExceptionHandlerBase
+    /**
+     * {@inheritDoc}
+     * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+     */
+    public function sendStatusHeaders(\Throwable $exception)
     {
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function writeLogEntries($exception, $context)
-        {
-            parent::writeLogEntriesEnvironment($exception, $context);
-        }
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function sendStatusHeaders($exception)
-        {
-            parent::sendStatusHeadersEnvironment($exception);
-        }
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function echoExceptionWeb($exception)
-        {
-            parent::echoExceptionInWebEnvironment($exception);
-        }
+        parent::sendStatusHeadersEnvironment($exception);
     }
-} else {
-    class tx_mktools_util_ExceptionHandler extends tx_mktools_util_ExceptionHandlerBase
+    /**
+     * {@inheritDoc}
+     * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
+     */
+    public function echoExceptionWeb(\Throwable $exception)
     {
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function writeLogEntries($exception, $context)
-        {
-            parent::writeLogEntriesEnvironment($exception, $context);
-        }
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function sendStatusHeaders($exception)
-        {
-            parent::sendStatusHeadersEnvironment($exception);
-        }
-        /**
-         * {@inheritDoc}
-         * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
-         */
-        public function echoExceptionWeb(Exception $exception)
-        {
-            parent::echoExceptionInWebEnvironment($exception);
-        }
+        parent::echoExceptionInWebEnvironment($exception);
     }
 }

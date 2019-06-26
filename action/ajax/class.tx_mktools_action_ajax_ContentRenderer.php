@@ -29,7 +29,6 @@
  * Includes
  */
 
-tx_rnbase::load('tx_mktools_util_T3Loader');
 
 /**
  * Action zum Rendern von ContentElementen

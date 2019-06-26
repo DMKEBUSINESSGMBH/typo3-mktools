@@ -23,8 +23,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-tx_rnbase::load('tx_mktools_scheduler_GenerateRealUrlConfigurationFile');
-tx_rnbase::load('tx_mktools_util_RealUrl');
 
 /**
  * @author Hannes Bochmann
@@ -38,7 +36,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
      */
     protected function setUp()
     {
-        tx_mklib_tests_Util::disableDevlog();
+        \DMK\Mklib\Utility\Tests::disableDevlog();
     }
 
     /**

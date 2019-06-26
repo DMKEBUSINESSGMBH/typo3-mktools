@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_view_Single');
 
 /**
  * Default view class to show a template.

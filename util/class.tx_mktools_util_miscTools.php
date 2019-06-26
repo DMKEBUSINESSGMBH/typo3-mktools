@@ -37,7 +37,6 @@ class tx_mktools_util_miscTools
      */
     private static function getExtensionCfgValue($configValue)
     {
-        tx_rnbase::load('tx_rnbase_configurations');
 
         return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
     }
@@ -99,20 +98,6 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return array
-     */
-    public static function getTcaPostProcessingExtensions()
-    {
-        tx_rnbase::load('tx_rnbase_util_Strings');
-
-        return tx_rnbase_util_Strings::trimExplode(
-            ',',
-            self::getExtensionCfgValue('tcaPostProcessingExtensions'),
-            true
-        );
-    }
-
-    /**
      * @return number
      */
     public static function getSystemLogLockThreshold()
@@ -127,7 +112,6 @@ class tx_mktools_util_miscTools
      */
     public static function getConfigurations($staticPath, $additionalPath = '')
     {
-        tx_rnbase::load('tx_mklib_util_TS');
 
         tx_rnbase_util_Extensions::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
@@ -139,7 +123,6 @@ class tx_mktools_util_miscTools
         }
 
         $pageTSconfig = tx_mklib_util_TS::getPagesTSconfig(0);
-        tx_rnbase::load('tx_rnbase_util_Arrays');
         $config = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
             (array) $pageTSconfig['config.']['tx_mktools.'],
             (array) $pageTSconfig['plugin.']['tx_mktools.']
@@ -188,7 +171,6 @@ class tx_mktools_util_miscTools
      */
     private static function getAbsoluteFileName($filename)
     {
-        tx_rnbase::load('tx_rnbase_util_Files');
 
         return tx_rnbase_util_Files::getFileAbsFileName($filename);
     }

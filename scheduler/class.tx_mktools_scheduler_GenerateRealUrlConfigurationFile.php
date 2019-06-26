@@ -23,9 +23,6 @@
  ***************************************************************/
 
 
-tx_rnbase::load('tx_mklib_scheduler_Generic');
-tx_rnbase::load('tx_mktools_util_RealUrl');
-
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */

@@ -90,8 +90,6 @@ class tx_mktools_util_FlashMessage
      */
     public function load()
     {
-        tx_rnbase::load('Tx_Rnbase_Domain_Model_Base');
-        tx_rnbase::load('tx_mklib_util_Session');
 
         // load messages from last request
         $prevMessages = tx_mklib_util_Session::getSessionValue(
@@ -119,7 +117,6 @@ class tx_mktools_util_FlashMessage
      */
     public function save()
     {
-        tx_rnbase::load('tx_mklib_util_Session');
 
         tx_mklib_util_Session::setSessionValue(
             'flash_mesages',

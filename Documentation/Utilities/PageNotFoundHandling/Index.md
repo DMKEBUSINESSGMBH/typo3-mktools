@@ -1,5 +1,5 @@
-Page Not Found Handling
-=======================
+Page Not Found Handling bis TYPO3 8.7
+=====================================
 
 Muss im Extension-Manager aktiviert werden. Damit wird die Typo3-Fehlerbehandlung über \$TYPO3\_CONF\_VARS['FE']['pageNotFound\_handling'] erweitert.
 
@@ -8,6 +8,8 @@ Standard wird das verhalten insofern verändert, das bei den Fehlercodes 1 (ID w
 **WICHTIG**: Wenn RealURL genutzt wird, sollte die Option postVarSet\_failureMode =\> redirect\_goodUpperDir nicht aktiv sein!
 
 **Weiter ist es möglich spezielle Requests anzugeben:**
+
+**Ab TYPO3 9.5 sollte zum im TYPO3 Core integriertem Error Handling migriert werden**
 
 READFILE
 --------

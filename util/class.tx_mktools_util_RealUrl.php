@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_util_DB');
-tx_rnbase::load('tx_mktools_util_miscTools');
 
 /**
  * @package TYPO3
@@ -340,13 +338,8 @@ class tx_mktools_util_RealUrl
             require_once tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
         }
 
-        if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
-                'className' => 'ux_tx_realurl'
-            );
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realurl/class.tx_realurl.php']
-                = tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
-        }
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
+            'className' => 'ux_tx_realurl'
+        );
     }
 }

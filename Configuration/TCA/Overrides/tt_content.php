@@ -16,7 +16,7 @@ if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
                 )
             ),
         ],
-        !tx_rnbase_util_TYPO3::isTYPO62OrHigher()
+        false
     );
 
     tx_rnbase_util_Extensions::addToAllTCAtypes('tt_content', 'tx_mktools_load_with_ajax', 'list');

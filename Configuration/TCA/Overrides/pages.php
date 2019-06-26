@@ -3,12 +3,9 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-tx_rnbase::load('tx_mktools_util_miscTools');
 if (tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
     // pages erweitern
-    tx_rnbase::load('tx_rnbase_util_TCA');
     tx_rnbase_util_TCA::loadTCA('pages');
-    tx_rnbase::load('tx_rnbase_util_TYPO3');
     tx_rnbase_util_Extensions::addTCAcolumns(
         'pages',
         array(
@@ -29,19 +26,16 @@ if (tx_mktools_util_miscTools::loadFixedPostVarTypesTable()) {
                 )
             ),
         ),
-        !tx_rnbase_util_TYPO3::isTYPO62OrHigher()
+        false
     );
 
     tx_rnbase_util_Extensions::addToAllTCAtypes('pages', 'tx_mktools_fixedpostvartype', '');
 }
 
 if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
-    tx_rnbase::load('tx_rnbase_util_TCA');
-    tx_rnbase::load('tx_mktools_util_SeoRobotsMetaTag');
 
     // pages erweitern
     tx_rnbase_util_TCA::loadTCA('pages');
-    tx_rnbase::load('tx_rnbase_util_TYPO3');
     tx_rnbase_util_Extensions::addTCAcolumns(
         'pages',
         array(
@@ -59,7 +53,7 @@ if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
                 ),
             ),
         ),
-        !tx_rnbase_util_TYPO3::isTYPO62OrHigher()
+        false
     );
     tx_rnbase_util_Extensions::addToAllTCAtypes('pages', 'mkrobotsmetatag', '');
 }

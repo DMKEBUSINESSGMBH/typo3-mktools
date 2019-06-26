@@ -22,10 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('Tx_Phpunit_TestCase');
-tx_rnbase::load('tx_mktools_util_ErrorHandler');
-tx_rnbase::load('tx_mktools_util_ExceptionHandler');
-tx_rnbase::load('Tx_Rnbase_Error_Exception');
 
 /**
  * @package TYPO3

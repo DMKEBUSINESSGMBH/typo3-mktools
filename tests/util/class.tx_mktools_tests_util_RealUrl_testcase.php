@@ -22,10 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mktools_util_RealUrl');
-tx_rnbase::load('Tx_Rnbase_Database_Connection');
-tx_rnbase::load('tx_mklib_tests_Util');
 
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
@@ -49,15 +45,15 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             $this->markTestSkipped('realurl ist nicht installiert');
         }
 
-        tx_mklib_tests_Util::storeExtConf('mktools');
+        \DMK\Mklib\Utility\Tests::storeExtConf('mktools');
 
         $this->realUrlConfigurationFile = tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfig.php';
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             $this->realUrlConfigurationFile,
             'mktools'
         );
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
             tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
             'mktools'
@@ -72,7 +68,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     protected function tearDown()
     {
-        tx_mklib_tests_Util::restoreExtConf('mktools');
+        \DMK\Mklib\Utility\Tests::restoreExtConf('mktools');
         @unlink($this->realUrlConfigurationFile);
     }
 
@@ -348,7 +344,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreTherePagesWithFixedPostVarTypeModifiedLaterThanWithTimestampZero()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -397,7 +393,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreThereFixedPostVarTypesModifiedLaterThanWithTimestampZero()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -446,7 +442,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfPagesAndFixedPostVarTypesWereModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -477,7 +473,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyPagesWereModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -508,7 +504,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyFixedPostVarTypesWereModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -543,7 +539,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsFalseIfPagesAndFixedPostVarTypesAndTemplateFileWerenotModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -578,7 +574,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyTemplateFileWasModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -629,7 +625,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesNoFileIfPagesGivenButNoTemplate()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
             tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/empty',
             'mktools'
@@ -655,7 +651,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesNoFileIfPagesGivenButNoDestinationFileConfigured()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             '',
             'mktools'
@@ -717,7 +713,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfMarkerExistsSeveralTimes()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
             tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate2.php',
             'mktools'
@@ -826,7 +822,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfTypoConfVarsVariableIsUsed()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
             tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate3.php',
             'mktools'

@@ -11,4 +11,4 @@ You have to provide the path to the locallang file and the commaseparated folder
 
 Of course, as always you have to create a Backend user named \_cli\_mktools\_find\_unused\_locallang\_labels.
 
-This task is only available in TYPO3 6.2 and upwards.
+This task is only available in TYPO3 8.7.
