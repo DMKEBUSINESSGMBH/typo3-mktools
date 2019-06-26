@@ -23,15 +23,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-
 /**
  * @author Hannes Bochmann
  */
 class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase extends tx_phpunit_testcase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -74,11 +73,10 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
         $arguments = array($options, &$devLog);
         $executeTaskMethod->invokeArgs($scheduler, $arguments);
 
-
         $expectedDevLog = array(
             tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
                 'message' => 'realUrl Konfigurationsdatei muss nicht erstellt werden.',
-            )
+            ),
         );
 
         $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
@@ -122,11 +120,10 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
         $arguments = array($options, &$devLog);
         $executeTaskMethod->invokeArgs($scheduler, $arguments);
 
-
         $expectedDevLog = array(
             tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
                 'message' => 'realUrl Konfigurationsdatei wurde neu erstellt.',
-            )
+            ),
         );
 
         $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
@@ -173,7 +170,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
         $expectedDevLog = array(
             tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
                 'message' => 'realUrl Konfigurationsdatei musste neu erstellt werden, was nicht funktioniert hat. Entweder stimmt die Extension Konfiguration nicht oder es gab einen Fehler beim Schreiben der Datei.',
-            )
+            ),
         );
 
         $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
@@ -189,7 +186,7 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFile_testcase exten
             array(
                 'needsRealUrlConfigurationToBeGenerated',
                 'getPagesWithFixedPostVarType',
-                'generateSerializedRealUrlConfigurationFileByPages'
+                'generateSerializedRealUrlConfigurationFileByPages',
             )
         );
     }

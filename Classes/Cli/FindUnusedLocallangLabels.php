@@ -21,30 +21,23 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
-
 
 /**
- * Tx_Mktools_Cli_FindUnusedLocallangLabels
+ * Tx_Mktools_Cli_FindUnusedLocallangLabels.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Controller
 {
-
     /**
      * @var array
      */
     protected $labelsUsage = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @todo Define visibility
      */
@@ -63,9 +56,6 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
         $this->cli_help['author'] = 'Hannes Bochmann, (c) 2015';
     }
 
-    /**
-     * @return void
-     */
     public function showUnusedLocallangLabels()
     {
         if (!isset($this->cli_args['--locallangFile']) || !isset($this->cli_args['--searchFolders'])) {
@@ -88,32 +78,32 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
 
             foreach ($this->labelsUsage as $labelKey => $usage) {
                 if (!$usage) {
-                    $this->cli_echo($labelKey . " wird nicht verwendet\n");
+                    $this->cli_echo($labelKey." wird nicht verwendet\n");
                 }
             }
         }
     }
 
     /**
-     * @param array $labels
+     * @param array  $labels
      * @param string $folder
-     * @param array $filesToIgnore
+     * @param array  $filesToIgnore
      */
     protected function getLabelsUsageInFolder(array $labels, $folder, array $filesToIgnore)
     {
         foreach (scandir($folder) as $file) {
-            $absoluteFilePath = $folder . '/' . $file;
+            $absoluteFilePath = $folder.'/'.$file;
             if (!is_dir($absoluteFilePath) && !in_array($absoluteFilePath, $filesToIgnore)) {
                 $this->getLabelsUsageInFile($labels, $absoluteFilePath, $filesToIgnore);
             }
-            if (is_dir($absoluteFilePath) && $file != '.' && $file != '..') {
+            if (is_dir($absoluteFilePath) && '.' != $file && '..' != $file) {
                 $this->getLabelsUsageInFolder($labels, $absoluteFilePath, $filesToIgnore);
             }
         }
     }
 
     /**
-     * @param array $labels
+     * @param array  $labels
      * @param string $file
      */
     protected function getLabelsUsageInFile(array $labels, $file)
@@ -124,8 +114,8 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
                 if (!isset($this->labelsUsage[$labelKey])) {
                     $this->labelsUsage[$labelKey] = 0;
                 }
-                if (strpos($fileContents, strtolower($labelKey)) !== false) {
-                    $this->labelsUsage[$labelKey]++;
+                if (false !== strpos($fileContents, strtolower($labelKey))) {
+                    ++$this->labelsUsage[$labelKey];
                 }
             }
         }

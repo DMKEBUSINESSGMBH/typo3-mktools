@@ -1,8 +1,9 @@
 <?php
+
 namespace DMK\Mktools\ContentObject;
 
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) Hannes Bochmann <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -25,17 +26,14 @@ namespace DMK\Mktools\ContentObject;
  */
 
 /**
- * DMK\Mktools\ContentObject$UserInternalContentObjectTest
+ * DMK\Mktools\ContentObject$UserInternalContentObjectTest.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
      */
@@ -48,7 +46,7 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
 
     /**
      * @param bool $loadWithAjax
-     * @param integer $mktoolsAjaxRequest
+     * @param int  $mktoolsAjaxRequest
      *
      * @group integration
      * @dataProvider dataProviderRenderTest
@@ -70,6 +68,7 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
 
     /**
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObject
+     *
      * @return \PHPUnit_Framework_MockObject_MockObject|\DMK\Mktools\ContentObject\UserInternalContentObject
      */
     protected function initializeFixtures($contentObject)
@@ -116,7 +115,6 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjaxAndUseKeepVarsForLink()
     {
-
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
         $contentObject->data['uid'] = 123;
@@ -127,8 +125,8 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         $GLOBALS['TSFE']->tmpl->setup['lib.']['tx_mktools.']['loadUserIntWithAjaxUrl.'] = [
             'useKeepVars' => true,
             'useKeepVars.' => [
-                'add' => 'mktools::test'
-            ]
+                'add' => 'mktools::test',
+            ],
         ];
 
         self::assertRegExp(
@@ -142,7 +140,6 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjax()
     {
-
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
         $contentObject->data['uid'] = 123;

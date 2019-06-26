@@ -1,9 +1,8 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
-
-
 
 ////////////////////////////////
 // Plugin anmelden
@@ -16,7 +15,7 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mktools'] = 'pi_flex
 
 tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mktools', 'FILE:EXT:'.$_EXTKEY.'/flexform_main.xml');
 tx_rnbase_util_Extensions::addPlugin(
-    array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label','tx_mktools'),
+    array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label', 'tx_mktools'),
     'list_type',
     'mktools'
 );
@@ -30,7 +29,6 @@ tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/con
 if (tx_mktools_util_miscTools::isContentReplacerActive()) {
     tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentreplacer', 'MK Tools - Content Replacer');
 }
-
 
 tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'Configuration/TypoScript/contentmodal', 'MK Tools - Ajax Modal Renderer');
 

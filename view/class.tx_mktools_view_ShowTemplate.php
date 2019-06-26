@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 /**
  * Default view class to show a template.
  */
@@ -31,5 +30,5 @@ class tx_mktools_view_ShowTemplate extends tx_rnbase_view_Single
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php'];
 }

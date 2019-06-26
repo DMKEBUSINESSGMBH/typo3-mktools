@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
@@ -10,10 +11,10 @@ if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
             'tx_mktools_load_with_ajax' => array(
                 'exclude' => 1,
                 'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_load_with_ajax',
-                'config'  => array(
-                    'type'    => 'check',
-                    'default' => '0'
-                )
+                'config' => array(
+                    'type' => 'check',
+                    'default' => '0',
+                ),
             ),
         ],
         false

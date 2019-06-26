@@ -22,30 +22,25 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * @package TYPO3
- * @subpackage tx_mktools
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_util_RealUrl
 {
-
     /**
      * @return array[tx_mktools_model_Pages]
      */
     public function getPagesWithFixedPostVarType()
     {
         $options = array(
-            'enablefieldsfe'    => 1,
-            'wrapperclass'        => 'tx_mktools_model_Pages',
-            'where'                => 'tx_mktools_fixedpostvartype > 0'
+            'enablefieldsfe' => 1,
+            'wrapperclass' => 'tx_mktools_model_Pages',
+            'where' => 'tx_mktools_fixedpostvartype > 0',
         );
 
         return $this->selectPagesByOptions($options);
     }
-
 
     /**
      * @param int $modificationTimeStamp
@@ -56,15 +51,15 @@ class tx_mktools_util_RealUrl
         $modificationTimeStamp
     ) {
         $options = array(
-            'enablefieldsfe'    =>    1,
-            'where'                =>    'tx_mktools_fixedpostvartype > 0 AND tstamp > ' .
-                                    $modificationTimeStamp
+            'enablefieldsfe' => 1,
+            'where' => 'tx_mktools_fixedpostvartype > 0 AND tstamp > '.
+                                    $modificationTimeStamp,
         );
 
         $result = $this->selectPagesByOptions($options, 'COUNT(uid) AS uid_count');
 
         return    (isset($result[0]['uid_count'])) ?
-                    (boolean) $result[0]['uid_count'] :
+                    (bool) $result[0]['uid_count'] :
                     false;
     }
 
@@ -77,8 +72,8 @@ class tx_mktools_util_RealUrl
         $modificationTimeStamp
     ) {
         $options = array(
-            'enablefieldsfe'    =>    1,
-            'where'                =>    'tstamp > ' . $modificationTimeStamp
+            'enablefieldsfe' => 1,
+            'where' => 'tstamp > '.$modificationTimeStamp,
         );
 
         $result = $this->getDbUtil()->doSelect(
@@ -88,7 +83,7 @@ class tx_mktools_util_RealUrl
         );
 
         return    (isset($result[0]['uid_count'])) ?
-                (boolean) $result[0]['uid_count'] :
+                (bool) $result[0]['uid_count'] :
                 false;
     }
 
@@ -102,17 +97,17 @@ class tx_mktools_util_RealUrl
     ) {
         $templateFile = tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
         if (file_exists($templateFile)) {
-            return (
+            return
                 filemtime($templateFile) >
                 $realUrlConfigurationLastModified
-            );
+            ;
         }
 
         return false;
     }
 
     /**
-     * @param array $options
+     * @param array  $options
      * @param string $what
      *
      * @return array
@@ -188,12 +183,12 @@ class tx_mktools_util_RealUrl
                 $this->generateRealUrlConfigurationFileWithSerialization();
         }
 
-        return (boolean) $configurationFileWritten;
+        return (bool) $configurationFileWritten;
     }
 
     /**
      * im template kann $TYPO3_CONF_VARS oder auch
-     * $GLOBALS['TYPO3_CONF_VARS'] verwendet werden
+     * $GLOBALS['TYPO3_CONF_VARS'] verwendet werden.
      *
      * @return string
      */
@@ -221,8 +216,8 @@ class tx_mktools_util_RealUrl
         $fixedPostVarPageStrings = array();
         foreach ($pages as $page) {
             if ($fixedPostVarType = $page->getFixedPostVarType()) {
-                $fixedPostVarPageStrings[] =    $page->getUid() . " => '" .
-                                                $fixedPostVarType->getIdentifier() . "'";
+                $fixedPostVarPageStrings[] = $page->getUid()." => '".
+                                                $fixedPostVarType->getIdentifier()."'";
             }
         }
 
@@ -231,8 +226,6 @@ class tx_mktools_util_RealUrl
 
     /**
      * @param array $fixedPostVarPageStrings
-     *
-     * @return void
      */
     private function generateRealUrlConfigurationFileWithoutSerialization(
         array $fixedPostVarPageStrings
@@ -241,7 +234,7 @@ class tx_mktools_util_RealUrl
         $realUrlConfigurationFile =
             tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 
-        $fixedPostVarPageString = implode(',' . LF, $fixedPostVarPageStrings);
+        $fixedPostVarPageString = implode(','.LF, $fixedPostVarPageStrings);
         $realUrlConfigurationFileContent = str_replace(
             '###FIXEDPOSTVARPAGES###',
             $fixedPostVarPageString,
@@ -265,12 +258,12 @@ class tx_mktools_util_RealUrl
     {
         $realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
         include $realUrlConfigurationFile;
-        $serializedContent =    "<?php\n" .
-                                '$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\']' .
-                                '[\'realurl\'] = unserialize(\'' .
+        $serializedContent = "<?php\n".
+                                '$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\']'.
+                                '[\'realurl\'] = unserialize(\''.
                                 serialize(
                                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']
-                                ) . '\');';
+                                ).'\');';
         $serializedContent = $this->addDoNotEditHint($serializedContent);
 
         return file_put_contents(
@@ -288,8 +281,8 @@ class tx_mktools_util_RealUrl
     {
         $editedString = str_replace(
             '<?php',
-            "<?php\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH " .
-            "GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//" .
+            "<?php\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH ".
+            "GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//".
             'BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.',
             $initialString
         );
@@ -297,8 +290,8 @@ class tx_mktools_util_RealUrl
         if ($editedString == $initialString) {
             $editedString = str_replace(
                 '<?',
-                "<?\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH " .
-                "GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//" .
+                "<?\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH ".
+                "GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//".
                 'BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.',
                 $initialString
             );
@@ -308,7 +301,7 @@ class tx_mktools_util_RealUrl
     }
 
     /**
-     * Anpassung realurl
+     * Anpassung realurl.
      */
     public static function registerXclass()
     {
@@ -321,16 +314,16 @@ class tx_mktools_util_RealUrl
         if (class_exists('ux_tx_realurl')) {
             $reflector = new ReflectionClass('ux_tx_realurl');
             $rPath = realpath($reflector->getFileName());
-            $tPath =  realpath(
+            $tPath = realpath(
                 tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tx_realurl.php')
             );
             // notice werfen wenn bisherige XClass nicht die von mktools ist
-            if (strpos($rPath, $tPath) === false) {
+            if (false === strpos($rPath, $tPath)) {
                 throw new LogicException(
-                    'There allready exists an ux_tx_realurl XCLASS!' .
-                    ' Remove the other XCLASS or the deacivate the realurl' .
+                    'There allready exists an ux_tx_realurl XCLASS!'.
+                    ' Remove the other XCLASS or the deacivate the realurl'.
                     ' handling in mktools',
-                    intval(ERROR_CODE_MKTOOLS  . '130')
+                    intval(ERROR_CODE_MKTOOLS.'130')
                 );
             }
             unset($reflector, $rPath, $tPath);
@@ -339,7 +332,7 @@ class tx_mktools_util_RealUrl
         }
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
-            'className' => 'ux_tx_realurl'
+            'className' => 'ux_tx_realurl',
         );
     }
 }

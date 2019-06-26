@@ -26,15 +26,11 @@
  * Controller for markdown documentations.
  *
  * USAGE: see mktools/Configuration/TypoScript/action/setup.txt
- *
- * @package TYPO3
- * @subpackage tx_mktools
  */
 class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
 {
-
     /**
-     * Returns the data to render for the view
+     * Returns the data to render for the view.
      *
      * @return array
      */
@@ -54,12 +50,12 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
         }
 
         return array(
-            'content' => $content
+            'content' => $content,
         );
     }
 
     /**
-     * check the user for auth rights
+     * check the user for auth rights.
      *
      * @return bool
      */
@@ -68,7 +64,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
         tx_mklib_util_MiscTools::enableHttpAuthForCgi();
 
         $auth = $this->getConfigurations()->get(
-            $this->getConfId() . 'auth.crypt.'
+            $this->getConfId().'auth.crypt.'
         );
 
         // zugriff auf die Doku nur in bestimmten fällen
@@ -96,7 +92,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
      */
     protected function getParser()
     {
-        if ($this->parser === null) {
+        if (null === $this->parser) {
             tx_mktools_util_Composer::autoload();
             $this->parser = new ParsedownExtra();
             $this->parser->setMarkupEscaped(false);
@@ -107,9 +103,10 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     }
 
     /**
-     * oparses md content into html
+     * oparses md content into html.
      *
      * @param string $content
+     *
      * @return string
      */
     protected function parseContent($content)
@@ -125,9 +122,9 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     protected function getFiles()
     {
         $configurations = $this->getConfigurations();
-        $confId = $this->getConfId() . 'files';
+        $confId = $this->getConfId().'files';
 
-        $fiels = $configurations->get($confId . '.');
+        $fiels = $configurations->get($confId.'.');
 
         return array_merge(
             $configurations->getExploded($confId),
@@ -136,7 +133,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     }
 
     /**
-     * Gibt den Name des zugehörigen Templates zurück
+     * Gibt den Name des zugehörigen Templates zurück.
      *
      * @return string
      */

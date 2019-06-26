@@ -22,22 +22,18 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
-
 /**
- * Miscellaneous common methods
+ * Miscellaneous common methods.
  */
 class tx_mktools_util_miscTools
 {
-
     /**
-     * Get fields to expand
+     * Get fields to expand.
      *
      * @return int
      */
     private static function getExtensionCfgValue($configValue)
     {
-
         return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
     }
 
@@ -108,11 +104,11 @@ class tx_mktools_util_miscTools
     /**
      * @param string $staticPath
      * @param string $additionalPath
-     * @return  tx_rnbase_configurations
+     *
+     * @return tx_rnbase_configurations
      */
     public static function getConfigurations($staticPath, $additionalPath = '')
     {
-
         tx_rnbase_util_Extensions::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
         );
@@ -167,15 +163,15 @@ class tx_mktools_util_miscTools
 
     /**
      * @param string $filename
+     *
      * @return string
      */
     private static function getAbsoluteFileName($filename)
     {
-
         return tx_rnbase_util_Files::getFileAbsFileName($filename);
     }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php'];
 }

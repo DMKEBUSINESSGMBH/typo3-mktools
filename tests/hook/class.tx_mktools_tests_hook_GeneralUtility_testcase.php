@@ -22,19 +22,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-
 /**
- * tx_mktools_tests_hook_GeneralUtility_testcase
+ * tx_mktools_tests_hook_GeneralUtility_testcase.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @var string
      */
@@ -46,7 +42,8 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
     private $hooksConfigurationBackup;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -61,7 +58,8 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -84,11 +82,11 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
         require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
         $hookFound = false;
-        foreach ((array)$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
-            if (strpos(
+        foreach ((array) $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
+            if (false !== strpos(
                 $systemLogHook,
                 'tx_mktools_hook_GeneralUtility->preventSystemLogFlood'
-            ) !== false
+            )
             ) {
                 $hookFound = true;
             }
@@ -109,11 +107,11 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
         require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
         $hookFound = false;
-        foreach ((array)$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
-            if (strpos(
+        foreach ((array) $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
+            if (false !== strpos(
                 $systemLogHook,
                 'tx_mktools_hook_GeneralUtility->preventSystemLogFlood'
-            ) !== false
+            )
             ) {
                 $hookFound = true;
             }

@@ -3,7 +3,7 @@
 namespace DMK\Mktools\ContentObject;
 
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -26,7 +26,7 @@ namespace DMK\Mktools\ContentObject;
  */
 
 /**
- * DMK\Mktools\ContentObject$UserContentObjectTest
+ * DMK\Mktools\ContentObject$UserContentObjectTest.
  *
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
@@ -38,10 +38,10 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      * @var \DMK\Mktools\ContentObject\UserContentObject
      */
     protected $userObject;
-    
+
     /**
      * @param bool $loadWithAjax
-     * @param integer $mktoolsAjaxRequest
+     * @param int  $mktoolsAjaxRequest
      *
      * @group integration
      * @dataProvider dataProviderRenderTest
@@ -51,23 +51,24 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = $loadWithAjax;
         \tx_rnbase_parameters::setGetParameter($mktoolsAjaxRequest, 'mktoolsAjaxRequest');
-        
+
         $this->initializeFixtures($contentObject);
-        
+
         // check if original method is called
         $configuration = ['stdWrap.' => ['cObject' => 'TEXT', 'cObject.' => ['value' => 'test']]];
-        
+
         self::assertEquals('test', $this->userObject->render($configuration));
     }
-    
+
     /**
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObject
+     *
      * @return \PHPUnit_Framework_MockObject_MockObject|\DMK\Mktools\ContentObject\UserContentObject
      */
     protected function initializeFixtures($contentObject)
     {
         \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true]);
-        
+
         $this->userObject = $this->getMock(
             UserContentObject::class,
             ['callUserFunction'],
@@ -78,7 +79,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         ->method('callUserFunction')
         ->will(self::returnValue('content rendered'));
     }
-    
+
     /**
      * @return boolean[][]|number[][]|string[][]
      */
@@ -90,7 +91,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
             [false, 0],
         ];
     }
-    
+
     /**
      * @group unit
      */
@@ -101,21 +102,21 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         $contentObject->data['uid'] = 123;
         \tx_rnbase_parameters::setGetParameter(0, 'mktoolsAjaxRequest');
         \tx_rnbase_parameters::setGetParameter('testValue', 'mktools|test');
-        
+
         $this->initializeFixtures($contentObject);
         $GLOBALS['TSFE']->tmpl->setup['lib.']['tx_mktools.']['loadUserWithAjaxUrl.'] = [
             'useKeepVars' => true,
             'useKeepVars.' => [
-                'add' => 'mktools::test'
-            ]
+                'add' => 'mktools::test',
+            ],
         ];
-        
+
         self::assertRegExp(
             '/\<a class="ajax-links-autoload ajax-no-history" href="\?id=.*\&amp\;mktools%5Btest%5D=testValue&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
             $this->userObject->render()
             );
     }
-    
+
     /**
      * @group unit
      */
@@ -126,9 +127,9 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         $contentObject->data['uid'] = 123;
         \tx_rnbase_parameters::setGetParameter(0, 'mktoolsAjaxRequest');
         \tx_rnbase_parameters::setGetParameter('testValue', 'mktools|test');
-        
+
         $this->initializeFixtures($contentObject);
-        
+
         self::assertRegExp(
             '/\<a class="ajax-links-autoload ajax-no-history" href="\?id=.*\&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
             $this->userObject->render()

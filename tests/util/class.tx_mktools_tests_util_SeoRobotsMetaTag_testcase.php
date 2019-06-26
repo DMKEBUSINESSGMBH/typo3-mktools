@@ -23,10 +23,8 @@
  *  ***********************************************************************  */
 
 /**
- * tx_mktools_tests_util_SeoRobotsMetaTag_testcase
+ * tx_mktools_tests_util_SeoRobotsMetaTag_testcase.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann
  * @author          Michael Wagner
  * @license         http://www.gnu.org/licenses/lgpl.html
@@ -34,9 +32,9 @@
  */
 class tx_mktools_tests_util_SeoRobotsMetaTag_testcase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()

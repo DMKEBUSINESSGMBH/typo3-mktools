@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\Mktools\Utility;
 
 /***************************************************************
@@ -25,10 +26,8 @@ namespace DMK\Mktools\Utility;
  ***************************************************************/
 
 /**
- * DMK\Mktools\Utility$CacheUtility
+ * DMK\Mktools\Utility$CacheUtility.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
@@ -36,9 +35,7 @@ namespace DMK\Mktools\Utility;
 class CacheUtility
 {
     /**
-     * sets apc or apcu as caching backend for all possible caches
-     *
-     * @return void
+     * sets apc or apcu as caching backend for all possible caches.
      */
     public static function useApcAsCacheBackend()
     {
@@ -61,7 +58,7 @@ class CacheUtility
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public static function isApcUsed()
     {
@@ -74,7 +71,7 @@ class CacheUtility
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public static function getApcCacheBackendClass()
     {
@@ -86,7 +83,6 @@ class CacheUtility
     /**
      * @param string $backendClassName
      * @param string $cacheName
-     * @return void
      */
     public static function setCacheBackend($backendClassName, $cacheName)
     {

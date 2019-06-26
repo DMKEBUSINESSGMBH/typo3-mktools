@@ -22,16 +22,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-
 /**
- * @package TYPO3
  * @author  Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
 class tx_mktools_tests_hook_BrowseLinks_testcase extends Tx_Phpunit_TestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -80,7 +78,6 @@ class tx_mktools_tests_hook_BrowseLinks_testcase extends Tx_Phpunit_TestCase
     }
 
     /**
-     *
      * @param string $function
      *
      * @return mixed

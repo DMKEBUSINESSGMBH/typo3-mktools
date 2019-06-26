@@ -22,21 +22,19 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-
 /**
- * @package TYPO3
  * @author Hannes Bochmann
  */
 class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
 {
-
     /**
      * @var string
      */
     private $defaultPageTsConfig;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -46,7 +44,8 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -95,12 +94,12 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
     {
         \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             'mktools'
         );
 
         $this->assertEquals(
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             tx_mktools_util_miscTools::getRealUrlConfigurationTemplate(),
             'realUrlConfigurationTemplate nicht absolut'
         );
@@ -118,7 +117,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
         );
 
         $this->assertEquals(
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             tx_mktools_util_miscTools::getRealUrlConfigurationTemplate(),
             'realUrlConfigurationTemplate nicht absolut'
         );
@@ -136,7 +135,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
         );
 
         $this->assertEquals(
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             tx_mktools_util_miscTools::getRealUrlConfigurationTemplate(),
             'realUrlConfigurationTemplate nicht absolut'
         );
@@ -149,12 +148,12 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
     {
         \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             'mktools'
         );
 
         $this->assertEquals(
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             tx_mktools_util_miscTools::getRealUrlConfigurationFile(),
             'realUrlConfigurationFile nicht absolut'
         );
@@ -172,7 +171,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
         );
 
         $this->assertEquals(
-            \Sys25\RnBase\Utility\Environment::getPublicPath() . 'typo3conf/realUrl.php',
+            \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3conf/realUrl.php',
             tx_mktools_util_miscTools::getRealUrlConfigurationFile(),
             'realUrlConfigurationFile nicht absolut'
         );
@@ -190,7 +189,7 @@ class tx_mktools_tests_util_miscTools_testcase extends Tx_Phpunit_TestCase
         );
 
         $this->assertEquals(
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             tx_mktools_util_miscTools::getRealUrlConfigurationFile(),
             'realUrlConfigurationFile nicht absolut'
         );

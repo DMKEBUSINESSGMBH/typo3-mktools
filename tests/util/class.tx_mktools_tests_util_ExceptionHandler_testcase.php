@@ -22,14 +22,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-
 /**
- * @package TYPO3
  * @author Hannes Bochmann
  */
 class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @var string
      */
@@ -41,17 +38,18 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
     private $lockFile;
 
     /**
-     * @var string $devIpMaskBackup
+     * @var string
      */
     protected $devIpMaskBackup;
 
     /**
-     * @var string $devIpMaskBackup
+     * @var string
      */
     protected $remoteAddressBackup;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -68,7 +66,8 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -384,7 +383,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 
         // wir prüfen einfach nur ob scheinbar 2 mal die Debug Meldung
         // von TYPO3 ausgegeben wird.
-        $regularExpression =    '/.*Mehr.*infos.*specialexception.*/s';
+        $regularExpression = '/.*Mehr.*infos.*specialexception.*/s';
         $this->expectOutputRegex($regularExpression);
 
         $exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'), true);
@@ -428,7 +427,7 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 
     /**
      * @param array $methods
-     * @param boolean $shouldExceptionBeDebugged
+     * @param bool  $shouldExceptionBeDebugged
      *
      * @return tx_mktools_util_ExceptionHandler
      */

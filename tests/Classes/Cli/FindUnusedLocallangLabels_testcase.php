@@ -25,10 +25,8 @@
 define('MKTOOLS_TESTRUN', true);
 
 /**
- * Tx_Mktools_FindUnusedLocallangLabels_testcase
+ * Tx_Mktools_FindUnusedLocallangLabels_testcase.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
@@ -36,7 +34,8 @@ define('MKTOOLS_TESTRUN', true);
 class Tx_Mktools_FindUnusedLocallangLabels_testcase extends tx_rnbase_tests_BaseTestCase
 {
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()

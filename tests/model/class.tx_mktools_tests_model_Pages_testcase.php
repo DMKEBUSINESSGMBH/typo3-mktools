@@ -22,14 +22,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-
 /**
- * @package TYPO3
  * @author Hannes Bochmann
  */
 class tx_mktools_tests_model_Pages_testcase extends Tx_Phpunit_TestCase
 {
-
     /**
      * @group unit
      */
@@ -37,10 +34,10 @@ class tx_mktools_tests_model_Pages_testcase extends Tx_Phpunit_TestCase
     {
         $record = array('tx_mktools_fixedpostvartype' => 0);
         $page = tx_rnbase::makeInstance('tx_mktools_model_Pages', $record);
-        
+
         $this->assertNull($page->getFixedPostVarType());
     }
-    
+
     /**
      * @group unit
      */
