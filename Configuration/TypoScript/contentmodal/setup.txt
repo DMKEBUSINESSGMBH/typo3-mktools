@@ -34,7 +34,7 @@ mktoolsModalHandler {
 
 }
 
-page.includeJS {
+page.includeJSFooterlibs {
     #mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
     #mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
     #mktoolsModalBootstrap = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalBootstrap.js
