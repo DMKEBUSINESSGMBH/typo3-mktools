@@ -1,8 +1,6 @@
 <?php
 /**
  * Extension Manager/Repository config file for ext "mklib".
- * @package TYPO3
- * @subpackage tx_mktools
  */
 
 //
@@ -36,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
         'depends' => array(
             'rn_base' => '1.4.0-',
             'typo3' => '8.7.99-9.5.99',
-            'mklib' => '3.0.0-'
+            'mklib' => '3.0.0-',
         ),
         'conflicts' => array(),
         'suggests' => array(),
