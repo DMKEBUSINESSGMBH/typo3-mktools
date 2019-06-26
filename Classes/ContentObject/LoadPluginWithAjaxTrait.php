@@ -70,18 +70,4 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
             
             return $content;
     }
-    
-    /**
-     * Getter for current ContentObjectRenderer
-     * Taken from TYPO3\CMS\Frontend\ContentObject\AbstractContentObject
-     * to support TYPO3 7.6
-     * 
-     * @TODO remove if TYPO3 7.6 isn't supported anymore
-     *
-     * @return ContentObjectRenderer
-     */
-    public function getContentObjectRenderer()
-    {
-        return $this->cObj;
-    }
 }
