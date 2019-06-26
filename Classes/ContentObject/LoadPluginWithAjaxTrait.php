@@ -43,7 +43,7 @@ namespace DMK\Mktools\ContentObject;
      {
          if ($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] &&
             !\tx_rnbase_parameters::getPostOrGetParameter('mktoolsAjaxRequest')
-            ) {
+        ) {
              // we need a link per element so caching (chash) works correct in the ajax
              // page type. Otherwise it's not possible to render more than one element
              // per page
@@ -55,8 +55,8 @@ namespace DMK\Mktools\ContentObject;
                     $configuration,
                     $this->urlTypoScriptConfigurationPath,
                     ['::contentid' => $this->getContentObjectRenderer()->data['uid']]
-                    )
-                    ->makeUrl();
+                )
+                ->makeUrl();
 
              // We only need dummy content which indicates to start the ajax load.
              // The rest is handled with JS and the surrounding div with the content id.
