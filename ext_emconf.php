@@ -32,9 +32,9 @@ $EM_CONF[$_EXTKEY] = array(
     'lockType' => '',
     'constraints' => array(
         'depends' => array(
-            'rn_base' => '1.4.0-',
+            'rn_base' => '1.10.0-',
             'typo3' => '8.7.99-9.5.99',
-            'mklib' => '3.0.0-',
+            'mklib' => '9.5.0-',
         ),
         'conflicts' => array(),
         'suggests' => array(),
