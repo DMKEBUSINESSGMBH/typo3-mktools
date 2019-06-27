@@ -69,6 +69,8 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
 
         $this->devIpMaskBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'];
         $this->remoteAddressBackup = $_SERVER['REMOTE_ADDR'];
+
+        $this->resetIndependentEnvironmentCache();
     }
 
     /**
