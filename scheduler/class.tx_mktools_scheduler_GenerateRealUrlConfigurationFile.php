@@ -22,20 +22,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
-tx_rnbase::load('tx_mklib_scheduler_Generic');
-tx_rnbase::load('tx_mktools_util_RealUrl');
-
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
 class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_scheduler_Generic
 {
-
     /**
+     * @param array $options
      *
-     * @param   array   $options
-     * @return  string
+     * @return string
      */
     protected function executeTask(array $options, array &$devLog)
     {
@@ -68,7 +63,8 @@ class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_sch
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_mklib_scheduler_Generic::getExtKey()
      */
     protected function getExtKey()

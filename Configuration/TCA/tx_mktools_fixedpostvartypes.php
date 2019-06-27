@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
@@ -19,16 +20,16 @@ return array(
     ),
     'interface' => array(
         'showRecordFieldList' => 'hidden,title,identifier',
-        'maxDBListItems' => '10'
+        'maxDBListItems' => '10',
     ),
     'columns' => array(
         'hidden' => array(
             'exclude' => 0,
-            'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-            'config'  => array(
-                'type'    => 'check',
-                'default' => '0'
-            )
+            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+            'config' => array(
+                'type' => 'check',
+                'default' => '0',
+            ),
         ),
         'title' => array(
             'exclude' => 0,
@@ -38,7 +39,7 @@ return array(
                 'size' => '30',
                 'max' => '255',
                 'eval' => 'required,trim',
-            )
+            ),
         ),
         'identifier' => array(
             'exclude' => 0,
@@ -48,14 +49,14 @@ return array(
                 'size' => '30',
                 'max' => '255',
                 'eval' => 'required,trim',
-            )
+            ),
         ),
     ),
     'types' => array(
-        '0' => array('showitem' => 'hidden, title,identifier'
-                    )
+        '0' => array('showitem' => 'hidden, title,identifier',
+                    ),
     ),
     'palettes' => array(
-        '1' => array('showitem' => '')
-    )
+        '1' => array('showitem' => ''),
+    ),
 );

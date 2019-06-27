@@ -23,7 +23,7 @@
  ***************************************************************/
 
 /**
- * Flash message utility
+ * Flash message utility.
  *
  * @method static tx_mktools_util_FlashMessage addPrimary() addPrimary($message)
  * @method static tx_mktools_util_FlashMessage addSuccess() addSuccess($message)
@@ -31,8 +31,6 @@
  * @method static tx_mktools_util_FlashMessage addWarning() addWarning($message)
  * @method static tx_mktools_util_FlashMessage addDanger() addDanger($message)
  *
- * @package TYPO3
- * @subpackage tx_mktools
  * @author Michael Wagner
  */
 class tx_mktools_util_FlashMessage
@@ -58,14 +56,14 @@ class tx_mktools_util_FlashMessage
     private $nextMessages = null;
 
     /**
-     * Creates the flashmessage singelton
+     * Creates the flashmessage singelton.
      *
      * @return tx_mktools_util_FlashMessage
      */
     public static function getInstance()
     {
         static $instance = null;
-        if ($instance === null) {
+        if (null === $instance) {
             $instance = tx_rnbase::makeInstance(get_called_class())->load();
         }
 
@@ -73,7 +71,7 @@ class tx_mktools_util_FlashMessage
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * Loads all Messages from the Session to output on current request.
      */
@@ -84,15 +82,12 @@ class tx_mktools_util_FlashMessage
     }
 
     /**
-     * Loads the messages from the last request and clears the session
+     * Loads the messages from the last request and clears the session.
      *
      * @return tx_mktools_util_FlashMessage
      */
     public function load()
     {
-        tx_rnbase::load('Tx_Rnbase_Domain_Model_Base');
-        tx_rnbase::load('tx_mklib_util_Session');
-
         // load messages from last request
         $prevMessages = tx_mklib_util_Session::getSessionValue(
             'flash_mesages',
@@ -113,14 +108,12 @@ class tx_mktools_util_FlashMessage
     }
 
     /**
-     * Saves the messages for the next request
+     * Saves the messages for the next request.
      *
      * @return tx_mktools_util_FlashMessage
      */
     public function save()
     {
-        tx_rnbase::load('tx_mklib_util_Session');
-
         tx_mklib_util_Session::setSessionValue(
             'flash_mesages',
             serialize($this->nextMessages->getArrayCopy()),
@@ -133,7 +126,7 @@ class tx_mktools_util_FlashMessage
     }
 
     /**
-     * Keeps the messages from the last request and addt for the next
+     * Keeps the messages from the last request and addt for the next.
      *
      * @return tx_mktools_util_FlashMessage
      */
@@ -156,11 +149,11 @@ class tx_mktools_util_FlashMessage
     }
 
     /**
-     * Appends a new message to for the next request
+     * Appends a new message to for the next request.
      *
      * @param string $message
      * @param string $level
-     * @param mixed $data
+     * @param mixed  $data
      *
      * @return tx_mktools_util_FlashMessage
      */
@@ -180,7 +173,7 @@ class tx_mktools_util_FlashMessage
     }
 
     /**
-     * Returns the list of messages for this and the next request
+     * Returns the list of messages for this and the next request.
      *
      * @return ArrayObject
      */
@@ -190,29 +183,29 @@ class tx_mktools_util_FlashMessage
     }
 
     /**
-     * Checks for a static add message count for the allowed levels
+     * Checks for a static add message count for the allowed levels.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @throws Exception If level or method does not exists
      *
      * @return tx_mktools_util_FlashMessage
      */
-    public static function __callstatic($method, $args)
+    public static function __callStatic($method, $args)
     {
-        if ($method{0} === 'a' &&
-            $method{1} === 'd' &&
-            $method{2} === 'd' &&
-            $method{3} === strtoupper($method{3})
+        if ('a' === $method[0] &&
+            'd' === $method[1] &&
+            'd' === $method[2] &&
+            $method[3] === strtoupper($method[3])
         ) {
             $level = substr($method, 3);
-            $const = 'LEVEL_' . strtoupper($level);
-            if (defined('self::' . $const)) {
-                return self::getInstance()->addMessage($args[0], constant('self::' . $const));
+            $const = 'LEVEL_'.strtoupper($level);
+            if (defined('self::'.$const)) {
+                return self::getInstance()->addMessage($args[0], constant('self::'.$const));
             }
         }
 
-        throw new Exception('Method "' . get_called_class() . '::' . $method . '()" does not exists');
+        throw new Exception('Method "'.get_called_class().'::'.$method.'()" does not exists');
     }
 }

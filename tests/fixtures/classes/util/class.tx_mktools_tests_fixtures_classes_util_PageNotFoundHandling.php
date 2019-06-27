@@ -22,24 +22,23 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
 /**
- * Erweitert die util klasse mit test methoden
- * @package TYPO3
+ * Erweitert die util klasse mit test methoden.
+ *
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling extends tx_mktools_util_PageNotFoundHandling
 {
-
     /**
      * ist nur wahr, wenn wir uns im unittest befinden, um die exits zu vermeiden.
-     * @var boolean
+     *
+     * @var bool
      */
     private $isTest = false;
 
     /**
-     *
      * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
+     *
      * @return tx_mktools_util_PageNotFoundHandling
      */
     public static function getInstance($tsfe, $reason = '', $header = '')
@@ -48,7 +47,8 @@ class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling extends tx_mkt
     }
 
     /**
-     * enthält einen Wert zum auswerden in den tests
+     * enthält einen Wert zum auswerden in den tests.
+     *
      * @var array
      */
     private $testValues = array();
@@ -57,6 +57,7 @@ class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling extends tx_mkt
     {
         $this->isTest = true;
     }
+
     public function getTestValue()
     {
         return $this->testValues;
@@ -76,8 +77,6 @@ class tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling extends tx_mkt
     }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/fixtures/classes/util/class.tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling.php'];
 }

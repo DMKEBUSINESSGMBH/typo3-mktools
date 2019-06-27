@@ -6,9 +6,6 @@ mktoolsModalHandler {
     config {
         metaCharset = utf-8
         ### X-Robots-Tag, wir wollen vermeiden, dass der inhalt des calls indiziert wird.
-        ### notation for TYPO3 6.2
-        additionalHeaders = Content-Type: text/plain; charset=utf-8|X-Robots-Tag: noindex;
-        ### notation since TYPO3 7.6
         additionalHeaders {
             10.header = Content-Type: text/plain; charset=UTF-8
             20.header = X-Robots-Tag: noindex;
@@ -27,9 +24,6 @@ mktoolsModalHandler {
     includeJS >
     headerData >
     additionalHeaderData >
-    ### notation for TYPO3 6.2
-    config.additionalHeaders = Content-Type: text/plain; charset=utf-8|X-Robots-Tag: noindex;
-    ### notation since TYPO3 7.6
     config.additionalHeaders {
         10.header = Content-Type: text/plain; charset=UTF-8
         20.header = X-Robots-Tag: noindex;
@@ -40,7 +34,7 @@ mktoolsModalHandler {
 
 }
 
-page.includeJS {
+page.includeJSFooterlibs {
     #mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
     #mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
     #mktoolsModalBootstrap = typo3conf/ext/mktools/Resources/Public/JavaScript/ModalBootstrap.js

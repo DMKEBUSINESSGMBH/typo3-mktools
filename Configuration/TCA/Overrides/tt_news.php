@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
@@ -6,10 +7,7 @@ if (!defined('TYPO3_MODE')) {
 if (!tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
     return;
 }
-tx_rnbase::load('tx_rnbase_util_TCA');
 tx_rnbase_util_TCA::loadTCA('tt_news');
-tx_rnbase::load('tx_rnbase_util_TSFAL');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase_util_Extensions::addTCAcolumns(
     'tt_news',
     array(
@@ -29,7 +27,7 @@ tx_rnbase_util_Extensions::addTCAcolumns(
             )
         ),
     ),
-    !tx_rnbase_util_TYPO3::isTYPO62OrHigher()
+    false
 );
 
 tx_rnbase_util_Extensions::addToAllTCAtypes(

@@ -22,17 +22,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-
 /**
- *
- * @package TYPO3
  * @author Christian Riesche <christian.riesche@dmk-ebusiness.de>
  */
 class tx_mktools_util_SeoRobotsMetaTag
 {
-
     /**
-     * Werte für das robots Meta Tag
+     * Werte für das robots Meta Tag.
+     *
      * @var array
      */
     public static $options = array(
@@ -45,9 +42,9 @@ class tx_mktools_util_SeoRobotsMetaTag
         5 => 'NOODP,NOINDEX,FOLLOW',
     );
 
-
     /**
-     * Formattierte Ausgabe der Werte für das TCA
+     * Formattierte Ausgabe der Werte für das TCA.
+     *
      * @return array
      */
     public static function getOptionsForTCA()
@@ -61,8 +58,10 @@ class tx_mktools_util_SeoRobotsMetaTag
     }
 
     /**
-     * Gibt passenden Wert des Robots Tag zurück
+     * Gibt passenden Wert des Robots Tag zurück.
+     *
      * @param int $key
+     *
      * @return string
      */
     private function getOptionByValue($key)
@@ -77,10 +76,11 @@ class tx_mktools_util_SeoRobotsMetaTag
     /**
      * Liefert den Wert des für diese Seite relevanten Robots Meta Tag
      * zurück. Wird keiner gefunden, dann wird als Default der Wert der
-     * Konstanten {$config.tx_mktools.seorobotsmetatag.default} zurückgegeben
+     * Konstanten {$config.tx_mktools.seorobotsmetatag.default} zurückgegeben.
      *
      * @param string $content
-     * @param array $configuration
+     * @param array  $configuration
+     *
      * @return string
      */
     public function getSeoRobotsMetaTagValue($content = '', array $configuration = array())
@@ -93,11 +93,11 @@ class tx_mktools_util_SeoRobotsMetaTag
         return $configuration['default'];
     }
 
-
     /**
      * Sucht rekursiv von der aktuellen Seite aus, ob ein
      * Wert für ein individuelles Robots-Tag gesetzt ist. Wir stoppen sobald eine
      * Seite nicht auf 0 steht.
+     *
      * @return int
      */
     protected function getRobotsValue()
@@ -120,8 +120,6 @@ class tx_mktools_util_SeoRobotsMetaTag
     }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/util/class.tx_mktools_util_SeoRobotsMetaTag.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/util/tx_mktools_util_SeoRobotsMetaTag.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_SeoRobotsMetaTag.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/tx_mktools_util_SeoRobotsMetaTag.php'];
 }

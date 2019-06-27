@@ -22,22 +22,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
-
 /**
- *
- * @package TYPO3
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @var string
      */
     private $defaultPageTsConfig;
-
 
     /**
      * @var string
@@ -45,7 +38,8 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     private $requestUriBackup;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -61,7 +55,8 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -79,7 +74,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
         try {
             tx_mktools_util_PageNotFoundHandling::registerXclass();
         } catch (LogicException $e) {
-            if ($e->getCode() !== intval(ERROR_CODE_MKTOOLS  . '130')) {
+            if ($e->getCode() !== intval(ERROR_CODE_MKTOOLS.'130')) {
                 throw $e;
             }
             $this->markTestSkipped(
@@ -92,26 +87,17 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
         // vorher instantiert, womit die XCLass keine Beachtung mehr findet.
         // Also leeren wir den Klassen Cache von TYPO3 damit neu auf XClass
         // geprüft wird.
-        if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-            $property = new ReflectionProperty('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility', 'finalClassNameCache');
-            $property->setAccessible(true);
-            $classNameCache = $property->getValue(null);
-            $property->setValue(null, array());
-            $xclass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
-                array(),
-                0,
-                0
-            );
-            $property->setValue(null, $classNameCache);
-        } else {
-            $property = new ReflectionProperty('t3lib_div', 'finalClassNameRegister');
-            $property->setAccessible(true);
-            $property->setValue(null, array());
-            $classNameCache = $property->getValue(null);
-            $xclass = t3lib_div::makeInstance('tslib_fe', array(), 0, 0);
-            $property->setValue(null, $classNameCache);
-        }
+        $property = new ReflectionProperty('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility', 'finalClassNameCache');
+        $property->setAccessible(true);
+        $classNameCache = $property->getValue(null);
+        $property->setValue(null, array());
+        $xclass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
+            array(),
+            0,
+            0
+        );
+        $property->setValue(null, $classNameCache);
 
         $this->assertInstanceOf('ux_tslib_fe', $xclass, 'xclass falsch');
     }
@@ -119,6 +105,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     /**
      * Wir rufen den Handler ohne Werte auf.
      * Der Handler darf dann nix tun!
+     *
      * @group unit
      */
     public function testHandlePageNotFoundWithoutMkToolsConfig()
@@ -135,13 +122,14 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
      * Wir rufen den Handler READFILE.
      * Der Handler sollte nichts tun, da ignorecodes zutrifft
      * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+     *
      * @group unit
      */
     public function testHandlePageNotFoundWithReadfileAndIgnoreCode()
     {
         self::getTsFe()->pageNotFound = 1; //ID was not an accessible page
         $util = self::getPageNotFoundHandlingUtil('Test html/utilPageNotFoundHandlingPrintContent.');
-        $printContentFile  = 'EXT:mktools/tests/fixtures/html/';
+        $printContentFile = 'EXT:mktools/tests/fixtures/html/';
         $printContentFile .= 'utilPageNotFoundHandlingPrintContent.html';
         $ret = $util->handlePageNotFound('MKTOOLS_READFILE:'.$printContentFile);
         $testData = $util->getTestValue();
@@ -155,13 +143,14 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
      * Wir rufen den Handler READFILE.
      * Der Handler sollte den inhalt von
      * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+     *
      * @group unit
      */
     public function testHandlePageNotFoundWithReadfile()
     {
         $reason = 'Test html/utilPageNotFoundHandlingPrintContent.';
         $util = self::getPageNotFoundHandlingUtil($reason, 'HTTP/1.1 404 Not Found');
-        $printContentFile  = 'EXT:mktools/tests/fixtures/html/';
+        $printContentFile = 'EXT:mktools/tests/fixtures/html/';
         $printContentFile .= 'utilPageNotFoundHandlingPrintContent.html';
         $ret = $util->handlePageNotFound('MKTOOLS_READFILE:'.$printContentFile);
         $testData = $util->getTestValue();
@@ -179,6 +168,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     /**
      * Wir rufen den Handler REDIRECT.
      * Der Handler sollte die Url zurückgeben!
+     *
      * @group unit
      */
     public function testHandlePageNotFoundWithRedirect()
@@ -201,13 +191,14 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
      * Wir rufen den Handler TYPOSCRIPT.
      * Der Handler sollte den inhalt von
      * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+     *
      * @group unit
      */
     public function testHandlePageNotFoundWithTyposcriptConfigForReadfile()
     {
         $reason = 'Test typoscript/utilPageNotFoundHandlingPrintContent.txt';
         $util = self::getPageNotFoundHandlingUtil($reason);
-        $printContentFile  = 'EXT:mktools/tests/fixtures/typoscript/';
+        $printContentFile = 'EXT:mktools/tests/fixtures/typoscript/';
         $printContentFile .= 'utilPageNotFoundHandlingPrintContent.txt';
         $ret = $util->handlePageNotFound('MKTOOLS_TYPOSCRIPT:'.$printContentFile);
         $testData = $util->getTestValue();
@@ -225,12 +216,13 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     /**
      * Wir rufen den Handler TYPOSCRIPT.
      * Der Handler sollte die Url zurückgeben!
+     *
      * @group unit
      */
     public function testHandlePageNotFoundWithTyposcriptConfigForRedirect()
     {
         $util = self::getPageNotFoundHandlingUtil();
-        $printContentFile  = 'EXT:mktools/tests/fixtures/typoscript/';
+        $printContentFile = 'EXT:mktools/tests/fixtures/typoscript/';
         $printContentFile .= 'utilPageNotFoundHandlingRedirect.txt';
         $ret = $util->handlePageNotFound('MKTOOLS_TYPOSCRIPT:'.$printContentFile);
         $testData = $util->getTestValue();
@@ -249,6 +241,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
      * Wir rufen den Handler TYPOSCRIPT.
      * Der Handler sollte den inhalt von
      * utilPageNotFoundHandlingPrintContent.html zurückgeben!
+     *
      * @group unit
      */
     public function testHandlePageNotFoundWithTyposcriptConfigForCertainCode()
@@ -256,7 +249,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
         $reason = 'Test typoscript/utilPageNotFoundHandlingPrintContentForCode4.txt';
         self::getTsFe()->pageNotFound = 4;
         $util = self::getPageNotFoundHandlingUtil($reason);
-        $printContentFile  = 'EXT:mktools/tests/fixtures/typoscript/';
+        $printContentFile = 'EXT:mktools/tests/fixtures/typoscript/';
         $printContentFile .= 'utilPageNotFoundHandlingPrintContent.txt';
         $ret = $util->handlePageNotFound('MKTOOLS_TYPOSCRIPT:'.$printContentFile);
         $testData = $util->getTestValue();
@@ -276,7 +269,6 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
      */
     private static function getPageNotFoundHandlingUtil($reason = '', $httpStatus = '')
     {
-        tx_rnbase::load('tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling');
         $obj = tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling::getInstance(
             self::getTsFe(),
             $reason,
@@ -293,7 +285,6 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     private static function getTsFe()
     {
         if (!is_object($GLOBALS['TSFE'])) {
-            tx_rnbase::load('tx_rnbase_util_Misc');
             tx_rnbase_util_Misc::prepareTSFE();
             $GLOBALS['TSFE']->id = '';
             $GLOBALS['TSFE']->pageNotFound = 0;
@@ -302,15 +293,13 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
         return $GLOBALS['TSFE'];
     }
 
-
-
     /**
      * Asserts the number of elements of an array, Countable or Iterator.
      * Dies ist erst ab tx_phpunit 3.6.10 verfügbar!
      *
-     * @param int $expectedCount
-     * @param mixed   $haystack
-     * @param string  $message
+     * @param int    $expectedCount
+     * @param mixed  $haystack
+     * @param string $message
      */
     public static function assertCount($expectedCount, $haystack, $message = '')
     {
@@ -344,7 +333,7 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     {
         return array(
             array('/notExistingPage', false),
-            array('/404.html', true)
+            array('/404.html', true),
         );
     }
 
@@ -386,8 +375,6 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php'];
 }

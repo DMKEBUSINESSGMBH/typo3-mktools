@@ -22,22 +22,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mklib_tests_Util');
-tx_rnbase::load('tx_mktools_hook_GeneralUtility');
-
 /**
- * tx_mktools_tests_hook_GeneralUtility_testcase
+ * tx_mktools_tests_hook_GeneralUtility_testcase.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @var string
      */
@@ -49,12 +42,13 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
     private $hooksConfigurationBackup;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
     {
-        tx_mklib_tests_Util::storeExtConf('mktools');
+        \DMK\Mklib\Utility\Tests::storeExtConf('mktools');
         $this->systemLogConfigurationBackup =
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'];
 
@@ -64,12 +58,13 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
     {
-        tx_mklib_tests_Util::restoreExtConf('mktools');
+        \DMK\Mklib\Utility\Tests::restoreExtConf('mktools');
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] =
             $this->systemLogConfigurationBackup;
 
@@ -82,16 +77,16 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
      */
     public function testHookIsNotRegisteredIfNoSystemLogLockThresholdIsConfigured()
     {
-        tx_mklib_tests_Util::setExtConfVar('systemLogLockThreshold', 0, 'mktools');
+        \DMK\Mklib\Utility\Tests::setExtConfVar('systemLogLockThreshold', 0, 'mktools');
 
         require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
         $hookFound = false;
-        foreach ((array)$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
-            if (strpos(
+        foreach ((array) $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
+            if (false !== strpos(
                 $systemLogHook,
-                'EXT:mktools/hook/class.tx_mktools_hook_GeneralUtility.php:tx_mktools_hook_GeneralUtility->preventSystemLogFlood'
-            ) !== false
+                'tx_mktools_hook_GeneralUtility->preventSystemLogFlood'
+            )
             ) {
                 $hookFound = true;
             }
@@ -107,16 +102,16 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
      */
     public function testHookIsRegisteredIfSystemLogLockThresholdIsConfigured()
     {
-        tx_mklib_tests_Util::setExtConfVar('systemLogLockThreshold', 123, 'mktools');
+        \DMK\Mklib\Utility\Tests::setExtConfVar('systemLogLockThreshold', 123, 'mktools');
 
         require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
         $hookFound = false;
-        foreach ((array)$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
-            if (strpos(
+        foreach ((array) $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
+            if (false !== strpos(
                 $systemLogHook,
-                'EXT:mktools/hook/class.tx_mktools_hook_GeneralUtility.php:tx_mktools_hook_GeneralUtility->preventSystemLogFlood'
-            ) !== false
+                'tx_mktools_hook_GeneralUtility->preventSystemLogFlood'
+            )
             ) {
                 $hookFound = true;
             }
@@ -209,7 +204,7 @@ class tx_mktools_tests_hook_GeneralUtility_testcase extends tx_rnbase_tests_Base
      */
     public function testGetLockUtility()
     {
-        tx_mklib_tests_Util::setExtConfVar('systemLogLockThreshold', 123, 'mktools');
+        \DMK\Mklib\Utility\Tests::setExtConfVar('systemLogLockThreshold', 123, 'mktools');
 
         $expectedLockUtility = tx_rnbase_util_Lock::getInstance(
             '15c79894401d2315b62f631234b9fb49',

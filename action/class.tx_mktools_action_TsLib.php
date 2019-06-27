@@ -23,10 +23,8 @@
  ***************************************************************/
 
 /**
- * Tslib action
+ * Tslib action.
  *
- * @package TYPO3
- * @subpackage tx_mktools
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
@@ -34,9 +32,9 @@
 class tx_mktools_action_TsLib
 {
     /**
-     * Do the magic
+     * Do the magic.
      *
-     * @param tx_rnbase_parameters $parameters
+     * @param tx_rnbase_parameters     $parameters
      * @param tx_rnbase_configurations $configurations
      *
      * @return string
@@ -50,5 +48,5 @@ class tx_mktools_action_TsLib
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_TsLib.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_TsLib.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_TsLib.php'];
 }

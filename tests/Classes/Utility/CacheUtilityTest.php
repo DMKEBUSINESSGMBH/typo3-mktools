@@ -1,8 +1,9 @@
 <?php
+
 namespace DMK\Mktools\Utility;
 
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) Hannes Bochmann <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -25,34 +26,31 @@ namespace DMK\Mktools\Utility;
  */
 
 /**
- * DMK\Mktools\Utility$CacheUtilityTest
+ * DMK\Mktools\Utility$CacheUtilityTest.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @var array
      */
     private $cachingConfigurationBackup = [];
 
     /**
-     * @var boolean
+     * @var bool
      */
     private static $apcLoaded = false;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private static $apcuLoaded = false;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private static $apcEnabled = false;
 
@@ -66,7 +64,7 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
             'compression' => true,
             'defaultLifetime' => 0,
         ],
-        'groups' => ['pages']
+        'groups' => ['pages'],
     ];
 
     /**
@@ -78,7 +76,7 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
         'options' => [
             'defaultLifetime' => 0,
         ],
-        'groups' => ['pages']
+        'groups' => ['pages'],
     ];
 
     /**
@@ -90,11 +88,12 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
         'options' => [
             'defaultLifetime' => 0,
         ],
-        'groups' => ['pages']
+        'groups' => ['pages'],
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -105,7 +104,8 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -114,7 +114,7 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public static function isApcEnabled()
     {
@@ -122,7 +122,7 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public static function isApcLoaded()
     {
@@ -130,7 +130,7 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public static function isApcuLoaded()
     {
@@ -138,9 +138,9 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @param boolean $apcLoaded
-     * @param boolean $apcuLoaded
-     * @param boolean $apcEnabled
+     * @param bool  $apcLoaded
+     * @param bool  $apcuLoaded
+     * @param bool  $apcEnabled
      * @param array $expectedCachingConfiguration
      * @dataProvider dataProviderUseApcAsCacheBackend
      */
@@ -183,9 +183,6 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testGetApcCacheBackendClass()
     {
         self::$apcLoaded = false;
@@ -196,10 +193,10 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @param boolean $apcLoaded
-     * @param boolean $apcuLoaded
-     * @param boolean $apcEnabled
-     * @param boolean $isApcUsed
+     * @param bool $apcLoaded
+     * @param bool $apcuLoaded
+     * @param bool $apcEnabled
+     * @param bool $isApcUsed
      * @dataProvider dataProviderIsApcUsed
      */
     public function testIsApcUsed($apcLoaded, $apcuLoaded, $apcEnabled, $isApcUsed)
@@ -228,9 +225,6 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testSetCacheBackend()
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['test']['options']['compression'] = true;
@@ -249,17 +243,18 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
 
 /**
  * @param string $extension
- * @return boolean
+ *
+ * @return bool
  */
 function extension_loaded($extension)
 {
     $extensionLoaded = false;
 
-    if ($extension == 'apc') {
+    if ('apc' == $extension) {
         $extensionLoaded = CacheUtilityTest::isApcLoaded();
     }
 
-    if ($extension == 'apcu') {
+    if ('apcu' == $extension) {
         $extensionLoaded = CacheUtilityTest::isApcuLoaded();
     }
 
@@ -268,13 +263,14 @@ function extension_loaded($extension)
 
 /**
  * @param string $configurationPath
+ *
  * @return mixed
  */
 function ini_get($configurationPath)
 {
     $configurationValue = '';
 
-    if ($configurationPath == 'apc.enable_cli' || $configurationPath == 'apc.enable') {
+    if ('apc.enable_cli' == $configurationPath || 'apc.enable' == $configurationPath) {
         $configurationValue = CacheUtilityTest::isApcEnabled();
     }
 

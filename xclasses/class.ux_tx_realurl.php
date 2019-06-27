@@ -25,10 +25,8 @@
 require_once tx_rnbase_util_Extensions::extPath('realurl', 'class.tx_realurl.php');
 
 /**
- * XCLASS to extend realurl
+ * XCLASS to extend realurl.
  *
- * @package TYPO3
- * @package TYPO3_xclasses
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  *
  * @TODO refactoring seit realurl 2.x funktioniert diese xclass nicht mehr
@@ -40,14 +38,14 @@ class ux_tx_realurl extends tx_realurl
     const MODE_DECODE = 'decode';
 
     /**
-     * the current mode of realurl
+     * the current mode of realurl.
      *
      * @var string
      */
     protected $currentMode = '';
 
     /**
-     * sets the current mode
+     * sets the current mode.
      *
      * @param string $mode
      */
@@ -58,10 +56,9 @@ class ux_tx_realurl extends tx_realurl
 
     /**
      * Translates a URL with query string (GET parameters) into Speaking URL.
-     * Called from t3lib_tstemplate::linkData
+     * Called from t3lib_tstemplate::linkData.
      *
      * @param array &$params
-     * @return void
      */
     public function encodeSpURL(&$params)
     {
@@ -71,10 +68,9 @@ class ux_tx_realurl extends tx_realurl
     }
 
     /**
-     * Parse speaking URL and translate it to parameters understood by TYPO3
+     * Parse speaking URL and translate it to parameters understood by TYPO3.
      *
      * @param array $params
-     * @return void
      */
     public function decodeSpURL($params)
     {
@@ -84,10 +80,11 @@ class ux_tx_realurl extends tx_realurl
     }
 
     /**
-     * Returns configuration for a postVarSet (default) based on input page id
+     * Returns configuration for a postVarSet (default) based on input page id.
      *
-     * @param int $pageId
+     * @param int    $pageId
      * @param string $mainCat Default is "postVarSets" but could be "fixedPostVars"
+     *
      * @return array
      */
     public function getPostVarSetConfig($pageId, $mainCat = 'postVarSets')
@@ -100,16 +97,17 @@ class ux_tx_realurl extends tx_realurl
 
     /**
      * reduces the post var set config with categories
-     * other than the current language
+     * other than the current language.
      *
      * @param array $postVarSet
+     *
      * @return array
      */
     protected function getLocalizedPostVarSet($postVarSet = array())
     {
         // check only, if we have an array and we are in the encode mode.
         // in the decode mode we dont have a language. realurl will find the right mapping it self
-        if ($this->currentMode !== self::MODE_ENCODE
+        if (self::MODE_ENCODE !== $this->currentMode
             || !is_array($postVarSet)
             || empty($postVarSet)
         ) {
@@ -144,8 +142,6 @@ class ux_tx_realurl extends tx_realurl
     }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/xclasses/class.ux_tx_realurl.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/xclasses/class.ux_tx_realurl.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/xclasses/class.ux_tx_realurl.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/xclasses/class.ux_tx_realurl.php'];
 }

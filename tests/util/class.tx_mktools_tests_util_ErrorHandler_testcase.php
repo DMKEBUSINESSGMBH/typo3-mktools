@@ -22,25 +22,19 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('Tx_Phpunit_TestCase');
-tx_rnbase::load('tx_mktools_util_ErrorHandler');
-tx_rnbase::load('tx_mktools_util_ExceptionHandler');
-tx_rnbase::load('Tx_Rnbase_Error_Exception');
-
 /**
- * @package TYPO3
  * @author Hannes Bochmann
  */
 class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 {
-
     /**
-     * @var int $originalErrorReporting
+     * @var int
      */
     protected $originalErrorReporting;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -49,6 +43,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
             error_reporting($this->originalErrorReporting);
         }
     }
+
     /**
      * @group unit
      */
@@ -56,7 +51,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('getLastError','getExceptionHandler'),
+            array('getLastError', 'getExceptionHandler'),
             array(array())
         );
 
@@ -86,7 +81,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('getLastError','getExceptionHandler','getTypo3Exception'),
+            array('getLastError', 'getExceptionHandler', 'getTypo3Exception'),
             array(array()),
             '',
             false
@@ -99,7 +94,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
                 ->will($this->returnValue($error));
         }
 
-        $expectedErrorMessage = 'PHP Fatal Error: my error in ' . basename('123.php') . ' line 123';
+        $expectedErrorMessage = 'PHP Fatal Error: my error in '.basename('123.php').' line 123';
         $expectedException = new Tx_Rnbase_Error_Exception($expectedErrorMessage);
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
@@ -126,9 +121,6 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
         $errorHandler->handleFatalError();
     }
 
-    /**
-     * @return void
-     */
     protected function disableErrorReporting()
     {
         $this->originalErrorReporting = error_reporting();
@@ -150,7 +142,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
             array(E_COMPILE_ERROR, false, true),
             array(E_CORE_ERROR, false, true),
             array(E_USER_ERROR, false, true),
-            array(E_WARNING, false, true)
+            array(E_WARNING, false, true),
         );
     }
 
@@ -180,7 +172,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
             array(1)
         );
 
@@ -216,7 +208,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
             array(1)
         );
 
@@ -251,7 +243,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
             array(1)
         );
 
@@ -283,7 +275,7 @@ class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
 
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog','writeExceptionToDevLog'),
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
             array(1)
         );
 

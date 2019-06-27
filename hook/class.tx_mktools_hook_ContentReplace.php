@@ -1,32 +1,4 @@
 <?php
-/**
- * @package TYPO3
- * @subpackage tx_mktools
- *
- *  Copyright notice
- *
- *  Initial Code:
- *  (c) 2009 John Angel <johnange@gmail.com>
- *
- *  (c) 2011 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
 
 /**
  * Class for the Content Replacer
@@ -34,17 +6,13 @@
  *
  * @author  John Angel <johnange@gmail.com>
  * @author  Michael Wagner <michael.wagner@dmk-ebusiness.de>
- * @package     TYPO3
- * @subpackage tx_mktools
  */
 class tx_mktools_hook_ContentReplace
 {
-
-
     /**
      * Just a wrapper for the main function! It's used for the pageIndexing hook.
-     * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
-     * @return void The content is passed by reference
+     *
+     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
      */
     public function hook_indexContent(&$obj)
     {
@@ -58,9 +26,8 @@ class tx_mktools_hook_ContentReplace
      * last hook before the final output. This isn't the case if you are using a
      * static file cache like nc_staticfilecache.
      *
-     * @param array $params
-     * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
-     * @return void The content is passed by reference
+     * @param array                                                       $params
+     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
      */
     public function contentPostProcOutput($params, &$obj)
     {
@@ -76,9 +43,8 @@ class tx_mktools_hook_ContentReplace
      * The hook is only executed if the page doesn't contains any *_INT objects. It's called
      * always if the page wasn't cached or for the first hit!
      *
-     * @param array $params
-     * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
-     * @return void The content is passed by reference
+     * @param array                                                       $params
+     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
      */
     public function contentPostProcAll($params, &$obj)
     {
@@ -89,7 +55,7 @@ class tx_mktools_hook_ContentReplace
     }
 
     /**
-     * Search links to resource and replace them with e.g. a CDN-Link
+     * Search links to resource and replace them with e.g. a CDN-Link.
      *
      * You must set the Search and Replace patterns via TypoScript.
      * usage from TypoScript:
@@ -109,8 +75,7 @@ class tx_mktools_hook_ContentReplace
      * @TODO: use preg_replace instead of str_replace
      * @TODO: write tests
      *
-     * @param TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer or tslib_cObj $obj
-     * @return void The content is passed by reference
+     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
      */
     protected function doReplace(&$obj)
     {
@@ -141,5 +106,5 @@ class tx_mktools_hook_ContentReplace
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php'];
 }

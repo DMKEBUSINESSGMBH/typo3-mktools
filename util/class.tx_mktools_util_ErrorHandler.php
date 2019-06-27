@@ -22,15 +22,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('Tx_Rnbase_Error_ErrorHandler');
-tx_rnbase::load('Tx_Rnbase_Error_Exception');
-
 /**
- * wie der TYPO3 error handler. aber wir behandeln noch fatal errors
+ * wie der TYPO3 error handler. aber wir behandeln noch fatal errors.
  *
  * @author Hannes Bochmann
- * @package TYPO3
- * @subpackage tx_mktools
  */
 class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
 {
@@ -43,7 +38,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     public function __construct($errorHandlerErrors)
     {
         parent::__construct($errorHandlerErrors);
-        register_shutdown_function(array($this, 'handleFatalError' ));
+        register_shutdown_function(array($this, 'handleFatalError'));
     }
 
     /**
@@ -51,7 +46,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      * wenn ein Error geworfen wird, der exceptional ist und der Error
      * wird in einem try-catch-block geworfen, dann wird der fehler verschluckt
      * da die exception, welche für den exception handler geworfen wird,
-     * gefangen wird
+     * gefangen wird.
      *
      * (non-PHPdoc)
      *
@@ -93,11 +88,12 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      */
     protected function isErrorReportingDisabled()
     {
-        return error_reporting() === 0;
+        return 0 === error_reporting();
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see Tx_Rnbase_Error_ErrorHandler::handleError()
      */
     protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine)
@@ -110,7 +106,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      */
     protected function shouldExceptionsBeWrittenToDevLog()
     {
-        return TYPO3_EXCEPTION_DLOG;
+        return true;
     }
 
     /**
@@ -118,8 +114,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      */
     protected function writeExceptionToDevLog($exception)
     {
-        $logTitle = 'Core: Error handler (' . TYPO3_MODE . ')';
-        tx_rnbase::load('tx_rnbase_util_Logger');
+        $logTitle = 'Core: Error handler ('.TYPO3_MODE.')';
         tx_rnbase_util_Logger::devLog($exception->getMessage(), $logTitle, 3);
     }
 
@@ -134,16 +129,16 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
 
         $error = $this->getLastError();
 
-        if ($error['type'] == E_ERROR ||
-            $error['type'] == E_COMPILE_ERROR ||
-            $error['type'] == E_CORE_ERROR ||
-            $error['type'] == E_USER_ERROR
+        if (E_ERROR == $error['type'] ||
+            E_COMPILE_ERROR == $error['type'] ||
+            E_CORE_ERROR == $error['type'] ||
+            E_USER_ERROR == $error['type']
         ) {
             $errorMessage = $error['message'];
             $errorFile = $error['file'];
             $errorLine = $error['line'];
-            $message =    'PHP Fatal Error: ' . $errorMessage . ' in ' .
-                        basename($errorFile) . ' line ' . $errorLine;
+            $message = 'PHP Fatal Error: '.$errorMessage.' in '.
+                        basename($errorFile).' line '.$errorLine;
 
             $exception = $this->getTypo3Exception($message);
             $this->getExceptionHandler()->handleException($exception);
@@ -153,7 +148,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     }
 
     /**
-     * wird in Tests gemocked
+     * wird in Tests gemocked.
      *
      * @return array
      */
@@ -163,7 +158,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     }
 
     /**
-     * wird in Tests gemocked
+     * wird in Tests gemocked.
      *
      * @param string $exceptionMessage
      *
@@ -175,7 +170,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     }
 
     /**
-     * wird in Tests gemocked
+     * wird in Tests gemocked.
      *
      * @return tx_mktools_util_ExceptionHandler
      */

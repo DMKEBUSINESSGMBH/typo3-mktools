@@ -22,22 +22,19 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
-tx_rnbase::load('tx_rnbase_model_base');
-
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
 class tx_mktools_model_Pages extends tx_rnbase_model_base
 {
-
     /**
-     * @var tx_mktools_fixedpostvartype|NULL
+     * @var tx_mktools_fixedpostvartype|null
      */
     private $fixedPostVarType = false;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see tx_rnbase_model_base::getTableName()
      */
     public function getTableName()
@@ -50,7 +47,7 @@ class tx_mktools_model_Pages extends tx_rnbase_model_base
      */
     public function getFixedPostVarType()
     {
-        if ($this->fixedPostVarType === false) {
+        if (false === $this->fixedPostVarType) {
             if ($this->record['tx_mktools_fixedpostvartype']) {
                 $this->fixedPostVarType = tx_rnbase::makeInstance(
                     'tx_mktools_model_FixedPostVarType',

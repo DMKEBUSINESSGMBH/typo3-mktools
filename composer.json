@@ -26,9 +26,12 @@
         "typo3-ter/mktools": "self.version"
     },
     "require": {
-        "typo3/cms": "~4.5 || ~6.2 || ~7.6 || ~8.7",
-        "digedag/rn-base": ">=1.5.1",
-        "dmk/mklib": ">=3"
+        "typo3/cms-core": "~8.7 || ~9.5",
+        "digedag/rn-base": "dev-migration_to_95",
+        "dmk/mklib": "dev-migration_to_95"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2@stable"
     },
     "autoload": {
         "classmap": [
@@ -43,6 +46,25 @@
         ],
         "psr-4": {
             "DMK\\Mktools\\" : "Classes"
+        }
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin",
+        "preferred-install": {
+            "typo3/cms": "source"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .Build/Web/typo3conf/ext/",
+            "[ -L .Build/Web/typo3conf/ext/mktools ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mktools"
+        ]
+    },
+    "extra": {
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web"
         }
     }
 }

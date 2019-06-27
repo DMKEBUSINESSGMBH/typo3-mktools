@@ -17,7 +17,7 @@ mktoolsAjaxHandler {
     10.userFunc = tx_mktools_action_ajax_ContentRenderer->renderContent
 }
 
-page.includeJS {
+page.includeJSFooterlibs {
     mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
     ### falls URL in die Browser History eingetragen werden soll
     #mktoolsLocation = typo3conf/ext/mktools/Resources/Public/JavaScript/Location.js

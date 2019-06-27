@@ -22,25 +22,20 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mktools_util_RealUrl');
-tx_rnbase::load('Tx_Rnbase_Database_Connection');
-tx_rnbase::load('tx_mklib_tests_Util');
-
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @var string
      */
     private $realUrlConfigurationFile;
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
@@ -49,17 +44,17 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             $this->markTestSkipped('realurl ist nicht installiert');
         }
 
-        tx_mklib_tests_Util::storeExtConf('mktools');
+        \DMK\Mklib\Utility\Tests::storeExtConf('mktools');
 
-        $this->realUrlConfigurationFile = tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfig.php';
-        tx_mklib_tests_Util::setExtConfVar(
+        $this->realUrlConfigurationFile = tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfig.php';
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             $this->realUrlConfigurationFile,
             'mktools'
         );
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate.php',
             'mktools'
         );
 
@@ -67,12 +62,13 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
     {
-        tx_mklib_tests_Util::restoreExtConf('mktools');
+        \DMK\Mklib\Utility\Tests::restoreExtConf('mktools');
         @unlink($this->realUrlConfigurationFile);
     }
 
@@ -109,7 +105,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         try {
             tx_mktools_util_RealUrl::registerXclass();
         } catch (LogicException $e) {
-            if ($e->getCode() !== intval(ERROR_CODE_MKTOOLS  . '130')) {
+            if ($e->getCode() !== intval(ERROR_CODE_MKTOOLS.'130')) {
                 throw $e;
             }
             $this->markTestSkipped(
@@ -206,7 +202,6 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         );
         $this->assertEquals(array('categorie', 'item'), array_keys($cleanedSets));
 
-
         // check for DECODE
         $realUrl->orig_paramKeyValues = array(); // remove all vars, we decode
         $this->callInaccessibleMethod($realUrl, 'setMode', $realUrl::MODE_DECODE);
@@ -230,9 +225,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         $expectedWhat = '*';
         $expectedFrom = 'pages';
         $expectedOptions = array(
-            'enablefieldsfe'    => 1,
-            'wrapperclass'        => 'tx_mktools_model_Pages',
-            'where'                => 'tx_mktools_fixedpostvartype > 0'
+            'enablefieldsfe' => 1,
+            'wrapperclass' => 'tx_mktools_model_Pages',
+            'where' => 'tx_mktools_fixedpostvartype > 0',
         );
 
         $dbUtil->expects($this->once())
@@ -268,9 +263,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'pages';
         $expectedOptions = array(
-            'enablefieldsfe'    =>    1,
-            'where'                =>    'tx_mktools_fixedpostvartype > 0 AND tstamp > ' .
-                                    $modificationTimeStamp
+            'enablefieldsfe' => 1,
+            'where' => 'tx_mktools_fixedpostvartype > 0 AND tstamp > '.
+                                    $modificationTimeStamp,
         );
 
         $dbUtil->expects($this->once())
@@ -306,9 +301,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'pages';
         $expectedOptions = array(
-            'enablefieldsfe'    =>    1,
-            'where'                =>    'tx_mktools_fixedpostvartype > 0 AND tstamp > ' .
-                                    $modificationTimeStamp
+            'enablefieldsfe' => 1,
+            'where' => 'tx_mktools_fixedpostvartype > 0 AND tstamp > '.
+                                    $modificationTimeStamp,
         );
 
         $dbUtil->expects($this->once())
@@ -348,7 +343,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreTherePagesWithFixedPostVarTypeModifiedLaterThanWithTimestampZero()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -358,7 +353,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             'tx_mktools_util_RealUrl',
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-                'areThereFixedPostVarTypesModifiedLaterThan'
+                'areThereFixedPostVarTypesModifiedLaterThan',
             )
         );
 
@@ -379,7 +374,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             'tx_mktools_util_RealUrl',
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-                'areThereFixedPostVarTypesModifiedLaterThan'
+                'areThereFixedPostVarTypesModifiedLaterThan',
             )
         );
 
@@ -397,7 +392,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsAreThereFixedPostVarTypesModifiedLaterThanWithTimestampZero()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -407,7 +402,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             'tx_mktools_util_RealUrl',
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-                'areThereFixedPostVarTypesModifiedLaterThan'
+                'areThereFixedPostVarTypesModifiedLaterThan',
             )
         );
 
@@ -428,7 +423,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             'tx_mktools_util_RealUrl',
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-                'areThereFixedPostVarTypesModifiedLaterThan'
+                'areThereFixedPostVarTypesModifiedLaterThan',
             )
         );
 
@@ -446,7 +441,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfPagesAndFixedPostVarTypesWereModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -456,7 +451,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             'tx_mktools_util_RealUrl',
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-                'areThereFixedPostVarTypesModifiedLaterThan'
+                'areThereFixedPostVarTypesModifiedLaterThan',
             )
         );
 
@@ -477,7 +472,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyPagesWereModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -487,7 +482,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             'tx_mktools_util_RealUrl',
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
-                'areThereFixedPostVarTypesModifiedLaterThan'
+                'areThereFixedPostVarTypesModifiedLaterThan',
             )
         );
 
@@ -508,7 +503,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyFixedPostVarTypesWereModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -519,7 +514,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-                'isTemplateFileModifiedLaterThan'
+                'isTemplateFileModifiedLaterThan',
             )
         );
 
@@ -543,7 +538,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsFalseIfPagesAndFixedPostVarTypesAndTemplateFileWerenotModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -554,7 +549,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-                'isTemplateFileModifiedLaterThan'
+                'isTemplateFileModifiedLaterThan',
             )
         );
 
@@ -578,7 +573,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testNeedsRealUrlConfigurationToBeGeneratedCallsReturnsTrueIfOnlyTemplateFileWasModified()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             'unknown',
             'mktools'
@@ -589,7 +584,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
             array(
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-                'isTemplateFileModifiedLaterThan'
+                'isTemplateFileModifiedLaterThan',
             )
         );
 
@@ -618,7 +613,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         );
 
         $this->assertEquals(
-            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig3.php'),
+            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/expectedRealUrlConfig3.php'),
             file_get_contents($this->realUrlConfigurationFile),
             'Datei falsch generiert'
         );
@@ -629,9 +624,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesNoFileIfPagesGivenButNoTemplate()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/empty',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/empty',
             'mktools'
         );
         $pages = array(
@@ -639,9 +634,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
                 'tx_mktools_model_Pages',
                 array(
                     'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
-                    'uid' => 1
+                    'uid' => 1,
                 )
-            )
+            ),
         );
         $this->assertFalse(
             tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages($pages)
@@ -655,7 +650,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesNoFileIfPagesGivenButNoDestinationFileConfigured()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationFile',
             '',
             'mktools'
@@ -665,9 +660,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
                 'tx_mktools_model_Pages',
                 array(
                     'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
-                    'uid' => 1
+                    'uid' => 1,
                 )
-            )
+            ),
         );
         $this->assertFalse(
             tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages($pages)
@@ -686,14 +681,14 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
                 'tx_mktools_model_Pages',
                 array(
                     'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
-                    'uid' => 1
+                    'uid' => 1,
                 )
             ),
             1 => tx_rnbase::makeInstance(
                 'tx_mktools_model_Pages',
                 array(
                     'tx_mktools_fixedpostvartype' => array('identifier' => 'secondIdentifier'),
-                    'uid' => 2
+                    'uid' => 2,
                 )
             ),
         );
@@ -706,7 +701,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         );
 
         $this->assertEquals(
-            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig.php'),
+            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/expectedRealUrlConfig.php'),
             file_get_contents($this->realUrlConfigurationFile),
             'Datei falsch generiert'
         );
@@ -717,9 +712,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfMarkerExistsSeveralTimes()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate2.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate2.php',
             'mktools'
         );
 
@@ -728,7 +723,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
                 'tx_mktools_model_Pages',
                 array(
                     'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
-                    'uid' => 1
+                    'uid' => 1,
                 )
             ),
         );
@@ -741,7 +736,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         );
 
         $this->assertEquals(
-            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig2.php'),
+            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/expectedRealUrlConfig2.php'),
             file_get_contents($this->realUrlConfigurationFile),
             'Datei falsch generiert'
         );
@@ -759,8 +754,8 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'tx_mktools_fixedpostvartypes';
         $expectedOptions = array(
-            'enablefieldsfe'    =>    1,
-            'where'                =>    'tstamp > ' . $modificationTimeStamp
+            'enablefieldsfe' => 1,
+            'where' => 'tstamp > '.$modificationTimeStamp,
         );
 
         $dbUtil->expects($this->once())
@@ -796,8 +791,8 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'tx_mktools_fixedpostvartypes';
         $expectedOptions = array(
-            'enablefieldsfe'    =>    1,
-            'where'                =>    'tstamp > ' . $modificationTimeStamp
+            'enablefieldsfe' => 1,
+            'where' => 'tstamp > '.$modificationTimeStamp,
         );
 
         $dbUtil->expects($this->once())
@@ -826,9 +821,9 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfTypoConfVarsVariableIsUsed()
     {
-        tx_mklib_tests_Util::setExtConfVar(
+        \DMK\Mklib\Utility\Tests::setExtConfVar(
             'realUrlConfigurationTemplate',
-            tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/realUrlConfigTemplate3.php',
+            tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/realUrlConfigTemplate3.php',
             'mktools'
         );
 
@@ -837,7 +832,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
                 'tx_mktools_model_Pages',
                 array(
                     'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
-                    'uid' => 1
+                    'uid' => 1,
                 )
             ),
         );
@@ -850,7 +845,7 @@ class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCas
         );
 
         $this->assertEquals(
-            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools') . 'tests/fixtures/expectedRealUrlConfig2.php'),
+            file_get_contents(tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/expectedRealUrlConfig2.php'),
             file_get_contents($this->realUrlConfigurationFile),
             'Datei falsch generiert'
         );

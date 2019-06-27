@@ -21,29 +21,23 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
-tx_rnbase::load('Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController');
 
 /**
- *
- * @package TYPO3
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class ux_tslib_fe extends Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
 {
-
     /**
      * Page-not-found handler for use in frontend plugins from extensions.
      *
      * @param   string      Reason text
      * @param   string      HTTP header to send
-     * @return  void        Function exits.
      */
     public function pageNotFoundAndExit($reason = '', $header = '')
     {
         // wir prüfen erstmal dne pageNotFound_handling wert auf mktools konfiguration
         $code = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFound_handling'];
         if (tx_rnbase_util_Strings::isFirstPartOfStr($code, 'MKTOOLS_')) {
-            tx_rnbase::load('tx_mktools_util_PageNotFoundHandling');
             tx_mktools_util_PageNotFoundHandling::getInstance($this, $reason, $header)
                 ->handlePageNotFound($code);
         }
@@ -53,7 +47,7 @@ class ux_tslib_fe extends Tx_Rnbase_Frontend_Controller_TypoScriptFrontendContro
         // oder pageNotFound 2 (Subsection was found and not accessible)
         // Wenn das nicht gewünscht ist, die XCLASS einfach deaktivieren!
         // (pageNotFoundHandling in der ExtConf)
-        if ($this->pageNotFound === 1 || $this->pageNotFound === 2) {
+        if (1 === $this->pageNotFound || 2 === $this->pageNotFound) {
             return;
         }
         // else
@@ -61,8 +55,6 @@ class ux_tslib_fe extends Tx_Rnbase_Frontend_Controller_TypoScriptFrontendContro
     }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/xclasses/class.ux_tslib_fe.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']
-        ['ext/mktools/xclasses/class.ux_tslib_fe.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/xclasses/class.ux_tslib_fe.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/xclasses/class.ux_tslib_fe.php'];
 }

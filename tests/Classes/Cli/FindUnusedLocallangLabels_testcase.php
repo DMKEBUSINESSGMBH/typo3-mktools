@@ -22,35 +22,20 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 define('MKTOOLS_TESTRUN', true);
 
 /**
- * Tx_Mktools_FindUnusedLocallangLabels_testcase
+ * Tx_Mktools_FindUnusedLocallangLabels_testcase.
  *
- * @package         TYPO3
- * @subpackage      mktools
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class Tx_Mktools_FindUnusedLocallangLabels_testcase extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    protected function setUp()
-    {
-        if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-            $this->markTestSkipped('This is feature is only available in TYPO3 6.2 and higher.');
-        }
-        tx_rnbase::load('Tx_Mktools_Cli_FindUnusedLocallangLabels');
-    }
-
-    /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
