@@ -52,6 +52,8 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
         $this->requestUriBackup = $_SERVER['REQUEST_URI'];
 
         $this->resetIndependentEnvironmentCache();
+
+        tx_rnbase::load('tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling');
     }
 
     /**
