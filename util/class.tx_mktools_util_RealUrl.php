@@ -265,6 +265,7 @@ class tx_mktools_util_RealUrl
                                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']
                                 ).'\');';
         $serializedContent = $this->addDoNotEditHint($serializedContent);
+        $serializedContent .= "\n";
 
         return file_put_contents(
             $realUrlConfigurationFile,
@@ -281,7 +282,7 @@ class tx_mktools_util_RealUrl
     {
         $editedString = str_replace(
             '<?php',
-            "<?php\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH ".
+            "<?php\n\n//MKTOOLS HINWEIS:\n//DIESE DATEI WURDE AUTOMATISCH ".
             "GENERIERT UND SOLLTE DAHER NICHT BEARBEITET WERDEN.\n//".
             'BITTE NUR DAS TEMPLATE FÜR DIE KONFIG BEARBEITEN.',
             $initialString

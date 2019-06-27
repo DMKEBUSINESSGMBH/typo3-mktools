@@ -3,6 +3,9 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('Resources')
     ->exclude('Documentation')
+    ->exclude('tests/fixtures/realUrlConfigTemplate.php')
+    ->exclude('tests/fixtures/realUrlConfigTemplate2.php')
+    ->exclude('tests/fixtures/realUrlConfigTemplate3.php')
     ->in(__DIR__)
 ;
 
