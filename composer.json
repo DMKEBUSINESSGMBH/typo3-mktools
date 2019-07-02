@@ -1,7 +1,7 @@
 {
     "name": "dmk/mktools",
     "description": "Collection of some small tools.",
-    "version": "9.5.0",
+    "version": "9.5.2",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
