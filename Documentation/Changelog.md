@@ -1,6 +1,11 @@
 Changelog
 =========
 
+9.5.1
+-----
+
+-   new feature to support translated records in language menus
+
 9.5.0
 -----
 

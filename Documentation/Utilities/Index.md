@@ -19,4 +19,6 @@ Utilities
 
 [RobotsMetaTag](RobotsMetaTag/Index.md)
 
+[Übersetzte Datensätze in Sprachmenüs](TranslatedRecords/Index.md)
+
 [Views](Views/Index.md)
