@@ -25,13 +25,21 @@
         "mktools": "self.version",
         "typo3-ter/mktools": "self.version"
     },
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/Baachi/phpstan-typo3.git"
+    }
+    ],
     "require": {
         "typo3/cms-core": "~8.7 || ~9.5",
         "digedag/rn-base": ">=1.10.1",
         "dmk/mklib": ">=9.5.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2@stable"
+        "friendsofphp/php-cs-fixer": "~2@stable",
+        "phpstan/phpstan": "^0.11",
+        "saschaegerer/phpstan-typo3": "dev-feature/update-phpstan",
+        "typo3/testing-framework": "*"
     },
     "autoload": {
         "classmap": [

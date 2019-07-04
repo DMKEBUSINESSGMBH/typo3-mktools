@@ -1,0 +1,13 @@
+includes:
+    - .Build/vendor/saschaegerer/phpstan-typo3/extension.neon
+parameters:
+    level: max
+    paths:
+        - "%currentWorkingDirectory%/action"
+        - "%currentWorkingDirectory%/Classes"
+        - "%currentWorkingDirectory%/hook"
+        - "%currentWorkingDirectory%/model"
+        - "%currentWorkingDirectory%/scheduler"
+        - "%currentWorkingDirectory%/util"
+        - "%currentWorkingDirectory%/view"
+        - "%currentWorkingDirectory%/xclasses"
