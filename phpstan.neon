@@ -1,6 +1,7 @@
 includes:
     - .Build/vendor/saschaegerer/phpstan-typo3/extension.neon
 parameters:
+    bootstrap: %rootDir%/../../saschaegerer/phpstan-typo3/src/PhpstanTypo3Bootstrap.php
     level: max
     paths:
         - "%currentWorkingDirectory%/action"
@@ -11,3 +12,6 @@ parameters:
         - "%currentWorkingDirectory%/util"
         - "%currentWorkingDirectory%/view"
         - "%currentWorkingDirectory%/xclasses"
+    ignoreErrors:
+        - '/Constant ERROR_CODE_MKTOOLS not found\./'
+        - '/Undefined variable: \$_EXTKEY/'
