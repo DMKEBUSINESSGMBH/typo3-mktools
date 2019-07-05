@@ -39,7 +39,9 @@
         "friendsofphp/php-cs-fixer": "~2@stable",
         "phpstan/phpstan": "^0.11",
         "saschaegerer/phpstan-typo3": "dev-feature/update-phpstan",
-        "typo3/testing-framework": "*"
+        "typo3/testing-framework": "*",
+        "erusev/parsedown": "^1.7",
+        "erusev/parsedown-extra": "^0.7.1"
     },
     "autoload": {
         "classmap": [
