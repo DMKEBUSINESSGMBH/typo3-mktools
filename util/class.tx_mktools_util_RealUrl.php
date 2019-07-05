@@ -126,7 +126,10 @@ class tx_mktools_util_RealUrl
      */
     protected function getDbUtil()
     {
-        return tx_rnbase::makeInstance('Tx_Rnbase_Database_Connection');
+        /** @var Tx_Rnbase_Database_Connection $connection */
+        $connection = tx_rnbase::makeInstance('Tx_Rnbase_Database_Connection');
+
+        return $connection;
     }
 
     /**
@@ -163,7 +166,7 @@ class tx_mktools_util_RealUrl
     }
 
     /**
-     * @param array[tx_mktools_model_Pages] $pages
+     * @param tx_mktools_model_Pages[] $pages
      *
      * @return bool
      */
@@ -195,19 +198,21 @@ class tx_mktools_util_RealUrl
     private function getRealUrlConfigurationTemplateContent()
     {
         $template = tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
-        if (empty($template)) {
-            return '';
+
+        $content = '';
+        if (file_exists($template)) {
+            $content = str_replace(
+                '$TYPO3_CONF_VARS',
+                '$GLOBALS[\'TYPO3_CONF_VARS\']',
+                file_get_contents($template)
+            );
         }
 
-        return str_replace(
-            '$TYPO3_CONF_VARS',
-            '$GLOBALS[\'TYPO3_CONF_VARS\']',
-            file_get_contents($template)
-        );
+        return $content;
     }
 
     /**
-     * @param array[tx_mktools_model_Pages] $pages
+     * @param tx_mktools_model_Pages[] $pages
      *
      * @return array
      */
@@ -215,9 +220,9 @@ class tx_mktools_util_RealUrl
     {
         $fixedPostVarPageStrings = array();
         foreach ($pages as $page) {
-            if ($fixedPostVarType = $page->getFixedPostVarType()) {
+            if ($page->getFixedPostVarType() instanceof tx_mktools_model_FixedPostVarType) {
                 $fixedPostVarPageStrings[] = $page->getUid()." => '".
-                                                $fixedPostVarType->getIdentifier()."'";
+                    $page->getFixedPostVarType()->getIdentifier()."'";
             }
         }
 
@@ -250,8 +255,6 @@ class tx_mktools_util_RealUrl
     }
 
     /**
-     * @param array $fixedPostVarPageStrings
-     *
      * @return bool
      */
     private function generateRealUrlConfigurationFileWithSerialization()

@@ -32,7 +32,7 @@
 class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExceptionHandler
 {
     /**
-     * @var tx_rnbase_configurations
+     * @var tx_rnbase_configurations | null
      */
     private $configurations;
 

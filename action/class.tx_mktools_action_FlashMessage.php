@@ -36,7 +36,7 @@ class tx_mktools_action_FlashMessage extends tx_rnbase_action_BaseIOC
      * @param tx_rnbase_configurations $configurations
      * @param ArrayObject              $viewdata
      *
-     * @return string Errorstring or NULL
+     * @return string|null Errorstring or NULL
      */
     protected function handleRequest(&$parameters, &$configurations, &$viewdata)
     {
@@ -56,6 +56,7 @@ class tx_mktools_action_FlashMessage extends tx_rnbase_action_BaseIOC
      *
      * @return string
      */
+
     protected function getTemplateName()
     {
         return 'flashmessages';

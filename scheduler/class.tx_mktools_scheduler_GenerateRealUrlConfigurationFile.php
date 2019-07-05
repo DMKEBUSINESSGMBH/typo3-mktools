@@ -59,7 +59,10 @@ class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_sch
      */
     protected function getRealUrlUtil()
     {
-        return tx_rnbase::makeInstance('tx_mktools_util_RealUrl');
+        /** @var tx_mktools_util_RealUrl $util */
+        $util = tx_rnbase::makeInstance('tx_mktools_util_RealUrl');
+
+        return $util;
     }
 
     /**

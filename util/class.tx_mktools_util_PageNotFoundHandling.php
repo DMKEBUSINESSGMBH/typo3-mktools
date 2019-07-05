@@ -37,7 +37,9 @@ class tx_mktools_util_PageNotFoundHandling
      * @var Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController
      */
     private $tsfe = null;
+
     private $reason = '';
+
     private $header = '';
 
     /**
@@ -124,6 +126,7 @@ class tx_mktools_util_PageNotFoundHandling
         $type = substr($code, 0, strpos($code, ':'));
         $data = substr($code, strlen($type) + 1);
 
+        $addTs = '';
         if ('TYPOSCRIPT' == $type) {
             if (!empty($data)) {
                 $addTs = $data;
@@ -161,7 +164,7 @@ class tx_mktools_util_PageNotFoundHandling
             );
         }
 
-        if ($logPageNotFound) {
+        if (isset($logPageNotFound)) {
             $this->logPageNotFound($data, $type);
         }
 
@@ -341,7 +344,8 @@ class tx_mktools_util_PageNotFoundHandling
      *
      * @return string
      */
-    private function getFileAbsFileName($filename)
+    private function
+    getFileAbsFileName($filename)
     {
         $filename = trim($filename);
 
@@ -402,9 +406,9 @@ class tx_mktools_util_PageNotFoundHandling
      *
      * @return string
      */
-    private function getDataFromConfiguration($languageCode = false)
+    private function getDataFromConfiguration($languageCode = '')
     {
-        $typoScriptKey = $languageCode ? $languageCode.'.data' : 'data';
+        $typoScriptKey = $languageCode === '' ? 'data' : $languageCode.'.data';
 
         return $this->getConfigurationKeyValueByPageNotFoundCode($typoScriptKey);
     }

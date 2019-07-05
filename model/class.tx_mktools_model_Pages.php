@@ -28,7 +28,7 @@
 class tx_mktools_model_Pages extends tx_rnbase_model_base
 {
     /**
-     * @var tx_mktools_fixedpostvartype|null
+     * @var tx_mktools_model_FixedPostVarType | bool | null
      */
     private $fixedPostVarType = false;
 
@@ -43,16 +43,18 @@ class tx_mktools_model_Pages extends tx_rnbase_model_base
     }
 
     /**
-     * @return tx_mktools_model_FixedPostVarType
+     * @return tx_mktools_model_FixedPostVarType|bool|null
      */
     public function getFixedPostVarType()
     {
         if (false === $this->fixedPostVarType) {
             if ($this->record['tx_mktools_fixedpostvartype']) {
-                $this->fixedPostVarType = tx_rnbase::makeInstance(
+                /** @var tx_mktools_model_FixedPostVarType $type */
+                $type =  tx_rnbase::makeInstance(
                     'tx_mktools_model_FixedPostVarType',
                     $this->record['tx_mktools_fixedpostvartype']
                 );
+                $this->fixedPostVarType = $type;
             } else {
                 $this->fixedPostVarType = null;
             }

@@ -3,6 +3,7 @@
 /**
  * Includes.
  */
+use Sys25\RnBase\Frontend\Request\Parameters;
 
 /**
  * Action zum Rendern von ContentElementen.
@@ -13,19 +14,16 @@ class tx_mktools_action_ajax_ContentRenderer
 {
     /**
      * Entry point.
-     *
-     * @param array current data record, either a tt_content element or page record
-     * @param string table name, either "pages" or "tt_content"
      */
     public function renderContent()
     {
         // content id auslesen
-        $contentId = (int) tx_rnbase_parameters::getPostOrGetParameter('contentid');
+        $contentId = (int) Parameters::getPostOrGetParameter('contentid');
         if (empty($contentId)) {
             $this->sendError(500, 'Missing required parameters.');
         }
 
-        $ttContent = tx_rnbase_util_TYPO3::getSysPage()->checkRecord(
+        $ttContent = (array) tx_rnbase_util_TYPO3::getSysPage()->checkRecord(
             'tt_content',
             $contentId
         );

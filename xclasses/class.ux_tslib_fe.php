@@ -30,8 +30,8 @@ class ux_tslib_fe extends Tx_Rnbase_Frontend_Controller_TypoScriptFrontendContro
     /**
      * Page-not-found handler for use in frontend plugins from extensions.
      *
-     * @param   string      Reason text
-     * @param   string      HTTP header to send
+     * @param string $reason Reason text
+     * @param string $header HTTP header to send
      */
     public function pageNotFoundAndExit($reason = '', $header = '')
     {

@@ -30,6 +30,11 @@
 class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
 {
     /**
+     * @var Parsedown
+     */
+    private $parser;
+
+    /**
      * Returns the data to render for the view.
      *
      * @return array
@@ -42,8 +47,10 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
             $tmpl = tx_rnbase_util_Templates::getTSTemplate();
             foreach ($this->getFiles() as $file) {
                 $file = $tmpl->getFileName($file);
-                $rawContent = tx_rnbase_util_Network::getUrl($file);
-                $content .= $this->parseContent($rawContent);
+                if (is_string($file)) {
+                    $rawContent = tx_rnbase_util_Network::getUrl($file);
+                    $content .= $this->parseContent($rawContent);
+                }
             }
         } else {
             $content = '<h1>ACCESS DENIED</h1>';

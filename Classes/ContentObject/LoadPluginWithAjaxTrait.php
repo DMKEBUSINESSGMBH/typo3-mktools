@@ -47,6 +47,7 @@ namespace DMK\Mktools\ContentObject;
              // we need a link per element so caching (chash) works correct in the ajax
              // page type. Otherwise it's not possible to render more than one element
              // per page
+             /** @var \Tx_Rnbase_Configuration_Processor $configuration */
              $configuration = \tx_rnbase::makeInstance('Tx_Rnbase_Configuration_Processor');
              $configuration->init($GLOBALS['TSFE']->tmpl->setup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
              $link = $configuration

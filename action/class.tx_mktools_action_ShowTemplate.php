@@ -33,11 +33,11 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC
      * Kindklassen führen hier die eigentliche Arbeit durch. Zugriff auf das
      * Backend und befüllen der viewdata.
      *
-     * @param tx_rnbase_IParameters    &$parameters
-     * @param tx_rnbase_configurations &$configurations
-     * @param ArrayObject              &$viewdata
+     * @param tx_rnbase_IParameters    $parameters
+     * @param tx_rnbase_configurations $configurations
+     * @param ArrayObject              $viewdata
      *
-     * @return string Errorstring or NULL
+     * @return string|null Errorstring or NULL
      */
     protected function handleRequest(&$parameters, &$configurations, &$viewdata)
     {
@@ -49,16 +49,19 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC
     /**
      * Returns the data to render for the view.
      *
-     * @return array
+     * @return tx_rnbase_model_base
      */
     protected function getItem()
     {
         $data = $this->getData();
 
-        return tx_rnbase::makeInstance(
+        /** @var tx_rnbase_model_base $model */
+        $model = tx_rnbase::makeInstance(
             'tx_rnbase_model_base',
-            is_array($data) ? $data : array()
+            $data
         );
+
+        return $model;
     }
 
     /**

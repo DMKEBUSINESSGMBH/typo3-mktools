@@ -30,15 +30,15 @@ class tx_mktools_util_miscTools
     /**
      * Get fields to expand.
      *
-     * @return int
+     * @return mixed
      */
     private static function getExtensionCfgValue($configValue)
     {
-        return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
+        return Tx_Rnbase_Configuration_Processor::getExtensionCfgValue('mktools', $configValue);
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function isSeoRobotsMetaTagActive()
     {
@@ -46,7 +46,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function isContentReplacerActive()
     {
@@ -54,7 +54,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function isAjaxContentRendererActive()
     {
@@ -62,7 +62,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function pageNotFoundHandlingActive()
     {
@@ -70,7 +70,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public static function getExceptionPage()
     {
@@ -78,7 +78,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function shouldFalImagesBeAddedToCalEvent()
     {
@@ -86,7 +86,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function shouldFalImagesBeAddedToTtNews()
     {
@@ -94,7 +94,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return number
+     * @return mixed
      */
     public static function getSystemLogLockThreshold()
     {
@@ -126,15 +126,18 @@ class tx_mktools_util_miscTools
 
         $configurations = new tx_rnbase_configurations();
         $configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
+
+        /** @var tx_rnbase_parameters $parameters */
+        $parameters =  tx_rnbase::makeInstance('tx_rnbase_parameters');
         $configurations->setParameters(
-            tx_rnbase::makeInstance('tx_rnbase_parameters')
+            $parameters
         );
 
         return $configurations;
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
     public static function loadFixedPostVarTypesTable()
     {

@@ -71,13 +71,16 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
                 $this->writeExceptionToDevLog($exception);
             }
 
-            //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
-            //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
-            throw tx_rnbase::makeInstance(
+            /** @var tx_mktools_util_ErrorException $exception */
+            $exception = tx_rnbase::makeInstance(
                 'tx_mktools_util_ErrorException',
                 $exception->getMessage(),
                 $exception->getCode()
             );
+
+            //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
+            //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
+            throw $exception;
         }
 
         return $return;
@@ -176,6 +179,9 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      */
     protected function getExceptionHandler()
     {
-        return tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
+        /** @var tx_mktools_util_ExceptionHandler $exceptionHandler */
+        $exceptionHandler = tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
+
+        return $exceptionHandler;
     }
 }
