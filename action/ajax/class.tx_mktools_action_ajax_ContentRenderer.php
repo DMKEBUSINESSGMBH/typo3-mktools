@@ -18,7 +18,7 @@ class tx_mktools_action_ajax_ContentRenderer
     public function renderContent()
     {
         // content id auslesen
-        $contentId = (int) Parameters::getPostOrGetParameter('contentid');
+        $contentId = Parameters::getPostOrGetParameter('contentid');
         if (empty($contentId)) {
             $this->sendError(500, 'Missing required parameters.');
         }

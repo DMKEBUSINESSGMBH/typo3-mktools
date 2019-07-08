@@ -24,6 +24,13 @@
 
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ *
+ * @method string getIdentifier()
+ * @method void setIdentifier(string $identifier)
+ * @method void hasIdentifier(string $identifier)
+ * @method string getTitle()
+ * @method void setTitle(string $title)
+ * @method void hasTitle(string $title)
  */
 class tx_mktools_model_FixedPostVarType extends tx_rnbase_model_base
 {

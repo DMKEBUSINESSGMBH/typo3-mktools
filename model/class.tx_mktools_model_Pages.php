@@ -24,6 +24,7 @@
 
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ *
  */
 class tx_mktools_model_Pages extends tx_rnbase_model_base
 {
