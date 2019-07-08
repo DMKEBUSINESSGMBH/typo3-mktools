@@ -45,7 +45,7 @@ class tx_mktools_util_PageNotFoundHandling
     /**
      * The optionaly ts config for 404 handling.
      *
-     * @var tx_rnbase_configurations
+     * @var tx_rnbase_configurations|null
      */
     private $configurations = null;
 
