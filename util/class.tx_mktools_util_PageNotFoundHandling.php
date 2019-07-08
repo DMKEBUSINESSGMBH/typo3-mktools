@@ -76,7 +76,7 @@ class tx_mktools_util_PageNotFoundHandling
     /**
      * Construct.
      *
-     * @param mixed|Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
+     * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
      * @param string                                                           $reason
      * @param string                                                           $header
      *
@@ -113,7 +113,7 @@ class tx_mktools_util_PageNotFoundHandling
      *
      * @param string $code Der Inhalt von TYPO3_CONF_VARS->FE->pageNotFound_handling
      *
-     * @return bool
+     * @return null|void
      */
     public function handlePageNotFound($code = '')
     {
@@ -483,7 +483,7 @@ class tx_mktools_util_PageNotFoundHandling
      * werden. Realurl kann die URL nicht auflösen, da es keine gültige Seite hat.
      * Demzufolge kann der L-Parameter nicht einfach z.B: über TS abgefragt werden.
      *
-     * @return string With countrycode or NULL
+     * @return string|false countrycode or false
      */
     private function getCurrentLanguage()
     {
