@@ -10,8 +10,8 @@ aufgebaut:
 
 
 ~~~~ {.sourceCode .ts}
-languageMenu = HMENU
-languageMenu {
+lib.languageMenu = HMENU
+lib.languageMenu {
     special = language
     special.value = 0,1
     special.normalWhenNoLanguage = 0
@@ -55,20 +55,25 @@ in welcher die Parameter der Detailseiten, welche die UID der
 Datensätze enthalten und deren zugehörige Tabelle konfiguriert werden:
 
 ~~~~ {.sourceCode .ts}
-languageMenu = HMENU
-languageMenu {
+lib.languageMenu = HMENU
+lib.languageMenu {
     special = language
     [...]
     1 = TMENU
     1 {
         [...]
         itemArrayProcFunc = DMK\Mktools\Utility\Menu\Processor\TranslatedRecords->process
-        itemArrayProcFunc.parametersConfiguration {
-             # GET.PARAMETER.WITH.RECORD.UID = TABLENAME
-             tx_news_pi1.news = tx_news_domain_model_news
-             tx_myext.record = tx_myext_domain_model_record
-             [...]
-         }
+        itemArrayProcFunc {
+             # This is mandatory as we need the complete menu configuration inside the
+             # the processor.
+             menuConfiguration < lib.languageMenu
+             parametersConfiguration {
+                 # GET.PARAMETER.WITH.RECORD.UID = TABLENAME
+                 tx_news_pi1.news = tx_news_domain_model_news
+                 tx_myext.record = tx_myext_domain_model_record
+                 [...]
+             }
+        }
     }
 }
 ~~~~

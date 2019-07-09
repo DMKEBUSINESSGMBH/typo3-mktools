@@ -1,6 +1,12 @@
 Changelog
 =========
 
+9.5.2
+-----
+
+-   fixed support of translated records in language menus in TYPO3 9.4. 
+Please take care to add the assignment of the menuConfiguration inside your TypoScript. (see documentation)
+
 9.5.1
 -----
 

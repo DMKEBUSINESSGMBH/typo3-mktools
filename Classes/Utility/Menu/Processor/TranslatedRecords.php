@@ -46,19 +46,23 @@ class TranslatedRecords
      *
      * TypoScript configuration example for EXT:news
      *
-     * lib.languageSelector = HMENU
-     * lib.languageSelector {
+     * lib.languageMenu = HMENU
+     * lib.languageMenu {
      *   special = language
      *   [...]
      *   1 = TMENU
      *   1 {
      *     [...]
      *     itemArrayProcFunc = DMK\Mktools\Utility\Menu\Processor\TranslatedRecords->process
-     *     itemArrayProcFunc.parametersConfiguration {
-     *       # GET.PARAMETER.WITH.RECORD.UID = TABLENAME
-     *       tx_news_pi1.news = tx_news_domain_model_news
+     *     itemArrayProcFunc {
+     *         # This is mandatory as we need the complete menu configuration inside the
+     *         # the processor.
+     *         menuConfiguration < lib.languageMenu
+     *         parametersConfiguration {
+     *             # GET.PARAMETER.WITH.RECORD.UID = TABLENAME
+     *             tx_news_pi1.news = tx_news_domain_model_news
+     *         }
      *     }
-     *   }
      * }
      *
      * @see \TYPO3\CMS\Frontend\ContentObject\Menu\AbstractMenuContentObject::prepareMenuItemsForLanguageMenu()
@@ -139,8 +143,6 @@ class TranslatedRecords
     ): array {
         $menuItemLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE']);
         $typoScriptFrontendController = $this->getTypoScriptFrontendController();
-        /** @var \TYPO3\CMS\Frontend\ContentObject\Menu\TextMenuContentObject $parentObject */
-        $parentObject = $typoScriptConfiguration['parentObj'];
 
         if (GeneralUtility::hideIfNotTranslated($typoScriptFrontendController->page['l18n_cfg'])
             && $menuItemLanguageUid
@@ -150,7 +152,7 @@ class TranslatedRecords
                 !$menuItemLanguageUid
                 || empty($translatedRecord)
             ) ||
-            !$parentObject->conf['special.']['normalWhenNoLanguage']
+            !$typoScriptConfiguration['menuConfiguration.']['special.']['normalWhenNoLanguage']
             && $menuItemLanguageUid
             && empty($translatedRecord)
         ) {
