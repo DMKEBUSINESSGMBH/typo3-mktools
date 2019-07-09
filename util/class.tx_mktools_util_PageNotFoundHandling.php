@@ -52,7 +52,7 @@ class tx_mktools_util_PageNotFoundHandling
     /**
      * Create an instance of this util.
      *
-     * @param mixed|Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
+     * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
      * @param string                                                           $reason
      * @param string                                                           $header
      *
@@ -76,7 +76,7 @@ class tx_mktools_util_PageNotFoundHandling
     /**
      * Construct.
      *
-     * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController $tsfe
+     * @param Tx_Rnbase_Frontend_Controller_TypoScriptFrontendController       $tsfe
      * @param string                                                           $reason
      * @param string                                                           $header
      *
@@ -123,7 +123,7 @@ class tx_mktools_util_PageNotFoundHandling
         }
 
         $code = substr($code, strlen('MKTOOLS_'));
-        $type = substr($code, 0, strpos($code, ':'));
+        $type = substr($code, 0, (int)strpos($code, ':'));
         $data = substr($code, strlen($type) + 1);
 
         $addTs = '';
@@ -136,9 +136,10 @@ class tx_mktools_util_PageNotFoundHandling
         // die Config initial anlegen!
         $configurations = $this->getConfigurations($addTs);
 
-        // Auf zu ignorierende Fehlercodes prüfen.
+        /** @var string $ignorecodes */
         $ignorecodes = $configurations->get('pagenotfoundhandling.ignorecodes');
-        if (tx_rnbase_util_Strings::inList($ignorecodes, $this->getTsFe()->pageNotFound)) {
+        // Auf zu ignorierende Fehlercodes prüfen.
+        if (Tx_Rnbase_Utility_Strings::inList($ignorecodes, (string) $this->getTsFe()->pageNotFound)) {
             return;
         }
 
@@ -254,7 +255,7 @@ class tx_mktools_util_PageNotFoundHandling
 
         // wir liefern den 404 aus, ohne einen redirect!
         // damit bleibt auch die url die gleiche :)
-        if ($content) {
+        if (is_string($content) && !empty($content)) {
             $content = str_replace(
                 '###CURRENT_URL###',
                 tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
@@ -312,7 +313,7 @@ class tx_mktools_util_PageNotFoundHandling
     protected function &getConfigurations($additionalPath = '')
     {
         if (is_null($this->configurations)) {
-            /* @var $miscTools tx_mktools_util_miscTools */
+            /** @var tx_mktools_util_miscTools $miscTools */
             $miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
             $staticPath = 'EXT:mktools/Configuration/TypoScript/pagenotfoundhandling/setup.txt';
             $this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
@@ -367,7 +368,9 @@ class tx_mktools_util_PageNotFoundHandling
      */
     private function isUri($url)
     {
-        return is_array($parsedUrl = parse_url($url)) && $parsedUrl['scheme'];
+        $parsedUrl = parse_url($url);
+
+        return is_array($parsedUrl) && !empty($parsedUrl['scheme']);
     }
 
     /**
@@ -464,6 +467,7 @@ class tx_mktools_util_PageNotFoundHandling
     private function getConfigurationKeyValueByPageNotFoundCode($typoScriptKey)
     {
         $pageNotFoundCode = $this->getTsFe()->pageNotFound;
+        /** @var string $value */
         $value = $this->getConfigurations()->get(
             'pagenotfoundhandling.pageNotFoundCodes.'.$pageNotFoundCode.
             '.'.$typoScriptKey,
@@ -471,6 +475,7 @@ class tx_mktools_util_PageNotFoundHandling
         );
 
         if (!$value) {
+            /** @var string $value */
             $value = $this->getConfigurations()->get('pagenotfoundhandling.'.$typoScriptKey, true);
         }
 
@@ -524,12 +529,12 @@ class tx_mktools_util_PageNotFoundHandling
         // als die von mktools
         if (class_exists('ux_tslib_fe')) {
             $reflector = new ReflectionClass('ux_tslib_fe');
-            $rPath = realpath($reflector->getFileName());
+            $rPath = realpath((string)$reflector->getFileName());
             $tPath = realpath(
                 tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tslib_fe.php')
             );
             // notice werfen wenn bisherige XClass nicht die von mktools ist
-            if (false === strpos($rPath, $tPath)) {
+            if (false === strpos((string)$rPath, (string)$tPath)) {
                 throw new LogicException(
                     'There allready exists an ux_tslib_fe XCLASS!'.
                     ' Remove the other XCLASS or the deacivate the page not found handling in mktools',

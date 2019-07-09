@@ -86,7 +86,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
 
         $lockFile = $this->getLockFileByExceptionAndContext($exception, $context);
 
-        $lastCall = intval(trim(file_get_contents($lockFile)));
+        $lastCall = intval(trim((string)file_get_contents($lockFile)));
         if ($lastCall > (time() - 60)) {
             return false; // Only logging once a minute per error
         }
@@ -175,6 +175,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
             $exceptionPage = $fileLink;
         } elseif ('TYPOSCRIPT' == $exceptionPageType) {
             $configurations = $this->getConfigurations($fileLink);
+            /** @var string $exceptionPage */
             $exceptionPage = $configurations->get('errorhandling.exceptionPage');
         } else {
             tx_rnbase_util_Logger::warn('unbekannter error page type "'.$exceptionPageType.'" (möglich: FILE, TYPOSCRIPT)', 'mktools');
@@ -224,6 +225,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
     private function getConfigurations($additionalPath = '')
     {
         if (is_null($this->configurations)) {
+            /** @var tx_mktools_util_miscTools $miscTools */
             $miscTools = tx_rnbase::makeInstance('tx_mktools_util_miscTools');
             $staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
             $this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
@@ -254,7 +256,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
     /**
      * Methode ist in TYPO3 4.5.x noch nicht vorhanden. Daher selbst eingefügt.
      *
-     * @param Exception $exception
+     * @param Throwable $exception
      */
     protected function sendStatusHeadersEnvironment($exception)
     {

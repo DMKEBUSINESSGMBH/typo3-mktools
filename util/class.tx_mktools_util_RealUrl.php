@@ -142,7 +142,7 @@ class tx_mktools_util_RealUrl
 
         $realUrlConfigurationLastModified = 0;
         if (file_exists($realUrlConfigurationFile)) {
-            $realUrlConfigurationLastModified = filemtime($realUrlConfigurationFile);
+            $realUrlConfigurationLastModified = (int)filemtime($realUrlConfigurationFile);
         }
 
         $areTherePagesWithFixedPostVarTypeModifiedLaterThan =
@@ -204,7 +204,7 @@ class tx_mktools_util_RealUrl
             $content = str_replace(
                 '$TYPO3_CONF_VARS',
                 '$GLOBALS[\'TYPO3_CONF_VARS\']',
-                file_get_contents($template)
+                (string)file_get_contents($template)
             );
         }
 
@@ -255,7 +255,7 @@ class tx_mktools_util_RealUrl
     }
 
     /**
-     * @return bool
+     * @return int|bool
      */
     private function generateRealUrlConfigurationFileWithSerialization()
     {
@@ -317,12 +317,12 @@ class tx_mktools_util_RealUrl
         // als die von mktools
         if (class_exists('ux_tx_realurl')) {
             $reflector = new ReflectionClass('ux_tx_realurl');
-            $rPath = realpath($reflector->getFileName());
+            $rPath = realpath((string)$reflector->getFileName());
             $tPath = realpath(
                 tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tx_realurl.php')
             );
             // notice werfen wenn bisherige XClass nicht die von mktools ist
-            if (false === strpos($rPath, $tPath)) {
+            if (false === strpos((string)$rPath, (string)$tPath)) {
                 throw new LogicException(
                     'There allready exists an ux_tx_realurl XCLASS!'.
                     ' Remove the other XCLASS or the deacivate the realurl'.

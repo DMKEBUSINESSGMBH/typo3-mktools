@@ -43,7 +43,10 @@ class tx_mktools_action_TsLib
         tx_rnbase_parameters $parameters,
         tx_rnbase_configurations $configurations
     ) {
-        return (string) $configurations->get('tslib', true);
+        /** @var string $tsLib */
+        $tsLib = $configurations->get('tslib', true);
+
+        return $tsLib;
     }
 }
 

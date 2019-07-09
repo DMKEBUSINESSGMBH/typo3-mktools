@@ -70,6 +70,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     {
         tx_mklib_util_MiscTools::enableHttpAuthForCgi();
 
+        /** @var array $auth */
         $auth = $this->getConfigurations()->get(
             $this->getConfId().'auth.crypt.'
         );

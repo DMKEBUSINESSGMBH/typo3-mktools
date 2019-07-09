@@ -38,7 +38,9 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     public function __construct($errorHandlerErrors)
     {
         parent::__construct($errorHandlerErrors);
-        register_shutdown_function(array($this, 'handleFatalError'));
+        /** @var Callable $callable */
+        $callable = array($this, 'handleFatalError');
+        register_shutdown_function($callable);
     }
 
     /**
@@ -141,7 +143,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
             $errorFile = $error['file'];
             $errorLine = $error['line'];
             $message = 'PHP Fatal Error: '.$errorMessage.' in '.
-                        basename($errorFile).' line '.$errorLine;
+                        basename((string)$errorFile).' line '.$errorLine;
 
             $exception = $this->getTypo3Exception($message);
             $this->getExceptionHandler()->handleException($exception);
@@ -153,7 +155,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     /**
      * wird in Tests gemocked.
      *
-     * @return array
+     * @return  array<string, int|string>|null
      */
     protected function getLastError()
     {
