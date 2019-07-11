@@ -19,24 +19,35 @@ env:
     - TYPO3_VERSION="^8.7.0"
     - TYPO3_VERSION="^9.5.0"
 
+path:
+    - TEST_PATH = "tests"
+
 matrix:
     exclude:
         - php: 7.0
           env: TYPO3_VERSION="^6.2.14"
+          path: TEST_PATH = "tests"
         - php: 7.1
           env: TYPO3_VERSION="^6.2.14"
+          path: TEST_PATH = "tests"
         - php: 7.2
           env: TYPO3_VERSION="^6.2.14"
+          path: TEST_PATH = "tests"
         - php: 7.2
           env: TYPO3_VERSION="^7.6.0"
+          path: TEST_PATH = "tests"
         - php: 5.6
           env: TYPO3_VERSION="^8.7.0"
+          path: TEST_PATH = "tests"
         - php: 5.6
           env: TYPO3_VERSION="^9.5.0"
+          path: TEST_PATH = "tests"
         - php: 7.0
           env: TYPO3_VERSION="^9.5.0"
+          path: TEST_PATH = "tests"
         - php: 7.1
           env: TYPO3_VERSION="^9.5.0"
+          path: TEST_PATH = "tests"
 
 sudo: false
 
@@ -71,7 +82,7 @@ script:
     - >
         echo;
         echo "Running unit tests";
-        .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml tests
+        .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml $TEST_PATH
 # disabled, because there are direct tx_rnbase::load calls in the files!
 #  - >
 #    echo;
