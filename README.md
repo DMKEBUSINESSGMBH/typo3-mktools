@@ -2,6 +2,8 @@ MK TOOLS
 ========
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
+[![Total Downloads](https://img.shields.io/packagist/dt/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
+[![Build Status](https://img.shields.io/travis/DMKEBUSINESSGMBH/typo3-mktools.svg?maxAge=3600&style=flat-square)](https://travis-ci.org/DMKEBUSINESSGMBH/typo3-mktools)
 [![License](https://img.shields.io/packagist/l/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
 
 What does it do?
