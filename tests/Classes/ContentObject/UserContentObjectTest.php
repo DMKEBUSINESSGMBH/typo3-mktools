@@ -48,7 +48,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldNotBeLoadedWithAjax($loadWithAjax, $mktoolsAjaxRequest)
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'This test has to be refactored.'
         );
 
@@ -101,7 +101,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjaxAndUseKeepVarsForLink()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'This test has to be refactored.'
         );
 
@@ -130,7 +130,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjax()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'This test has to be refactored.'
         );
 
