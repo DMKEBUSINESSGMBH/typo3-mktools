@@ -51,7 +51,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldNotBeLoadedWithAjax($loadWithAjax, $mktoolsAjaxRequest)
     {
-        $contentObject = $this->getMock(ContentObjectRenderer::class, ['stdWrap']);
+        $contentObject = $this->getMock(ContentObjectRenderer::class, ['stdWrap', 'callUserFunction']);
         $contentObject->expects(self::any())
             ->method('stdWrap')
             ->will(
