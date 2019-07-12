@@ -60,7 +60,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
                 })
             );
         $contentObject->data['tx_mktools_load_with_ajax'] = $loadWithAjax;
-        \tx_rnbase_parameters::setGetParameter($mktoolsAjaxRequest, 'mktoolsAjaxRequest');
+        $_GET['mktoolsAjaxRequest'] = $mktoolsAjaxRequest;
 
         $this->initializeFixtures($contentObject);
 
@@ -103,13 +103,12 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
     /**
      * @group unit
      */
-    public function testRenderIfContentShouldBeLoadedWithAjaxAndUseKeepVarsForLink()
+    public function testRenderIfContentShouldBeLoadedWithAjax()
     {
         $contentObject = $this->getMock(ContentObjectRenderer::class, ['dummy']);
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
         $contentObject->data['uid'] = 123;
-        \tx_rnbase_parameters::setGetParameter(0, 'mktoolsAjaxRequest');
-        \tx_rnbase_parameters::setGetParameter('testValue', 'mktools|test');
+        $_GET['mktoolsAjaxRequest'] = 0;
 
         $this->initializeFixtures($contentObject);
 
