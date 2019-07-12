@@ -2,6 +2,8 @@
 
 namespace DMK\Mktools\ContentObject;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  *  Copyright notice.
  *
@@ -35,11 +37,6 @@ namespace DMK\Mktools\ContentObject;
 class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
 {
     /**
-     * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-     */
-    protected $typoScriptFrontendController;
-
-    /**
      * @var \DMK\Mktools\ContentObject\UserInternalContentObject
      */
     protected $userInternalObject;
@@ -53,10 +50,6 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldNotBeLoadedWithAjax($loadWithAjax, $mktoolsAjaxRequest)
     {
-        self::markTestIncomplete(
-            'This test has to be refactored.'
-        );
-
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = $loadWithAjax;
         \tx_rnbase_parameters::setGetParameter($mktoolsAjaxRequest, 'mktoolsAjaxRequest');
@@ -77,8 +70,6 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     protected function initializeFixtures($contentObject)
     {
-        \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true]);
-
         $this->typoScriptFrontendController = $this->getMock(
             get_class($GLOBALS['TSFE']),
             ['uniqueHash'],
@@ -119,39 +110,6 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjaxAndUseKeepVarsForLink()
     {
-        self::markTestIncomplete(
-            'This test has to be refactored.'
-        );
-
-        $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
-        $contentObject->data['tx_mktools_load_with_ajax'] = true;
-        $contentObject->data['uid'] = 123;
-        \tx_rnbase_parameters::setGetParameter(0, 'mktoolsAjaxRequest');
-        \tx_rnbase_parameters::setGetParameter('testValue', 'mktools|test');
-
-        $this->initializeFixtures($contentObject);
-        $GLOBALS['TSFE']->tmpl->setup['lib.']['tx_mktools.']['loadUserIntWithAjaxUrl.'] = [
-            'useKeepVars' => true,
-            'useKeepVars.' => [
-                'add' => 'mktools::test',
-            ],
-        ];
-
-        self::assertRegExp(
-            '/\<a class="ajax-links-autoload ajax-no-history" href="\?id=.*\&amp\;mktools%5Btest%5D=testValue&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
-            $this->userInternalObject->render()
-        );
-    }
-
-    /**
-     * @group unit
-     */
-    public function testRenderIfContentShouldBeLoadedWithAjax()
-    {
-        self::markTestIncomplete(
-            'This test has to be refactored.'
-        );
-
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
         $contentObject->data['uid'] = 123;
@@ -160,8 +118,25 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
 
         $this->initializeFixtures($contentObject);
 
-        self::assertRegExp(
-            '/\<a class="ajax-links-autoload ajax-no-history" href="\?id=.*\&amp\;contentid=123&amp\;cHash=[a-z0-9]{32}"\>\<\/a\>/',
+        $GLOBALS['TSFE']->tmpl->setup['config'] = 'test';
+        $configurations = $this->getMock('Tx_Rnbase_Configuration_Processor', ['init']);
+        $configurations->expects(self::once())
+            ->method('init')
+            ->with(['config' => 'test'], $contentObject, 'mktools', 'mktools');
+        GeneralUtility::addInstance('Tx_Rnbase_Configuration_Processor', $configurations);
+
+        $linkUtility = $this->getMock('tx_rnbase_util_Link', ['initByTS', 'makeUrl']);
+        $linkUtility->expects(self::once())
+            ->method('initByTS')
+            ->with($configurations, 'lib.tx_mktools.loadUserIntWithAjaxUrl.', ['::contentid' => 123])
+            ->will(self::returnValue($linkUtility));
+        $linkUtility->expects(self::once())
+            ->method('makeUrl')
+            ->will(self::returnValue('rendererdUrl'));
+        GeneralUtility::addInstance('tx_rnbase_util_Link', $linkUtility);
+
+        self::assertEquals(
+            '<a class="ajax-links-autoload ajax-no-history" href="rendererdUrl"></a>',
             $this->userInternalObject->render()
         );
     }
