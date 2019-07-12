@@ -3,7 +3,7 @@ language: php
 notifications:
   email:
     recipients:
-      - dev@dmk-ebusiness.de
+      - benjamin.quandt@dmk-ebusiness.com
     on_success: change
     on_failure: always
 
