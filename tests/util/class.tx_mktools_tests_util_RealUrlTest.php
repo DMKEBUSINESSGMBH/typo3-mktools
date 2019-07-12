@@ -26,7 +26,7 @@
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mktools_tests_util_RealUrl_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
      * @var string

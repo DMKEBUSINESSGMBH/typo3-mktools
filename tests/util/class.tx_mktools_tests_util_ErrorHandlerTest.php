@@ -25,7 +25,7 @@
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_ErrorHandler_testcase extends Tx_Phpunit_TestCase
+class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
      * @var int

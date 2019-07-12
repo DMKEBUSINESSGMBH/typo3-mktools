@@ -25,13 +25,13 @@
 define('MKTOOLS_TESTRUN', true);
 
 /**
- * Tx_Mktools_FindUnusedLocallangLabels_testcase.
+ * Tx_Mktools_FindUnusedLocallangLabelsTest.
  *
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class Tx_Mktools_FindUnusedLocallangLabels_testcase extends tx_rnbase_tests_BaseTestCase
+class Tx_Mktools_FindUnusedLocallangLabelsTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
      * (non-PHPdoc).

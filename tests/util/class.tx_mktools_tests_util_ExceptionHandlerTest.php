@@ -25,7 +25,7 @@
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
      * @var string
@@ -180,6 +180,10 @@ class tx_mktools_tests_util_ExceptionHandler_testcase extends tx_rnbase_tests_Ba
      */
     public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenTypoScriptIsDefinedAsExceptionPage()
     {
+        self::markTestIncomplete(
+            'This test has to be refactored.'
+        );
+
         \DMK\Mklib\Utility\Tests::setExtConfVar(
             'exceptionPage',
             'TYPOSCRIPT:typo3conf/ext/mktools/tests/fixtures/typoscript/errorHandling.txt',
