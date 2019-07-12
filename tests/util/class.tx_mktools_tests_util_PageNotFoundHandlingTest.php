@@ -25,7 +25,7 @@
 /**
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_util_PageNotFoundHandlingTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
      * @var string
@@ -52,6 +52,10 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
         $this->requestUriBackup = $_SERVER['REQUEST_URI'];
 
         $this->resetIndependentEnvironmentCache();
+
+        self::markTestIncomplete(
+            'This test has to be refactored.'
+        );
 
         tx_rnbase::load('tx_mktools_tests_fixtures_classes_util_PageNotFoundHandling');
     }
@@ -296,22 +300,6 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     }
 
     /**
-     * Asserts the number of elements of an array, Countable or Iterator.
-     * Dies ist erst ab tx_phpunit 3.6.10 verfügbar!
-     *
-     * @param int    $expectedCount
-     * @param mixed  $haystack
-     * @param string $message
-     */
-    public static function assertCount($expectedCount, $haystack, $message = '')
-    {
-        if (method_exists(PHPUnit_Framework_Assert, 'assertCount')) {
-            parent::assertCount($expectedCount, $haystack);
-        }
-        self::assertEquals($expectedCount, count($haystack), $message);
-    }
-
-    /**
      * @group unit
      * @dataProvider dataProviderIsRequestedPageAlready404Page
      */
@@ -377,6 +365,6 @@ class tx_mktools_tests_util_PageNotFoundHandling_testcase extends tx_rnbase_test
     }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandling_testcase.php'];
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandlingTest.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/tests/util/class.tx_mktools_tests_util_PageNotFoundHandlingTest.php'];
 }

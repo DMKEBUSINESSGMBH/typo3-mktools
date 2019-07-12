@@ -25,7 +25,7 @@
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_model_Pages_testcase extends Tx_Phpunit_TestCase
+class tx_mktools_tests_model_PagesTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
      * @group unit
