@@ -115,7 +115,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     protected function writeExceptionToDevLog($exception)
     {
         $logTitle = 'Core: Error handler ('.TYPO3_MODE.')';
-        tx_rnbase_util_Logger::devLog($exception->getMessage(), $logTitle, 3);
+        Tx_Rnbase_Utility_Logger::error($logTitle, $exception->getMessage());
     }
 
     /**
