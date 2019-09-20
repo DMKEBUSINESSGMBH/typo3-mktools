@@ -80,8 +80,9 @@ class TranslatedRecords
         );
         if ($recordInformationToCheckForTranslation) {
             foreach ($menuItems as &$menuItem) {
+                $sysLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE']);
                 $translatedRecord = $this->getTranslatedRecord(
-                    $menuItem,
+                    $sysLanguageUid,
                     $recordInformationToCheckForTranslation['table'],
                     $recordInformationToCheckForTranslation['uid']
                 );
@@ -97,29 +98,77 @@ class TranslatedRecords
     }
 
     /**
-     * @param array  $menuItem
+     * Check if the record is translated in a given sys_language_uid. If so, the text will be processed,
+     * else the return value will be false. If the configured parameters are not submitted the value
+     * will be returned unchanged.
+     *
+     * TypoScript configuration example for EXT:cal
+     *
+     * lib.navi.language = COA
+     * lib.navi.language {
+     *     10 = TEXT
+     *     10.value = Text if SysLang is 1
+     *     stdWrap.preUserFunc = DMK\Mktools\Utility\Menu\Processor\TranslatedRecords->processEmptyIfRecordNotExists
+     *     stdWrap.preUserFunc {
+     *         sysLanguageUid = 1
+     *         parametersConfiguration {
+     *             # GET.PARAMETER.WITH.RECORD.UID = TABLENAME
+     *             tx_cal_controller.uid = tx_cal_event
+     *         }
+     *     }
+     * }
+     *
+     * @param string $value
+     * @param array  $typoScriptConfiguration
+     *
+     * @return bool
+     */
+    public function processEmptyIfRecordNotExists($value, array $typoScriptConfiguration)
+    {
+        $recordInformationToCheckForTranslation = $this->getRecordInformationToCheckForTranslation(
+            $typoScriptConfiguration['parametersConfiguration.'],
+            Parameters::getGetParameters()
+        );
+
+        $sysLanguageUid = (int)$typoScriptConfiguration['sysLanguageUid'];
+
+        if ($recordInformationToCheckForTranslation) {
+            $translatedRecord = $this->getTranslatedRecord(
+                $sysLanguageUid,
+                $recordInformationToCheckForTranslation['table'],
+                $recordInformationToCheckForTranslation['uid']
+            );
+
+            return empty($translatedRecord) ? false : $value;
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param int    $sysLanguageUid
      * @param string $table
      * @param int    $uid
      *
      * @return array
      */
-    protected function getTranslatedRecord(array $menuItem, string $table, int $uid): array
+    protected function getTranslatedRecord(int $sysLanguageUid, string $table, int $uid): array
     {
         $databaseConnection = $this->getDatabaseConnection();
         $typoScriptFrontendController = $this->getTypoScriptFrontendController();
-        $menuItemLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE']);
-        if ($menuItemLanguageUid) {
+
+        if ($sysLanguageUid) {
             $currentRecord = $databaseConnection->doSelect(
                 '*',
                 $table,
                 [
-                    'where' => 'uid = '.$uid,
+                    'where' => 'uid = ' . $uid,
                 ]
             )[0];
             $translatedRecord = (array) \tx_rnbase_util_TYPO3::getSysPage()->getRecordOverlay(
                 $table,
                 $currentRecord,
-                $menuItemLanguageUid,
+                $sysLanguageUid,
                 ('strict' === FrontendControllerUtility::getLanguageMode($typoScriptFrontendController)) ? 'hideNonTranslated' : ''
             );
         } else {
