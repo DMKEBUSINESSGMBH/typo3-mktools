@@ -21,6 +21,7 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
     protected function tearDown()
     {
         GeneralUtility::purgeInstances();
+        unset($_GET['tx_cal_controller']);
     }
 
     /**
@@ -67,7 +68,7 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
             ]
         ];
         $transRecord = new TranslatedRecords();
-        GeneralUtility::_GETset(['uid' => 123], 'tx_cal_controller');
+        $_GET['tx_cal_controller'] = ['uid' => 123];
 
         $result = $transRecord->processEmptyIfRecordNotExists('foobar', $paramConfig);
 
