@@ -29,7 +29,7 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
      *
      * @return void
      */
-    public function testProcessValueIfRecordExists()
+    public function testProcessEmptyIfRecordNotExists()
     {
         $dbConnection = $this->prophesize(\Tx_Rnbase_Database_Connection::class);
         GeneralUtility::setSingletonInstance(\Tx_Rnbase_Database_Connection::class, $dbConnection->reveal());
@@ -48,7 +48,9 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
             ->willReturn([$item]);
 
         //no overlay found
-        $pageRepository->init(0)->shouldBeCalledOnce();
+        if (!\tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
+            $pageRepository->init(0)->shouldBeCalledOnce();
+        }
         $pageRepository
             ->getRecordOverlay(
                 'tx_cal_event',
