@@ -50,13 +50,16 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
         //no overlay found
         if (!\tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
             $pageRepository->init(0)->shouldBeCalledOnce();
+            $expectedLanguageMode = '';
+        } else {
+            $expectedLanguageMode = 'hideNonTranslated';
         }
         $pageRepository
             ->getRecordOverlay(
                 'tx_cal_event',
                 $item,
                 1,
-                ''
+                $expectedLanguageMode
             )
             ->shouldBeCalled()
             ->willReturn([]);
