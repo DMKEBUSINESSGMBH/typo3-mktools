@@ -34,13 +34,13 @@ class tx_mktools_action_TsLib
     /**
      * Do the magic.
      *
-     * @param tx_rnbase_parameters     $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Frontend\Request\Parameters $parameters
+     * @param tx_rnbase_configurations                  $configurations
      *
      * @return string
      */
     public function execute(
-        tx_rnbase_parameters $parameters,
+        \Sys25\RnBase\Frontend\Request\Parameters $parameters,
         tx_rnbase_configurations $configurations
     ) {
         return (string) $configurations->get('tslib', true);
