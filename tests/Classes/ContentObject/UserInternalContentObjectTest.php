@@ -118,11 +118,11 @@ class UserInternalContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         $this->initializeFixtures($contentObject);
 
         $GLOBALS['TSFE']->tmpl->setup['config'] = 'test';
-        $configurations = $this->getMock('Tx_Rnbase_Configuration_Processor', ['init']);
+        $configurations = $this->getMock(\Sys25\RnBase\Configuration\Processor::class, ['init']);
         $configurations->expects(self::once())
             ->method('init')
             ->with(['config' => 'test'], $contentObject, 'mktools', 'mktools');
-        GeneralUtility::addInstance('Tx_Rnbase_Configuration_Processor', $configurations);
+        GeneralUtility::addInstance(\Sys25\RnBase\Configuration\Processor::class, $configurations);
 
         $linkUtility = $this->getMock('tx_rnbase_util_Link', ['initByTS', 'makeUrl']);
         $linkUtility->expects(self::once())
