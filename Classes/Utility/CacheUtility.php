@@ -42,6 +42,7 @@ class CacheUtility
         if (self::isApcUsed()) {
             $cacheBackendClass = self::getApcCacheBackendClass();
 
+            // @todo change cache names when adding compatibility for TYPO3 10.x
             self::setCacheBackend($cacheBackendClass, 'cache_hash');
             self::setCacheBackend($cacheBackendClass, 'cache_imagesizes');
             self::setCacheBackend($cacheBackendClass, 'cache_pages');
