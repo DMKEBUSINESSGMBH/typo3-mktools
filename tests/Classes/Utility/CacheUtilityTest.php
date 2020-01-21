@@ -156,14 +156,6 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
             $expectedCachingConfiguration,
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_hash']
         );
-
-        // extbase_object cache can never be APC cache on CLI
-        if (PHP_SAPI === 'cli') {
-            self::assertNotSame(
-                CacheUtility::getApcCacheBackendClass(),
-                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['extbase_object']['backend']
-            );
-        }
     }
 
     /**
@@ -270,9 +262,25 @@ function ini_get($configurationPath)
 {
     $configurationValue = '';
 
-    if ('apc.enable_cli' == $configurationPath || 'apc.enable' == $configurationPath) {
+    if ('apc.enabled' == $configurationPath) {
         $configurationValue = CacheUtilityTest::isApcEnabled();
     }
 
     return $configurationValue;
+}
+
+/**
+ * @param string $name
+ *
+ * @return string
+ */
+function constant(string $name)
+{
+    $constantValue = '';
+
+    if ('PHP_SAPI' == $name) {
+        $constantValue = 'notCli';
+    }
+
+    return $constantValue;
 }

@@ -36,29 +36,28 @@ class CacheUtility
 {
     /**
      * sets apc or apcu as caching backend for all possible caches.
+     * @todo add support for TYPO3 10.x (@see https://www.mittwald.de/faq/tipps-und-tricks/typo3/apcu-mit-typo3-verwenden)
      */
     public static function useApcAsCacheBackend()
     {
         if (self::isApcUsed()) {
             $cacheBackendClass = self::getApcCacheBackendClass();
 
-            // @todo change cache names when adding compatibility for TYPO3 10.x
             self::setCacheBackend($cacheBackendClass, 'cache_hash');
             self::setCacheBackend($cacheBackendClass, 'cache_imagesizes');
             self::setCacheBackend($cacheBackendClass, 'cache_pages');
             self::setCacheBackend($cacheBackendClass, 'cache_pagesection');
             self::setCacheBackend($cacheBackendClass, 'cache_rootline');
             self::setCacheBackend($cacheBackendClass, 'extbase_datamapfactory_datamap');
-            // This is taken from the example of Mittwald but
-            // why is it a problem to use APC for extbase_object on CLI?
-            if (PHP_SAPI !== 'cli') {
-                self::setCacheBackend($cacheBackendClass, 'extbase_object');
-            }
+            self::setCacheBackend($cacheBackendClass, 'extbase_object');
             self::setCacheBackend($cacheBackendClass, 'extbase_reflection');
         }
     }
 
     /**
+     * APC or APCu extension needs to be loaded and enabled. Furthermore the usage
+     * on CLI is not recommended by PHP itself.
+     *
      * @return bool
      */
     public static function isApcUsed()
@@ -66,9 +65,10 @@ class CacheUtility
         $apcExtensionLoaded = extension_loaded('apc');
         $apcuExtensionLoaded = extension_loaded('apcu');
         $apcAvailable = $apcExtensionLoaded || $apcuExtensionLoaded;
-        $apcEnabled = (bool) ((PHP_SAPI === 'cli') ? ini_get('apc.enable_cli') : ini_get('apc.enabled'));
+        $apcEnabled = (bool) ini_get('apc.enabled');
 
-        return $apcAvailable && $apcEnabled;
+        // Use constant method so it can be mocked.
+        return (constant('PHP_SAPI') !== 'cli') && $apcAvailable && $apcEnabled;
     }
 
     /**
