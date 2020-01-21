@@ -1,6 +1,31 @@
 Changelog
 =========
 
+9.5.6
+-----
+
+-   cleanup replaced deprecated Tx_Rnbase_Configuration_Processor
+-   don't use APC/APCu on CLI
+
+9.5.5
+-----
+
+-   fix using deprecated _GETset
+-   Fix extension key in composer json
+-   bugfix support new rn_base version
+
+9.5.4
+-----
+
+-   dont use old devlog anymore
+-   fix ext_conf labels 
+-   another method to check translation overlay for single records
+
+9.5.3
+-----
+
+-   add Travis-CI 
+
 9.5.2
 -----
 
