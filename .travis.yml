@@ -12,10 +12,12 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
 
 env:
   - TYPO3_VERSION="^8.7.0"
   - TYPO3_VERSION="^9.5.0"
+  - TYPO3_VERSION="^10"
 
 matrix:
   exclude:
@@ -23,7 +25,12 @@ matrix:
       env: TYPO3_VERSION="^9.5.0"
     - php: 7.1
       env: TYPO3_VERSION="^9.5.0"
-
+    - php: 7.0
+      env: TYPO3_VERSION="^10"
+    - php: 7.1
+      env: TYPO3_VERSION="^10"
+  allow_failures:
+    - env: TYPO3_VERSION="^10"
 sudo: false
 
 addons:
