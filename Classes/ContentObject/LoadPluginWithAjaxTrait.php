@@ -61,7 +61,7 @@ namespace DMK\Mktools\ContentObject;
              // We only need dummy content which indicates to start the ajax load.
              // The rest is handled with JS and the surrounding div with the content id.
              // @see AjaxContent.js
-             $content = '<a class="ajax-links-autoload ajax-no-history" aria-label="Placeholder" href="'.$link.'"></a>';
+             $content = sprintf('<a class="ajax-links-autoload ajax-no-history" aria-label="Placeholder" href="%s"></a>', $link);
          } else {
              $content = parent::render($conf);
          }
