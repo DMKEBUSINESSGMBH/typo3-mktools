@@ -22,6 +22,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
+use DMK\Mktools\ErrorHandler\ErrorHandler;
+use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception as RnBaseException;
+
 /**
  * @author Hannes Bochmann
  */
@@ -50,9 +53,9 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     public function testHandleFatalErrorCallsNotExceptionHandlerIfErrorNotFatal()
     {
         $errorHandler = $this->getMock(
-            'tx_mktools_util_ErrorHandler',
-            ['getLastError', 'getExceptionHandler'],
-            [[]]
+            ErrorHandler::class,
+            array('getLastError', 'getExceptionHandler'),
+            array(array())
         );
 
         $error = ['type' => E_WARNING];
@@ -80,9 +83,9 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
         }
 
         $errorHandler = $this->getMock(
-            'tx_mktools_util_ErrorHandler',
-            ['getLastError', 'getExceptionHandler', 'getTypo3Exception'],
-            [[]],
+            ErrorHandler::class,
+            array('getLastError', 'getExceptionHandler', 'getTypo3Exception'),
+            array(array()),
             '',
             false
         );
@@ -151,14 +154,14 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
      */
     public function testGetTypo3ExceptionReturnsCorrectExceptionType()
     {
-        $handler = tx_rnbase::makeInstance('tx_mktools_util_ErrorHandler', null);
-        $method = new ReflectionMethod('tx_mktools_util_ErrorHandler', 'getTypo3Exception');
+        $handler = tx_rnbase::makeInstance(ErrorHandler::class, null);
+        $method = new ReflectionMethod(ErrorHandler::class, 'getTypo3Exception');
         $method->setAccessible(true);
         $message = 'test';
 
         $exception = $method->invoke($handler, $message);
         $this->assertInstanceOf(
-            'Tx_Rnbase_Error_Exception',
+            \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception::class,
             $exception,
             'Exception nicht vom Typ '
         );
@@ -171,12 +174,12 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     public function testHandleErrorLogsExceptionsIfShouldBeWrittenToDevLogAndThrowsMktoolsErrorException()
     {
         $errorHandler = $this->getMock(
-            'tx_mktools_util_ErrorHandler',
-            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
-            [1]
+            ErrorHandler::class,
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
+            array(1)
         );
 
-        $exception = new Tx_Rnbase_Error_Exception('test');
+        $exception = new RnBaseException('test');
         $errorHandler->expects($this->once())
             ->method('handleErrorByParent')
             ->with(1, 2, 3, 4)
@@ -192,9 +195,9 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
 
         try {
             $errorHandler->handleError(1, 2, 3, 4);
-        } catch (tx_mktools_util_ErrorException $e) {
+        } catch (\DMK\Mktools\Exception\ExceptionInterface $e) {
             $this->assertInstanceOf(
-                'tx_mktools_util_ErrorException',
+                \DMK\Mktools\Exception\RuntimeException::class,
                 $e,
                 'Exception nicht durchgereicht'
             );
@@ -207,12 +210,12 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     public function testHandleErrorLogsExceptionsNotIfShouldNotBeWrittenToDevLog()
     {
         $errorHandler = $this->getMock(
-            'tx_mktools_util_ErrorHandler',
-            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
-            [1]
+            ErrorHandler::class,
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
+            array(1)
         );
 
-        $exception = new Tx_Rnbase_Error_Exception('test');
+        $exception = new RnBaseException('test');
         $errorHandler->expects($this->once())
             ->method('handleErrorByParent')
             ->with(1, 2, 3, 4)
@@ -227,9 +230,9 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
 
         try {
             $errorHandler->handleError(1, 2, 3, 4);
-        } catch (tx_mktools_util_ErrorException $e) {
+        } catch (\DMK\Mktools\Exception\ExceptionInterface $e) {
             $this->assertInstanceOf(
-                'tx_mktools_util_ErrorException',
+                \DMK\Mktools\Exception\RuntimeException::class,
                 $e,
                 'Exception nicht durchgereicht'
             );
@@ -242,9 +245,9 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     public function testHandleErrorLogsExceptionsNotIfNoExceptionThrown()
     {
         $errorHandler = $this->getMock(
-            'tx_mktools_util_ErrorHandler',
-            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
-            [1]
+            ErrorHandler::class,
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
+            array(1)
         );
 
         $exception = new Tx_Rnbase_Error_Exception('test');
@@ -274,9 +277,9 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
         $this->disableErrorReporting();
 
         $errorHandler = $this->getMock(
-            'tx_mktools_util_ErrorHandler',
-            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
-            [1]
+            ErrorHandler::class,
+            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
+            array(1)
         );
 
         $errorHandler->expects(self::never())

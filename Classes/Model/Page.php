@@ -1,4 +1,7 @@
 <?php
+
+namespace DMK\Mktools\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,10 +28,10 @@
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_model_Pages extends tx_rnbase_model_base
+class Page extends \tx_rnbase_model_base
 {
     /**
-     * @var tx_mktools_fixedpostvartype|null
+     * @var FixedPostVarType|null
      */
     private $fixedPostVarType = false;
 
@@ -43,21 +46,21 @@ class tx_mktools_model_Pages extends tx_rnbase_model_base
     }
 
     /**
-     * @return tx_mktools_model_FixedPostVarType
+     * @return FixedPostVarType|null
      */
     public function getFixedPostVarType()
     {
-        if (false === $this->fixedPostVarType) {
-            if ($this->record['tx_mktools_fixedpostvartype']) {
-                $this->fixedPostVarType = tx_rnbase::makeInstance(
-                    'tx_mktools_model_FixedPostVarType',
-                    $this->record['tx_mktools_fixedpostvartype']
-                );
-            } else {
-                $this->fixedPostVarType = null;
-            }
+        if ($this->fixedPostVarType instanceof FixedPostVarType) {
+            return $this->fixedPostVarType;
         }
 
-        return $this->fixedPostVarType;
+        if ($this->record['tx_mktools_fixedpostvartype']) {
+            return $this->fixedPostVarType = \tx_rnbase::makeInstance(
+                FixedPostVarType::class,
+                $this->record['tx_mktools_fixedpostvartype']
+            );
+        }
+
+        return $this->fixedPostVarType = null;
     }
 }

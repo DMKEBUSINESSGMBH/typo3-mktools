@@ -35,12 +35,6 @@
     },
     "autoload": {
         "classmap": [
-            "action/",
-            "hook/",
-            "model/",
-            "scheduler/",
-            "util/",
-            "view/",
             "xclasses/",
             "Classes/"
         ],

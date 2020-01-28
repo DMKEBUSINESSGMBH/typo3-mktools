@@ -1,4 +1,9 @@
 <?php
+
+namespace DMK\Mktools\Session;
+
+use DMK\Mktools\Exception\RuntimeException;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,15 +30,15 @@
 /**
  * Flash message utility.
  *
- * @method static tx_mktools_util_FlashMessage addPrimary() addPrimary($message)
- * @method static tx_mktools_util_FlashMessage addSuccess() addSuccess($message)
- * @method static tx_mktools_util_FlashMessage addInfo() addInfo($message)
- * @method static tx_mktools_util_FlashMessage addWarning() addWarning($message)
- * @method static tx_mktools_util_FlashMessage addDanger() addDanger($message)
+ * @method static FlashMessageStorage addPrimary() addPrimary($message)
+ * @method static FlashMessageStorage addSuccess() addSuccess($message)
+ * @method static FlashMessageStorage addInfo() addInfo($message)
+ * @method static FlashMessageStorage addWarning() addWarning($message)
+ * @method static FlashMessageStorage addDanger() addDanger($message)
  *
  * @author Michael Wagner
  */
-class tx_mktools_util_FlashMessage
+class FlashMessageStorage
 {
     const LEVEL_PRIMARY = 'primary';
     const LEVEL_SUCCESS = 'success';
@@ -44,27 +49,27 @@ class tx_mktools_util_FlashMessage
     /**
      * List of Messages from the last Request.
      *
-     * @var ArrayObject
+     * @var \ArrayObject
      */
-    private $prevMessages = null;
+    private $prevMessages;
 
     /**
      * List of Messages for the next Request.
      *
-     * @var ArrayObject
+     * @var \ArrayObject
      */
-    private $nextMessages = null;
+    private $nextMessages;
 
     /**
      * Creates the flashmessage singelton.
      *
-     * @return tx_mktools_util_FlashMessage
+     * @return self
      */
     public static function getInstance()
     {
         static $instance = null;
         if (null === $instance) {
-            $instance = tx_rnbase::makeInstance(get_called_class())->load();
+            $instance = \tx_rnbase::makeInstance(get_called_class())->load();
         }
 
         return $instance;
@@ -77,29 +82,27 @@ class tx_mktools_util_FlashMessage
      */
     public function __construct()
     {
-        $this->prevMessages = new ArrayObject();
-        $this->nextMessages = new ArrayObject();
+        $this->prevMessages = new \ArrayObject();
+        $this->nextMessages = new \ArrayObject();
     }
 
     /**
      * Loads the messages from the last request and clears the session.
      *
-     * @return tx_mktools_util_FlashMessage
+     * @return self
      */
     public function load()
     {
         // load messages from last request
-        $prevMessages = tx_mklib_util_Session::getSessionValue(
-            'flash_mesages',
-            'mktools'
-        );
+        $prevMessages = \tx_mklib_util_Session::getSessionValue('flash_mesages', 'mktools');
         $prevMessages = unserialize($prevMessages);
-        $this->prevMessages = new ArrayObject(
-            empty($prevMessages) ? [] : $prevMessages
+
+        $this->prevMessages = new \ArrayObject(
+            empty($prevMessages) ? array() : $prevMessages
         );
 
         // remove the current mesage stack from session
-        tx_mklib_util_Session::removeSessionValue(
+        \tx_mklib_util_Session::removeSessionValue(
             'flash_mesages',
             'mktools'
         );
@@ -110,17 +113,17 @@ class tx_mktools_util_FlashMessage
     /**
      * Saves the messages for the next request.
      *
-     * @return tx_mktools_util_FlashMessage
+     * @return self
      */
     public function save()
     {
-        tx_mklib_util_Session::setSessionValue(
+        \tx_mklib_util_Session::setSessionValue(
             'flash_mesages',
             serialize($this->nextMessages->getArrayCopy()),
             'mktools'
         );
 
-        tx_mklib_util_Session::storeSessionData();
+        \tx_mklib_util_Session::storeSessionData();
 
         return $this;
     }
@@ -128,7 +131,7 @@ class tx_mktools_util_FlashMessage
     /**
      * Keeps the messages from the last request and addt for the next.
      *
-     * @return tx_mktools_util_FlashMessage
+     * @return self
      */
     public function keep()
     {
@@ -155,11 +158,11 @@ class tx_mktools_util_FlashMessage
      * @param string $level
      * @param mixed  $data
      *
-     * @return tx_mktools_util_FlashMessage
+     * @return self
      */
     private function addMessage($message, $level, $data = null)
     {
-        $message = tx_rnbase::makeInstance(
+        $message = \tx_rnbase::makeInstance(
             'Tx_Rnbase_Domain_Model_Base',
             [
                 'level' => $level,
@@ -175,7 +178,7 @@ class tx_mktools_util_FlashMessage
     /**
      * Returns the list of messages for this and the next request.
      *
-     * @return ArrayObject
+     * @return \ArrayObject
      */
     public function getMessages()
     {
@@ -188,24 +191,25 @@ class tx_mktools_util_FlashMessage
      * @param string $method
      * @param array  $args
      *
-     * @throws Exception If level or method does not exists
+     * @throws RuntimeException If level or method does not exists
      *
-     * @return tx_mktools_util_FlashMessage
+     * @return self
      */
     public static function __callStatic($method, $args)
     {
-        if ('a' === $method[0] &&
-            'd' === $method[1] &&
-            'd' === $method[2] &&
-            $method[3] === strtoupper($method[3])
-        ) {
-            $level = substr($method, 3);
-            $const = 'LEVEL_'.strtoupper($level);
-            if (defined('self::'.$const)) {
-                return self::getInstance()->addMessage($args[0], constant('self::'.$const));
-            }
+        if (0 !== strpos($method, 'add') || $method[3] !== strtoupper($method[3])) {
+            throw new RuntimeException(sprintf(
+                'Method "%s::%s()" does not exists',
+                static::class,
+                $method
+            ));
         }
 
-        throw new Exception('Method "'.get_called_class().'::'.$method.'()" does not exists');
+        $level = substr($method, 3);
+        $const = 'LEVEL_'.strtoupper($level);
+
+        if (defined('self::'.$const)) {
+            return self::getInstance()->addMessage($args[0], constant('self::'.$const));
+        }
     }
 }

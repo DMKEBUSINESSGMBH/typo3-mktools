@@ -1,4 +1,11 @@
 <?php
+
+namespace DMK\Mktools\ErrorHandler;
+
+use DMK\Mktools\Exception\RuntimeException;
+use Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler as RnBaseErrorHandler;
+use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -27,7 +34,7 @@
  *
  * @author Hannes Bochmann
  */
-class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
+class ErrorHandler extends RnBaseErrorHandler
 {
     /**
      * registriert den error handler auch für fatal errors
@@ -52,7 +59,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      *
      * @see Tx_Rnbase_Error_ErrorHandler::handleError()
      *
-     * @throws tx_mktools_util_ErrorException
+     * @throws RuntimeException
      */
     public function handleError($errorLevel, $errorMessage, $errorFile, $errorLine)
     {
@@ -66,14 +73,18 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
                 $errorFile,
                 $errorLine
             );
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             if ($this->shouldExceptionsBeWrittenToDevLog()) {
                 $this->writeExceptionToDevLog($exception);
             }
 
             //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
             //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
-            throw tx_rnbase::makeInstance('tx_mktools_util_ErrorException', $exception->getMessage(), $exception->getCode());
+            throw \tx_rnbase::makeInstance(
+                RuntimeException::class,
+                $exception->getMessage(),
+                $exception->getCode()
+            );
         }
 
         return $return;
@@ -111,7 +122,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     protected function writeExceptionToDevLog($exception)
     {
         $logTitle = 'Core: Error handler ('.TYPO3_MODE.')';
-        Tx_Rnbase_Utility_Logger::error($logTitle, $exception->getMessage());
+        \Tx_Rnbase_Utility_Logger::error($logTitle, $exception->getMessage());
     }
 
     /**
@@ -158,11 +169,11 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
      *
      * @param string $exceptionMessage
      *
-     * @return Tx_Rnbase_Error_Exception
+     * @return \Tx_Rnbase_Error_Exception
      */
     protected function getTypo3Exception($exceptionMessage)
     {
-        return new Tx_Rnbase_Error_Exception($exceptionMessage);
+        return new Exception($exceptionMessage);
     }
 
     /**

@@ -1,4 +1,9 @@
 <?php
+
+namespace DMK\Mktools\Cli;
+
+use Sys25\RnBase\Typo3Wrapper\Core\CommandLineController;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,16 +30,27 @@
 /**
  * Tx_Mktools_Cli_FindUnusedLocallangLabels.
  *
+ * @deprecated
+ *
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Controller
+class FindUnusedLocallangLabels extends CommandLineController
 {
     /**
      * @var array
      */
     protected $labelsUsage = [];
+
+    /**
+     * @var array
+     */
+    private $cli_options;
+    /**
+     * @var array
+     */
+    private $cli_help;
 
     /**
      * Constructor.

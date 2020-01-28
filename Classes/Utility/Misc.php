@@ -1,4 +1,7 @@
 <?php
+
+namespace DMK\Mktools\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,8 +28,16 @@
 /**
  * Miscellaneous common methods.
  */
-class tx_mktools_util_miscTools
+final class Misc
 {
+    public function __construct()
+    {
+    }
+
+    public function __clone()
+    {
+    }
+
     /**
      * Get fields to expand.
      *
@@ -38,7 +49,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function isSeoRobotsMetaTagActive()
     {
@@ -46,7 +57,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function isContentReplacerActive()
     {
@@ -54,7 +65,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function isAjaxContentRendererActive()
     {
@@ -62,7 +73,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function pageNotFoundHandlingActive()
     {
@@ -78,7 +89,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function shouldFalImagesBeAddedToCalEvent()
     {
@@ -86,7 +97,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return Ambigous <number, mixed, boolean>
+     * @return mixed
      */
     public static function shouldFalImagesBeAddedToTtNews()
     {
@@ -94,7 +105,7 @@ class tx_mktools_util_miscTools
     }
 
     /**
-     * @return number
+     * @return int
      */
     public static function getSystemLogLockThreshold()
     {
@@ -105,7 +116,7 @@ class tx_mktools_util_miscTools
      * @param string $staticPath
      * @param string $additionalPath
      *
-     * @return tx_rnbase_configurations
+     * @return \Sys25\RnBase\Configuration\Processor
      */
     public static function getConfigurations($staticPath, $additionalPath = '')
     {
@@ -124,10 +135,10 @@ class tx_mktools_util_miscTools
             (array) $pageTSconfig['plugin.']['tx_mktools.']
         );
 
-        $configurations = new tx_rnbase_configurations();
+        $configurations = new \Sys25\RnBase\Configuration\Processor();
         $configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
         $configurations->setParameters(
-            tx_rnbase::makeInstance('tx_rnbase_parameters')
+            \tx_rnbase::makeInstance('tx_rnbase_parameters')
         );
 
         return $configurations;

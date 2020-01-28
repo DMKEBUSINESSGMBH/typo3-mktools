@@ -1,4 +1,7 @@
 <?php
+
+namespace DMK\Mktools\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,7 +28,7 @@
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_model_FixedPostVarType extends tx_rnbase_model_base
+class FixedPostVarType extends \tx_rnbase_model_base
 {
     /**
      * (non-PHPdoc).

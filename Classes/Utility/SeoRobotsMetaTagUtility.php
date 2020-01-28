@@ -1,4 +1,7 @@
 <?php
+
+namespace DMK\Mktools\Utility;
+
 /*  **********************************************************************  **
  *  Copyright notice
  *
@@ -25,7 +28,7 @@
 /**
  * @author Christian Riesche <christian.riesche@dmk-ebusiness.de>
  */
-class tx_mktools_util_SeoRobotsMetaTag
+class SeoRobotsMetaTagUtility
 {
     /**
      * Werte für das robots Meta Tag.
@@ -115,7 +118,7 @@ class tx_mktools_util_SeoRobotsMetaTag
      */
     protected function getRootline()
     {
-        return tx_rnbase_util_TYPO3::getSysPage()->getRootLine($GLOBALS['TSFE']->id);
+        return \tx_rnbase_util_TYPO3::getSysPage()->getRootLine($GLOBALS['TSFE']->id);
     }
 }
 

@@ -1,4 +1,9 @@
 <?php
+
+namespace DMK\Mktools\Scheduler;
+
+use tx_mklib_scheduler_Generic as GenericTask;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,7 +30,7 @@
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  */
-class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_scheduler_Generic
+class GenerateRealUrlConfigurationFileTask extends GenericTask
 {
     /**
      * @return string
@@ -47,17 +52,17 @@ class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_sch
             $devLogMessage = 'realUrl Konfigurationsdatei muss nicht erstellt werden.';
         }
 
-        $devLog[tx_rnbase_util_Logger::LOGLEVEL_INFO] = [
+        $devLog[\tx_rnbase_util_Logger::LOGLEVEL_INFO] = array(
             'message' => $devLogMessage,
         ];
     }
 
     /**
-     * @return tx_mktools_util_RealUrl
+     * @return \tx_mktools_util_RealUrl
      */
     protected function getRealUrlUtil()
     {
-        return tx_rnbase::makeInstance('tx_mktools_util_RealUrl');
+        return \tx_rnbase::makeInstance('tx_mktools_util_RealUrl');
     }
 
     /**

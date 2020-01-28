@@ -32,8 +32,8 @@ class tx_mktools_tests_model_PagesTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetFixedPostVarTypeReturnsNullIfNoTypeSet()
     {
-        $record = ['tx_mktools_fixedpostvartype' => 0];
-        $page = tx_rnbase::makeInstance('tx_mktools_model_Pages', $record);
+        $record = array('tx_mktools_fixedpostvartype' => 0);
+        $page = tx_rnbase::makeInstance(\DMK\Mktools\Model\Page::class, $record);
 
         $this->assertNull($page->getFixedPostVarType());
     }
@@ -43,11 +43,11 @@ class tx_mktools_tests_model_PagesTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetFixedPostVarTypeReturnsCorrectModelIfTypeSet()
     {
-        $record = ['tx_mktools_fixedpostvartype' => ['uid' => 123]];
-        $page = tx_rnbase::makeInstance('tx_mktools_model_Pages', $record);
+        $record = array('tx_mktools_fixedpostvartype' => array('uid' => 123));
+        $page = tx_rnbase::makeInstance(\DMK\Mktools\Model\Page::class, $record);
         $fixedPostVarType = $page->getFixedPostVarType();
         $this->assertInstanceOf(
-            'tx_mktools_model_FixedPostVarType',
+            \DMK\Mktools\Model\FixedPostVarType::class,
             $fixedPostVarType,
             'falsches model'
         );

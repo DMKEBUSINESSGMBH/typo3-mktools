@@ -2,6 +2,8 @@
 
 namespace DMK\Mktools\ContentObject;
 
+use TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject as BaseUserInternalContentObject;
+
 /***************************************************************
  * Copyright notice
  *
@@ -34,7 +36,7 @@ namespace DMK\Mktools\ContentObject;
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class UserInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject
+class UserInternalContentObject extends BaseUserInternalContentObject
 {
     use LoadPluginWithAjaxTrait;
     /**

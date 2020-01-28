@@ -1,4 +1,7 @@
 <?php
+
+namespace DMK\Mktools\View;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -25,7 +28,7 @@
 /**
  * Default view class to show a template.
  */
-class tx_mktools_view_ShowTemplate extends tx_rnbase_view_Single
+class ShowTemplate extends \tx_rnbase_view_Single
 {
 }
 

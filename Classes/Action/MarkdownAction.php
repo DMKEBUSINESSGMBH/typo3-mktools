@@ -1,4 +1,14 @@
 <?php
+
+namespace DMK\Mktools\Action;
+
+use Parsedown;
+use ParsedownExtra;
+use tx_mklib_util_MiscTools as Misc;
+use tx_mktools_util_Composer as ComposerUtil;
+use tx_rnbase_util_Network as NetworkUtil;
+use tx_rnbase_util_Templates as TemplatesUtil;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -27,8 +37,13 @@
  *
  * USAGE: see mktools/Configuration/TypoScript/action/setup.txt
  */
-class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
+class MarkdownAction extends ShowTemplateAction
 {
+    /**
+     * @var ParsedownExtra
+     */
+    private $parser;
+
     /**
      * Returns the data to render for the view.
      *
@@ -36,17 +51,18 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
      */
     protected function getData()
     {
+        if (false === $this->auth()) {
+            return ['content' => '<h1>ACCESS DENIED</h1>'];
+        }
+
+        // get real filenames!
+        $tmpl = TemplatesUtil::getTSTemplate();
         $content = '';
-        if ($this->auth()) {
-            // get real filenames!
-            $tmpl = tx_rnbase_util_Templates::getTSTemplate();
-            foreach ($this->getFiles() as $file) {
-                $file = $tmpl->getFileName($file);
-                $rawContent = tx_rnbase_util_Network::getUrl($file);
-                $content .= $this->parseContent($rawContent);
-            }
-        } else {
-            $content = '<h1>ACCESS DENIED</h1>';
+
+        foreach ($this->getFiles() as $file) {
+            $file = $tmpl->getFileName($file);
+            $rawContent = NetworkUtil::getUrl($file);
+            $content .= $this->parseContent($rawContent);
         }
 
         return [
@@ -61,7 +77,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
      */
     protected function auth()
     {
-        tx_mklib_util_MiscTools::enableHttpAuthForCgi();
+        Misc::enableHttpAuthForCgi();
 
         $auth = $this->getConfigurations()->get(
             $this->getConfId().'auth.crypt.'
@@ -93,7 +109,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     protected function getParser()
     {
         if (null === $this->parser) {
-            tx_mktools_util_Composer::autoload();
+            ComposerUtil::autoload();
             $this->parser = new ParsedownExtra();
             $this->parser->setMarkupEscaped(false);
             $this->parser->setBreaksEnabled(false);
@@ -103,7 +119,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     }
 
     /**
-     * oparses md content into html.
+     * Converts markdown to HTML.
      *
      * @param string $content
      *
@@ -115,7 +131,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
     }
 
     /**
-     * the files to parse.
+     * Returns a list which needs to be parsed.
      *
      * @return array
      */

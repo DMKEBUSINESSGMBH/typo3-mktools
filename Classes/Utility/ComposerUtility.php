@@ -1,4 +1,6 @@
 <?php
+namespace DMK\Mktools\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,24 +24,31 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /**
  * @author Michael Wagner
  */
-class tx_mktools_util_Composer
+final class ComposerUtility
 {
+    private function __construct()
+    {
+    }
+
+    private function __clone()
+    {
+    }
+
     /**
      * preloads the composer.
      *
      * @param string $extKey
      * @param string $composerDir
+     *
+     * @return void
      */
-    public static function autoload(
-        $extKey = 'mktools',
-        $composerDir = 'Resources/Private/PHP/Composer/'
-    ) {
-        require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(
-            $extKey,
-            trim($composerDir, '/').'/autoload.php'
-        );
+    public static function autoload($extKey = 'mktools', $composerDir = 'Resources/Private/PHP/Composer/')
+    {
+        require_once ExtensionManagementUtility::extPath($extKey, trim($composerDir, '/').'/autoload.php');
     }
 }

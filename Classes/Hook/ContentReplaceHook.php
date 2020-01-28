@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
+namespace DMK\Mktools\Hook;
+
 /**
  * Class tx_mktools_hook_ContentReplace.
  *
@@ -30,7 +32,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_hook_ContentReplace
+class ContentReplaceHook
 {
     /**
      * @param array                                                                    $params

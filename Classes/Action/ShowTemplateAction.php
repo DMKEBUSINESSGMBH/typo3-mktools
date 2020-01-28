@@ -1,4 +1,10 @@
 <?php
+
+namespace DMK\Mktools\Action;
+
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Request\Parameters;
+
 /**
  * @author Hannes Bochmann
  *
@@ -27,15 +33,15 @@
 /**
  * ShowTemplate Controller.
  */
-class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC
+class ShowTemplateAction extends \tx_rnbase_action_BaseIOC
 {
     /**
      * Kindklassen führen hier die eigentliche Arbeit durch. Zugriff auf das
      * Backend und befüllen der viewdata.
      *
-     * @param tx_rnbase_IParameters    &$parameters
-     * @param tx_rnbase_configurations &$configurations
-     * @param ArrayObject              &$viewdata
+     * @param Parameters    &$parameters
+     * @param Processor     &$configurations
+     * @param \ArrayObject  &$viewdata
      *
      * @return string Errorstring or NULL
      */

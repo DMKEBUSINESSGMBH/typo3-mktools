@@ -1,4 +1,10 @@
 <?php
+
+namespace DMK\Mktools\Utility;
+
+use DMK\Mktools\Exception\LogicException;
+use DMK\Mktools\Model\Page;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,11 +31,13 @@
 /**
  * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
+ *
+ * @deprecated
  */
-class tx_mktools_util_RealUrl
+class RealUrlUtility
 {
     /**
-     * @return array[tx_mktools_model_Pages]
+     * @return array<Page>
      */
     public function getPagesWithFixedPostVarType()
     {
@@ -95,7 +103,7 @@ class tx_mktools_util_RealUrl
     public function isTemplateFileModifiedLaterThan(
         $realUrlConfigurationLastModified
     ) {
-        $templateFile = tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
+        $templateFile = \tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
         if (file_exists($templateFile)) {
             return
                 filemtime($templateFile) >
@@ -121,11 +129,11 @@ class tx_mktools_util_RealUrl
     }
 
     /**
-     * @return Tx_Rnbase_Database_Connection
+     * @return \Tx_Rnbase_Database_Connection
      */
     protected function getDbUtil()
     {
-        return tx_rnbase::makeInstance('Tx_Rnbase_Database_Connection');
+        return \tx_rnbase::makeInstance('Tx_Rnbase_Database_Connection');
     }
 
     /**
@@ -134,7 +142,7 @@ class tx_mktools_util_RealUrl
     public function needsRealUrlConfigurationToBeGenerated()
     {
         $realUrlConfigurationFile =
-            tx_mktools_util_miscTools::getRealUrlConfigurationFile();
+            \tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 
         $realUrlConfigurationLastModified = 0;
         if (file_exists($realUrlConfigurationFile)) {
@@ -162,7 +170,7 @@ class tx_mktools_util_RealUrl
     }
 
     /**
-     * @param array[tx_mktools_model_Pages] $pages
+     * @param array<Page> $pages
      *
      * @return bool
      */
@@ -171,9 +179,7 @@ class tx_mktools_util_RealUrl
         $configurationFileWritten = false;
 
         $realUrlConfigurationTemplate = $this->getRealUrlConfigurationTemplateContent();
-        if ((strlen($realUrlConfigurationTemplate) > 0) &&
-            ($realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile())
-        ) {
+        if ((strlen($realUrlConfigurationTemplate) > 0) && (\tx_mktools_util_miscTools::getRealUrlConfigurationFile())) {
             //wir brauchen erst eine datei ohne serialisierung damit das array korrekt gebaut wird
             $this->generateRealUrlConfigurationFileWithoutSerialization(
                 $this->getFixedPostVarPageStringsByPages($pages)
@@ -193,7 +199,7 @@ class tx_mktools_util_RealUrl
      */
     private function getRealUrlConfigurationTemplateContent()
     {
-        $template = tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
+        $template = \tx_mktools_util_miscTools::getRealUrlConfigurationTemplate();
         if (empty($template)) {
             return '';
         }
@@ -228,7 +234,7 @@ class tx_mktools_util_RealUrl
     ) {
         $realUrlConfigurationTemplate = $this->getRealUrlConfigurationTemplateContent();
         $realUrlConfigurationFile =
-            tx_mktools_util_miscTools::getRealUrlConfigurationFile();
+            \tx_mktools_util_miscTools::getRealUrlConfigurationFile();
 
         $fixedPostVarPageString = implode(','.LF, $fixedPostVarPageStrings);
         $realUrlConfigurationFileContent = str_replace(
@@ -252,7 +258,7 @@ class tx_mktools_util_RealUrl
      */
     private function generateRealUrlConfigurationFileWithSerialization()
     {
-        $realUrlConfigurationFile = tx_mktools_util_miscTools::getRealUrlConfigurationFile();
+        $realUrlConfigurationFile = \tx_mktools_util_miscTools::getRealUrlConfigurationFile();
         include $realUrlConfigurationFile;
         $serializedContent = "<?php\n".
                                 '$GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\']'.
@@ -302,17 +308,17 @@ class tx_mktools_util_RealUrl
      */
     public static function registerXclass()
     {
-        if (!tx_rnbase_util_Extensions::isLoaded('realurl')) {
+        if (!\tx_rnbase_util_Extensions::isLoaded('realurl')) {
             return;
         }
 
         // kann schon durch autoloading da sein aber auch eine andere Klasse sein
         // als die von mktools
         if (class_exists('ux_tx_realurl')) {
-            $reflector = new ReflectionClass('ux_tx_realurl');
+            $reflector = new \ReflectionClass('ux_tx_realurl');
             $rPath = realpath($reflector->getFileName());
             $tPath = realpath(
-                tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tx_realurl.php')
+                \tx_rnbase_util_Extensions::extPath('mktools', '/xclasses/class.ux_tx_realurl.php')
             );
             // notice werfen wenn bisherige XClass nicht die von mktools ist
             if (false === strpos($rPath, $tPath)) {
@@ -320,7 +326,7 @@ class tx_mktools_util_RealUrl
             }
             unset($reflector, $rPath, $tPath);
         } else {
-            require_once tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
+            require_once \tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
         }
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = [

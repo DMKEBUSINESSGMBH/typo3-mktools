@@ -1,4 +1,10 @@
 <?php
+
+namespace DMK\Mktools\Action;
+
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Request\Parameters;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -27,16 +33,16 @@
  *
  * @author Michael Wagner
  */
-class tx_mktools_action_FlashMessage extends tx_rnbase_action_BaseIOC
+class FlashMessageAction extends \tx_rnbase_action_BaseIOC
 {
     /**
      * Do the Magic.
      *
-     * @param tx_rnbase_IParameters    $parameters
-     * @param tx_rnbase_configurations $configurations
-     * @param ArrayObject              $viewdata
+     * @param Parameters    $parameters
+     * @param Processor $configurations
+     * @param \ArrayObject              $viewdata
      *
-     * @return string Errorstring or NULL
+     * @return null
      */
     protected function handleRequest(&$parameters, &$configurations, &$viewdata)
     {
@@ -44,8 +50,8 @@ class tx_mktools_action_FlashMessage extends tx_rnbase_action_BaseIOC
         $this->getConfigurations()->convertToUserInt();
 
         $this->getViewData()->offsetSet(
-            tx_rnbase_view_List::VIEWDATA_ITEMS,
-            tx_mktools_util_FlashMessage::getInstance()->getMessages()
+            \tx_rnbase_view_List::VIEWDATA_ITEMS,
+            \tx_mktools_util_FlashMessage::getInstance()->getMessages()
         );
 
         return null;

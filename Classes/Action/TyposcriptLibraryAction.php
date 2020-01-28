@@ -1,4 +1,10 @@
 <?php
+
+namespace DMK\Mktools\Action;
+
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Request\Parameters;
+
 /***************************************************************
  * Copyright notice
  *
@@ -29,17 +35,18 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_action_TsLib
+class TyposcriptLibraryAction
 {
     /**
      * Do the magic.
      *
+     * @param Parameters $parameters
+     * @param Processor  $configurations
+     *
      * @return string
      */
-    public function execute(
-        \Sys25\RnBase\Frontend\Request\Parameters $parameters,
-        tx_rnbase_configurations $configurations
-    ) {
+    public function execute(Parameters $parameters, Processor $configurations)
+    {
         return (string) $configurations->get('tslib', true);
     }
 }

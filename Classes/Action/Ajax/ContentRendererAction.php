@@ -1,15 +1,17 @@
 <?php
 
-/**
- * Includes.
- */
+namespace DMK\Mktools\Action\Ajax;
+
+use Sys25\RnBase\Frontend\Request\Parameters;
+use tx_mktools_util_T3Loader as T3Loader;
+use tx_rnbase_util_TYPO3 as TYPO3Util;
 
 /**
  * Action zum Rendern von ContentElementen.
  *
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mktools_action_ajax_ContentRenderer
+class ContentRendererAction
 {
     /**
      * Entry point.
@@ -20,16 +22,14 @@ class tx_mktools_action_ajax_ContentRenderer
     public function renderContent()
     {
         // content id auslesen
-        $contentId = (int) tx_rnbase_parameters::getPostOrGetParameter('contentid');
-        if (empty($contentId)) {
+        $contentId = (int) Parameters::getPostOrGetParameter('contentid');
+
+        if (0 === $contentId) {
             $this->sendError(500, 'Missing required parameters.');
         }
 
-        $ttContent = tx_rnbase_util_TYPO3::getSysPage()->checkRecord(
-            'tt_content',
-            $contentId
-        );
-        $cObj = tx_mktools_util_T3Loader::getContentObject($contentId);
+        $ttContent = TYPO3Util::getSysPage()->checkRecord('tt_content', $contentId);
+        $cObj = T3Loader::getContentObject($contentId);
 
         // jetzt das contentelement parsen
         $cObj->start($ttContent, 'tt_content');

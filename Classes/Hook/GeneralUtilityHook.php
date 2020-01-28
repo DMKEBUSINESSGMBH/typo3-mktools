@@ -1,5 +1,10 @@
 <?php
 
+namespace DMK\Mktools\Hook;
+
+use tx_mktools_util_miscTools as Misc;
+use tx_rnbase_util_Lock as Lock;
+
 /**
  * tx_mktools_hook_GeneralUtility.
  *
@@ -7,7 +12,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_hook_GeneralUtility
+class GeneralUtilityHook
 {
     /**
      * @var string
@@ -26,7 +31,7 @@ class tx_mktools_hook_GeneralUtility
     {
         $this->handleSystemLogConfigurationBackup();
 
-        /* @var $lockUtility tx_rnbase_util_Lock */
+        /* @var $lockUtility Lock */
         $lockUtility = $this->getLockUtility($parameters);
 
         if ($lockUtility->isLocked()) {
@@ -54,15 +59,17 @@ class tx_mktools_hook_GeneralUtility
     }
 
     /**
-     * @return tx_rnbase_util_Lock
+     * @param array $parameters
+     *
+     * @return Lock
      */
     protected function getLockUtility(array $parameters)
     {
-        return tx_rnbase_util_Lock::getInstance(
+        return Lock::getInstance(
             md5(
                 $parameters['msg'].$parameters['extKey'].$parameters['severity']
             ),
-            tx_mktools_util_miscTools::getSystemLogLockThreshold()
+            Misc::getSystemLogLockThreshold()
         );
     }
 }
