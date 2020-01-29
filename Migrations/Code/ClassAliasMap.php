@@ -22,7 +22,7 @@ return [
     'tx_mktools_util_ErrorHandler' => \DMK\Mktools\ErrorHandler\ErrorHandler::class,
     'tx_mktools_util_ExceptionHandlerBase' => \DMK\Mktools\ErrorHandler\ExceptionHandler::class,
     'tx_mktools_util_ExceptionHandler' => \DMK\Mktools\ErrorHandler\ThrowableExceptionHandler::class,
-    'tx_mktools_util_PageNotFoundHandling' => '',
+    'tx_mktools_util_PageNotFoundHandling' => \DMK\Mktools\ErrorHandler\PageNotFoundHandler::class,
     'tx_mktools_util_FlashMessage' => \DMK\Mktools\Session\FlashMessageStorage::class,
     'tx_mktools_util_SeoRobotsMetaTag' => \DMK\Mktools\Utility\SeoRobotsMetaTagUtility::class,
 ];
