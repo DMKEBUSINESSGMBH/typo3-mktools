@@ -35,8 +35,7 @@
     },
     "autoload": {
         "classmap": [
-            "xclasses/",
-            "Classes/"
+            "xclasses/"
         ],
         "psr-4": {
             "DMK\\Mktools\\" : "Classes"
