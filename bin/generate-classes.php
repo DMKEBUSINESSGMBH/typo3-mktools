@@ -2,7 +2,14 @@
 
 $classes = require __DIR__.'/../Migrations/Code/ClassAliasMap.php';
 $file = __DIR__.'/../Migrations/Code/LegacyClassesForIde.php';
-$template = 'class %s extends %s {}'.PHP_EOL.PHP_EOL;
+$template = <<<TEMPLATE
+/**	
+ * @deprecated since 9.6, removed since 11.0	
+ */
+class %s extends %s {}
+
+
+TEMPLATE;
 
 $header = <<<'HEADER'
 <?php
@@ -28,11 +35,12 @@ $header = <<<'HEADER'
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
- 
+
 /**
  * This class is only for your IDE.
  */
- 
+
+
 HEADER;
 
 
