@@ -61,7 +61,7 @@ class ShowTemplateAction extends \tx_rnbase_action_BaseIOC
     {
         $data = $this->getData();
 
-        return tx_rnbase::makeInstance(
+        return \tx_rnbase::makeInstance(
             'tx_rnbase_model_base',
             is_array($data) ? $data : []
         );

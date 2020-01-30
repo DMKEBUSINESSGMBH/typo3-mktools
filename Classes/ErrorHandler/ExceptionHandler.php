@@ -158,7 +158,7 @@ class ExceptionHandler extends ProductionExceptionHandler
         }
 
         if ((!$exceptionPage = $this->getExceptionPage()) ||
-            (!$absoluteExceptionPageUrl = tx_rnbase_util_Network::locationHeaderUrl($exceptionPage))
+            (!$absoluteExceptionPageUrl = \tx_rnbase_util_Network::locationHeaderUrl($exceptionPage))
         ) {
             $this->logNoExceptionPageDefined();
         } else {

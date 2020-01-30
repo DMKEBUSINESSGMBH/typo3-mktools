@@ -45,7 +45,7 @@ final class Misc
      */
     private static function getExtensionCfgValue($configValue)
     {
-        return tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
+        return \tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
     }
 
     /**
@@ -120,17 +120,17 @@ final class Misc
      */
     public static function getConfigurations($staticPath, $additionalPath = '')
     {
-        tx_rnbase_util_Extensions::addPageTSConfig(
+        \tx_rnbase_util_Extensions::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
         );
         if (!empty($additionalPath)) {
-            tx_rnbase_util_Extensions::addPageTSConfig(
+            \tx_rnbase_util_Extensions::addPageTSConfig(
                 '<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
             );
         }
 
-        $pageTSconfig = tx_mklib_util_TS::getPagesTSconfig(0);
-        $config = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+        $pageTSconfig = \tx_mklib_util_TS::getPagesTSconfig(0);
+        $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
             (array) $pageTSconfig['config.']['tx_mktools.'],
             (array) $pageTSconfig['plugin.']['tx_mktools.']
         );

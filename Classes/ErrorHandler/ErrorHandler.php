@@ -179,10 +179,10 @@ class ErrorHandler extends RnBaseErrorHandler
     /**
      * wird in Tests gemocked.
      *
-     * @return tx_mktools_util_ExceptionHandler
+     * @return \tx_mktools_util_ExceptionHandler
      */
     protected function getExceptionHandler()
     {
-        return tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
+        return \tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
     }
 }

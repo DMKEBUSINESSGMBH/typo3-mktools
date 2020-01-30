@@ -286,7 +286,7 @@ class tx_mktools_tests_util_PageNotFoundHandlingTest extends tx_rnbase_tests_Bas
     }
 
     /**
-     * @return tslib_fe
+     * @return \tslib_fe
      */
     private static function getTsFe()
     {
@@ -317,7 +317,7 @@ class tx_mktools_tests_util_PageNotFoundHandlingTest extends tx_rnbase_tests_Bas
     }
 
     /**
-     * @return multitype:string boolean
+     * @return array
      */
     public function dataProviderIsRequestedPageAlready404Page()
     {
