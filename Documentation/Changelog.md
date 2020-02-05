@@ -1,6 +1,12 @@
 Changelog
 =========
 
+9.5.7
+-----
+
+-   add aria label to placeholder link when loading USER(_INT) with AJAX
+-   Add TYPO3 10, PHP 7.4 and nightlies to travis ci
+
 9.5.6
 -----
 
