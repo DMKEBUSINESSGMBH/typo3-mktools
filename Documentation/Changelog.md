@@ -1,6 +1,11 @@
 Changelog
 =========
 
+9.5.8
+-----
+
+-   fixed content replacement when USER_INT/COA_INT objects are present
+
 9.5.7
 -----
 

@@ -17,22 +17,10 @@ if (!function_exists('mktools_getConf')) {
 }
 
 if (mktools_getConf('contentReplaceActive', 'FE')) {
-    // hook für Content Replace registrieren
-    require_once tx_rnbase_util_Extensions::extPath('mktools', 'hook/class.tx_mktools_hook_ContentReplace.php');
-    // wenn der scriptmerger installiert ist, muss der replacer wie der scriptmerger aufgerufen werden.
-    // der original replacer nutzt pageIndexing, der scripmerger die hooks contentPostProc-all und contentPostProc-output
-    if (tx_rnbase_util_Extensions::isLoaded('scriptmerger')) {
-        //@TODO: eine möglichkeit finden, die hooks erst nach dem scriptmerger
-        //aufzurufen, ohne die extlist in der localconf anzupassen.
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][]
-            = 'tx_mktools_hook_ContentReplace->contentPostProcOutput';
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][]
-            = 'tx_mktools_hook_ContentReplace->contentPostProcAll';
-    } // der normale weg
-    else {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['pageIndexing'][]
-            = 'tx_mktools_hook_ContentReplace';
-    }
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][]
+        = 'tx_mktools_hook_ContentReplace->contentPostProcAll';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][]
+        = 'tx_mktools_hook_ContentReplace->contentPostProcOutput';
 }
 
 if (!tx_rnbase_util_TYPO3::isTYPO90OrHigher() && mktools_getConf('pageNotFoundHandling', 'FE')) {

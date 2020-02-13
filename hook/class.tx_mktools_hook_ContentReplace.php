@@ -1,57 +1,60 @@
 <?php
+/**
+ *  Copyright notice.
+ *
+ *  (c) DMK E-BUSINESS GmbH
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ */
 
 /**
- * Class for the Content Replacer
- * Replaces string patterns from the page content. You can use it to replace URLs for Content Delivery Network (CDN).
+ * Class tx_mktools_hook_ContentReplace.
  *
- * @author  John Angel <johnange@gmail.com>
- * @author  Michael Wagner <michael.wagner@dmk-ebusiness.de>
+ * @author  Michael Wagner <michael.wagner@dmk-ebusiness.com>
+ * @author  Hannes Bochmann <hannes.bochmann@dmk-ebusiness.com>
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
 class tx_mktools_hook_ContentReplace
 {
     /**
-     * Just a wrapper for the main function! It's used for the pageIndexing hook.
-     *
-     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
+     * @param array                                                                    $params
+     * @param TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController or tslib_cObj $tsfe
      */
-    public function hook_indexContent(&$obj)
+    public function contentPostProcOutput($params, &$tsfe)
     {
-        return $this->doReplace($obj);
-    }
-
-    /**
-     * Just a wrapper for the main function! It's used for the contentPostProc-output hook.
-     *
-     * This hook is executed if the page contains *_INT objects! It's called always at the
-     * last hook before the final output. This isn't the case if you are using a
-     * static file cache like nc_staticfilecache.
-     *
-     * @param array                                                       $params
-     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
-     */
-    public function contentPostProcOutput($params, &$obj)
-    {
-        // only enter this hook if the page contains COA_INT or USER_INT objects
-        if ($obj->isINTincScript()) {
-            $this->doReplace($obj);
+        // Only do the replacements again if the page contains COA_INT or USER_INT objects.
+        // We need to do the replacements again in case uncacheable objects have added assets.
+        if ($tsfe->isINTincScript()) {
+            $this->doReplace($tsfe);
         }
     }
 
     /**
-     * Just a wrapper for the main function!    It's used for the contentPostProc-all hook.
-     *
-     * The hook is only executed if the page doesn't contains any *_INT objects. It's called
-     * always if the page wasn't cached or for the first hit!
-     *
-     * @param array                                                       $params
-     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
+     * @param array                                                                    $params
+     * @param TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController or tslib_cObj $tsfe
      */
-    public function contentPostProcAll($params, &$obj)
+    public function contentPostProcAll($params, &$tsfe)
     {
-        // only enter this hook if the page doesn't contains any COA_INT or USER_INT objects
-        if (!$obj->isINTincScript()) {
-            $this->doReplace($obj);
-        }
+        // We do this always as the done replacements get cached. So when uncachable objects
+        // are present at least some replacements are already done and only the assets added
+        // by uncacheable objects need to be replaced in contentPostProcOutput().
+        $this->doReplace($tsfe);
     }
 
     /**
@@ -75,12 +78,12 @@ class tx_mktools_hook_ContentReplace
      * @TODO: use preg_replace instead of str_replace
      * @TODO: write tests
      *
-     * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $obj
+     * @param TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
      */
-    protected function doReplace(&$obj)
+    protected function doReplace(&$tsfe)
     {
         // Fetch configuration
-        $config = &$obj->config['config']['tx_mktools.']['contentreplace.'];
+        $config = &$tsfe->config['config']['tx_mktools.']['contentreplace.'];
 
         // Quit immediately if no replace array setup
         if (!$config
@@ -92,19 +95,6 @@ class tx_mktools_hook_ContentReplace
         }
 
         // Replace page content
-        $obj->content = str_replace($config['search.'], $config['replace.'], $obj->content);
-
-        // Replace additional headers in page
-        if (is_array($obj->config['INTincScript_ext']['additionalHeaderData'])) {
-            foreach ($obj->config['INTincScript_ext']['additionalHeaderData'] as $key => $value) {
-                if ($value) {
-                    $obj->config['INTincScript_ext']['additionalHeaderData'][$key] = str_replace($config['search.'], $config['replace.'], $value);
-                }
-            }
-        }
+        $tsfe->content = str_replace($config['search.'], $config['replace.'], $tsfe->content);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/hooks/class.tx_mktools_hook_ContentReplace.php'];
 }
