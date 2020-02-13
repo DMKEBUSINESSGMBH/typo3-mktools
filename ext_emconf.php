@@ -10,7 +10,7 @@
 // Only the data in the array - everything else is removed by next
 // writing. "version" and "dependencies" must not be touched!
 //
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'MK Tools',
     'description' => 'Collection of some useful tools',
     'category' => 'misc',
@@ -30,13 +30,13 @@ $EM_CONF[$_EXTKEY] = array(
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
     'lockType' => '',
-    'constraints' => array(
-        'depends' => array(
+    'constraints' => [
+        'depends' => [
             'rn_base' => '1.10.0-',
             'typo3' => '8.7.99-9.5.99',
             'mklib' => '9.5.0-',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    ),
-);
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+];

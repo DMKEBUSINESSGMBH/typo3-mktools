@@ -270,8 +270,6 @@ function ini_get($configurationPath)
 }
 
 /**
- * @param string $name
- *
  * @return string
  */
 function constant(string $name)

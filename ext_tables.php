@@ -15,7 +15,7 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mktools'] = 'pi_flex
 
 tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mktools', 'FILE:EXT:'.$_EXTKEY.'/flexform_main.xml');
 tx_rnbase_util_Extensions::addPlugin(
-    array('LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label', 'tx_mktools'),
+    ['LLL:EXT:'.$_EXTKEY.'/locallang_db.php:plugin.mktools.label', 'tx_mktools'],
     'list_type',
     'mktools'
 );

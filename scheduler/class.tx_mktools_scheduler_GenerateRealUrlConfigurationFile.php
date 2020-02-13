@@ -28,8 +28,6 @@
 class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_scheduler_Generic
 {
     /**
-     * @param array $options
-     *
      * @return string
      */
     protected function executeTask(array $options, array &$devLog)
@@ -49,9 +47,9 @@ class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends tx_mklib_sch
             $devLogMessage = 'realUrl Konfigurationsdatei muss nicht erstellt werden.';
         }
 
-        $devLog[tx_rnbase_util_Logger::LOGLEVEL_INFO] = array(
+        $devLog[tx_rnbase_util_Logger::LOGLEVEL_INFO] = [
             'message' => $devLogMessage,
-        );
+        ];
     }
 
     /**

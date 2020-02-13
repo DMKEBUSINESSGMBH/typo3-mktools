@@ -103,7 +103,7 @@ class ux_tx_realurl extends tx_realurl
      *
      * @return array
      */
-    protected function getLocalizedPostVarSet($postVarSet = array())
+    protected function getLocalizedPostVarSet($postVarSet = [])
     {
         // check only, if we have an array and we are in the encode mode.
         // in the decode mode we dont have a language. realurl will find the right mapping it self

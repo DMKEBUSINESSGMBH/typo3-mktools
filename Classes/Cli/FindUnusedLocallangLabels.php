@@ -34,7 +34,7 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
     /**
      * @var array
      */
-    protected $labelsUsage = array();
+    protected $labelsUsage = [];
 
     /**
      * Constructor.
@@ -46,8 +46,8 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
         // Running parent class constructor
         parent::__construct();
         // Adding options to help archive:
-        $this->cli_options[] = array('--locallangFile file', 'absolute file path', 'can be passed multiple times');
-        $this->cli_options[] = array('--searchFolders folders', 'comma separated list of absolute folder paths to search in', 'can be passed multiple times');
+        $this->cli_options[] = ['--locallangFile file', 'absolute file path', 'can be passed multiple times'];
+        $this->cli_options[] = ['--searchFolders folders', 'comma separated list of absolute folder paths to search in', 'can be passed multiple times'];
         // Setting help texts:
         $this->cli_help['name'] = 'find unused locallang labels';
         $this->cli_help['synopsis'] = 'toolkey ###OPTIONS###';
@@ -70,7 +70,7 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
                         $this->getLabelsUsageInFolder(
                             $labels,
                             tx_rnbase_util_Files::getFileAbsFileName($folder),
-                            array($locallangFile)
+                            [$locallangFile]
                         );
                     }
                 }
@@ -85,9 +85,7 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
     }
 
     /**
-     * @param array  $labels
      * @param string $folder
-     * @param array  $filesToIgnore
      */
     protected function getLabelsUsageInFolder(array $labels, $folder, array $filesToIgnore)
     {
@@ -103,7 +101,6 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
     }
 
     /**
-     * @param array  $labels
      * @param string $file
      */
     protected function getLabelsUsageInFile(array $labels, $file)

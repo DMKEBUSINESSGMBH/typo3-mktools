@@ -54,7 +54,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
 
         $this->hooksConfigurationBackup =
             $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'];
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] = array();
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] = [];
     }
 
     /**
@@ -149,7 +149,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
         );
 
         $hook = tx_rnbase::makeInstance('tx_mktools_hook_GeneralUtility');
-        $hook->preventSystemLogFlood(array());
+        $hook->preventSystemLogFlood([]);
 
         $this->assertEquals(
             'someSystemLogDaemons',
@@ -166,7 +166,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
         $hook = $this->getMock(
             'tx_mktools_hook_GeneralUtility',
-            array('getLockUtility')
+            ['getLockUtility']
         );
 
         $systemLogConfigurationBackup = new ReflectionProperty(
@@ -178,8 +178,8 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
 
         $lockUtility = $this->getMock(
             'tx_rnbase_util_Lock',
-            array('isLocked', 'lockProcess'),
-            array(),
+            ['isLocked', 'lockProcess'],
+            [],
             '',
             false
         );
@@ -192,7 +192,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
             ->method('getLockUtility')
             ->will($this->returnValue($lockUtility));
 
-        $hook->preventSystemLogFlood(array());
+        $hook->preventSystemLogFlood([]);
 
         $this->assertEquals(
             'otherSystemLogDaemons',
@@ -223,7 +223,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
         $lockUtility = $this->callInaccessibleMethod(
             tx_rnbase::makeInstance('tx_mktools_hook_GeneralUtility'),
             'getLockUtility',
-            array('msg' => 'fehler', 'extKey' => 'mktools', 'severity' => 2)
+            ['msg' => 'fehler', 'extKey' => 'mktools', 'severity' => 2]
         );
         $this->assertEquals($expectedLockUtility, $lockUtility);
     }
@@ -234,11 +234,11 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
     public function testPreventSystemLogFloodEmptiesSystemLogConfigurationIsLocked()
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
-        $parameters = array('someParameters');
+        $parameters = ['someParameters'];
         $lockUtility = $this->getMock(
             'tx_rnbase_util_Lock',
-            array('isLocked', 'lockProcess'),
-            array(),
+            ['isLocked', 'lockProcess'],
+            [],
             '',
             false
         );
@@ -252,7 +252,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
 
         $hook = $this->getMock(
             'tx_mktools_hook_GeneralUtility',
-            array('getLockUtility')
+            ['getLockUtility']
         );
         $hook->expects($this->once())
             ->method('getLockUtility')
@@ -274,11 +274,11 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
     public function testPreventSystemLogFloodEmptiesSystemLogConfigurationNotIfNotIsLocked()
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
-        $parameters = array('someParameters');
+        $parameters = ['someParameters'];
         $lockUtility = $this->getMock(
             'tx_rnbase_util_Lock',
-            array('isLocked', 'lockProcess'),
-            array(),
+            ['isLocked', 'lockProcess'],
+            [],
             '',
             false
         );
@@ -292,7 +292,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
 
         $hook = $this->getMock(
             'tx_mktools_hook_GeneralUtility',
-            array('getLockUtility')
+            ['getLockUtility']
         );
         $hook->expects($this->once())
             ->method('getLockUtility')

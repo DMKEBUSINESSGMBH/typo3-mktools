@@ -133,7 +133,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', 'FILE:', 'mktools');
 
-        $exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
+        $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined']);
 
         $exceptionHandler->expects($this->once())
             ->method('logNoExceptionPageDefined');
@@ -154,7 +154,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
 
-        $exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
+        $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined']);
 
         $exceptionHandler->expects($this->never())
             ->method('logNoExceptionPageDefined');
@@ -175,7 +175,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
 
-        $exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
+        $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined']);
 
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit')
@@ -200,7 +200,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             'mktools'
         );
 
-        $exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'));
+        $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined']);
 
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit')
@@ -219,7 +219,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
-            array('writeLogEntriesByParent', 'lockAcquired')
+            ['writeLogEntriesByParent', 'lockAcquired']
         );
 
         $exceptionHandler->expects($this->once())
@@ -249,7 +249,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
-            array('writeLogEntriesByParent', 'lockAcquired')
+            ['writeLogEntriesByParent', 'lockAcquired']
         );
 
         $exceptionHandler->expects($this->never())
@@ -280,7 +280,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
-            array('writeLogEntriesByParent', 'lockAcquired')
+            ['writeLogEntriesByParent', 'lockAcquired']
         );
 
         $exceptionHandler->expects($this->once())
@@ -343,7 +343,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
-            array('getLockFileByExceptionAndContext')
+            ['getLockFileByExceptionAndContext']
         );
 
         $exceptionHandler->expects($this->once())
@@ -375,7 +375,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
-            array('getLockFileByExceptionAndContext')
+            ['getLockFileByExceptionAndContext']
         );
 
         $exceptionHandler->expects($this->once())
@@ -411,7 +411,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         $regularExpression = '/.*Mehr.*infos.*specialexception.*/s';
         $this->expectOutputRegex($regularExpression);
 
-        $exceptionHandler = $this->getExceptionHandlerMock(array('logNoExceptionPageDefined'), true);
+        $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined'], true);
 
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit');
@@ -458,13 +458,13 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
      *
      * @return tx_mktools_util_ExceptionHandler
      */
-    private function getExceptionHandlerMock($methods = array(), $shouldExceptionBeDebugged = false)
+    private function getExceptionHandlerMock($methods = [], $shouldExceptionBeDebugged = false)
     {
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
             array_merge(
                 $methods,
-                array('shouldExceptionBeDebugged', 'writeLogEntries', 'sendStatusHeaders', 'echoExceptionPageAndExit')
+                ['shouldExceptionBeDebugged', 'writeLogEntries', 'sendStatusHeaders', 'echoExceptionPageAndExit']
             )
         );
 

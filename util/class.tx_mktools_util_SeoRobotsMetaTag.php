@@ -32,7 +32,7 @@ class tx_mktools_util_SeoRobotsMetaTag
      *
      * @var array
      */
-    public static $options = array(
+    public static $options = [
         -1 => 'use default value from TypoScript (page.meta.robots.cObject.default)',
         0 => 'use default value from TypoScript (check rootline for explicit value first)',
         1 => 'INDEX,FOLLOW',
@@ -40,7 +40,7 @@ class tx_mktools_util_SeoRobotsMetaTag
         3 => 'NOINDEX,FOLLOW',
         4 => 'NOINDEX,NOFOLLOW',
         5 => 'NOODP,NOINDEX,FOLLOW',
-    );
+    ];
 
     /**
      * Formattierte Ausgabe der Werte für das TCA.
@@ -49,9 +49,9 @@ class tx_mktools_util_SeoRobotsMetaTag
      */
     public static function getOptionsForTCA()
     {
-        $tcaOptions = array();
+        $tcaOptions = [];
         foreach (self::$options as $key => $option) {
-            $tcaOptions[] = array($option, $key);
+            $tcaOptions[] = [$option, $key];
         }
 
         return $tcaOptions;
@@ -79,11 +79,10 @@ class tx_mktools_util_SeoRobotsMetaTag
      * Konstanten {$config.tx_mktools.seorobotsmetatag.default} zurückgegeben.
      *
      * @param string $content
-     * @param array  $configuration
      *
      * @return string
      */
-    public function getSeoRobotsMetaTagValue($content = '', array $configuration = array())
+    public function getSeoRobotsMetaTagValue($content = '', array $configuration = [])
     {
         $robotsValue = $this->getRobotsValue();
         if ($robotsValue > 0) {

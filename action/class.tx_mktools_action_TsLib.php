@@ -34,9 +34,6 @@ class tx_mktools_action_TsLib
     /**
      * Do the magic.
      *
-     * @param \Sys25\RnBase\Frontend\Request\Parameters $parameters
-     * @param tx_rnbase_configurations                  $configurations
-     *
      * @return string
      */
     public function execute(

@@ -61,27 +61,27 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFileTest extends tx
 
         $scheduler = $this->getMock(
             'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
-            array('getRealUrlUtil')
+            ['getRealUrlUtil']
         );
 
         $scheduler->expects($this->once())
             ->method('getRealUrlUtil')
             ->will($this->returnValue($realUrlUtil));
 
-        $options = $devLog = array();
+        $options = $devLog = [];
         $executeTaskMethod = new ReflectionMethod(
             'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
             'executeTask'
         );
         $executeTaskMethod->setAccessible(true);
-        $arguments = array($options, &$devLog);
+        $arguments = [$options, &$devLog];
         $executeTaskMethod->invokeArgs($scheduler, $arguments);
 
-        $expectedDevLog = array(
-            tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
+        $expectedDevLog = [
+            tx_rnbase_util_Logger::LOGLEVEL_INFO => [
                 'message' => 'realUrl Konfigurationsdatei muss nicht erstellt werden.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
     }
@@ -103,36 +103,36 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFileTest extends tx
 
         $realUrlUtil->expects($this->once())
             ->method('getPagesWithFixedPostVarType')
-            ->will($this->returnValue(array('mypages')));
+            ->will($this->returnValue(['mypages']));
 
         $realUrlUtil->expects($this->once())
             ->method('generateSerializedRealUrlConfigurationFileByPages')
-            ->with(array('mypages'))
+            ->with(['mypages'])
             ->will($this->returnValue(true));
 
         $scheduler = $this->getMock(
             'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
-            array('getRealUrlUtil')
+            ['getRealUrlUtil']
         );
 
         $scheduler->expects($this->once())
             ->method('getRealUrlUtil')
             ->will($this->returnValue($realUrlUtil));
 
-        $options = $devLog = array();
+        $options = $devLog = [];
         $executeTaskMethod = new ReflectionMethod(
             'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
             'executeTask'
         );
         $executeTaskMethod->setAccessible(true);
-        $arguments = array($options, &$devLog);
+        $arguments = [$options, &$devLog];
         $executeTaskMethod->invokeArgs($scheduler, $arguments);
 
-        $expectedDevLog = array(
-            tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
+        $expectedDevLog = [
+            tx_rnbase_util_Logger::LOGLEVEL_INFO => [
                 'message' => 'realUrl Konfigurationsdatei wurde neu erstellt.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
     }
@@ -154,36 +154,36 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFileTest extends tx
 
         $realUrlUtil->expects($this->once())
             ->method('getPagesWithFixedPostVarType')
-            ->will($this->returnValue(array('mypages')));
+            ->will($this->returnValue(['mypages']));
 
         $realUrlUtil->expects($this->once())
             ->method('generateSerializedRealUrlConfigurationFileByPages')
-            ->with(array('mypages'))
+            ->with(['mypages'])
             ->will($this->returnValue(false));
 
         $scheduler = $this->getMock(
             'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
-            array('getRealUrlUtil')
+            ['getRealUrlUtil']
         );
 
         $scheduler->expects($this->once())
             ->method('getRealUrlUtil')
             ->will($this->returnValue($realUrlUtil));
 
-        $options = $devLog = array();
+        $options = $devLog = [];
         $executeTaskMethod = new ReflectionMethod(
             'tx_mktools_scheduler_GenerateRealUrlConfigurationFile',
             'executeTask'
         );
         $executeTaskMethod->setAccessible(true);
-        $arguments = array($options, &$devLog);
+        $arguments = [$options, &$devLog];
         $executeTaskMethod->invokeArgs($scheduler, $arguments);
 
-        $expectedDevLog = array(
-            tx_rnbase_util_Logger::LOGLEVEL_INFO => array(
+        $expectedDevLog = [
+            tx_rnbase_util_Logger::LOGLEVEL_INFO => [
                 'message' => 'realUrl Konfigurationsdatei musste neu erstellt werden, was nicht funktioniert hat. Entweder stimmt die Extension Konfiguration nicht oder es gab einen Fehler beim Schreiben der Datei.',
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($expectedDevLog, $devLog, 'devlog falsch');
     }
@@ -195,11 +195,11 @@ class tx_mktools_tests_scheduler_GenerateRealUrlConfigurationFileTest extends tx
     {
         return $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'needsRealUrlConfigurationToBeGenerated',
                 'getPagesWithFixedPostVarType',
                 'generateSerializedRealUrlConfigurationFileByPages',
-            )
+            ]
         );
     }
 }

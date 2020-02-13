@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace DMK\Mktools\Utility\Menu\Processor;
@@ -7,7 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
- * Class TranslatedRecordsTest
+ * Class TranslatedRecordsTest.
  *
  * @author     Mario Seidel <mario.seidel@dmk-ebusiness.com>
  * @license    http://www.gnu.org/licenses/lgpl.html
@@ -68,9 +69,9 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
             'sysLanguageUid' => 1,
             'parametersConfiguration.' => [
                 'tx_cal_controller.' => [
-                    'uid' => 'tx_cal_event'
-                ]
-            ]
+                    'uid' => 'tx_cal_event',
+                ],
+            ],
         ];
         $transRecord = new TranslatedRecords();
         $_GET['tx_cal_controller'] = ['uid' => 123];

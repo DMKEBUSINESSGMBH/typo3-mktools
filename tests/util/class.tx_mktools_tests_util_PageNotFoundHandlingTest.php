@@ -96,10 +96,10 @@ class tx_mktools_tests_util_PageNotFoundHandlingTest extends tx_rnbase_tests_Bas
         $property = new ReflectionProperty('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility', 'finalClassNameCache');
         $property->setAccessible(true);
         $classNameCache = $property->getValue(null);
-        $property->setValue(null, array());
+        $property->setValue(null, []);
         $xclass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
-            array(),
+            [],
             0,
             0
         );
@@ -321,10 +321,10 @@ class tx_mktools_tests_util_PageNotFoundHandlingTest extends tx_rnbase_tests_Bas
      */
     public function dataProviderIsRequestedPageAlready404Page()
     {
-        return array(
-            array('/notExistingPage', false),
-            array('/404.html', true),
-        );
+        return [
+            ['/notExistingPage', false],
+            ['/404.html', true],
+        ];
     }
 
     /**
@@ -336,8 +336,8 @@ class tx_mktools_tests_util_PageNotFoundHandlingTest extends tx_rnbase_tests_Bas
 
         $util = $this->getMock(
             'tx_mktools_util_PageNotFoundHandling',
-            array('setHeaderAndExit', 'printContent', 'redirectTo'),
-            array(self::getTsFe(), '')
+            ['setHeaderAndExit', 'printContent', 'redirectTo'],
+            [self::getTsFe(), '']
         );
         $util->expects($this->never())
             ->method('setHeaderAndExit');
@@ -354,8 +354,8 @@ class tx_mktools_tests_util_PageNotFoundHandlingTest extends tx_rnbase_tests_Bas
 
         $util = $this->getMock(
             'tx_mktools_util_PageNotFoundHandling',
-            array('setHeaderAndExit', 'printContent', 'redirectTo'),
-            array(self::getTsFe(), '')
+            ['setHeaderAndExit', 'printContent', 'redirectTo'],
+            [self::getTsFe(), '']
         );
         $util->expects($this->once())
             ->method('setHeaderAndExit')

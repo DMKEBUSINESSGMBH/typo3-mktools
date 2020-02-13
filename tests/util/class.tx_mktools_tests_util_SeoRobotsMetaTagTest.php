@@ -53,12 +53,12 @@ class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTes
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', ['getRobotsValue']);
         $util->expects(self::once())
             ->method('getRobotsValue')
             ->will(self::returnValue(0));
 
-        $value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
+        $value = $util->getSeoRobotsMetaTagValue('', ['default' => 'test']);
 
         self::assertEquals('test', $value, 'Falscher Wert zurückgeliefert');
     }
@@ -70,14 +70,14 @@ class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTes
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', ['getRobotsValue']);
         $util->expects(self::once())
             ->method('getRobotsValue')
             ->will(self::returnValue(123));
 
         $util::$options[123] = 'robots tag value';
 
-        $value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
+        $value = $util->getSeoRobotsMetaTagValue('', ['default' => 'test']);
 
         self::assertEquals('robots tag value', $value, 'Falscher Wert zurückgeliefert');
     }
@@ -89,12 +89,12 @@ class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTes
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRobotsValue'));
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', ['getRobotsValue']);
         $util->expects(self::once())
             ->method('getRobotsValue')
             ->will(self::returnValue(-1));
 
-        $value = $util->getSeoRobotsMetaTagValue('', array('default' => 'test'));
+        $value = $util->getSeoRobotsMetaTagValue('', ['default' => 'test']);
 
         self::assertEquals('test', $value, 'Falscher Wert zurückgeliefert');
     }
@@ -126,10 +126,10 @@ class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTes
      */
     public function testGetRobotsValueIfNoPagesInRootline()
     {
-        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', ['getRootline']);
         $util->expects(self::once())
             ->method('getRootline')
-            ->will(self::returnValue(array()));
+            ->will(self::returnValue([]));
 
         self::assertSame(0, $this->callInaccessibleMethod($util, 'getRobotsValue'));
     }
@@ -139,10 +139,10 @@ class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTes
      */
     public function testGetRobotsValueIfNoPageInRootlineHasRobotsMetaTag()
     {
-        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', ['getRootline']);
         $util->expects(self::once())
             ->method('getRootline')
-            ->will(self::returnValue(array(0 => array('uid' => 123))));
+            ->will(self::returnValue([0 => ['uid' => 123]]));
 
         self::assertSame(0, $this->callInaccessibleMethod($util, 'getRobotsValue'));
     }
@@ -152,10 +152,10 @@ class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTes
      */
     public function testGetRobotsValueIfPageInRootlineHasRobotsMetaTag()
     {
-        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', array('getRootline'));
+        $util = $this->getMock('tx_mktools_util_SeoRobotsMetaTag', ['getRootline']);
         $util->expects(self::once())
             ->method('getRootline')
-            ->will(self::returnValue(array(0 => array('uid' => 123), 1 => array('mkrobotsmetatag' => 'NOINDEX'))));
+            ->will(self::returnValue([0 => ['uid' => 123], 1 => ['mkrobotsmetatag' => 'NOINDEX']]));
 
         self::assertSame('NOINDEX', $this->callInaccessibleMethod($util, 'getRobotsValue'));
     }

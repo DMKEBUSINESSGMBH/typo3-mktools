@@ -33,11 +33,11 @@ class tx_mktools_util_RealUrl
      */
     public function getPagesWithFixedPostVarType()
     {
-        $options = array(
+        $options = [
             'enablefieldsfe' => 1,
             'wrapperclass' => 'tx_mktools_model_Pages',
             'where' => 'tx_mktools_fixedpostvartype > 0',
-        );
+        ];
 
         return $this->selectPagesByOptions($options);
     }
@@ -50,11 +50,11 @@ class tx_mktools_util_RealUrl
     public function areTherePagesWithFixedPostVarTypeModifiedLaterThan(
         $modificationTimeStamp
     ) {
-        $options = array(
+        $options = [
             'enablefieldsfe' => 1,
             'where' => 'tx_mktools_fixedpostvartype > 0 AND tstamp > '.
                                     $modificationTimeStamp,
-        );
+        ];
 
         $result = $this->selectPagesByOptions($options, 'COUNT(uid) AS uid_count');
 
@@ -71,10 +71,10 @@ class tx_mktools_util_RealUrl
     public function areThereFixedPostVarTypesModifiedLaterThan(
         $modificationTimeStamp
     ) {
-        $options = array(
+        $options = [
             'enablefieldsfe' => 1,
             'where' => 'tstamp > '.$modificationTimeStamp,
-        );
+        ];
 
         $result = $this->getDbUtil()->doSelect(
             'COUNT(uid) AS uid_count',
@@ -107,7 +107,6 @@ class tx_mktools_util_RealUrl
     }
 
     /**
-     * @param array  $options
      * @param string $what
      *
      * @return array
@@ -213,7 +212,7 @@ class tx_mktools_util_RealUrl
      */
     private function getFixedPostVarPageStringsByPages(array $pages)
     {
-        $fixedPostVarPageStrings = array();
+        $fixedPostVarPageStrings = [];
         foreach ($pages as $page) {
             if ($fixedPostVarType = $page->getFixedPostVarType()) {
                 $fixedPostVarPageStrings[] = $page->getUid()." => '".
@@ -224,9 +223,6 @@ class tx_mktools_util_RealUrl
         return $fixedPostVarPageStrings;
     }
 
-    /**
-     * @param array $fixedPostVarPageStrings
-     */
     private function generateRealUrlConfigurationFileWithoutSerialization(
         array $fixedPostVarPageStrings
     ) {
@@ -320,20 +316,15 @@ class tx_mktools_util_RealUrl
             );
             // notice werfen wenn bisherige XClass nicht die von mktools ist
             if (false === strpos($rPath, $tPath)) {
-                throw new LogicException(
-                    'There allready exists an ux_tx_realurl XCLASS!'.
-                    ' Remove the other XCLASS or the deacivate the realurl'.
-                    ' handling in mktools',
-                    intval(ERROR_CODE_MKTOOLS.'130')
-                );
+                throw new LogicException('There allready exists an ux_tx_realurl XCLASS!'.' Remove the other XCLASS or the deacivate the realurl'.' handling in mktools', intval(ERROR_CODE_MKTOOLS.'130'));
             }
             unset($reflector, $rPath, $tPath);
         } else {
             require_once tx_rnbase_util_Extensions::extPath('mktools', 'xclasses/class.ux_tx_realurl.php');
         }
 
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_realurl'] = [
             'className' => 'ux_tx_realurl',
-        );
+        ];
     }
 }

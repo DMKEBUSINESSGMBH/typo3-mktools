@@ -36,6 +36,7 @@ class CacheUtility
 {
     /**
      * sets apc or apcu as caching backend for all possible caches.
+     *
      * @todo add support for TYPO3 10.x (@see https://www.mittwald.de/faq/tipps-und-tricks/typo3/apcu-mit-typo3-verwenden)
      */
     public static function useApcAsCacheBackend()
@@ -68,7 +69,7 @@ class CacheUtility
         $apcEnabled = (bool) ini_get('apc.enabled');
 
         // Use constant method so it can be mocked.
-        return (constant('PHP_SAPI') !== 'cli') && $apcAvailable && $apcEnabled;
+        return ('cli' !== constant('PHP_SAPI')) && $apcAvailable && $apcEnabled;
     }
 
     /**

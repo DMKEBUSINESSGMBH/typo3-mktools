@@ -57,7 +57,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC
 
         return tx_rnbase::makeInstance(
             'tx_rnbase_model_base',
-            is_array($data) ? $data : array()
+            is_array($data) ? $data : []
         );
     }
 
@@ -68,7 +68,7 @@ class tx_mktools_action_ShowTemplate extends tx_rnbase_action_BaseIOC
      */
     protected function getData()
     {
-        return array();
+        return [];
     }
 
     /**

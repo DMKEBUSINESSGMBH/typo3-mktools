@@ -8,14 +8,14 @@ if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
     tx_rnbase_util_Extensions::addTCAcolumns(
         'tt_content',
         [
-            'tx_mktools_load_with_ajax' => array(
+            'tx_mktools_load_with_ajax' => [
                 'exclude' => 1,
                 'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_load_with_ajax',
-                'config' => array(
+                'config' => [
                     'type' => 'check',
                     'default' => '0',
-                ),
-            ),
+                ],
+            ],
         ],
         false
     );

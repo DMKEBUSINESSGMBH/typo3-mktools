@@ -10,7 +10,7 @@ class tx_mktools_util_T3Loader
     /**
      * @var array[TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer]
      */
-    private static $cObj = array();
+    private static $cObj = [];
 
     /**
      * @param int $contentId

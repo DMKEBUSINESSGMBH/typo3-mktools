@@ -62,10 +62,7 @@ class tx_mktools_util_PageNotFoundHandling
         // der verschiedenen Klassen abhängig von der TYPO3 Version
         $typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
         if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
-            throw new InvalidArgumentException(
-                'The first parameter has to be a instance of "tslib_fe"!',
-                intval(ERROR_CODE_MKTOOLS.'100')
-            );
+            throw new InvalidArgumentException('The first parameter has to be a instance of "tslib_fe"!', intval(ERROR_CODE_MKTOOLS.'100'));
         }
 
         return new self($tsfe);
@@ -86,10 +83,7 @@ class tx_mktools_util_PageNotFoundHandling
         // der verschiedenen Klassen abhängig von der TYPO3 Version
         $typoScriptFrontendControllerClass = tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass();
         if (!($tsfe instanceof $typoScriptFrontendControllerClass)) {
-            throw new InvalidArgumentException(
-                'The first parameter has to be a instance of "tslib_fe"!',
-                intval(ERROR_CODE_MKTOOLS.'100')
-            );
+            throw new InvalidArgumentException('The first parameter has to be a instance of "tslib_fe"!', intval(ERROR_CODE_MKTOOLS.'100'));
         }
         $this->tsfe = $tsfe;
         $this->reason = $reason;
@@ -98,11 +92,11 @@ class tx_mktools_util_PageNotFoundHandling
         tx_rnbase_util_Misc::callHook(
             'mktools',
             'general_hook_for_page_not_found_handling',
-            array(
+            [
                         'tsfe' => $this->tsfe,
                         'reason' => $this->reason,
                         'header' => $this->header,
-                )
+                ]
         );
     }
 
@@ -155,10 +149,7 @@ class tx_mktools_util_PageNotFoundHandling
         }
 
         if (empty($type) || empty($data)) {
-            throw new InvalidArgumentException(
-                'Type or data missing! (MKTOOLS_[TYPE]:[DATA])',
-                intval(ERROR_CODE_MKTOOLS.'110')
-            );
+            throw new InvalidArgumentException('Type or data missing! (MKTOOLS_[TYPE]:[DATA])', intval(ERROR_CODE_MKTOOLS.'110'));
         }
 
         if ($logPageNotFound) {
@@ -178,10 +169,7 @@ class tx_mktools_util_PageNotFoundHandling
                 $this->redirectTo($data);
                 break;
             default:
-                throw new InvalidArgumentException(
-                    'Unknown type "'.$type.'" found!',
-                    intval(ERROR_CODE_MKTOOLS.'110')
-                );
+                throw new InvalidArgumentException('Unknown type "'.$type.'" found!', intval(ERROR_CODE_MKTOOLS.'110'));
         }
     }
 
@@ -196,13 +184,13 @@ class tx_mktools_util_PageNotFoundHandling
         tx_rnbase_util_Logger::info(
             'Seite nicht gefunden',
             'mktools',
-            array(
+            [
                 'reason' => $this->reason,
                 'code' => $this->getTsFe()->pageNotFound,
                 'REQUEST_URI' => tx_rnbase_util_Misc::getIndpEnv('REQUEST_URI'),
                 'data' => $data,
                 'type' => $type,
-            )
+            ]
         );
     }
 
@@ -228,9 +216,9 @@ class tx_mktools_util_PageNotFoundHandling
         tx_rnbase_util_Misc::callHook(
             'mktools',
             'pagenotfoundhandling_beforePrintContent',
-            array(
+            [
                 'url' => &$url,
-            )
+            ]
         );
 
         $report = [];
@@ -242,11 +230,11 @@ class tx_mktools_util_PageNotFoundHandling
         tx_rnbase_util_Misc::callHook(
             'mktools',
             'pagenotfoundhandling_afterGetContentByUrl',
-            array(
+            [
                 'url' => &$url,
                 'content' => &$content,
                 'debug' => $report,
-            )
+            ]
         );
 
         // wir liefern den 404 aus, ohne einen redirect!
@@ -526,20 +514,16 @@ class tx_mktools_util_PageNotFoundHandling
             );
             // notice werfen wenn bisherige XClass nicht die von mktools ist
             if (false === strpos($rPath, $tPath)) {
-                throw new LogicException(
-                    'There allready exists an ux_tslib_fe XCLASS!'.
-                    ' Remove the other XCLASS or the deacivate the page not found handling in mktools',
-                    intval(ERROR_CODE_MKTOOLS.'130')
-                );
+                throw new LogicException('There allready exists an ux_tslib_fe XCLASS!'.' Remove the other XCLASS or the deacivate the page not found handling in mktools', intval(ERROR_CODE_MKTOOLS.'130'));
             }
             unset($reflector, $rPath, $tPath);
         } else {
             require_once tx_rnbase_util_Extensions::extPath('mktools').'xclasses/class.ux_tslib_fe.php';
         }
 
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController'] = [
             'className' => 'ux_tslib_fe',
-        );
+        ];
     }
 }
 

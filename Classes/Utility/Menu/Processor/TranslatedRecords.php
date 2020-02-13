@@ -67,9 +67,6 @@ class TranslatedRecords
      *
      * @see \TYPO3\CMS\Frontend\ContentObject\Menu\AbstractMenuContentObject::prepareMenuItemsForLanguageMenu()
      *
-     * @param array $menuItems
-     * @param array $typoScriptConfiguration
-     *
      * @return array $menuItems
      */
     public function process(array $menuItems, array $typoScriptConfiguration): array
@@ -119,7 +116,6 @@ class TranslatedRecords
      * }
      *
      * @param string $value
-     * @param array  $typoScriptConfiguration
      *
      * @return bool
      */
@@ -130,7 +126,7 @@ class TranslatedRecords
             Parameters::getGetParameters()
         );
 
-        $sysLanguageUid = (int)$typoScriptConfiguration['sysLanguageUid'];
+        $sysLanguageUid = (int) $typoScriptConfiguration['sysLanguageUid'];
 
         if ($recordInformationToCheckForTranslation) {
             $translatedRecord = $this->getTranslatedRecord(
@@ -145,13 +141,6 @@ class TranslatedRecords
         return $value;
     }
 
-    /**
-     * @param int    $sysLanguageUid
-     * @param string $table
-     * @param int    $uid
-     *
-     * @return array
-     */
     protected function getTranslatedRecord(int $sysLanguageUid, string $table, int $uid): array
     {
         $databaseConnection = $this->getDatabaseConnection();
@@ -162,7 +151,7 @@ class TranslatedRecords
                 '*',
                 $table,
                 [
-                    'where' => 'uid = ' . $uid,
+                    'where' => 'uid = '.$uid,
                 ]
             )[0];
             $translatedRecord = (array) \tx_rnbase_util_TYPO3::getSysPage()->getRecordOverlay(
@@ -178,13 +167,6 @@ class TranslatedRecords
         return $translatedRecord;
     }
 
-    /**
-     * @param array $menuItem
-     * @param array $translatedRecord
-     * @param array $typoScriptConfiguration
-     *
-     * @return array
-     */
     protected function handleDisablingOfMenuItemForNotTranslatedRecord(
         array $menuItem,
         array $translatedRecord,
@@ -215,11 +197,6 @@ class TranslatedRecords
     /**
      * Walk through the parameters and TypoScript-Configuration to get the record/table which should be checked
      * for a translation. Return an array containing the record uid and the table name.
-     *
-     * @param array $configuration
-     * @param array $parameters
-     *
-     * @return array
      */
     protected function getRecordInformationToCheckForTranslation(array $configuration, array $parameters): array
     {

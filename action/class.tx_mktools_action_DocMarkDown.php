@@ -49,9 +49,9 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
             $content = '<h1>ACCESS DENIED</h1>';
         }
 
-        return array(
+        return [
             'content' => $content,
-        );
+        ];
     }
 
     /**
@@ -128,7 +128,7 @@ class tx_mktools_action_DocMarkDown extends tx_mktools_action_ShowTemplate
 
         return array_merge(
             $configurations->getExploded($confId),
-            is_array($fiels) ? $fiels : array()
+            is_array($fiels) ? $fiels : []
         );
     }
 

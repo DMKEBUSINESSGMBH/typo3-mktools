@@ -38,7 +38,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
     public function __construct($errorHandlerErrors)
     {
         parent::__construct($errorHandlerErrors);
-        register_shutdown_function(array($this, 'handleFatalError'));
+        register_shutdown_function([$this, 'handleFatalError']);
     }
 
     /**
@@ -73,11 +73,7 @@ class tx_mktools_util_ErrorHandler extends Tx_Rnbase_Error_ErrorHandler
 
             //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
             //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
-            throw tx_rnbase::makeInstance(
-                'tx_mktools_util_ErrorException',
-                $exception->getMessage(),
-                $exception->getCode()
-            );
+            throw tx_rnbase::makeInstance('tx_mktools_util_ErrorException', $exception->getMessage(), $exception->getCode());
         }
 
         return $return;

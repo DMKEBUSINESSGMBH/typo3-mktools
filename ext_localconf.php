@@ -45,7 +45,7 @@ if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
 
 if (TYPO3_MODE == 'BE' && !tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['mktools_find_unused_locallang_labels'] =
-        array('EXT:mktools/Classes/Cli/FindUnusedLocallangLabels.php', '_CLI_mktools_find_unused_locallang_labels');
+        ['EXT:mktools/Classes/Cli/FindUnusedLocallangLabels.php', '_CLI_mktools_find_unused_locallang_labels'];
 }
 
 if (tx_mktools_util_miscTools::getExceptionPage()) {
@@ -55,9 +55,9 @@ if (tx_mktools_util_miscTools::getExceptionPage()) {
 }
 
 // piwa is often used for piwik custom variables
-Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash(array(
+Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash([
     'piwa',
-));
+]);
 
 if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['USER_INT'] = UserInternalContentObject::class;

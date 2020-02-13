@@ -19,8 +19,6 @@ class tx_mktools_hook_GeneralUtility
      * leeren wir $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] um
      * das zu verhindern.
      *
-     * @param array $parameters
-     *
      * @todo refactoring to prevent the flooding in a more
      * sophisticated way
      */
@@ -56,8 +54,6 @@ class tx_mktools_hook_GeneralUtility
     }
 
     /**
-     * @param array $parameters
-     *
      * @return tx_rnbase_util_Lock
      */
     protected function getLockUtility(array $parameters)

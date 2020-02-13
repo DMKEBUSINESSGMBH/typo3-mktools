@@ -58,7 +58,7 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             'mktools'
         );
 
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'] = array();
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'] = [];
     }
 
     /**
@@ -128,49 +128,49 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
         }
 
         $realUrl = $this->getRealUrlInstance();
-        $realUrl->orig_paramKeyValues = array(
+        $realUrl->orig_paramKeyValues = [
             'id' => 50,
             'L' => 0, // default language (0=en,1=de,2=nl)
             'mktools[cat]' => 10, // test parameter 2
             'mktools[item]' => 10, // test parameter 2
-        );
-        $rawSets = array(
-            'category' => array(
-                array(
+        ];
+        $rawSets = [
+            'category' => [
+                [
                     'GETvar' => 'mktools[cat]',
-                    'language' => array('ids' => '0'), // default language (en)
+                    'language' => ['ids' => '0'], // default language (en)
                     'noMatch' => 'NULL',
-                ),
-            ),
-            'kategorie' => array(
-                array(
+                ],
+            ],
+            'kategorie' => [
+                [
                     'GETvar' => 'mktools[cat]',
-                    'language' => array('ids' => '1'), // de language
+                    'language' => ['ids' => '1'], // de language
                     'noMatch' => 'NULL',
-                ),
-            ),
-            'categorie' => array(
-                array(
+                ],
+            ],
+            'categorie' => [
+                [
                     'GETvar' => 'mktools[cat]',
-                    'language' => array('ids' => '2'), // nl language
+                    'language' => ['ids' => '2'], // nl language
                     'noMatch' => 'NULL',
-                ),
-            ),
-            'item' => array(
-                array(
+                ],
+            ],
+            'item' => [
+                [
                     'GETvar' => 'mktools[item]',
                     'language' => '0,2', // en & nl language
                     'noMatch' => 'NULL',
-                ),
-            ),
-            'element' => array(
-                array(
+                ],
+            ],
+            'element' => [
+                [
                     'GETvar' => 'mktools[item]',
                     'language' => '1', // de language
                     'noMatch' => 'NULL',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         // check for EN
         $realUrl->orig_paramKeyValues['L'] = 0;
@@ -180,7 +180,7 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             'getLocalizedPostVarSet',
             $rawSets
         );
-        $this->assertEquals(array('category', 'item'), array_keys($cleanedSets));
+        $this->assertEquals(['category', 'item'], array_keys($cleanedSets));
 
         // check for DE
         $realUrl->orig_paramKeyValues['L'] = 1;
@@ -190,7 +190,7 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             'getLocalizedPostVarSet',
             $rawSets
         );
-        $this->assertEquals(array('kategorie', 'element'), array_keys($cleanedSets));
+        $this->assertEquals(['kategorie', 'element'], array_keys($cleanedSets));
 
         // check for NL
         $realUrl->orig_paramKeyValues['L'] = 2;
@@ -200,10 +200,10 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             'getLocalizedPostVarSet',
             $rawSets
         );
-        $this->assertEquals(array('categorie', 'item'), array_keys($cleanedSets));
+        $this->assertEquals(['categorie', 'item'], array_keys($cleanedSets));
 
         // check for DECODE
-        $realUrl->orig_paramKeyValues = array(); // remove all vars, we decode
+        $realUrl->orig_paramKeyValues = []; // remove all vars, we decode
         $this->callInaccessibleMethod($realUrl, 'setMode', $realUrl::MODE_DECODE);
         $cleanedSets = $this->callInaccessibleMethod(
             $realUrl,
@@ -224,11 +224,11 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $expectedWhat = '*';
         $expectedFrom = 'pages';
-        $expectedOptions = array(
+        $expectedOptions = [
             'enablefieldsfe' => 1,
             'wrapperclass' => 'tx_mktools_model_Pages',
             'where' => 'tx_mktools_fixedpostvartype > 0',
-        );
+        ];
 
         $dbUtil->expects($this->once())
             ->method('doSelect')
@@ -237,7 +237,7 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array('getDbUtil')
+            ['getDbUtil']
         );
 
         $realUrlUtil->expects($this->once())
@@ -262,20 +262,20 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'pages';
-        $expectedOptions = array(
+        $expectedOptions = [
             'enablefieldsfe' => 1,
             'where' => 'tx_mktools_fixedpostvartype > 0 AND tstamp > '.
                                     $modificationTimeStamp,
-        );
+        ];
 
         $dbUtil->expects($this->once())
             ->method('doSelect')
             ->with($expectedWhat, $expectedFrom, $expectedOptions)
-            ->will($this->returnValue(array(0 => array('uid_count' => 456))));
+            ->will($this->returnValue([0 => ['uid_count' => 456]]));
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array('getDbUtil')
+            ['getDbUtil']
         );
 
         $realUrlUtil->expects($this->once())
@@ -300,20 +300,20 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'pages';
-        $expectedOptions = array(
+        $expectedOptions = [
             'enablefieldsfe' => 1,
             'where' => 'tx_mktools_fixedpostvartype > 0 AND tstamp > '.
                                     $modificationTimeStamp,
-        );
+        ];
 
         $dbUtil->expects($this->once())
             ->method('doSelect')
             ->with($expectedWhat, $expectedFrom, $expectedOptions)
-            ->will($this->returnValue(array(0 => array('uid_count' => 0))));
+            ->will($this->returnValue([0 => ['uid_count' => 0]]));
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array('getDbUtil')
+            ['getDbUtil']
         );
 
         $realUrlUtil->expects($this->once())
@@ -334,7 +334,7 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
     {
         return $this->getMock(
             'Tx_Rnbase_Database_Connection',
-            array('doSelect')
+            ['doSelect']
         );
     }
 
@@ -351,10 +351,10 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-            )
+            ]
         );
 
         $expectedTimeStamp = 0;
@@ -372,10 +372,10 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
     {
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-            )
+            ]
         );
 
         touch($this->realUrlConfigurationFile);
@@ -400,10 +400,10 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-            )
+            ]
         );
 
         $expectedTimeStamp = 0;
@@ -421,10 +421,10 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
     {
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-            )
+            ]
         );
 
         touch($this->realUrlConfigurationFile);
@@ -449,10 +449,10 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-            )
+            ]
         );
 
         $realUrlUtil->expects($this->once())
@@ -480,10 +480,10 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
-            )
+            ]
         );
 
         $realUrlUtil->expects($this->once())
@@ -511,11 +511,11 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
                 'isTemplateFileModifiedLaterThan',
-            )
+            ]
         );
 
         $realUrlUtil->expects($this->once())
@@ -546,11 +546,11 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
                 'isTemplateFileModifiedLaterThan',
-            )
+            ]
         );
 
         $realUrlUtil->expects($this->once())
@@ -581,11 +581,11 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array(
+            [
                 'areTherePagesWithFixedPostVarTypeModifiedLaterThan',
                 'areThereFixedPostVarTypesModifiedLaterThan',
                 'isTemplateFileModifiedLaterThan',
-            )
+            ]
         );
 
         $realUrlUtil->expects($this->once())
@@ -609,7 +609,7 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileEvenIfNoPagesGiven()
     {
         $this->assertTrue(
-            tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(array())
+            tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages([])
         );
 
         $this->assertEquals(
@@ -629,15 +629,15 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             tx_rnbase_util_Extensions::extPath('mktools').'tests/fixtures/empty',
             'mktools'
         );
-        $pages = array(
+        $pages = [
             0 => tx_rnbase::makeInstance(
                 'tx_mktools_model_Pages',
-                array(
-                    'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
+                [
+                    'tx_mktools_fixedpostvartype' => ['identifier' => 'firstIdentifier'],
                     'uid' => 1,
-                )
+                ]
             ),
-        );
+        ];
         $this->assertFalse(
             tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages($pages)
         );
@@ -655,15 +655,15 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             '',
             'mktools'
         );
-        $pages = array(
+        $pages = [
             0 => tx_rnbase::makeInstance(
                 'tx_mktools_model_Pages',
-                array(
-                    'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
+                [
+                    'tx_mktools_fixedpostvartype' => ['identifier' => 'firstIdentifier'],
                     'uid' => 1,
-                )
+                ]
             ),
-        );
+        ];
         $this->assertFalse(
             tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages($pages)
         );
@@ -676,22 +676,22 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGenerateSerializedRealUrlConfigurationFileByPagesGeneratesFileCorrectIfPagesGiven()
     {
-        $pages = array(
+        $pages = [
             0 => tx_rnbase::makeInstance(
                 'tx_mktools_model_Pages',
-                array(
-                    'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
+                [
+                    'tx_mktools_fixedpostvartype' => ['identifier' => 'firstIdentifier'],
                     'uid' => 1,
-                )
+                ]
             ),
             1 => tx_rnbase::makeInstance(
                 'tx_mktools_model_Pages',
-                array(
-                    'tx_mktools_fixedpostvartype' => array('identifier' => 'secondIdentifier'),
+                [
+                    'tx_mktools_fixedpostvartype' => ['identifier' => 'secondIdentifier'],
                     'uid' => 2,
-                )
+                ]
             ),
-        );
+        ];
         $this->assertTrue(
             tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(
                 $pages,
@@ -718,15 +718,15 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             'mktools'
         );
 
-        $pages = array(
+        $pages = [
             0 => tx_rnbase::makeInstance(
                 'tx_mktools_model_Pages',
-                array(
-                    'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
+                [
+                    'tx_mktools_fixedpostvartype' => ['identifier' => 'firstIdentifier'],
                     'uid' => 1,
-                )
+                ]
             ),
-        );
+        ];
         $this->assertTrue(
             tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(
                 $pages,
@@ -753,19 +753,19 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'tx_mktools_fixedpostvartypes';
-        $expectedOptions = array(
+        $expectedOptions = [
             'enablefieldsfe' => 1,
             'where' => 'tstamp > '.$modificationTimeStamp,
-        );
+        ];
 
         $dbUtil->expects($this->once())
             ->method('doSelect')
             ->with($expectedWhat, $expectedFrom, $expectedOptions)
-            ->will($this->returnValue(array(0 => array('uid_count' => 456))));
+            ->will($this->returnValue([0 => ['uid_count' => 456]]));
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array('getDbUtil')
+            ['getDbUtil']
         );
 
         $realUrlUtil->expects($this->once())
@@ -790,19 +790,19 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
 
         $expectedWhat = 'COUNT(uid) AS uid_count';
         $expectedFrom = 'tx_mktools_fixedpostvartypes';
-        $expectedOptions = array(
+        $expectedOptions = [
             'enablefieldsfe' => 1,
             'where' => 'tstamp > '.$modificationTimeStamp,
-        );
+        ];
 
         $dbUtil->expects($this->once())
             ->method('doSelect')
             ->with($expectedWhat, $expectedFrom, $expectedOptions)
-            ->will($this->returnValue(array(0 => array('uid_count' => 0))));
+            ->will($this->returnValue([0 => ['uid_count' => 0]]));
 
         $realUrlUtil = $this->getMock(
             'tx_mktools_util_RealUrl',
-            array('getDbUtil')
+            ['getDbUtil']
         );
 
         $realUrlUtil->expects($this->once())
@@ -827,15 +827,15 @@ class tx_mktools_tests_util_RealUrlTest extends tx_rnbase_tests_BaseTestCase
             'mktools'
         );
 
-        $pages = array(
+        $pages = [
             0 => tx_rnbase::makeInstance(
                 'tx_mktools_model_Pages',
-                array(
-                    'tx_mktools_fixedpostvartype' => array('identifier' => 'firstIdentifier'),
+                [
+                    'tx_mktools_fixedpostvartype' => ['identifier' => 'firstIdentifier'],
                     'uid' => 1,
-                )
+                ]
             ),
-        );
+        ];
         $this->assertTrue(
             tx_rnbase::makeInstance('tx_mktools_util_RealUrl')->generateSerializedRealUrlConfigurationFileByPages(
                 $pages,

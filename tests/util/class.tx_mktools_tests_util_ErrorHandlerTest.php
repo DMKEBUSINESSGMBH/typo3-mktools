@@ -51,11 +51,11 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('getLastError', 'getExceptionHandler'),
-            array(array())
+            ['getLastError', 'getExceptionHandler'],
+            [[]]
         );
 
-        $error = array('type' => E_WARNING);
+        $error = ['type' => E_WARNING];
         $errorHandler->expects($this->once())
             ->method('getLastError')
             ->will($this->returnValue($error));
@@ -81,14 +81,14 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
 
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('getLastError', 'getExceptionHandler', 'getTypo3Exception'),
-            array(array()),
+            ['getLastError', 'getExceptionHandler', 'getTypo3Exception'],
+            [[]],
             '',
             false
         );
 
         if (!$disableErrorRedprting) {
-            $error = array('type' => $errorType, 'message' => 'my error', 'line' => 123, 'file' => '123.php');
+            $error = ['type' => $errorType, 'message' => 'my error', 'line' => 123, 'file' => '123.php'];
             $errorHandler->expects($this->once())
                 ->method('getLastError')
                 ->will($this->returnValue($error));
@@ -98,7 +98,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
         $expectedException = new Tx_Rnbase_Error_Exception($expectedErrorMessage);
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
-            array('handleException')
+            ['handleException']
         );
         if ($errorHandled) {
             $exceptionHandler->expects($this->once())
@@ -132,18 +132,18 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
      */
     public function getErrorTypes()
     {
-        return array(
-            array(E_ERROR, true),
-            array(E_COMPILE_ERROR, true),
-            array(E_CORE_ERROR, true),
-            array(E_USER_ERROR, true),
-            array(E_WARNING, false),
-            array(E_ERROR, false, true),
-            array(E_COMPILE_ERROR, false, true),
-            array(E_CORE_ERROR, false, true),
-            array(E_USER_ERROR, false, true),
-            array(E_WARNING, false, true),
-        );
+        return [
+            [E_ERROR, true],
+            [E_COMPILE_ERROR, true],
+            [E_CORE_ERROR, true],
+            [E_USER_ERROR, true],
+            [E_WARNING, false],
+            [E_ERROR, false, true],
+            [E_COMPILE_ERROR, false, true],
+            [E_CORE_ERROR, false, true],
+            [E_USER_ERROR, false, true],
+            [E_WARNING, false, true],
+        ];
     }
 
     /**
@@ -172,8 +172,8 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
-            array(1)
+            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
+            [1]
         );
 
         $exception = new Tx_Rnbase_Error_Exception('test');
@@ -208,8 +208,8 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
-            array(1)
+            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
+            [1]
         );
 
         $exception = new Tx_Rnbase_Error_Exception('test');
@@ -243,8 +243,8 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
     {
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
-            array(1)
+            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
+            [1]
         );
 
         $exception = new Tx_Rnbase_Error_Exception('test');
@@ -275,8 +275,8 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
 
         $errorHandler = $this->getMock(
             'tx_mktools_util_ErrorHandler',
-            array('handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'),
-            array(1)
+            ['handleErrorByParent', 'shouldExceptionsBeWrittenToDevLog', 'writeExceptionToDevLog'],
+            [1]
         );
 
         $errorHandler->expects(self::never())

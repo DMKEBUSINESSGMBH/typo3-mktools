@@ -95,7 +95,7 @@ class tx_mktools_util_FlashMessage
         );
         $prevMessages = unserialize($prevMessages);
         $this->prevMessages = new ArrayObject(
-            empty($prevMessages) ? array() : $prevMessages
+            empty($prevMessages) ? [] : $prevMessages
         );
 
         // remove the current mesage stack from session
@@ -132,7 +132,7 @@ class tx_mktools_util_FlashMessage
      */
     public function keep()
     {
-        $messages = array();
+        $messages = [];
         foreach ($this->prevMessages as $message) {
             $messages[] = $message;
         }
@@ -141,7 +141,7 @@ class tx_mktools_util_FlashMessage
         }
 
         // cleanup prev messages
-        $this->prevMessages->exchangeArray(array());
+        $this->prevMessages->exchangeArray([]);
         // set next messages
         $this->nextMessages->exchangeArray($messages);
 
@@ -161,11 +161,11 @@ class tx_mktools_util_FlashMessage
     {
         $message = tx_rnbase::makeInstance(
             'Tx_Rnbase_Domain_Model_Base',
-            array(
+            [
                 'level' => $level,
                 'message' => $message,
                 'data' => $data,
-            )
+            ]
         );
         $this->nextMessages->append($message);
 

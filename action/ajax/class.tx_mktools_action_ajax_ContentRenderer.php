@@ -33,7 +33,7 @@ class tx_mktools_action_ajax_ContentRenderer
 
         // jetzt das contentelement parsen
         $cObj->start($ttContent, 'tt_content');
-        $content = $cObj->cObjGetSingle('<tt_content', array());
+        $content = $cObj->cObjGetSingle('<tt_content', []);
         $content = trim($content);
 
         if (empty($content)) {
