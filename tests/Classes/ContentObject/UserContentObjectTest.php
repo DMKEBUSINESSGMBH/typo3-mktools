@@ -130,7 +130,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         GeneralUtility::addInstance('tx_rnbase_util_Link', $linkUtility);
 
         self::assertEquals(
-            '<a class="ajax-links-autoload ajax-no-history" aria-label="Placeholder" href="rendererdUrl"></a>',
+            '<a class="ajax-links-autoload ajax-no-history" aria-hidden="true" href="rendererdUrl"></a>',
             $this->userObject->render()
         );
     }
