@@ -1,10 +1,11 @@
 MK TOOLS
 ========
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
+![TYPO3 compatibility](https://img.shields.io/badge/TYPO3-8.7%20%7C%209.5-orange?maxAge=3600&style=flat-square&logo=typo3)
+[![Latest Stable Version](https://img.shields.io/packagist/v/dmk/mktools.svg?maxAge=3600&style=flat-square&logo=composer)](https://packagist.org/packages/dmk/mktools)
 [![Total Downloads](https://img.shields.io/packagist/dt/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
-[![Build Status](https://img.shields.io/travis/DMKEBUSINESSGMBH/typo3-mktools.svg?maxAge=3600&style=flat-square)](https://travis-ci.org/DMKEBUSINESSGMBH/typo3-mktools)
-[![License](https://img.shields.io/packagist/l/dmk/mktools.svg?maxAge=3600&style=flat-square)](https://packagist.org/packages/dmk/mktools)
+[![Build Status](https://img.shields.io/travis/DMKEBUSINESSGMBH/typo3-mktools.svg?maxAge=3600&style=flat-square&logo=travis)](https://travis-ci.com/DMKEBUSINESSGMBH/typo3-mktools)
+[![License](https://img.shields.io/packagist/l/dmk/mktools.svg?maxAge=3600&style=flat-square&logo=gnu)](https://packagist.org/packages/dmk/mktools)
 
 What does it do?
 ----------------
