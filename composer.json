@@ -1,7 +1,6 @@
 {
     "name": "dmk/mktools",
     "description": "Collection of some small tools.",
-    "version": "9.5.9",
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
@@ -25,12 +24,13 @@
         "typo3-ter/mktools": "self.version"
     },
     "require": {
-        "typo3/cms-core": "~8.7 || ~9.5",
-        "digedag/rn-base": ">=1.11.0",
-        "dmk/mklib": ">=9.5.0"
+        "typo3/cms-core": "^8.7 || ^9.5",
+        "digedag/rn-base": "^1.11.0",
+        "dmk/mklib": "^9.5.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2@stable",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "nimut/testing-framework": "^4.0"
     },
     "autoload": {
@@ -59,6 +59,32 @@
         "post-autoload-dump": [
             "mkdir -p .Build/Web/typo3conf/ext/",
             "[ -L .Build/Web/typo3conf/ext/mktools ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mktools"
+        ],
+        "lint:php": [
+            "[ -e .Build/bin/parallel-lint ] || composer update",
+            ".Build/bin/parallel-lint ./Classes ./action ./hook ./model ./scheduler ./util ./view ./xclasses"
+        ],
+        "lint": [
+            "@lint:php"
+        ],
+        "test:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
+        ],
+        "test:phpunit": [
+            "[ -e .Build/bin/phpunit ] || composer update --ansi",
+            "export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c phpunit.xml.dist --colors=always"
+        ],
+        "test": [
+            "@test:phpcs",
+            "@test:phpunit"
+        ],
+        "fix:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v"
+        ],
+        "fix": [
+            "@fix:phpcs"
         ]
     },
     "extra": {
