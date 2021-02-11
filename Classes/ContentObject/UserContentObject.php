@@ -36,12 +36,11 @@ namespace DMK\Mktools\ContentObject;
  */
 class UserContentObject extends \TYPO3\CMS\Frontend\ContentObject\UserContentObject
 {
+    use LoadPluginWithAjaxTrait;
     /**
      * Path to the TS configuration.
      *
      * @var string
      */
     private $urlTypoScriptConfigurationPath = 'lib.tx_mktools.loadUserWithAjaxUrl.';
-
-    use LoadPluginWithAjaxTrait;
 }

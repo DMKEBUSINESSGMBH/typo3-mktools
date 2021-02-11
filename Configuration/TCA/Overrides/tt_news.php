@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
+    exit('Access denied.');
 }
 
 if (!tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {

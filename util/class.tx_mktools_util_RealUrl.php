@@ -58,7 +58,7 @@ class tx_mktools_util_RealUrl
 
         $result = $this->selectPagesByOptions($options, 'COUNT(uid) AS uid_count');
 
-        return    (isset($result[0]['uid_count'])) ?
+        return (isset($result[0]['uid_count'])) ?
                     (bool) $result[0]['uid_count'] :
                     false;
     }
@@ -82,7 +82,7 @@ class tx_mktools_util_RealUrl
             $options
         );
 
-        return    (isset($result[0]['uid_count'])) ?
+        return (isset($result[0]['uid_count'])) ?
                 (bool) $result[0]['uid_count'] :
                 false;
     }
@@ -156,7 +156,7 @@ class tx_mktools_util_RealUrl
                 $realUrlConfigurationLastModified
             );
 
-        return    $areTherePagesWithFixedPostVarTypeModifiedLaterThan ||
+        return $areTherePagesWithFixedPostVarTypeModifiedLaterThan ||
                 $areThereFixedPostVarTypesModifiedLaterThan ||
                 $isTemplateFileModifiedLaterThan;
     }

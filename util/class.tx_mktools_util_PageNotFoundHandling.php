@@ -370,7 +370,7 @@ class tx_mktools_util_PageNotFoundHandling
         }
         $httpUtility = tx_rnbase_util_TYPO3::getHttpUtilityClass();
 
-        return  empty($httpStatus) ? $httpUtility::HTTP_STATUS_404 : $httpStatus;
+        return empty($httpStatus) ? $httpUtility::HTTP_STATUS_404 : $httpStatus;
     }
 
     /**

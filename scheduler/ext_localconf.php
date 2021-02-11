@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
+    exit('Access denied.');
 }
 
 if (!tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {

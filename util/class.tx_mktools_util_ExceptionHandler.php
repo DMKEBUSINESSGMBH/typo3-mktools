@@ -159,7 +159,7 @@ class tx_mktools_util_ExceptionHandlerBase extends Tx_Rnbase_Error_ProductionExc
      */
     protected function shouldExceptionBeDebugged()
     {
-        return    tx_rnbase_util_Network::isDevelopmentIp();
+        return tx_rnbase_util_Network::isDevelopmentIp();
     }
 
     /**

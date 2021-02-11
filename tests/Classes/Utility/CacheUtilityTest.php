@@ -159,7 +159,7 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @return boolean[][]|array[][]|string[][][]|boolean[][][][]|number[][][][]|string[][][][]
+     * @return bool[][]|array[][]|string[][][]|bool[][][][]|number[][][][]|string[][][][]
      */
     public function dataProviderUseApcAsCacheBackend()
     {
@@ -201,7 +201,7 @@ class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @return boolean[][]|array[][]|string[][][]|boolean[][][][]|number[][][][]|string[][][][]
+     * @return bool[][]|array[][]|string[][][]|bool[][][][]|number[][][][]|string[][][][]
      */
     public function dataProviderIsApcUsed()
     {

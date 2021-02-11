@@ -89,7 +89,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @return boolean[][]|number[][]|string[][]
+     * @return bool[][]|number[][]|string[][]
      */
     public function dataProviderRenderTest()
     {
