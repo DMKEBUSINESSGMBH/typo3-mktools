@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
+use DMK\Mktools\ErrorHandler\ExceptionHandler;
+
 /**
  * @author Hannes Bochmann
  */
@@ -218,7 +220,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         self::markTestSkipped('Problem with type3 9.5 config');
 
         $exceptionHandler = $this->getMock(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             ['writeLogEntriesByParent', 'lockAcquired']
         );
 
@@ -233,7 +235,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             ->with($exception, $context);
 
         $method = new ReflectionMethod(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             'writeLogEntries'
         );
         $method->setAccessible(true);
@@ -248,7 +250,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         self::markTestSkipped('Problem with type3 9.5 config');
 
         $exceptionHandler = $this->getMock(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             ['writeLogEntriesByParent', 'lockAcquired']
         );
 
@@ -259,7 +261,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             ->method('writeLogEntriesByParent');
 
         $method = new ReflectionMethod(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             'writeLogEntries'
         );
         $method->setAccessible(true);
@@ -279,7 +281,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         self::markTestSkipped('Problem with type3 9.5 config');
 
         $exceptionHandler = $this->getMock(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             ['writeLogEntriesByParent', 'lockAcquired']
         );
 
@@ -291,7 +293,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             ->method('writeLogEntriesByParent');
 
         $method = new ReflectionMethod(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             'writeLogEntries'
         );
         $method->setAccessible(true);
@@ -310,10 +312,10 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             'lock file schon da'
         );
 
-        $exceptionHandler = tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
+        $exceptionHandler = tx_rnbase::makeInstance(ExceptionHandler::class);
 
         $method = new ReflectionMethod(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             'getLockFileByExceptionAndContext'
         );
         $method->setAccessible(true);
@@ -342,7 +344,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         file_put_contents($this->lockFile, time());
 
         $exceptionHandler = $this->getMock(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             ['getLockFileByExceptionAndContext']
         );
 
@@ -351,7 +353,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             ->will($this->returnValue($this->lockFile));
 
         $method = new ReflectionMethod(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             'lockAcquired'
         );
         $method->setAccessible(true);
@@ -374,7 +376,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         file_put_contents($this->lockFile, time() - 61);
 
         $exceptionHandler = $this->getMock(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             ['getLockFileByExceptionAndContext']
         );
 
@@ -383,7 +385,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             ->will($this->returnValue($this->lockFile));
 
         $method = new ReflectionMethod(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             'lockAcquired'
         );
         $method->setAccessible(true);
@@ -431,7 +433,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR');
         self::assertTrue(
             $this->callInaccessibleMethod(
-                tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler'),
+                tx_rnbase::makeInstance(ExceptionHandler::class),
                 'shouldExceptionBeDebugged'
             )
         );
@@ -446,7 +448,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = 'invalid';
         self::assertFalse(
             $this->callInaccessibleMethod(
-                tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler'),
+                tx_rnbase::makeInstance(ExceptionHandler::class),
                 'shouldExceptionBeDebugged'
             )
         );
@@ -456,12 +458,12 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
      * @param array $methods
      * @param bool  $shouldExceptionBeDebugged
      *
-     * @return tx_mktools_util_ExceptionHandler
+     * @return ExceptionHandler
      */
     private function getExceptionHandlerMock($methods = [], $shouldExceptionBeDebugged = false)
     {
         $exceptionHandler = $this->getMock(
-            'tx_mktools_util_ExceptionHandler',
+            ExceptionHandler::class,
             array_merge(
                 $methods,
                 ['shouldExceptionBeDebugged', 'writeLogEntries', 'sendStatusHeaders', 'echoExceptionPageAndExit']
@@ -470,7 +472,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler->expects($this->once())
             ->method('shouldExceptionBeDebugged')
-            ->will($this->returnValue($shouldExceptionBeDebugged));
+            ->willReturn($shouldExceptionBeDebugged);
 
         return $exceptionHandler;
     }

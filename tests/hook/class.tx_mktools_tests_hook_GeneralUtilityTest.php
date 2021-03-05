@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  *  ***********************************************************************  */
 
+use DMK\Mktools\Hook\GeneralUtilityHook;
+
 /**
  * tx_mktools_tests_hook_GeneralUtilityTest.
  *
@@ -138,17 +140,17 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
 
         $systemLogConfigurationBackup = new ReflectionProperty(
-            'tx_mktools_hook_GeneralUtility',
+            GeneralUtilityHook::class,
             'systemLogConfigurationBackup'
         );
         $systemLogConfigurationBackup->setAccessible(true);
         $this->assertEquals(
             '',
-            $systemLogConfigurationBackup->getValue(tx_rnbase::makeInstance('tx_mktools_hook_GeneralUtility')),
+            $systemLogConfigurationBackup->getValue(tx_rnbase::makeInstance(GeneralUtilityHook::class)),
             'zu Beginn doch eine Konfiguration gespeichert'
         );
 
-        $hook = tx_rnbase::makeInstance('tx_mktools_hook_GeneralUtility');
+        $hook = tx_rnbase::makeInstance(GeneralUtilityHook::class);
         $hook->preventSystemLogFlood([]);
 
         $this->assertEquals(
@@ -165,12 +167,12 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
         $hook = $this->getMock(
-            'tx_mktools_hook_GeneralUtility',
+            GeneralUtilityHook::class,
             ['getLockUtility']
         );
 
         $systemLogConfigurationBackup = new ReflectionProperty(
-            'tx_mktools_hook_GeneralUtility',
+            GeneralUtilityHook::class,
             'systemLogConfigurationBackup'
         );
         $systemLogConfigurationBackup->setAccessible(true);
@@ -221,7 +223,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
             123
         );
         $lockUtility = $this->callInaccessibleMethod(
-            tx_rnbase::makeInstance('tx_mktools_hook_GeneralUtility'),
+            tx_rnbase::makeInstance(GeneralUtilityHook::class),
             'getLockUtility',
             ['msg' => 'fehler', 'extKey' => 'mktools', 'severity' => 2]
         );
@@ -251,7 +253,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
             ->method('lockProcess');
 
         $hook = $this->getMock(
-            'tx_mktools_hook_GeneralUtility',
+            GeneralUtilityHook::class,
             ['getLockUtility']
         );
         $hook->expects($this->once())
@@ -291,7 +293,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
             ->method('lockProcess');
 
         $hook = $this->getMock(
-            'tx_mktools_hook_GeneralUtility',
+            GeneralUtilityHook::class,
             ['getLockUtility']
         );
         $hook->expects($this->once())

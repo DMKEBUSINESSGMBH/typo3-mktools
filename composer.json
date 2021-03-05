@@ -35,14 +35,7 @@
     },
     "autoload": {
         "classmap": [
-            "action/",
-            "hook/",
-            "model/",
-            "scheduler/",
-            "util/",
-            "view/",
-            "xclasses/",
-            "Classes/"
+            "xclasses/"
         ],
         "psr-4": {
             "DMK\\Mktools\\" : "Classes"
@@ -62,7 +55,7 @@
         ],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint ./Classes ./action ./hook ./model ./scheduler ./util ./view ./xclasses"
+            ".Build/bin/parallel-lint ./Classes ./tests ./xclasses"
         ],
         "lint": [
             "@lint:php"
@@ -92,6 +85,11 @@
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "mktools",
             "web-dir": ".Build/Web"
+        },
+        "typo3/class-alias-loader": {
+            "class-alias-maps": [
+                "Migrations/Code/ClassAliasMap.php"
+            ]
         }
     }
 }

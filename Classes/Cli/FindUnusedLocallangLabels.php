@@ -1,4 +1,9 @@
 <?php
+
+namespace DMK\Mktools\Cli;
+
+use Sys25\RnBase\Typo3Wrapper\Core\CommandLineController;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,16 +30,27 @@
 /**
  * Tx_Mktools_Cli_FindUnusedLocallangLabels.
  *
+ * @deprecated
+ *
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Controller
+class FindUnusedLocallangLabels extends CommandLineController
 {
     /**
      * @var array
      */
     protected $labelsUsage = [];
+
+    /**
+     * @var array
+     */
+    private $cli_options;
+    /**
+     * @var array
+     */
+    private $cli_help;
 
     /**
      * Constructor.
@@ -61,15 +77,15 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
         if (!isset($this->cli_args['--locallangFile']) || !isset($this->cli_args['--searchFolders'])) {
             $this->cli_help();
         } else {
-            $languageService = tx_rnbase::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
+            $languageService = \tx_rnbase::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
             foreach ($this->cli_args['--locallangFile'] as $locallangFile) {
-                $locallangFile = tx_rnbase_util_Files::getFileAbsFileName($locallangFile);
+                $locallangFile = \tx_rnbase_util_Files::getFileAbsFileName($locallangFile);
                 $labels = $languageService->includeLLFile($locallangFile, false);
                 foreach ($this->cli_args['--searchFolders'] as $folders) {
-                    foreach (tx_rnbase_util_Strings::trimExplode(',', $folders) as $folder) {
+                    foreach (\tx_rnbase_util_Strings::trimExplode(',', $folders) as $folder) {
                         $this->getLabelsUsageInFolder(
                             $labels,
-                            tx_rnbase_util_Files::getFileAbsFileName($folder),
+                            \tx_rnbase_util_Files::getFileAbsFileName($folder),
                             [$locallangFile]
                         );
                     }
@@ -119,7 +135,7 @@ class Tx_Mktools_Cli_FindUnusedLocallangLabels extends Tx_Rnbase_CommandLine_Con
     }
 }
 
-if (tx_rnbase_util_TYPO3::isCliMode() && !defined('MKTOOLS_TESTRUN')) {
-    $cleanerObj = tx_rnbase::makeInstance('Tx_Mktools_Cli_FindUnusedLocallangLabels');
+if (\tx_rnbase_util_TYPO3::isCliMode() && !defined('MKTOOLS_TESTRUN')) {
+    $cleanerObj = \tx_rnbase::makeInstance('Tx_Mktools_Cli_FindUnusedLocallangLabels');
     $cleanerObj->showUnusedLocallangLabels();
 }

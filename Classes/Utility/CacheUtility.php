@@ -26,7 +26,7 @@ namespace DMK\Mktools\Utility;
  ***************************************************************/
 
 /**
- * DMK\Mktools\Utility$CacheUtility.
+ * DMK\Mktools\Utility\CacheUtility.
  *
  * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html

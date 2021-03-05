@@ -2,7 +2,7 @@
 
 namespace DMK\Mktools\ContentObject;
 
- /**
+/*
   *  Copyright notice.
   *
   *  (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
@@ -25,6 +25,8 @@ namespace DMK\Mktools\ContentObject;
   *  This copyright notice MUST APPEAR in all copies of the script!
   */
 
+use Sys25\RnBase\Frontend\Request\Parameters;
+
  /**
   * DMK\Mktools\ContentObject$UserContentObjectTest.
   *
@@ -42,7 +44,7 @@ namespace DMK\Mktools\ContentObject;
      public function render($conf = [])
      {
          if ($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] &&
-            !\tx_rnbase_parameters::getPostOrGetParameter('mktoolsAjaxRequest')
+            !Parameters::getPostOrGetParameter('mktoolsAjaxRequest')
          ) {
              // we need a link per element so caching (chash) works correct in the ajax
              // page type. Otherwise it's not possible to render more than one element

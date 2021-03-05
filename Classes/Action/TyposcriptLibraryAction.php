@@ -1,13 +1,14 @@
 <?php
 
-namespace DMK\Mktools\ContentObject;
+namespace DMK\Mktools\Action;
 
-use TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject as BaseUserInternalContentObject;
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Request\Parameters;
 
 /***************************************************************
  * Copyright notice
  *
- * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * (c) 2016 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,21 +29,28 @@ use TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject as BaseUserIntern
  ***************************************************************/
 
 /**
- * If element should be loaded with Ajax, we insert
- * only a placeholder which get's replaced with Ajax by the mktools
- * Ajax Renderer.
+ * Tslib action.
  *
- * @author          Hannes Bochmann
- * @license         http://www.gnu.org/licenses/lgpl.html
- *                  GNU Lesser General Public License, version 3 or later
+ * @author Michael Wagner
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
-class UserInternalContentObject extends BaseUserInternalContentObject
+class TyposcriptLibraryAction
 {
-    use LoadPluginWithAjaxTrait;
     /**
-     * Path to the TS configuration.
+     * Do the magic.
      *
-     * @var string
+     * @param Parameters $parameters
+     * @param Processor  $configurations
+     *
+     * @return string
      */
-    private $urlTypoScriptConfigurationPath = 'lib.tx_mktools.loadUserIntWithAjaxUrl.';
+    public function execute(Parameters $parameters, Processor $configurations)
+    {
+        return (string) $configurations->get('tslib', true);
+    }
+}
+
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_TsLib.php']) {
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_TsLib.php'];
 }
