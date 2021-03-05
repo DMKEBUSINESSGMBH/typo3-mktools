@@ -2,7 +2,7 @@
 
 namespace DMK\Mktools\ContentObject;
 
-/**
+/*
   *  Copyright notice.
   *
   *  (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
