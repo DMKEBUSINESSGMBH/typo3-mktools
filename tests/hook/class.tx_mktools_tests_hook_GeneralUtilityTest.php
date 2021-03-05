@@ -31,7 +31,7 @@ use DMK\Mktools\Hook\GeneralUtilityHook;
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTestCase
 {
     /**
      * @var string
@@ -50,7 +50,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
      */
     protected function setUp()
     {
-        \DMK\Mklib\Utility\Tests::storeExtConf('mktools');
+        $this->storeExtConf('mktools');
         $this->systemLogConfigurationBackup =
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'];
 
@@ -66,7 +66,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
      */
     protected function tearDown()
     {
-        \DMK\Mklib\Utility\Tests::restoreExtConf('mktools');
+        $this->restoreExtConf('mktools');
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] =
             $this->systemLogConfigurationBackup;
 
@@ -81,7 +81,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('systemLogLockThreshold', 0, 'mktools');
+        $this->setExtConfVar('systemLogLockThreshold', 0, 'mktools');
 
         require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
@@ -108,7 +108,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('systemLogLockThreshold', 123, 'mktools');
+        $this->setExtConfVar('systemLogLockThreshold', 123, 'mktools');
 
         require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
 
@@ -216,7 +216,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('systemLogLockThreshold', 123, 'mktools');
+        $this->setExtConfVar('systemLogLockThreshold', 123, 'mktools');
 
         $expectedLockUtility = tx_rnbase_util_Lock::getInstance(
             '15c79894401d2315b62f631234b9fb49',

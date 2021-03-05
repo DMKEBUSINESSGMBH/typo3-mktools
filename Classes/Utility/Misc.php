@@ -129,7 +129,7 @@ final class Misc
             );
         }
 
-        $pageTSconfig = \tx_mklib_util_TS::getPagesTSconfig(0);
+        $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0, 1);
         $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
             (array) $pageTSconfig['config.']['tx_mktools.'],
             (array) $pageTSconfig['plugin.']['tx_mktools.']

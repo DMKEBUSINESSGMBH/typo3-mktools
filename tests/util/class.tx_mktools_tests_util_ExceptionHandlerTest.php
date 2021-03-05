@@ -27,7 +27,7 @@ use DMK\Mktools\ErrorHandler\ExceptionHandler;
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTestCase
 {
     /**
      * @var string
@@ -56,8 +56,8 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
      */
     protected function setUp()
     {
-        \DMK\Mklib\Utility\Tests::disableDevlog();
-        \DMK\Mklib\Utility\Tests::storeExtConf('mktools');
+        $this->disableDevlog();
+        $this->storeExtConf('mktools');
 
         $this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
 
@@ -76,7 +76,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
      */
     protected function tearDown()
     {
-        \DMK\Mklib\Utility\Tests::restoreExtConf('mktools');
+        $this->restoreExtConf('mktools');
 
         $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
 
@@ -94,7 +94,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         self::markTestSkipped('Problem with type3 9.5 config');
 
         //damit der redirect nicht ausgeführt wird
-        \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', '', 'mktools');
+        $this->setExtConfVar('exceptionPage', '', 'mktools');
 
         $exceptionHandler = $this->getExceptionHandlerMock();
 
@@ -114,7 +114,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
         self::markTestSkipped('Problem with type3 9.5 config');
 
         //damit der redirect nicht ausgeführt wird
-        \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', '', 'mktools');
+        $this->setExtConfVar('exceptionPage', '', 'mktools');
 
         $exceptionHandler = $this->getExceptionHandlerMock();
 
@@ -133,7 +133,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', 'FILE:', 'mktools');
+        $this->setExtConfVar('exceptionPage', 'FILE:', 'mktools');
 
         $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined']);
 
@@ -154,7 +154,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
+        $this->setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
 
         $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined']);
 
@@ -175,7 +175,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
+        $this->setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
 
         $exceptionHandler = $this->getExceptionHandlerMock(['logNoExceptionPageDefined']);
 
@@ -196,7 +196,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
             'This test has to be refactored.'
         );
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar(
+        $this->setExtConfVar(
             'exceptionPage',
             'TYPOSCRIPT:typo3conf/ext/mktools/tests/fixtures/typoscript/errorHandling.txt',
             'mktools'
@@ -406,7 +406,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
+        $this->setExtConfVar('exceptionPage', 'FILE:index.php', 'mktools');
 
         // wir prüfen einfach nur ob scheinbar 2 mal die Debug Meldung
         // von TYPO3 ausgegeben wird.

@@ -25,7 +25,7 @@
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_miscToolsTest extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_util_miscToolsTest extends tx_mktools_tests_BaseTestCase
 {
     /**
      * @var string
@@ -40,7 +40,7 @@ class tx_mktools_tests_util_miscToolsTest extends tx_rnbase_tests_BaseTestCase
     protected function setUp()
     {
         $this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
-        \DMK\Mklib\Utility\Tests::storeExtConf('mktools');
+        $this->storeExtConf('mktools');
     }
 
     /**
@@ -51,7 +51,7 @@ class tx_mktools_tests_util_miscToolsTest extends tx_rnbase_tests_BaseTestCase
     protected function tearDown()
     {
         $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
-        \DMK\Mklib\Utility\Tests::restoreExtConf('mktools');
+        $this->restoreExtConf('mktools');
     }
 
     /**
@@ -102,7 +102,7 @@ class tx_mktools_tests_util_miscToolsTest extends tx_rnbase_tests_BaseTestCase
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
-        \DMK\Mklib\Utility\Tests::setExtConfVar(
+        $this->setExtConfVar(
             'systemLogLockThreshold',
             123,
             'mktools'

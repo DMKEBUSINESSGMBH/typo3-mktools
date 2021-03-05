@@ -2,8 +2,6 @@
 
 namespace DMK\Mktools\Session;
 
-use DMK\Mktools\Exception\RuntimeException;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +24,9 @@ use DMK\Mktools\Exception\RuntimeException;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use DMK\Mktools\Exception\RuntimeException;
+use DMK\Mktools\Utility\SessionUtility;
 
 /**
  * Flash message utility.
@@ -94,7 +95,7 @@ class FlashMessageStorage
     public function load()
     {
         // load messages from last request
-        $prevMessages = \tx_mklib_util_Session::getSessionValue('flash_mesages', 'mktools');
+        $prevMessages = SessionUtility::getSessionValue('flash_mesages', 'mktools');
         $prevMessages = unserialize($prevMessages);
 
         $this->prevMessages = new \ArrayObject(
@@ -102,7 +103,7 @@ class FlashMessageStorage
         );
 
         // remove the current mesage stack from session
-        \tx_mklib_util_Session::removeSessionValue(
+        SessionUtility::removeSessionValue(
             'flash_mesages',
             'mktools'
         );
@@ -117,13 +118,13 @@ class FlashMessageStorage
      */
     public function save()
     {
-        \tx_mklib_util_Session::setSessionValue(
+        SessionUtility::setSessionValue(
             'flash_mesages',
             serialize($this->nextMessages->getArrayCopy()),
             'mktools'
         );
 
-        \tx_mklib_util_Session::storeSessionData();
+        SessionUtility::storeSessionData();
 
         return $this;
     }

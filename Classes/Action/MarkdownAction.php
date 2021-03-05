@@ -2,10 +2,9 @@
 
 namespace DMK\Mktools\Action;
 
+use DMK\Mktools\Utility\ComposerUtility;
 use Parsedown;
 use ParsedownExtra;
-use tx_mklib_util_MiscTools as Misc;
-use tx_mktools_util_Composer as ComposerUtil;
 use tx_rnbase_util_Network as NetworkUtil;
 use tx_rnbase_util_Templates as TemplatesUtil;
 
@@ -77,7 +76,15 @@ class MarkdownAction extends ShowTemplateAction
      */
     protected function auth()
     {
-        Misc::enableHttpAuthForCgi();
+        if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) =
+                explode(
+                    ':',
+                    base64_decode(
+                        substr($_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 6)
+                    )
+                );
+        }
 
         $auth = $this->getConfigurations()->get(
             $this->getConfId().'auth.crypt.'
@@ -109,7 +116,7 @@ class MarkdownAction extends ShowTemplateAction
     protected function getParser()
     {
         if (null === $this->parser) {
-            ComposerUtil::autoload();
+            ComposerUtility::autoload();
             $this->parser = new ParsedownExtra();
             $this->parser->setMarkupEscaped(false);
             $this->parser->setBreaksEnabled(false);
