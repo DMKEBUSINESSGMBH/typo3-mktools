@@ -2,15 +2,11 @@
 
 namespace DMK\Mktools\ErrorHandler;
 
-use DMK\Mktools\Exception\RuntimeException;
-use Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler as RnBaseErrorHandler;
-use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception;
-
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
@@ -28,6 +24,10 @@ use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use DMK\Mktools\Exception\RuntimeException;
+use Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler as RnBaseErrorHandler;
+use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception;
 
 /**
  * wie der TYPO3 error handler. aber wir behandeln noch fatal errors.

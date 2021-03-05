@@ -5,7 +5,7 @@ namespace DMK\Mktools\Utility;
 /***************************************************************
  *  Copyright notice
  *
- * (c) 2014 DMK E-BUSINESS GmbH <kontakt@dmk-ebusiness.de>
+ * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

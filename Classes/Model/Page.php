@@ -5,8 +5,8 @@ namespace DMK\Mktools\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 DMK E-BUSINESS GmbH (dev@dmk-ebusiness.de)
- *  All rights reserved
+ * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@ namespace DMK\Mktools\Model;
  ***************************************************************/
 
 /**
- * @author Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @author Hannes Bochmann
  */
 class Page extends \tx_rnbase_model_base
 {

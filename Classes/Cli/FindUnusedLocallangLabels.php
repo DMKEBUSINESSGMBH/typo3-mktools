@@ -2,12 +2,10 @@
 
 namespace DMK\Mktools\Cli;
 
-use Sys25\RnBase\Typo3Wrapper\Core\CommandLineController;
-
 /***************************************************************
  *  Copyright notice
  *
- * (c) 2014 DMK E-BUSINESS GmbH <kontakt@dmk-ebusiness.de>
+ * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,6 +24,8 @@ use Sys25\RnBase\Typo3Wrapper\Core\CommandLineController;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use Sys25\RnBase\Typo3Wrapper\Core\CommandLineController;
 
 /**
  * Tx_Mktools_Cli_FindUnusedLocallangLabels.

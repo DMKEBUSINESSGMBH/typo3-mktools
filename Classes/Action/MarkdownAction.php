@@ -2,16 +2,10 @@
 
 namespace DMK\Mktools\Action;
 
-use DMK\Mktools\Utility\ComposerUtility;
-use Parsedown;
-use ParsedownExtra;
-use tx_rnbase_util_Network as NetworkUtil;
-use tx_rnbase_util_Templates as TemplatesUtil;
-
 /***************************************************************
  *  Copyright notice
  *
- * (c) 2015 DMK E-BUSINESS GmbH <kontakt@dmk-ebusiness.de>
+ * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,6 +24,12 @@ use tx_rnbase_util_Templates as TemplatesUtil;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use DMK\Mktools\Utility\ComposerUtility;
+use Parsedown;
+use ParsedownExtra;
+use tx_rnbase_util_Files as FileUtil;
+use tx_rnbase_util_Network as NetworkUtil;
 
 /**
  * Controller for markdown documentations.
@@ -57,7 +57,7 @@ class MarkdownAction extends ShowTemplateAction
         $content = '';
 
         foreach ($this->getFiles() as $file) {
-            $file = \tx_rnbase_util_Files::getFileName($file);
+            $file = FileUtil::getFileName($file);
             $rawContent = NetworkUtil::getUrl($file);
             $content .= $this->parseContent($rawContent);
         }

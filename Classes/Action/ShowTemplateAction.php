@@ -2,16 +2,11 @@
 
 namespace DMK\Mktools\Action;
 
-use Sys25\RnBase\Configuration\Processor;
-use Sys25\RnBase\Frontend\Request\Parameters;
-
-/**
- * @author Hannes Bochmann
- *
+/***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
@@ -28,10 +23,16 @@ use Sys25\RnBase\Frontend\Request\Parameters;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- */
+ ***************************************************************/
+
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Request\Parameters;
 
 /**
  * ShowTemplate Controller.
+ *
+ * @author Michael Wagner
+ * @author Hannes Bochmann
  */
 class ShowTemplateAction extends \tx_rnbase_action_BaseIOC
 {

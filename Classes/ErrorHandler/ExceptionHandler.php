@@ -2,16 +2,11 @@
 
 namespace DMK\Mktools\ErrorHandler;
 
-use DMK\Mktools\Exception\ExceptionInterface;
-use DMK\Mktools\Utility\Misc;
-use Sys25\RnBase\Typo3Wrapper\Core\Error\ProductionExceptionHandler;
-use Sys25\RnBase\Utility\Environment;
-
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
@@ -30,10 +25,15 @@ use Sys25\RnBase\Utility\Environment;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DMK\Mktools\Exception\ExceptionInterface;
+use DMK\Mktools\Utility\Misc;
+use Sys25\RnBase\Typo3Wrapper\Core\Error\ProductionExceptionHandler;
+use Sys25\RnBase\Utility\Environment;
+
 /**
  * tx_mktools_util_ExceptionHandlerBase.
  *
- * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
+ * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
