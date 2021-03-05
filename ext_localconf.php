@@ -27,10 +27,6 @@ if (!tx_rnbase_util_TYPO3::isTYPO90OrHigher() && mktools_getConf('pageNotFoundHa
     tx_mktools_util_PageNotFoundHandling::registerXclass();
 }
 
-if (mktools_getConf('realUrlXclass', 'FE') && !tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
-    tx_mktools_util_RealUrl::registerXclass();
-}
-
 if (mktools_getConf('systemLogLockThreshold')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'][]
         = 'tx_mktools_hook_GeneralUtility->preventSystemLogFlood';

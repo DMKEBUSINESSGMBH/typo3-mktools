@@ -7,9 +7,6 @@ ajaxContentRendererActive = 0
 # cat=modules; type=boolean; label=Activates the tslib XCLASS:Enables the tslib XCLASS for advanced page not found handling. Since TYPO3 9.5 not longer available.
 pageNotFoundHandling = 0
 
-# cat=modules; type=boolean; label=Activates the Realurl XCLASS:Enables the Realurl XCLASS for localized post var sets. Since TYPO3 9.5 not longer available.
-realUrlXclass = 0
-
 # cat=modules; type=boolean; label=Activates the Robots Meta Tag:Enables the individual Robots Meta-Tag for Pages 
 seoRobotsMetaTagActive = 0
 
