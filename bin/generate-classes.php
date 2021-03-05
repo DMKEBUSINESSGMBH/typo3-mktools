@@ -43,7 +43,6 @@ $header = <<<'HEADER'
 
 HEADER;
 
-
 $content = '';
 
 foreach ($classes as $legacy => $new) {

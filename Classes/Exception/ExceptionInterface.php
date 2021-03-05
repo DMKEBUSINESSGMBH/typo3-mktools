@@ -6,5 +6,4 @@ use Throwable;
 
 interface ExceptionInterface extends Throwable
 {
-
 }

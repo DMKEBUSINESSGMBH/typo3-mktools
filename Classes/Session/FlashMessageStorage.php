@@ -98,7 +98,7 @@ class FlashMessageStorage
         $prevMessages = unserialize($prevMessages);
 
         $this->prevMessages = new \ArrayObject(
-            empty($prevMessages) ? array() : $prevMessages
+            empty($prevMessages) ? [] : $prevMessages
         );
 
         // remove the current mesage stack from session
@@ -198,11 +198,7 @@ class FlashMessageStorage
     public static function __callStatic($method, $args)
     {
         if (0 !== strpos($method, 'add') || $method[3] !== strtoupper($method[3])) {
-            throw new RuntimeException(sprintf(
-                'Method "%s::%s()" does not exists',
-                static::class,
-                $method
-            ));
+            throw new RuntimeException(sprintf('Method "%s::%s()" does not exists', static::class, $method));
         }
 
         $level = substr($method, 3);

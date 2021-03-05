@@ -221,7 +221,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             ExceptionHandler::class,
-            array('writeLogEntriesByParent', 'lockAcquired')
+            ['writeLogEntriesByParent', 'lockAcquired']
         );
 
         $exceptionHandler->expects($this->once())
@@ -251,7 +251,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             ExceptionHandler::class,
-            array('writeLogEntriesByParent', 'lockAcquired')
+            ['writeLogEntriesByParent', 'lockAcquired']
         );
 
         $exceptionHandler->expects($this->never())
@@ -282,7 +282,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             ExceptionHandler::class,
-            array('writeLogEntriesByParent', 'lockAcquired')
+            ['writeLogEntriesByParent', 'lockAcquired']
         );
 
         $exceptionHandler->expects($this->once())
@@ -345,7 +345,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             ExceptionHandler::class,
-            array('getLockFileByExceptionAndContext')
+            ['getLockFileByExceptionAndContext']
         );
 
         $exceptionHandler->expects($this->once())
@@ -377,7 +377,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_rnbase_tests_BaseTes
 
         $exceptionHandler = $this->getMock(
             ExceptionHandler::class,
-            array('getLockFileByExceptionAndContext')
+            ['getLockFileByExceptionAndContext']
         );
 
         $exceptionHandler->expects($this->once())

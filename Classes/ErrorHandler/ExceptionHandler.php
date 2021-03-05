@@ -149,12 +149,12 @@ class ExceptionHandler extends ProductionExceptionHandler
         $this->writeLogEntries($exception, self::CONTEXT_WEB);
 
         if ($this->shouldExceptionBeDebugged()) {
-            \tx_rnbase_util_Debug::debug(array(
+            \tx_rnbase_util_Debug::debug([
                     'Exception! Mehr infos im devlog.',
-            ), __METHOD__.' Line: '.__LINE__);
-            \tx_rnbase_util_Debug::debug(array(
+            ], __METHOD__.' Line: '.__LINE__);
+            \tx_rnbase_util_Debug::debug([
                     $exception,
-            ), __METHOD__.' Line: '.__LINE__);
+            ], __METHOD__.' Line: '.__LINE__);
         }
 
         if ((!$exceptionPage = $this->getExceptionPage()) ||

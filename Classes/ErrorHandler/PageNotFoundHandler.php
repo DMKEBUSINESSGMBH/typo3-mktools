@@ -5,7 +5,6 @@ namespace DMK\Mktools\ErrorHandler;
 use DMK\Mktools\Exception\InvalidArgumentException;
 use DMK\Mktools\Exception\LogicException;
 use DMK\Mktools\Utility\Misc;
-use tx_rnbase_util_Strings;
 use Tx_Rnbase_Utility_Strings as StringUtil;
 
 /***************************************************************

@@ -52,7 +52,7 @@ class GenerateRealUrlConfigurationFileTask extends GenericTask
             $devLogMessage = 'realUrl Konfigurationsdatei muss nicht erstellt werden.';
         }
 
-        $devLog[\tx_rnbase_util_Logger::LOGLEVEL_INFO] = array(
+        $devLog[\tx_rnbase_util_Logger::LOGLEVEL_INFO] = [
             'message' => $devLogMessage,
         ];
     }

@@ -151,7 +151,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
         );
 
         $hook = tx_rnbase::makeInstance(GeneralUtilityHook::class);
-        $hook->preventSystemLogFlood(array());
+        $hook->preventSystemLogFlood([]);
 
         $this->assertEquals(
             'someSystemLogDaemons',
@@ -168,7 +168,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
         $hook = $this->getMock(
             GeneralUtilityHook::class,
-            array('getLockUtility')
+            ['getLockUtility']
         );
 
         $systemLogConfigurationBackup = new ReflectionProperty(
@@ -254,7 +254,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
 
         $hook = $this->getMock(
             GeneralUtilityHook::class,
-            array('getLockUtility')
+            ['getLockUtility']
         );
         $hook->expects($this->once())
             ->method('getLockUtility')
@@ -294,7 +294,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_rnbase_tests_BaseTestC
 
         $hook = $this->getMock(
             GeneralUtilityHook::class,
-            array('getLockUtility')
+            ['getLockUtility']
         );
         $hook->expects($this->once())
             ->method('getLockUtility')

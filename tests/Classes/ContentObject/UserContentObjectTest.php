@@ -112,7 +112,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
 
         $this->initializeFixtures($contentObject);
 
-        $GLOBALS['TSFE']->tmpl->setup['config'] = 'test';
+        @$GLOBALS['TSFE']->tmpl->setup['config'] = 'test';
         $configurations = $this->getMock(\Sys25\RnBase\Configuration\Processor::class, ['init']);
         $configurations->expects(self::once())
             ->method('init')

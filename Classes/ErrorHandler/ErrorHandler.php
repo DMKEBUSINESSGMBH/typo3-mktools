@@ -80,11 +80,7 @@ class ErrorHandler extends RnBaseErrorHandler
 
             //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
             //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
-            throw \tx_rnbase::makeInstance(
-                RuntimeException::class,
-                $exception->getMessage(),
-                $exception->getCode()
-            );
+            throw \tx_rnbase::makeInstance(RuntimeException::class, $exception->getMessage(), $exception->getCode());
         }
 
         return $return;
