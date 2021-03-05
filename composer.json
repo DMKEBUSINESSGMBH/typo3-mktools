@@ -24,13 +24,13 @@
         "typo3-ter/mktools": "self.version"
     },
     "require": {
-        "typo3/cms-core": "^8.7 || ^9.5",
-        "digedag/rn-base": "^1.11.0"
+        "typo3/cms-core": "^9.5 || ^10.4",
+        "digedag/rn-base": "^1.12.4"
     },
     "require-dev": {
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "nimut/testing-framework": "^4.0"
+        "nimut/testing-framework": "^4.0 || ^5.0"
     },
     "autoload": {
         "classmap": [
@@ -39,6 +39,11 @@
         "psr-4": {
             "DMK\\Mktools\\" : "Classes"
         }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
     },
     "config": {
         "vendor-dir": ".Build/vendor",
@@ -80,6 +85,9 @@
         ]
     },
     "extra": {
+        "branch-alias" : {
+            "dev-10.4": "10.0.x-dev"
+        },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "mktools",

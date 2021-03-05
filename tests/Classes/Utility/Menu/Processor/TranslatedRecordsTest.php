@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace DMK\Mktools\Utility\Menu\Processor;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Class TranslatedRecordsTest.
@@ -35,8 +34,12 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
         $dbConnection = $this->prophesize(\Tx_Rnbase_Database_Connection::class);
         GeneralUtility::setSingletonInstance(\Tx_Rnbase_Database_Connection::class, $dbConnection->reveal());
 
-        $pageRepository = $this->prophesize(PageRepository::class);
-        GeneralUtility::addInstance(PageRepository::class, $pageRepository->reveal());
+        $pageRepositoryClass = 'TYPO3\\CMS\\Frontend\\Page\\PageRepository';
+        if (\tx_rnbase_util_TYPO3::isTYPO104OrHigher()) {
+            $pageRepositoryClass = 'TYPO3\\CMS\\Core\\Domain\\Repository\\PageRepository';
+        }
+        $pageRepository = $this->prophesize($pageRepositoryClass);
+        GeneralUtility::addInstance($pageRepositoryClass, $pageRepository->reveal());
 
         $item = ['uid' => 123, 'title' => 'de'];
 
@@ -49,12 +52,7 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
             ->willReturn([$item]);
 
         //no overlay found
-        if (!\tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
-            $pageRepository->init(0)->shouldBeCalledOnce();
-            $expectedLanguageMode = '';
-        } else {
-            $expectedLanguageMode = 'hideNonTranslated';
-        }
+        $expectedLanguageMode = 'hideNonTranslated';
         $pageRepository
             ->getRecordOverlay(
                 'tx_cal_event',

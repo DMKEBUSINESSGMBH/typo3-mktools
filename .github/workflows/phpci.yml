@@ -19,8 +19,6 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.0"
-                    - "7.1"
                     - "7.2"
                     - "7.3"
                     - "7.4"
@@ -68,7 +66,7 @@ jobs:
                 command:
                     - "test:phpcs"
                 php-version:
-                    - "7.3"
+                    - "7.4"
 
         steps:
             -
@@ -114,23 +112,31 @@ jobs:
             matrix:
                 include:
                     -
-                        typo3-version: "^8.7"
-                        php-version: "7.0"
-                    -
-                        typo3-version: "^8.7"
-                        php-version: "7.1"
-                    -
-                        typo3-version: "^8.7"
-                        php-version: "7.2"
-                    -
-                        typo3-version: "^8.7"
-                        php-version: "7.3"
-                    -
                         typo3-version: "^9.5"
                         php-version: "7.2"
+                        allow-failure: false
                     -
                         typo3-version: "^9.5"
                         php-version: "7.3"
+                        allow-failure: false
+                    -
+                        typo3-version: "^9.5"
+                        php-version: "7.4"
+                        allow-failure: false
+                    -
+                        typo3-version: "^10.4"
+                        php-version: "7.2"
+                        allow-failure: true
+                    -
+                        typo3-version: "^10.4"
+                        php-version: "7.3"
+                        allow-failure: true
+                    -
+                        typo3-version: "^10.4"
+                        php-version: "7.4"
+                        allow-failure: true
+
+        continue-on-error: ${{ matrix.allow-failure }}
 
         steps:
             -
