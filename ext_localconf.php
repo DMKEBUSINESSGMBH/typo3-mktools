@@ -10,7 +10,7 @@ defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 if (!function_exists('mktools_getConf')) {
     function mktools_getConf($key, $mode = false)
     {
-        $extensionConfigurationByKey = tx_mklib_util_MiscTools::getExtensionValue($key, 'mktools');
+        $extensionConfigurationByKey = tx_rnbase_configurations::getExtensionCfgValue('mktools', $key);
 
         return (isset($extensionConfigurationByKey) && (false === $mode || TYPO3_MODE == $mode)) ? $extensionConfigurationByKey : false;
     }
@@ -30,8 +30,6 @@ if (!tx_rnbase_util_TYPO3::isTYPO90OrHigher() && mktools_getConf('pageNotFoundHa
 if (mktools_getConf('realUrlXclass', 'FE') && !tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
     tx_mktools_util_RealUrl::registerXclass();
 }
-
-require tx_rnbase_util_Extensions::extPath('mktools').'scheduler/ext_localconf.php';
 
 if (mktools_getConf('systemLogLockThreshold')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'][]

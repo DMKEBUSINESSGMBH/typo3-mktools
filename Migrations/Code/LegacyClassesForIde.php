@@ -99,13 +99,6 @@ class tx_mktools_model_FixedPostVarType extends DMK\Mktools\Model\FixedPostVarTy
 /**
  * @deprecated since 9.6, removed since 11.0
  */
-class tx_mktools_scheduler_GenerateRealUrlConfigurationFile extends DMK\Mktools\Scheduler\GenerateRealUrlConfigurationFileTask
-{
-}
-
-/**
- * @deprecated since 9.6, removed since 11.0
- */
 class tx_mktools_view_ShowTemplate extends DMK\Mktools\View\ShowTemplate
 {
 }

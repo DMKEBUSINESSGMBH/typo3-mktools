@@ -1,6 +1,6 @@
 <?php
 /**
- * Extension Manager/Repository config file for ext "mklib".
+ * Extension Manager/Repository config file for ext "mktools".
  */
 
 //
@@ -18,7 +18,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_email' => 'dev@dmk-ebusiness.de',
     'author_company' => 'DMK E-Business GmbH',
     'shy' => '',
-    'dependencies' => 'rn_base, mklib',
+    'dependencies' => 'rn_base',
     'version' => '9.5.9',
     'conflicts' => '',
     'priority' => '',

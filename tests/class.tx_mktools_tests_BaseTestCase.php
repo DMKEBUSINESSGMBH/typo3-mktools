@@ -37,7 +37,7 @@ class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCase
      * @param string $sExtKey
      * @param bool   $bOverwrite
      */
-    public static function storeExtConf($sExtKey = 'mklib', $bOverwrite = false)
+    public static function storeExtConf($sExtKey = 'mktools', $bOverwrite = false)
     {
         if (!isset(self::$aExtConf[$sExtKey]) || $bOverwrite) {
             self::$aExtConf[$sExtKey] = $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey];
@@ -51,7 +51,7 @@ class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCase
      *
      * @return bool wurde die Konfiguration zurückgesetzt?
      */
-    public static function restoreExtConf($sExtKey = 'mklib')
+    public static function restoreExtConf($sExtKey = 'mktools')
     {
         if (isset(self::$aExtConf[$sExtKey])) {
             $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey] = self::$aExtConf[$sExtKey];
@@ -70,7 +70,7 @@ class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCase
      * @param string $sCfgValue
      * @param string $sExtKey
      */
-    public static function setExtConfVar($sCfgKey, $sCfgValue, $sExtKey = 'mklib')
+    public static function setExtConfVar($sCfgKey, $sCfgValue, $sExtKey = 'mktools')
     {
         // aktuelle Konfiguration auslesen
         $extConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$sExtKey]);
@@ -93,7 +93,7 @@ class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCase
      *
      * @return string
      */
-    public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 'mklib')
+    public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 'mktools')
     {
         return \tx_rnbase_util_Extensions::extPath($extKey).$dir.$filename;
     }

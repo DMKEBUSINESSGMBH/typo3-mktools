@@ -12,7 +12,6 @@ return [
 
     'tx_mktools_model_Pages' => \DMK\Mktools\Model\Page::class,
     'tx_mktools_model_FixedPostVarType' => \DMK\Mktools\Model\FixedPostVarType::class,
-    'tx_mktools_scheduler_GenerateRealUrlConfigurationFile' => \DMK\Mktools\Scheduler\GenerateRealUrlConfigurationFileTask::class,
     'tx_mktools_view_ShowTemplate' => \DMK\Mktools\View\ShowTemplate::class,
     'tx_mktools_util_Composer' => \DMK\Mktools\Utility\ComposerUtility::class,
     'tx_mktools_util_RealUrl' => \DMK\Mktools\Utility\RealUrlUtility::class,

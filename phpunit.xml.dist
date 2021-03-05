@@ -28,7 +28,6 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">hook/</directory>
             <directory suffix=".php">model/</directory>
-            <directory suffix=".php">scheduler/</directory>
             <directory suffix=".php">util</directory>
         </whitelist>
     </filter>
