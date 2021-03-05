@@ -146,13 +146,7 @@ class PageNotFoundHandler
             $logPageNotFound = $this->getLogPageNotFoundFromConfiguration();
         }
 
-        // Handling von mehrsprachigen 404 Seiten
-        $languageCode = $this->getCurrentLanguage();
-        if ($languageCode) {
-            if ($this->getDataFromConfiguration($languageCode)) {
-                $data = $this->getDataFromConfiguration($languageCode);
-            }
-        }
+        // @TODO: Handling von mehrsprachigen 404 Seiten
 
         if (empty($type) || empty($data)) {
             throw new InvalidArgumentException('Type or data missing! (MKTOOLS_[TYPE]:[DATA])', intval(ERROR_CODE_MKTOOLS.'110'));
@@ -465,44 +459,6 @@ class PageNotFoundHandler
         }
 
         return $value;
-    }
-
-    /**
-     * Liefert Kürzel der aktuell gesetzten Sprache.
-     * Bei aktivierten realurl kann diese nicht auf dem üblichen Weg ausgewertet
-     * werden. Realurl kann die URL nicht auflösen, da es keine gültige Seite hat.
-     * Demzufolge kann der L-Parameter nicht einfach z.B: über TS abgefragt werden.
-     *
-     * @return string With countrycode or NULL
-     */
-    private function getCurrentLanguage()
-    {
-        if (\tx_rnbase_util_Extensions::isLoaded('realurl') && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
-            $realurlConf = array_shift($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']);
-            if ($realurlConf &&
-                is_array($realurlConf['preVars']) &&
-                $realurlConf['pagePath']['languageGetVar']
-            ) {
-                // look for language configuration
-                foreach ($realurlConf['preVars'] as $conf) {
-                    if ($conf['GETvar'] == $realurlConf['pagePath']['languageGetVar']) {
-                        foreach ($conf['valueMap'] as $countrycode => $value) {
-                            // we expect a part like "/de/" in requested url
-                            if ((
-                                false !== strpos(
-                                    \tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL'),
-                                    '/'.$countrycode.'/'
-                                )
-                            )) {
-                                return $countrycode;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 
     /**

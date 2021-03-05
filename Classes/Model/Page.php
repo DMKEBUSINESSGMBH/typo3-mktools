@@ -44,23 +44,4 @@ class Page extends \tx_rnbase_model_base
     {
         return 'pages';
     }
-
-    /**
-     * @return FixedPostVarType|null
-     */
-    public function getFixedPostVarType()
-    {
-        if ($this->fixedPostVarType instanceof FixedPostVarType) {
-            return $this->fixedPostVarType;
-        }
-
-        if ($this->record['tx_mktools_fixedpostvartype']) {
-            return $this->fixedPostVarType = \tx_rnbase::makeInstance(
-                FixedPostVarType::class,
-                $this->record['tx_mktools_fixedpostvartype']
-            );
-        }
-
-        return $this->fixedPostVarType = null;
-    }
 }

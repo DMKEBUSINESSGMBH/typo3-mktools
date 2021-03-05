@@ -17,7 +17,6 @@ config {
   spamProtectEmailAddresses = 1
   spamProtectEmailAddresses_atSubst = (at)
   sys_language_uid = 0
-  tx_realurl_enable = {$config.tx_realurl_enable}
   xmlprologue = none
   simulateStaticDocuments = 0
 }

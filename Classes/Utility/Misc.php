@@ -145,34 +145,6 @@ final class Misc
     }
 
     /**
-     * @return bool
-     */
-    public static function loadFixedPostVarTypesTable()
-    {
-        return self::getExtensionCfgValue('tableFixedPostVarTypes');
-    }
-
-    /**
-     * @return string
-     */
-    public static function getRealUrlConfigurationFile()
-    {
-        return self::getAbsoluteFileName(self::getExtensionCfgValue(
-            'realUrlConfigurationFile'
-        ));
-    }
-
-    /**
-     * @return string
-     */
-    public static function getRealUrlConfigurationTemplate()
-    {
-        return self::getAbsoluteFileName(self::getExtensionCfgValue(
-            'realUrlConfigurationTemplate'
-        ));
-    }
-
-    /**
      * @param string $filename
      *
      * @return string
