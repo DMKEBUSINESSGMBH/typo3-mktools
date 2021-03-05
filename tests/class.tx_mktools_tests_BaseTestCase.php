@@ -25,7 +25,7 @@
 /**
  * @author Michael Wagner
  */
-class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCase
+abstract class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCase
 {
     private static $aExtConf = [];
 
