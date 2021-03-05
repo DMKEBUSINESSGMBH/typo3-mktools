@@ -54,12 +54,10 @@ class MarkdownAction extends ShowTemplateAction
             return ['content' => '<h1>ACCESS DENIED</h1>'];
         }
 
-        // get real filenames!
-        $tmpl = TemplatesUtil::getTSTemplate();
         $content = '';
 
         foreach ($this->getFiles() as $file) {
-            $file = $tmpl->getFileName($file);
+            $file = \tx_rnbase_util_Files::getFileName($file);
             $rawContent = NetworkUtil::getUrl($file);
             $content .= $this->parseContent($rawContent);
         }
