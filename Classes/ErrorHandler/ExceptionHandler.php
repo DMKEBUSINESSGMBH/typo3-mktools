@@ -28,7 +28,7 @@ namespace DMK\Mktools\ErrorHandler;
 use DMK\Mktools\Exception\ExceptionInterface;
 use DMK\Mktools\Utility\Misc;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\ProductionExceptionHandler;
-use Sys25\RnBase\Utility\Environment;
+use TYPO3\CMS\Core\Core\Environment;
 
 /**
  * tx_mktools_util_ExceptionHandlerBase.
@@ -48,6 +48,21 @@ class ExceptionHandler extends ProductionExceptionHandler
      * @var array
      */
     private $exceptionPageExtensionConfiguration = [];
+
+    /**
+     * @var string
+     */
+    private $lockFilePath = '';
+
+    /**
+     * Constructs this exception handler - registers itself as the default exception handler.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->lockFilePath = Environment::getVarPath().'/lock/';
+    }
 
     /**
      * @param \Exception|\Throwable $exception
@@ -92,10 +107,6 @@ class ExceptionHandler extends ProductionExceptionHandler
      */
     protected function lockAcquired($exception, $context)
     {
-        if (!is_dir(Environment::getPublicPath().'typo3temp/mktools/locks/')) {
-            \tx_rnbase_util_Files::mkdir_deep(Environment::getPublicPath().'typo3temp/', 'mktools/locks');
-        }
-
         $lockFile = $this->getLockFileByExceptionAndContext($exception, $context);
 
         $lastCall = (int) trim(file_get_contents($lockFile));
@@ -116,17 +127,12 @@ class ExceptionHandler extends ProductionExceptionHandler
      */
     protected function getLockFileByExceptionAndContext($exception, $context)
     {
-        $lockFileName = md5(
+        $lockIdentifier = 'mktoolsExceptionLock_'.md5(
             $exception->getCode().$exception->getMessage().
                 $exception->getPrevious().$context
         );
 
-        $lockFilePath = Environment::getPublicPath().'typo3temp/mktools/locks/';
-        if (!is_dir($lockFilePath)) {
-            \tx_rnbase_util_Files::mkdir_deep($lockFilePath);
-        }
-
-        $lockFile = $lockFilePath.$lockFileName.'.txt';
+        $lockFile = $this->lockFilePath.$lockIdentifier;
         if (!file_exists($lockFile)) {
             touch($lockFile);
         }

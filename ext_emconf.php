@@ -22,7 +22,6 @@ $EM_CONF['mktools'] = [
     'version' => '9.5.9',
     'conflicts' => '',
     'priority' => '',
-    'createDirs' => 'typo3temp/mktools/locks/',
     'module' => '',
     'state' => 'stable',
     'internal' => '',
