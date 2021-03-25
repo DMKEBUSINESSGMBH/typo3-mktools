@@ -91,7 +91,8 @@
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "mktools",
-            "web-dir": ".Build/Web"
+            "web-dir": ".Build/Web",
+            "app-dir": ".Build"
         },
         "typo3/class-alias-loader": {
             "class-alias-maps": [
