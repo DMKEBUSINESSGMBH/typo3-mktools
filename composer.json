@@ -33,9 +33,6 @@
         "nimut/testing-framework": "^4.0 || ^5.0"
     },
     "autoload": {
-        "classmap": [
-            "xclasses/"
-        ],
         "psr-4": {
             "DMK\\Mktools\\" : "Classes"
         }
