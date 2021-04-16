@@ -78,27 +78,6 @@ class tx_mktools_hook_GeneralUtility extends DMK\Mktools\Hook\GeneralUtilityHook
 /**
  * @deprecated since 9.6, removed since 11.0
  */
-class Tx_Mktools_Cli_FindUnusedLocallangLabels extends DMK\Mktools\Cli\FindUnusedLocallangLabels
-{
-}
-
-/**
- * @deprecated since 9.6, removed since 11.0
- */
-class tx_mktools_model_Pages extends DMK\Mktools\Model\Page
-{
-}
-
-/**
- * @deprecated since 9.6, removed since 11.0
- */
-class tx_mktools_model_FixedPostVarType extends DMK\Mktools\Model\FixedPostVarType
-{
-}
-
-/**
- * @deprecated since 9.6, removed since 11.0
- */
 class tx_mktools_view_ShowTemplate extends DMK\Mktools\View\ShowTemplate
 {
 }
@@ -107,13 +86,6 @@ class tx_mktools_view_ShowTemplate extends DMK\Mktools\View\ShowTemplate
  * @deprecated since 9.6, removed since 11.0
  */
 class tx_mktools_util_Composer extends DMK\Mktools\Utility\ComposerUtility
-{
-}
-
-/**
- * @deprecated since 9.6, removed since 11.0
- */
-class tx_mktools_util_RealUrl extends DMK\Mktools\Utility\RealUrlUtility
 {
 }
 
@@ -156,13 +128,6 @@ class tx_mktools_util_ExceptionHandlerBase extends DMK\Mktools\ErrorHandler\Exce
  * @deprecated since 9.6, removed since 11.0
  */
 class tx_mktools_util_ExceptionHandler extends DMK\Mktools\ErrorHandler\ThrowableExceptionHandler
-{
-}
-
-/**
- * @deprecated since 9.6, removed since 11.0
- */
-class tx_mktools_util_PageNotFoundHandling extends DMK\Mktools\ErrorHandler\PageNotFoundHandler
 {
 }
 

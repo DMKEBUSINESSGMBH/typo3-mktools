@@ -2,6 +2,9 @@
 
 namespace DMK\Mktools\Utility;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -118,7 +121,7 @@ class SeoRobotsMetaTagUtility
      */
     protected function getRootline()
     {
-        return \tx_rnbase_util_TYPO3::getSysPage()->getRootLine($GLOBALS['TSFE']->id);
+        return GeneralUtility::makeInstance(RootlineUtility::class, $GLOBALS['TSFE']->id)->get();
     }
 }
 

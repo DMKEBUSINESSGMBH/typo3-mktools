@@ -73,14 +73,6 @@ final class Misc
     }
 
     /**
-     * @return mixed
-     */
-    public static function pageNotFoundHandlingActive()
-    {
-        return self::getExtensionCfgValue('pageNotFoundHandling');
-    }
-
-    /**
      * @return string
      */
     public static function getExceptionPage()

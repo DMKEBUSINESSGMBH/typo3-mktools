@@ -23,10 +23,6 @@ if (mktools_getConf('contentReplaceActive', 'FE')) {
         = 'tx_mktools_hook_ContentReplace->contentPostProcOutput';
 }
 
-if (!tx_rnbase_util_TYPO3::isTYPO90OrHigher() && mktools_getConf('pageNotFoundHandling', 'FE')) {
-    tx_mktools_util_PageNotFoundHandling::registerXclass();
-}
-
 if (mktools_getConf('systemLogLockThreshold')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'][]
         = 'tx_mktools_hook_GeneralUtility->preventSystemLogFlood';
@@ -35,11 +31,6 @@ if (mktools_getConf('systemLogLockThreshold')) {
 // Robots-Meta Tag
 if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] .= ',mkrobotsmetatag';
-}
-
-if (TYPO3_MODE == 'BE' && !tx_rnbase_util_TYPO3::isTYPO90OrHigher()) {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['mktools_find_unused_locallang_labels'] =
-        ['EXT:mktools/Classes/Cli/FindUnusedLocallangLabels.php', '_CLI_mktools_find_unused_locallang_labels'];
 }
 
 if (tx_mktools_util_miscTools::getExceptionPage()) {
