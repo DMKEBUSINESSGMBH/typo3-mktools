@@ -90,8 +90,8 @@ class MarkdownAction extends ShowTemplateAction
 
         // zugriff auf die Doku nur in bestimmten fällen
         $hasAccess =
-            // be user is loged in
-            $GLOBALS['TSFE']->beUserLogin
+            // be user is logged in
+            \tx_rnbase_util_TYPO3::getBEUserUID()
             // check crypt auth users from ts
             || (
                 isset($auth[$_SERVER['PHP_AUTH_USER']])
