@@ -23,7 +23,7 @@ if (mktools_getConf('contentReplaceActive', 'FE')) {
         = 'tx_mktools_hook_ContentReplace->contentPostProcOutput';
 }
 
-if (mktools_getConf('systemLogLockThreshold')) {
+if (mktools_getConf('systemLogLockThreshold') && !\Sys25\RnBase\Utility\TYPO3::isTYPO104OrHigher()) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'][]
         = 'tx_mktools_hook_GeneralUtility->preventSystemLogFlood';
 }
