@@ -61,7 +61,9 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
 
-        $this->lockFile = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt';
+        $this->lockFile = \TYPO3\CMS\Core\Core\Environment::getVarPath().
+            '/lock/mktoolsExceptionLock_2e41f8198a125606abc9a71493eebe48';
+        \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir(\TYPO3\CMS\Core\Core\Environment::getVarPath().'/lock');
 
         $this->devIpMaskBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'];
         $this->remoteAddressBackup = $_SERVER['REMOTE_ADDR'];
@@ -80,7 +82,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'] = $this->defaultPageTsConfig;
 
-        @unlink(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/mktools/locks/2e41f8198a125606abc9a71493eebe48.txt');
+        @unlink($this->lockFile);
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = $this->devIpMaskBackup;
         $_SERVER['REMOTE_ADDR'] = $this->remoteAddressBackup;
