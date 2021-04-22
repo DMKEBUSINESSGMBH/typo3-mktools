@@ -256,13 +256,13 @@
             $cOld.replaceWith(html);
         }
 
-        this.onAfterReplaceContent();
+        this.onAfterReplaceContent(contentId);
     };
 
     /**
      * Overwrite this method if you want to do something after the content is replaced
      */
-    AjaxContent.prototype.onAfterReplaceContent = function() {
+    AjaxContent.prototype.onAfterReplaceContent = function(contentId) {
     };
 
     // add lib to basic library
