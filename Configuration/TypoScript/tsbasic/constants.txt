@@ -1,5 +1,0 @@
-config.tx_mktools.tsbasic {
-  # cat=tsbasic/10; type=string;label=tsbasic domain
-  domain = www.domain.de
-}
-
