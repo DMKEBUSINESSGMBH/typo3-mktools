@@ -6,7 +6,7 @@ page.meta {
 }
 
 ### Meta-Daten fuer News generieren
-[globalVar = TSFE:page|layout=12]
+[page["layout"] == 12]
     page.meta.description >
     page.meta.description.cObject = RECORDS
     page.meta.description.cObject {
@@ -22,7 +22,7 @@ page.meta {
 [end]
 
 ### Meta-Daten fuer Cal generieren, nur Description. Keywords kommen mit Extrafeld
-[globalVar = TSFE:page|layout=14]
+[page["layout"] == 14]
     page.meta.description >
     page.meta.description.cObject = RECORDS
     page.meta.description.cObject {
