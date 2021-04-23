@@ -86,6 +86,7 @@ class MigrateTscobjPluginsCommand extends Command
         $io->writeln('');
         $io->writeln('');
         $io->writeln(count($tscobjPlugins) > 0 ? 'Migration finished.' : 'No plugins found to migrate.');
+
         return 0;
     }
 
