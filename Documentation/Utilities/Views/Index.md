@@ -53,6 +53,13 @@ TypoScript Konfiguration für lib.:
     lib.myOtherAction.ignoreFlexFormConfiguration = 1
 ```
 
+**Migration**
+
+Es gibt ein Migration Command für die tsobj Extension. 
+Diese macht aus allen tsobj Plugins das mktools Pendant. Dazu einfach das Command 
+mktools:migrate-tscobj-plugins über den Scheduler Task "Execute console commands" oder 
+auf der CLI ausführen (bin/typo3 mktools:migrate-tscobj-plugins). 
+
 Show Template
 -------------
 

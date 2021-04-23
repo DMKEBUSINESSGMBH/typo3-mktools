@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    DMK\Mktools\:
+        resource: '../Classes/*'
+
+    DMK\Mktools\Command\MigrateTscobjPluginsCommand:
+        tags:
+            - name: 'console.command'
+              command: 'mktools:migrate-tscobj-plugins'
+              schedulable: true
