@@ -1,6 +1,3 @@
-### setup
-includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
-
 plugin.tx_mktools = USER
 plugin.tx_mktools {
     flexform = flexform_main.xml
