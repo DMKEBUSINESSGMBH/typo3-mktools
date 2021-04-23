@@ -1,25 +1,5 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
-    exit('Access denied.');
-}
-
-////////////////////////////////
-// Plugin anmelden
-////////////////////////////////
-// Einige Felder ausblenden
-$TCA['tt_content']['types']['list']['subtypes_excludelist']['tx_mktools'] = 'layout,select_key,pages';
-
-// Das tt_content-Feld pi_flexform einblenden
-$TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mktools'] = 'pi_flexform';
-
-tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mktools', 'FILE:EXT:mktools/flexform_main.xml');
-tx_rnbase_util_Extensions::addPlugin(
-    ['LLL:EXT:mktools/locallang_db.php:plugin.mktools.label', 'tx_mktools'],
-    'list_type',
-    'mktools'
-);
-
 tx_rnbase_util_Extensions::addStaticFile('mktools', 'Configuration/TypoScript/action/', 'MK Tools - Actions');
 tx_rnbase_util_Extensions::addStaticFile('mktools', 'Configuration/TypoScript/onsiteseo/', 'MK Tools - Onsite Seo');
 tx_rnbase_util_Extensions::addStaticFile('mktools', 'Configuration/TypoScript/tsbasic/', 'MK Tools - Basis TypoScript');
