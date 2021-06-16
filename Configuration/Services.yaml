@@ -12,3 +12,8 @@ services:
             - name: 'console.command'
               command: 'mktools:migrate-tscobj-plugins'
               schedulable: true
+    DMK\Mktools\Command\SlugCreatorCommand:
+        tags:
+            - name: 'console.command'
+              command: 'mktools:slug-creator'
+              schedulable: true

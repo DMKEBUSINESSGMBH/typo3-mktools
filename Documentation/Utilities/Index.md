@@ -16,3 +16,5 @@ Utilities
 [Übersetzte Datensätze in Sprachmenüs](TranslatedRecords/Index.md)
 
 [Views](Views/Index.md)
+
+[Slugs](Slugs/Index.md)
