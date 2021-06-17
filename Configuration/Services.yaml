@@ -17,3 +17,8 @@ services:
             - name: 'console.command'
               command: 'mktools:slug-creator'
               schedulable: true
+    DMK\Mktools\Command\MigrateRealurlAliasToSlugCommand:
+      tags:
+        - name: 'console.command'
+          command: 'mktools:migrate-realurl-alias-to-slug'
+          schedulable: true

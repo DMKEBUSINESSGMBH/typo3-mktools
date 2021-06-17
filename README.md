@@ -24,7 +24,7 @@ Folgende Features zählen u.a. dazu:
 -   FAL Medien für cal und tt\_news um cal\_\_dam\_reference und dam\_ttnews zu migrieren in TYPO3 6.2
 -   TCA Overrides korrekt auslesen, womit eine einfachere Erweiterung von TCA möglich ist
 -   verhindern dass das syslog mit Meldungen überflutet wird
--   Utility und Command, um Slugs erstellen zu können
+-   Utility und Command, um Slugs erstellen und/oder von realurl Aliasen migrieren zu können
 
 
 [Utilities](Documentation/Utilities/Index.md)

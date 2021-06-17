@@ -2,6 +2,7 @@
 
 namespace DMK\Mktools\Utility;
 
+use Doctrine\DBAL\Driver\Statement;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\Model\RecordStateFactory;
@@ -42,13 +43,49 @@ final class SlugUtility
 {
     public static function populateEmptySlugsInTable(string $table, string $field): void
     {
-        /* @var $connection \TYPO3\CMS\Core\Database\Connection */
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+        self::generateSlugsInTable($table, $field);
+    }
+
+    public static function migrateRealurlAliasToSlug(string $table, string $field): void
+    {
+        self::generateSlugsInTable($table, $field, true);
+    }
+
+    private static function generateSlugsInTable(string $table, string $field, bool $mindRealurlAlias = false): void
+    {
+        $connection = self::getConnectionForTable($table);
+        $getRecordsStatement = self::getRecordsWithoutSlugInTableStatement($table, $field);
+        $recordsWithOutRealurlAlias = [];
+        while ($record = $getRecordsStatement->fetchAssociative()) {
+            $slug = '';
+            if ($mindRealurlAlias && !($slug = self::getRealurlAliasByRecord($table, $field, $record))) {
+                $recordsWithOutRealurlAlias[] = $record;
+                continue;
+            }
+            $slug = $slug ?? self::generateSlug($table, $field, $record);
+            $connection->update($table, [$field => $slug], ['uid' => (int) $record['uid']]);
+        }
+
+        // If there are records without alias generate the slug after all aliases have bee migrated to make sure
+        // the slugs are unique. Otherwise it might happen that a later migrated alias is the same as a previous generated
+        // slug.
+        foreach ($recordsWithOutRealurlAlias as $record) {
+            $connection->update(
+                $table,
+                [$field => self::generateSlug($table, $field, $record)],
+                ['uid' => (int) $record['uid']]
+            );
+        }
+    }
+
+    private static function getRecordsWithoutSlugInTableStatement(string $table, string $field): Statement
+    {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
-        $queryBuilder = $connection->createQueryBuilder();
+        $queryBuilder = self::getConnectionForTable($table)->createQueryBuilder();
         /* @var $querBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $statement = $queryBuilder
+
+        return $queryBuilder
             ->select('*')
             ->from($table)
             ->where(
@@ -59,40 +96,50 @@ final class SlugUtility
             )
             ->addOrderBy('uid', 'asc')
             ->execute();
+    }
 
-        $suggestedSlugs = [];
+    private static function getConnectionForTable(string $table): \TYPO3\CMS\Core\Database\Connection
+    {
+        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+    }
 
+    private static function generateSlug(string $table, string $field, array $record): string
+    {
         $fieldConfig = $GLOBALS['TCA'][$table]['columns'][$field]['config'];
         $evalInfo = !empty($fieldConfig['eval']) ? GeneralUtility::trimExplode(',', $fieldConfig['eval'], true) : [];
         $hasToBeUniqueInSite = in_array('uniqueInSite', $evalInfo, true);
         $hasToBeUniqueInPid = in_array('uniqueInPid', $evalInfo, true);
         $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $table, $field, $fieldConfig);
 
-        while ($record = $statement->fetch()) {
-            $recordId = (int) $record['uid'];
-            $pid = (int) $record['pid'];
-            $languageId = (int) $record['sys_language_uid'];
-            $pageIdInDefaultLanguage = $languageId > 0 ? (int) $record['l10n_parent'] : $recordId;
-            $slug = $suggestedSlugs[$pageIdInDefaultLanguage][$languageId] ?? '';
+        $recordId = (int) $record['uid'];
+        $pid = (int) $record['pid'];
+        $slug = $slugHelper->generate($record, $pid);
 
-            if (empty($slug)) {
-                $slug = $slugHelper->generate($record, $pid);
-            }
-
-            $state = RecordStateFactory::forName($table)
-                ->fromArray($record, $pid, $recordId);
-            if ($hasToBeUniqueInSite && !$slugHelper->isUniqueInSite($slug, $state)) {
-                $slug = $slugHelper->buildSlugForUniqueInSite($slug, $state);
-            }
-            if ($hasToBeUniqueInPid && !$slugHelper->isUniqueInPid($slug, $state)) {
-                $slug = $slugHelper->buildSlugForUniqueInPid($slug, $state);
-            }
-
-            $connection->update(
-                $table,
-                [$field => $slug],
-                ['uid' => $recordId]
-            );
+        $state = RecordStateFactory::forName($table)->fromArray($record, $pid, $recordId);
+        if ($hasToBeUniqueInSite && !$slugHelper->isUniqueInSite($slug, $state)) {
+            $slug = $slugHelper->buildSlugForUniqueInSite($slug, $state);
         }
+        if ($hasToBeUniqueInPid && !$slugHelper->isUniqueInPid($slug, $state)) {
+            $slug = $slugHelper->buildSlugForUniqueInPid($slug, $state);
+        }
+
+        return $slug;
+    }
+
+    private static function getRealurlAliasByRecord(string $table, string $field, array $record): string
+    {
+        /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        $queryBuilder = self::getConnectionForTable($table)->createQueryBuilder();
+
+        return (string) $queryBuilder
+            ->select('value_alias')
+            ->from('tx_realurl_uniqalias')
+            ->where('tablename = :table AND value_id = :uid')
+            ->setParameter('table', $table)
+            ->setParameter('uid', (int) $record['uid'])
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchAssociative()['value_alias']
+        ;
     }
 }
