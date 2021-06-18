@@ -68,7 +68,7 @@ class MigrateRealurlAliasToSlugCommand extends Command
 
         $output->writeln('');
         $output->writeln('Start realurl alias to slug migation in table '.$table.' for field '.$field.'...');
-        GeneralUtility::makeInstance(SlugUtility::class)->migrateRealurlAliasToSlug($table, $field);
+        GeneralUtility::makeInstance(SlugUtility::class, $table, $field)->migrateRealurlAliasToSlug();
         $output->writeln('Migration finished...');
         $output->writeln('');
 

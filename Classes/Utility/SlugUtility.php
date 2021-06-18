@@ -101,9 +101,9 @@ final class SlugUtility
             ->execute();
     }
 
-    private function getConnectionForTable(): \TYPO3\CMS\Core\Database\Connection
+    private function getConnectionForTable(string $table): \TYPO3\CMS\Core\Database\Connection
     {
-        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
+        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
     }
 
     public function generateUniqueSlug(array $record, string $slug = ''): string
@@ -117,7 +117,7 @@ final class SlugUtility
 
         $recordId = (int) $record['uid'];
         $pid = (int) $record['pid'];
-        $slug = $slug ?? $slugHelper->generate($record, $pid);
+        $slug = $slug ?: $slugHelper->generate($record, $pid);
 
         $state = RecordStateFactory::forName($this->table)->fromArray($record, $pid, $recordId);
         $uniqueSlug = '';
@@ -130,7 +130,7 @@ final class SlugUtility
         if (!$uniqueSlug && !$slugHelper->isUniqueInTable($slug, $state)) {
             $uniqueSlug = $slugHelper->buildSlugForUniqueInTable($slug, $state);
         }
-        $uniqueSlug = $uniqueSlug ?? $slug;
+        $uniqueSlug = $uniqueSlug ?: $slug;
 
         return $uniqueSlug;
     }
