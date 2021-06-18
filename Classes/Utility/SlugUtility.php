@@ -138,17 +138,23 @@ final class SlugUtility
     private function getRealurlAliasByRecord(array $record): string
     {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
-        $queryBuilder = $this->getConnectionForTable($this->table)->createQueryBuilder();
+        $queryBuilder = $this->getConnectionForTable('tx_realurl_uniqalias')->createQueryBuilder();
+        $queryBuilder->getRestrictions()->removeAll();
 
-        return (string) $queryBuilder
+        $queryBuilder
             ->select('value_alias')
             ->from('tx_realurl_uniqalias')
-            ->where('tablename = :table AND value_id = :uid')
+            ->setMaxResults(1);
+
+        $where = 'tablename = :table AND value_id = :uid';
+        $queryBuilder
             ->setParameter('table', $this->table)
-            ->setParameter('uid', (int) $record['uid'])
-            ->setMaxResults(1)
-            ->execute()
-            ->fetchAssociative()['value_alias']
-        ;
+            ->setParameter('uid', (int) $record['uid']);
+        if ($record[$GLOBALS['TCA'][$this->table]['ctrl']['languageField']]) {
+            $where .= ' AND lang = :languageUid';
+            $queryBuilder->setParameter('languageUid', $record[$GLOBALS['TCA'][$this->table]['ctrl']['languageField']]);
+        }
+
+        return (string) $queryBuilder->where($where)->execute()->fetchAssociative()['value_alias'];
     }
 }
