@@ -43,38 +43,25 @@ final class SlugUtility
 {
     public function populateEmptySlugsInTable(string $table, string $field): void
     {
-        $this->generateSlugsInTable($table, $field);
+        $this->generateUniqueSlugsInTable($table, $field);
     }
 
     public function migrateRealurlAliasToSlug(string $table, string $field): void
     {
-        $this->generateSlugsInTable($table, $field, true);
+        $this->generateUniqueSlugsInTable($table, $field, true);
     }
 
-    private function generateSlugsInTable(string $table, string $field, bool $mindRealurlAlias = false): void
+    private function generateUniqueSlugsInTable(string $table, string $field, bool $mindRealurlAlias = false): void
     {
         $connection = $this->getConnectionForTable($table);
         $getRecordsStatement = $this->getRecordsWithoutSlugInTableStatement($table, $field);
-        $recordsWithOutRealurlAlias = [];
         while ($record = $getRecordsStatement->fetchAssociative()) {
-            $slug = '';
-            if ($mindRealurlAlias && !($slug = $this->getRealurlAliasByRecord($table, $field, $record))) {
-                $recordsWithOutRealurlAlias[] = $record;
-                continue;
+            $realurlAlias = '';
+            if ($mindRealurlAlias) {
+                $realurlAlias = $this->getRealurlAliasByRecord($table, $field, $record);
             }
-            $slug = $slug ?? $this->generateSlug($table, $field, $record);
+            $slug = $this->generateUniqueSlug($table, $field, $record, $realurlAlias);
             $connection->update($table, [$field => $slug], ['uid' => (int) $record['uid']]);
-        }
-
-        // If there are records without alias generate the slug after all aliases have bee migrated to make sure
-        // the slugs are unique. Otherwise it might happen that a later migrated alias is the same as a previous generated
-        // slug.
-        foreach ($recordsWithOutRealurlAlias as $record) {
-            $connection->update(
-                $table,
-                [$field => $this->generateSlug($table, $field, $record)],
-                ['uid' => (int) $record['uid']]
-            );
         }
     }
 
@@ -103,27 +90,33 @@ final class SlugUtility
         return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
     }
 
-    private function generateSlug(string $table, string $field, array $record): string
+    public function generateUniqueSlug(string $table, string $field, array $record, string $slug = ''): string
     {
         $fieldConfig = $GLOBALS['TCA'][$table]['columns'][$field]['config'];
         $evalInfo = !empty($fieldConfig['eval']) ? GeneralUtility::trimExplode(',', $fieldConfig['eval'], true) : [];
         $hasToBeUniqueInSite = in_array('uniqueInSite', $evalInfo, true);
         $hasToBeUniqueInPid = in_array('uniqueInPid', $evalInfo, true);
+        /* @var $slugHelper SlugHelper */
         $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $table, $field, $fieldConfig);
 
         $recordId = (int) $record['uid'];
         $pid = (int) $record['pid'];
-        $slug = $slugHelper->generate($record, $pid);
+        $slug = $slug ?? $slugHelper->generate($record, $pid);
 
         $state = RecordStateFactory::forName($table)->fromArray($record, $pid, $recordId);
+        $uniqueSlug = '';
         if ($hasToBeUniqueInSite && !$slugHelper->isUniqueInSite($slug, $state)) {
-            $slug = $slugHelper->buildSlugForUniqueInSite($slug, $state);
+            $uniqueSlug = $slugHelper->buildSlugForUniqueInSite($slug, $state);
         }
-        if ($hasToBeUniqueInPid && !$slugHelper->isUniqueInPid($slug, $state)) {
-            $slug = $slugHelper->buildSlugForUniqueInPid($slug, $state);
+        if (!$uniqueSlug && $hasToBeUniqueInPid && !$slugHelper->isUniqueInPid($slug, $state)) {
+            $uniqueSlug = $slugHelper->buildSlugForUniqueInPid($slug, $state);
         }
+        if (!$uniqueSlug && !$slugHelper->isUniqueInTable($slug, $state)) {
+            $uniqueSlug = $slugHelper->buildSlugForUniqueInTable($slug, $state);
+        }
+        $uniqueSlug = $uniqueSlug ?? $slug;
 
-        return $slug;
+        return $uniqueSlug;
     }
 
     private function getRealurlAliasByRecord(string $table, string $field, array $record): string
