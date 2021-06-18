@@ -41,69 +41,85 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 final class SlugUtility
 {
-    public function populateEmptySlugsInTable(string $table, string $field): void
+    /**
+     * @var string
+     */
+    private $table;
+
+    /**
+     * @var string
+     */
+    private $field;
+
+    public function __construct(string $table, string $field)
     {
-        $this->generateUniqueSlugsInTable($table, $field);
+        $this->table = $table;
+        $this->field = $field;
     }
 
-    public function migrateRealurlAliasToSlug(string $table, string $field): void
+    public function populateEmptySlugsInTable(): void
     {
-        $this->generateUniqueSlugsInTable($table, $field, true);
+        $this->generateUniqueSlugsInTable();
     }
 
-    private function generateUniqueSlugsInTable(string $table, string $field, bool $mindRealurlAlias = false): void
+    public function migrateRealurlAliasToSlug(): void
     {
-        $connection = $this->getConnectionForTable($table);
-        $getRecordsStatement = $this->getRecordsWithoutSlugInTableStatement($table, $field);
+        $this->generateUniqueSlugsInTable(true);
+    }
+
+    private function generateUniqueSlugsInTable(bool $mindRealurlAlias = false): void
+    {
+        $connection = $this->getConnectionForTable($this->table);
+        $getRecordsStatement = $this->getRecordsWithoutSlugInTableStatement();
         while ($record = $getRecordsStatement->fetchAssociative()) {
             $realurlAlias = '';
             if ($mindRealurlAlias) {
-                $realurlAlias = $this->getRealurlAliasByRecord($table, $field, $record);
+                $realurlAlias = $this->getRealurlAliasByRecord($record);
             }
-            $slug = $this->generateUniqueSlug($table, $field, $record, $realurlAlias);
-            $connection->update($table, [$field => $slug], ['uid' => (int) $record['uid']]);
+            $slug = $this->generateUniqueSlug($record, $realurlAlias);
+            $connection->update($this->table, [$this->field => $slug], ['uid' => (int) $record['uid']]);
         }
     }
 
-    private function getRecordsWithoutSlugInTableStatement(string $table, string $field): Statement
+    private function getRecordsWithoutSlugInTableStatement(): Statement
     {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
-        $queryBuilder = $this->getConnectionForTable($table)->createQueryBuilder();
+        $queryBuilder = $this->getConnectionForTable($this->table)->createQueryBuilder();
         /* @var $querBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
         return $queryBuilder
             ->select('*')
-            ->from($table)
+            ->from($this->table)
             ->where(
                 $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq($field, $queryBuilder->createNamedParameter('')),
-                    $queryBuilder->expr()->isNull($field)
+                    $queryBuilder->expr()->eq($this->field, $queryBuilder->createNamedParameter('')),
+                    $queryBuilder->expr()->isNull($this->field)
                 )
             )
             ->addOrderBy('uid', 'asc')
             ->execute();
     }
 
-    private function getConnectionForTable(string $table): \TYPO3\CMS\Core\Database\Connection
+    private function getConnectionForTable(): \TYPO3\CMS\Core\Database\Connection
     {
-        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
     }
 
-    public function generateUniqueSlug(string $table, string $field, array $record, string $slug = ''): string
+    public function generateUniqueSlug(array $record, string $slug = ''): string
     {
-        $fieldConfig = $GLOBALS['TCA'][$table]['columns'][$field]['config'];
+        $fieldConfig = $GLOBALS['TCA'][$this->table]['columns'][$this->field]['config'];
         $evalInfo = !empty($fieldConfig['eval']) ? GeneralUtility::trimExplode(',', $fieldConfig['eval'], true) : [];
         $hasToBeUniqueInSite = in_array('uniqueInSite', $evalInfo, true);
         $hasToBeUniqueInPid = in_array('uniqueInPid', $evalInfo, true);
         /* @var $slugHelper SlugHelper */
-        $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $table, $field, $fieldConfig);
+        $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $this->table, $this->field, $fieldConfig);
 
         $recordId = (int) $record['uid'];
         $pid = (int) $record['pid'];
         $slug = $slug ?? $slugHelper->generate($record, $pid);
 
-        $state = RecordStateFactory::forName($table)->fromArray($record, $pid, $recordId);
+        $state = RecordStateFactory::forName($this->table)->fromArray($record, $pid, $recordId);
         $uniqueSlug = '';
         if ($hasToBeUniqueInSite && !$slugHelper->isUniqueInSite($slug, $state)) {
             $uniqueSlug = $slugHelper->buildSlugForUniqueInSite($slug, $state);
@@ -119,16 +135,16 @@ final class SlugUtility
         return $uniqueSlug;
     }
 
-    private function getRealurlAliasByRecord(string $table, string $field, array $record): string
+    private function getRealurlAliasByRecord(array $record): string
     {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
-        $queryBuilder = $this->getConnectionForTable($table)->createQueryBuilder();
+        $queryBuilder = $this->getConnectionForTable($this->table)->createQueryBuilder();
 
         return (string) $queryBuilder
             ->select('value_alias')
             ->from('tx_realurl_uniqalias')
             ->where('tablename = :table AND value_id = :uid')
-            ->setParameter('table', $table)
+            ->setParameter('table', $this->table)
             ->setParameter('uid', (int) $record['uid'])
             ->setMaxResults(1)
             ->execute()
