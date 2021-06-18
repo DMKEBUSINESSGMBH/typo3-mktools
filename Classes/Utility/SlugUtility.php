@@ -41,28 +41,28 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 final class SlugUtility
 {
-    public static function populateEmptySlugsInTable(string $table, string $field): void
+    public function populateEmptySlugsInTable(string $table, string $field): void
     {
-        self::generateSlugsInTable($table, $field);
+        $this->generateSlugsInTable($table, $field);
     }
 
-    public static function migrateRealurlAliasToSlug(string $table, string $field): void
+    public function migrateRealurlAliasToSlug(string $table, string $field): void
     {
-        self::generateSlugsInTable($table, $field, true);
+        $this->generateSlugsInTable($table, $field, true);
     }
 
-    private static function generateSlugsInTable(string $table, string $field, bool $mindRealurlAlias = false): void
+    private function generateSlugsInTable(string $table, string $field, bool $mindRealurlAlias = false): void
     {
-        $connection = self::getConnectionForTable($table);
-        $getRecordsStatement = self::getRecordsWithoutSlugInTableStatement($table, $field);
+        $connection = $this->getConnectionForTable($table);
+        $getRecordsStatement = $this->getRecordsWithoutSlugInTableStatement($table, $field);
         $recordsWithOutRealurlAlias = [];
         while ($record = $getRecordsStatement->fetchAssociative()) {
             $slug = '';
-            if ($mindRealurlAlias && !($slug = self::getRealurlAliasByRecord($table, $field, $record))) {
+            if ($mindRealurlAlias && !($slug = $this->getRealurlAliasByRecord($table, $field, $record))) {
                 $recordsWithOutRealurlAlias[] = $record;
                 continue;
             }
-            $slug = $slug ?? self::generateSlug($table, $field, $record);
+            $slug = $slug ?? $this->generateSlug($table, $field, $record);
             $connection->update($table, [$field => $slug], ['uid' => (int) $record['uid']]);
         }
 
@@ -72,16 +72,16 @@ final class SlugUtility
         foreach ($recordsWithOutRealurlAlias as $record) {
             $connection->update(
                 $table,
-                [$field => self::generateSlug($table, $field, $record)],
+                [$field => $this->generateSlug($table, $field, $record)],
                 ['uid' => (int) $record['uid']]
             );
         }
     }
 
-    private static function getRecordsWithoutSlugInTableStatement(string $table, string $field): Statement
+    private function getRecordsWithoutSlugInTableStatement(string $table, string $field): Statement
     {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
-        $queryBuilder = self::getConnectionForTable($table)->createQueryBuilder();
+        $queryBuilder = $this->getConnectionForTable($table)->createQueryBuilder();
         /* @var $querBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
@@ -98,12 +98,12 @@ final class SlugUtility
             ->execute();
     }
 
-    private static function getConnectionForTable(string $table): \TYPO3\CMS\Core\Database\Connection
+    private function getConnectionForTable(string $table): \TYPO3\CMS\Core\Database\Connection
     {
         return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
     }
 
-    private static function generateSlug(string $table, string $field, array $record): string
+    private function generateSlug(string $table, string $field, array $record): string
     {
         $fieldConfig = $GLOBALS['TCA'][$table]['columns'][$field]['config'];
         $evalInfo = !empty($fieldConfig['eval']) ? GeneralUtility::trimExplode(',', $fieldConfig['eval'], true) : [];
@@ -126,10 +126,10 @@ final class SlugUtility
         return $slug;
     }
 
-    private static function getRealurlAliasByRecord(string $table, string $field, array $record): string
+    private function getRealurlAliasByRecord(string $table, string $field, array $record): string
     {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
-        $queryBuilder = self::getConnectionForTable($table)->createQueryBuilder();
+        $queryBuilder = $this->getConnectionForTable($table)->createQueryBuilder();
 
         return (string) $queryBuilder
             ->select('value_alias')

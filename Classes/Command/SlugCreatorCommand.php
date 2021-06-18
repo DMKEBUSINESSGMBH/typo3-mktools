@@ -67,7 +67,7 @@ class SlugCreatorCommand extends Command
 
         $output->writeln('');
         $output->writeln('Start slug creation in table '.$table.' for field '.$field.'...');
-        SlugUtility::populateEmptySlugsInTable($table, $field);
+        GeneralUtility::makeInstance(SlugUtility::class)->populateEmptySlugsInTable($table, $field);
         $output->writeln('Slug creation finished...');
         $output->writeln('');
 

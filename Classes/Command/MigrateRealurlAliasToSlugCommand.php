@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -67,7 +68,7 @@ class MigrateRealurlAliasToSlugCommand extends Command
 
         $output->writeln('');
         $output->writeln('Start realurl alias to slug migation in table '.$table.' for field '.$field.'...');
-        SlugUtility::migrateRealurlAliasToSlug($table, $field);
+        GeneralUtility::makeInstance(SlugUtility::class)->migrateRealurlAliasToSlug($table, $field);
         $output->writeln('Migration finished...');
         $output->writeln('');
 

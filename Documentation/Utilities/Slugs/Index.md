@@ -21,10 +21,10 @@ Command zum migrieren von realurl:
 
 Utility zum initialen befüllen:
 ~~~~ {.sourceCode .php
- DMK\Mktools\Utility\SlugUtility::populateEmptySlugsInTable($table, $field);
+ \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\DMK\Mktools\Utility\SlugUtility::class)->populateEmptySlugsInTable($table, $field);
 ~~~~
 
 Utility zum migrieren von realurl:
 ~~~~ {.sourceCode .php
- DMK\Mktools\Utility\SlugUtility::migrateRealurlAliasToSlug($table, $field);
+ \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\DMK\Mktools\Utility\SlugUtility::class)->migrateRealurlAliasToSlug($table, $field);
 ~~~~
