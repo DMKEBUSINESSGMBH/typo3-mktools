@@ -7,7 +7,6 @@ if (!defined('TYPO3_MODE')) {
 if (!tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
     return;
 }
-tx_rnbase_util_TCA::loadTCA('tt_news');
 tx_rnbase_util_Extensions::addTCAcolumns(
     'tt_news',
     [

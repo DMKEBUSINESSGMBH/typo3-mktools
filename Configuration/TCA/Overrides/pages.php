@@ -5,8 +5,6 @@ if (!defined('TYPO3_MODE')) {
 }
 
 if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
-    // pages erweitern
-    tx_rnbase_util_TCA::loadTCA('pages');
     tx_rnbase_util_Extensions::addTCAcolumns(
         'pages',
         [

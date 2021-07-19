@@ -7,7 +7,6 @@ if (!defined('TYPO3_MODE')) {
 if (!tx_mktools_util_miscTools::shouldFalImagesBeAddedToCalEvent()) {
     return;
 }
-tx_rnbase_util_TCA::loadTCA('tx_cal_event');
 tx_rnbase_util_Extensions::addTCAcolumns(
     'tx_cal_event',
     [
