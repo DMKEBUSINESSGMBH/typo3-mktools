@@ -31,6 +31,12 @@ if (mktools_getConf('systemLogLockThreshold') && !\Sys25\RnBase\Utility\TYPO3::i
 // Robots-Meta Tag
 if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] .= ',mkrobotsmetatag';
+    \tx_rnbase_util_Extensions::addPageTSConfig('
+        TCEFORM.pages{
+            no_index.disabled = 1
+            no_follow.disabled = 1
+        }
+    ');
 }
 
 if (tx_mktools_util_miscTools::getExceptionPage()) {
