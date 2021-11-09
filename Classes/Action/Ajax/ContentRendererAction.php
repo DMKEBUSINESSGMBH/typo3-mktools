@@ -28,6 +28,7 @@ namespace DMK\Mktools\Action\Ajax;
 use Sys25\RnBase\Frontend\Request\Parameters;
 use tx_mktools_util_T3Loader as T3Loader;
 use tx_rnbase_util_TYPO3 as TYPO3Util;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 
 /**
  * Action zum Rendern von ContentElementen.
@@ -48,7 +49,7 @@ class ContentRendererAction
         $contentId = (int) Parameters::getPostOrGetParameter('contentid');
 
         if (0 === $contentId) {
-            $this->sendError(500, 'Missing required parameters.');
+            $this->sendNotFoundHeader();
         }
 
         $ttContent = TYPO3Util::getSysPage()->checkRecord('tt_content', $contentId);
@@ -61,9 +62,15 @@ class ContentRendererAction
 
         if (empty($content)) {
             // Exception
-            $this->sendError(500, 'Could not fetch content.');
+            $this->sendNotFoundHeader();
         }
 
         return $content;
+    }
+
+    protected function sendNotFoundHeader(): void
+    {
+        header(HttpUtility::HTTP_STATUS_404);
+        exit();
     }
 }
