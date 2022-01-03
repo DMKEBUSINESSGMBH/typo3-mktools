@@ -27,6 +27,8 @@ namespace DMK\Mktools\Utility\Menu\Processor;
 
 use Sys25\RnBase\Frontend\Request\Parameters;
 use Sys25\RnBase\Utility\FrontendControllerUtility;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -143,10 +145,8 @@ class TranslatedRecords
 
     protected function getTranslatedRecord(int $sysLanguageUid, string $table, int $uid): array
     {
-        $databaseConnection = $this->getDatabaseConnection();
-        $typoScriptFrontendController = $this->getTypoScriptFrontendController();
-
         if ($sysLanguageUid) {
+            $databaseConnection = $this->getDatabaseConnection();
             $currentRecord = $databaseConnection->doSelect(
                 '*',
                 $table,
@@ -154,11 +154,12 @@ class TranslatedRecords
                     'where' => 'uid = '.$uid,
                 ]
             )[0];
+            $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
             $translatedRecord = (array) \tx_rnbase_util_TYPO3::getSysPage()->getRecordOverlay(
                 $table,
                 $currentRecord,
                 $sysLanguageUid,
-                ('strict' === FrontendControllerUtility::getLanguageMode($typoScriptFrontendController)) ? 'hideNonTranslated' : ''
+                $languageAspect->getOverlayType() === LanguageAspect::OVERLAYS_ON_WITH_FLOATING ? 'hideNonTranslated' : ''
             );
         } else {
             $translatedRecord = [];
