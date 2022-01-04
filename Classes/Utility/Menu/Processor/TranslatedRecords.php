@@ -159,7 +159,7 @@ class TranslatedRecords
                 $table,
                 $currentRecord,
                 $sysLanguageUid,
-                $languageAspect->getOverlayType() === LanguageAspect::OVERLAYS_ON_WITH_FLOATING ? 'hideNonTranslated' : ''
+                LanguageAspect::OVERLAYS_ON_WITH_FLOATING === $languageAspect->getOverlayType() ? 'hideNonTranslated' : ''
             );
         } else {
             $translatedRecord = [];
