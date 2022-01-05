@@ -48,6 +48,14 @@ if (tx_mktools_util_miscTools::getExceptionPage()) {
 // piwa is often used for piwik custom variables
 Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash([
     'piwa',
+    // In case ajax requests are done with GET we need to exclude those parameters as they are added on the fly
+    // when clicking a link. Therefore they are not present when calculating the cHash.
+    'contentid',
+    'href',
+    'mktoolsAjaxRequest',
+    'page',
+    'requestType',
+    'useHistory',
 ]);
 
 if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
