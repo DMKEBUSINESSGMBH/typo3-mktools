@@ -56,7 +56,14 @@ use Sys25\RnBase\Frontend\Request\Parameters;
                 ->initByTS(
                     $configuration,
                     $this->urlTypoScriptConfigurationPath,
-                    ['::contentid' => $this->getContentObjectRenderer()->data['uid']]
+                    [
+                        // This parameter is acutally used in the ajax request but ignored for the cHash because
+                        // it's added at some places through JS dynamically and thus needs to be ignored.
+                        '::contentid' => $this->getContentObjectRenderer()->data['uid'],
+                        // This parameter is just used to trigger the cHash generation so every element has it's
+                        // own individual link.
+                        '::ajaxcontentid' => $this->getContentObjectRenderer()->data['uid'],
+                    ]
                 )
                 ->makeUrl();
 
