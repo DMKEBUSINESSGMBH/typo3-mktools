@@ -10,7 +10,7 @@ defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 if (!function_exists('mktools_getConf')) {
     function mktools_getConf($key, $mode = false)
     {
-        $extensionConfigurationByKey = tx_rnbase_configurations::getExtensionCfgValue('mktools', $key);
+        $extensionConfigurationByKey = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mktools', $key);
 
         return (isset($extensionConfigurationByKey) && (false === $mode || TYPO3_MODE == $mode)) ? $extensionConfigurationByKey : false;
     }
@@ -31,7 +31,7 @@ if (mktools_getConf('systemLogLockThreshold') && !\Sys25\RnBase\Utility\TYPO3::i
 // Robots-Meta Tag
 if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] .= ',mkrobotsmetatag';
-    \tx_rnbase_util_Extensions::addPageTSConfig('
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
         TCEFORM.pages{
             no_index.disabled = 1
             no_follow.disabled = 1
@@ -42,11 +42,11 @@ if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
 if (tx_mktools_util_miscTools::getExceptionPage()) {
     // wenn wir eine Exception Page haben, wird wohl auch das Exception Handling mit mktools erledigt.
     // In diesem Fall soll das Exception Handling von Content Objects deaktiviert werden.
-    tx_rnbase_util_Extensions::addTypoScript('mktools', 'setup', 'config.contentObjectExceptionHandler = 0');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('mktools', 'setup', 'config.contentObjectExceptionHandler = 0');
 }
 
 // piwa is often used for piwik custom variables
-Tx_Rnbase_Utility_Cache::addExcludedParametersForCacheHash([
+\Sys25\RnBase\Utility\CHashUtility::addExcludedParametersForCacheHash([
     'piwa',
     // In case ajax requests are done with GET we need to exclude those parameters as they are added on the fly
     // when clicking a link. Therefore they are not present when calculating the cHash.

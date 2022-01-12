@@ -25,6 +25,8 @@ namespace DMK\Mktools\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\TYPO3;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -54,10 +56,10 @@ final class T3Loader
      */
     public static function getContentObject($contentId = 0)
     {
-        $contentObjectRendererClass = \tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
+        $contentObjectRendererClass = ContentObjectRenderer::class;
 
         if (!self::$cObj[$contentId] instanceof $contentObjectRendererClass) {
-            self::$cObj[$contentId] = \tx_rnbase::makeInstance($contentObjectRendererClass);
+            self::$cObj[$contentId] = GeneralUtility::makeInstance($contentObjectRendererClass);
         }
 
         return self::$cObj[$contentId];
@@ -66,10 +68,10 @@ final class T3Loader
     /**
      * @return \TYPO3\CMS\Frontend\Page\PageRepository or t3lib_pageSelect
      *
-     * @deprecated use tx_rnbase_util_TYPO3::getSysPage() instead. will be removed soon.
+     * @deprecated use TYPO3::getSysPage() instead. will be removed soon.
      */
     public static function getSysPage()
     {
-        return \tx_rnbase_util_TYPO3::getSysPage();
+        return TYPO3::getSysPage();
     }
 }

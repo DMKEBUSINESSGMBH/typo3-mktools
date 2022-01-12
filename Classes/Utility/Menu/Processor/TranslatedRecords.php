@@ -25,8 +25,10 @@ namespace DMK\Mktools\Utility\Menu\Processor;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Database\Connection;
 use Sys25\RnBase\Frontend\Request\Parameters;
 use Sys25\RnBase\Utility\FrontendControllerUtility;
+use Sys25\RnBase\Utility\TYPO3;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -154,8 +156,9 @@ class TranslatedRecords
                     'where' => 'uid = '.$uid,
                 ]
             )[0];
+
             $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
-            $translatedRecord = (array) \tx_rnbase_util_TYPO3::getSysPage()->getRecordOverlay(
+            $translatedRecord = (array) TYPO3::getSysPage()->getRecordOverlay(
                 $table,
                 $currentRecord,
                 $sysLanguageUid,
@@ -223,19 +226,13 @@ class TranslatedRecords
         return $result;
     }
 
-    /**
-     * @return \Tx_Rnbase_Database_Connection
-     */
-    protected function getDatabaseConnection()
+    protected function getDatabaseConnection(): Connection
     {
-        return \Tx_Rnbase_Database_Connection::getInstance();
+        return Connection::getInstance();
     }
 
-    /**
-     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-     */
     protected function getTypoScriptFrontendController()
     {
-        return \tx_rnbase_util_TYPO3::getTSFE();
+        return TYPO3::getTSFE();
     }
 }

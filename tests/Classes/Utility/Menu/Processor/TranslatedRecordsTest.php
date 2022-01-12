@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DMK\Mktools\Utility\Menu\Processor;
 
+use Sys25\RnBase\Database\Connection;
+use Sys25\RnBase\Utility\TYPO3;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -13,7 +15,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @license    http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
+class TranslatedRecordsTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @return void
@@ -31,11 +33,11 @@ class TranslatedRecordsTest extends \tx_rnbase_tests_BaseTestCase
      */
     public function testProcessEmptyIfRecordNotExists()
     {
-        $dbConnection = $this->prophesize(\Tx_Rnbase_Database_Connection::class);
-        GeneralUtility::setSingletonInstance(\Tx_Rnbase_Database_Connection::class, $dbConnection->reveal());
+        $dbConnection = $this->prophesize(Connection::class);
+        GeneralUtility::setSingletonInstance(Connection::class, $dbConnection->reveal());
 
         $pageRepositoryClass = 'TYPO3\\CMS\\Frontend\\Page\\PageRepository';
-        if (\tx_rnbase_util_TYPO3::isTYPO104OrHigher()) {
+        if (TYPO3::isTYPO104OrHigher()) {
             $pageRepositoryClass = 'TYPO3\\CMS\\Core\\Domain\\Repository\\PageRepository';
         }
         $pageRepository = $this->prophesize($pageRepositoryClass);

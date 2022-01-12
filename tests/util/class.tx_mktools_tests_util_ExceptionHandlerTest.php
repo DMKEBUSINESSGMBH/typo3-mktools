@@ -183,7 +183,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit')
-            ->with(tx_rnbase_util_Network::locationHeaderUrl('index.php'));
+            ->with(\Sys25\RnBase\Utility\Network::locationHeaderUrl('index.php'));
 
         $exception = new Exception('test exception');
         $exceptionHandler->echoExceptionWeb($exception);
@@ -208,7 +208,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit')
-            ->with(tx_rnbase_util_Network::locationHeaderUrl('index.php'));
+            ->with(\Sys25\RnBase\Utility\Network::locationHeaderUrl('index.php'));
 
         $exception = new Exception('test exception');
         $exceptionHandler->echoExceptionWeb($exception);
@@ -267,7 +267,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
             'writeLogEntries'
         );
         $method->setAccessible(true);
-        $exception = tx_rnbase::makeInstance(
+        $exception = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mktools_util_ErrorException',
             'test'
         );
@@ -314,7 +314,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
             'lock file schon da'
         );
 
-        $exceptionHandler = tx_rnbase::makeInstance(ExceptionHandler::class);
+        $exceptionHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExceptionHandler::class);
 
         $method = new ReflectionMethod(
             ExceptionHandler::class,
@@ -432,10 +432,10 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         self::markTestSkipped('Problem with type3 9.5 config');
 
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = tx_rnbase_util_Misc::getIndpEnv('REMOTE_ADDR');
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
         self::assertTrue(
             $this->callInaccessibleMethod(
-                tx_rnbase::makeInstance(ExceptionHandler::class),
+                \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExceptionHandler::class),
                 'shouldExceptionBeDebugged'
             )
         );
@@ -450,7 +450,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = 'invalid';
         self::assertFalse(
             $this->callInaccessibleMethod(
-                tx_rnbase::makeInstance(ExceptionHandler::class),
+                \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExceptionHandler::class),
                 'shouldExceptionBeDebugged'
             )
         );

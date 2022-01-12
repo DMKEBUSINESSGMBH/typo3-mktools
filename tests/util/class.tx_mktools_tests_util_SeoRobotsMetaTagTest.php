@@ -30,7 +30,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_util_SeoRobotsMetaTagTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * (non-PHPdoc).
@@ -105,10 +105,10 @@ class tx_mktools_tests_util_SeoRobotsMetaTagTest extends tx_rnbase_tests_BaseTes
      */
     public function testGetRootlineReturnsCorrectData()
     {
-        tx_rnbase_util_Misc::prepareTSFE();
+        \Sys25\RnBase\Utility\Misc::prepareTSFE();
         $GLOBALS['TSFE']->id = 1;
         $rootline = $this->callInaccessibleMethod(
-            tx_rnbase::makeInstance('tx_mktools_util_SeoRobotsMetaTag'),
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mktools_util_SeoRobotsMetaTag'),
             'getRootline'
         );
 

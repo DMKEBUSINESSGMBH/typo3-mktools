@@ -7,17 +7,17 @@ if (!defined('TYPO3_MODE')) {
 if (!tx_mktools_util_miscTools::shouldFalImagesBeAddedToTtNews()) {
     return;
 }
-tx_rnbase_util_Extensions::addTCAcolumns(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
     'tt_news',
     [
-        'tx_mktools_fal_images' => tx_rnbase_util_TSFAL::getMediaTCA(
+        'tx_mktools_fal_images' => \Sys25\RnBase\Utility\TSFAL::getMediaTCA(
             'tx_mktools_fal_images',
             [
                 'exclude' => 1,
                 'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_fal_images',
             ]
         ),
-        'tx_mktools_fal_media' => tx_rnbase_util_TSFAL::getMediaTCA(
+        'tx_mktools_fal_media' => \Sys25\RnBase\Utility\TSFAL::getMediaTCA(
             'tx_mktools_fal_media',
             [
                 'exclude' => 1,
@@ -29,7 +29,7 @@ tx_rnbase_util_Extensions::addTCAcolumns(
     false
 );
 
-tx_rnbase_util_Extensions::addToAllTCAtypes(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'tt_news',
     'tx_mktools_fal_images,tx_mktools_fal_media',
     '',

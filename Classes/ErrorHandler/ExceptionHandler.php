@@ -27,8 +27,13 @@ namespace DMK\Mktools\ErrorHandler;
 
 use DMK\Mktools\Exception\ExceptionInterface;
 use DMK\Mktools\Utility\Misc;
+use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\ProductionExceptionHandler;
+use Sys25\RnBase\Utility\Debug;
+use Sys25\RnBase\Utility\Logger;
+use Sys25\RnBase\Utility\Network;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * tx_mktools_util_ExceptionHandlerBase.
@@ -40,7 +45,7 @@ use TYPO3\CMS\Core\Core\Environment;
 class ExceptionHandler extends ProductionExceptionHandler
 {
     /**
-     * @var \tx_rnbase_configurations
+     * @var Processor
      */
     private $configurations;
 
@@ -68,7 +73,7 @@ class ExceptionHandler extends ProductionExceptionHandler
      * @param \Exception|\Throwable $exception
      * @param string                $context
      *
-     * @see Tx_Rnbase_Error_ProductionExceptionHandler::writeLogEntries()
+     * @see ProductionExceptionHandler::writeLogEntries()
      */
     protected function writeLogEntriesEnvironment($exception, $context)
     {
@@ -89,7 +94,7 @@ class ExceptionHandler extends ProductionExceptionHandler
      * @param \Exception|\Throwable $exception
      * @param string                $context
      *
-     * @see Tx_Rnbase_Error_ProductionExceptionHandler::writeLogEntries()
+     * @see ProductionExceptionHandler::writeLogEntries()
      */
     protected function writeLogEntriesByParent($exception, $context)
     {
@@ -155,16 +160,16 @@ class ExceptionHandler extends ProductionExceptionHandler
         $this->writeLogEntries($exception, self::CONTEXT_WEB);
 
         if ($this->shouldExceptionBeDebugged()) {
-            \tx_rnbase_util_Debug::debug([
+            Debug::debug([
                     'Exception! Mehr infos im devlog.',
             ], __METHOD__.' Line: '.__LINE__);
-            \tx_rnbase_util_Debug::debug([
+            Debug::debug([
                     $exception,
             ], __METHOD__.' Line: '.__LINE__);
         }
 
         if ((!$exceptionPage = $this->getExceptionPage()) ||
-            (!$absoluteExceptionPageUrl = \tx_rnbase_util_Network::locationHeaderUrl($exceptionPage))
+            (!$absoluteExceptionPageUrl = Network::locationHeaderUrl($exceptionPage))
         ) {
             $this->logNoExceptionPageDefined();
         } else {
@@ -177,7 +182,7 @@ class ExceptionHandler extends ProductionExceptionHandler
      */
     protected function shouldExceptionBeDebugged()
     {
-        return \tx_rnbase_util_Network::isDevelopmentIp();
+        return Network::isDevelopmentIp();
     }
 
     /**
@@ -195,7 +200,7 @@ class ExceptionHandler extends ProductionExceptionHandler
             $configurations = $this->getConfigurations($fileLink);
             $exceptionPage = $configurations->get('errorhandling.exceptionPage');
         } else {
-            \tx_rnbase_util_Logger::warn('unbekannter error page type "'.$exceptionPageType.'" (möglich: FILE, TYPOSCRIPT)', 'mktools');
+            Logger::warn('unbekannter error page type "'.$exceptionPageType.'" (möglich: FILE, TYPOSCRIPT)', 'mktools');
         }
 
         return $exceptionPage;
@@ -237,12 +242,12 @@ class ExceptionHandler extends ProductionExceptionHandler
     /**
      * @param string $additionalPath
      *
-     * @return \tx_rnbase_configurations
+     * @return Processor
      */
     private function getConfigurations($additionalPath = '')
     {
         if (null === $this->configurations) {
-            $miscTools = \tx_rnbase::makeInstance('tx_mktools_util_miscTools');
+            $miscTools = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mktools_util_miscTools');
             $staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
             $this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
         }
@@ -252,7 +257,7 @@ class ExceptionHandler extends ProductionExceptionHandler
 
     protected function logNoExceptionPageDefined()
     {
-        \tx_rnbase_util_Logger::warn('keine Fehlerseite definiert', 'mktools');
+        Logger::warn('keine Fehlerseite definiert', 'mktools');
     }
 
     /**
@@ -263,8 +268,8 @@ class ExceptionHandler extends ProductionExceptionHandler
         // wenn wir schon auf der Fehlerseite sind, dann holen wir nicht nochmal
         // die Fehlerseite falls auf dieser der Fehler auch auftritt. Sonst laufen
         // wir in einen infinite loop
-        if (\tx_rnbase_util_Misc::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
-            echo \tx_rnbase_util_Network::getURL($absoluteExceptionPageUrl);
+        if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
+            echo Network::getURL($absoluteExceptionPageUrl);
         }
         exit(1);
     }

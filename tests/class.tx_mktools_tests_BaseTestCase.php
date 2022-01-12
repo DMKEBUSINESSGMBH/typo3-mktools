@@ -25,7 +25,7 @@
 /**
  * @author Michael Wagner
  */
-abstract class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCase
+abstract class tx_mktools_tests_BaseTestCase extends \Sys25\RnBase\Testing\BaseTestCase
 {
     private static $aExtConf = [];
 
@@ -95,7 +95,7 @@ abstract class tx_mktools_tests_BaseTestCase extends tx_rnbase_tests_BaseTestCas
      */
     public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 'mktools')
     {
-        return \tx_rnbase_util_Extensions::extPath($extKey).$dir.$filename;
+        return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey).$dir.$filename;
     }
 
     /**

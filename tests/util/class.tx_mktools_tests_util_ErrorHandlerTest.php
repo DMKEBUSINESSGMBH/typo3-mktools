@@ -28,7 +28,7 @@ use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception as RnBaseException;
 /**
  * @author Hannes Bochmann
  */
-class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCase
+class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @var int
@@ -98,7 +98,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
         }
 
         $expectedErrorMessage = 'PHP Fatal Error: my error in '.basename('123.php').' line 123';
-        $expectedException = new Tx_Rnbase_Error_Exception($expectedErrorMessage);
+        $expectedException = new \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception($expectedErrorMessage);
         $exceptionHandler = $this->getMock(
             'tx_mktools_util_ExceptionHandler',
             ['handleException']
@@ -154,14 +154,14 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
      */
     public function testGetTypo3ExceptionReturnsCorrectExceptionType()
     {
-        $handler = tx_rnbase::makeInstance(ErrorHandler::class, null);
+        $handler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ErrorHandler::class, null);
         $method = new ReflectionMethod(ErrorHandler::class, 'getTypo3Exception');
         $method->setAccessible(true);
         $message = 'test';
 
         $exception = $method->invoke($handler, $message);
         $this->assertInstanceOf(
-            \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception::class,
+            Exception::class,
             $exception,
             'Exception nicht vom Typ '
         );
@@ -250,7 +250,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends tx_rnbase_tests_BaseTestCas
             [1]
         );
 
-        $exception = new Tx_Rnbase_Error_Exception('test');
+        $exception = new \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception('test');
         $errorHandler->expects($this->once())
             ->method('handleErrorByParent')
             ->with(1, 2, 3, 4)

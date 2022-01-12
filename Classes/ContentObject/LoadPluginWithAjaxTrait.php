@@ -49,7 +49,7 @@ use Sys25\RnBase\Frontend\Request\Parameters;
              // we need a link per element so caching (chash) works correct in the ajax
              // page type. Otherwise it's not possible to render more than one element
              // per page
-             $configuration = \tx_rnbase::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
+             $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
              $configuration->init($GLOBALS['TSFE']->tmpl->setup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
              $link = $configuration
                 ->createLink()

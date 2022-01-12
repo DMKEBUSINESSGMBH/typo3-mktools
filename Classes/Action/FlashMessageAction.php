@@ -25,32 +25,32 @@ namespace DMK\Mktools\Action;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Sys25\RnBase\Configuration\Processor;
-use Sys25\RnBase\Frontend\Request\Parameters;
+use Sys25\RnBase\Frontend\Controller\AbstractAction;
+use Sys25\RnBase\Frontend\Request\RequestInterface;
+use Sys25\RnBase\Frontend\View\Marker\ListView;
 
 /**
  * ShowTemplate Controller.
  *
  * @author Michael Wagner
  */
-class FlashMessageAction extends \tx_rnbase_action_BaseIOC
+class FlashMessageAction extends AbstractAction
 {
     /**
-     * Do the Magic.
-     *
-     * @param Parameters    $parameters
-     * @param Processor $configurations
-     * @param \ArrayObject              $viewdata
+     * @param RequestInterface $request
      *
      * @return null
+     *
+     * @throws \Sys25\RnBase\Exception\SkipActionException
+     * @throws \tx_rnbase_exception_Skip
      */
-    protected function handleRequest(&$parameters, &$configurations, &$viewdata)
+    protected function handleRequest(RequestInterface $request)
     {
         // convert to user int. dont cache this output!
-        $this->getConfigurations()->convertToUserInt();
+        $request->getConfigurations()->convertToUserInt();
 
-        $this->getViewData()->offsetSet(
-            \tx_rnbase_view_List::VIEWDATA_ITEMS,
+        $request->getViewContext()->offsetSet(
+            \Sys25\RnBase\Frontend\View\Marker\ListView::VIEWDATA_ITEMS,
             \tx_mktools_util_FlashMessage::getInstance()->getMessages()
         );
 
@@ -74,10 +74,6 @@ class FlashMessageAction extends \tx_rnbase_action_BaseIOC
      */
     protected function getViewClassName()
     {
-        return 'tx_rnbase_view_List';
+        return ListView::class;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_FlashMessage.php']) {
-    require_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_FlashMessage.php'];
 }

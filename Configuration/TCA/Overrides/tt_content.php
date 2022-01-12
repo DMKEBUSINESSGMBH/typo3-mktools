@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
-    tx_rnbase_util_Extensions::addTCAcolumns(
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
         'tt_content',
         [
             'tx_mktools_load_with_ajax' => [
@@ -20,7 +20,7 @@ if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
         false
     );
 
-    tx_rnbase_util_Extensions::addToAllTCAtypes('tt_content', 'tx_mktools_load_with_ajax', 'list');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tt_content', 'tx_mktools_load_with_ajax', 'list');
 }
 
 call_user_func(function () {
@@ -29,8 +29,8 @@ call_user_func(function () {
     // Das tt_content-Feld pi_flexform einblenden
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['tx_mktools'] = 'pi_flexform';
 
-    tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mktools', 'FILE:EXT:mktools/flexform_main.xml');
-    tx_rnbase_util_Extensions::addPlugin(
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('tx_mktools', 'FILE:EXT:mktools/flexform_main.xml');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
         ['LLL:EXT:mktools/locallang_db.php:plugin.mktools.label', 'tx_mktools'],
         'list_type',
         'mktools'

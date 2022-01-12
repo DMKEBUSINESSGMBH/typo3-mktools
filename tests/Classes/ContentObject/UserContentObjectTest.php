@@ -2,6 +2,7 @@
 
 namespace DMK\Mktools\ContentObject;
 
+use Sys25\RnBase\Utility\Link;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -35,7 +36,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
+class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @var \DMK\Mktools\ContentObject\UserContentObject
@@ -119,7 +120,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
             ->with(['config' => 'test'], $contentObject, 'mktools', 'mktools');
         GeneralUtility::addInstance(\Sys25\RnBase\Configuration\Processor::class, $configurations);
 
-        $linkUtility = $this->getMock('tx_rnbase_util_Link', ['initByTS', 'makeUrl']);
+        $linkUtility = $this->getMock(Link::class, ['initByTS', 'makeUrl']);
         $linkUtility->expects(self::once())
             ->method('initByTS')
             ->with($configurations, 'lib.tx_mktools.loadUserWithAjaxUrl.', ['::contentid' => 123])
@@ -127,7 +128,7 @@ class UserContentObjectTest extends \tx_rnbase_tests_BaseTestCase
         $linkUtility->expects(self::once())
             ->method('makeUrl')
             ->will(self::returnValue('rendererdUrl'));
-        GeneralUtility::addInstance('tx_rnbase_util_Link', $linkUtility);
+        GeneralUtility::addInstance(Link::class, $linkUtility);
 
         self::assertEquals(
             '<a class="ajax-links-autoload ajax-no-history" aria-hidden="true" href="rendererdUrl"></a>',

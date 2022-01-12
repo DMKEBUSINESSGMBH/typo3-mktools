@@ -25,8 +25,10 @@ namespace DMK\Mktools\Action;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Sys25\RnBase\Configuration\Processor;
-use Sys25\RnBase\Frontend\Request\Parameters;
+use DMK\Mktools\View\ShowTemplate;
+use Sys25\RnBase\Domain\Model\BaseModel;
+use Sys25\RnBase\Frontend\Controller\AbstractAction;
+use Sys25\RnBase\Frontend\Request\RequestInterface;
 
 /**
  * ShowTemplate Controller.
@@ -34,21 +36,16 @@ use Sys25\RnBase\Frontend\Request\Parameters;
  * @author Michael Wagner
  * @author Hannes Bochmann
  */
-class ShowTemplateAction extends \tx_rnbase_action_BaseIOC
+class ShowTemplateAction extends AbstractAction
 {
     /**
-     * Kindklassen führen hier die eigentliche Arbeit durch. Zugriff auf das
-     * Backend und befüllen der viewdata.
+     * @param RequestInterface $request
      *
-     * @param Parameters    &$parameters
-     * @param Processor     &$configurations
-     * @param \ArrayObject  &$viewdata
-     *
-     * @return string Errorstring or NULL
+     * @return null
      */
-    protected function handleRequest(&$parameters, &$configurations, &$viewdata)
+    protected function handleRequest(RequestInterface $request)
     {
-        $viewdata->offsetSet('item', $this->getItem());
+        $request->getViewContext()->offsetSet('item', $this->getItem());
 
         return null;
     }
@@ -62,8 +59,8 @@ class ShowTemplateAction extends \tx_rnbase_action_BaseIOC
     {
         $data = $this->getData();
 
-        return \tx_rnbase::makeInstance(
-            'tx_rnbase_model_base',
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            BaseModel::class,
             is_array($data) ? $data : []
         );
     }
@@ -95,10 +92,6 @@ class ShowTemplateAction extends \tx_rnbase_action_BaseIOC
      */
     protected function getViewClassName()
     {
-        return 'tx_mktools_view_ShowTemplate';
+        return ShowTemplate::class;
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_ShowTemplate.php'];
 }

@@ -32,7 +32,7 @@ namespace DMK\Mktools\Utility;
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class CacheUtilityTest extends \tx_rnbase_tests_BaseTestCase
+class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @var array

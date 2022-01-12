@@ -57,7 +57,7 @@ class ErrorHandler extends RnBaseErrorHandler
      *
      * (non-PHPdoc)
      *
-     * @see Tx_Rnbase_Error_ErrorHandler::handleError()
+     * @see \Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler::handleError()
      *
      * @throws RuntimeException
      */
@@ -80,7 +80,7 @@ class ErrorHandler extends RnBaseErrorHandler
 
             //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
             //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
-            throw \tx_rnbase::makeInstance(RuntimeException::class, $exception->getMessage(), $exception->getCode());
+            throw \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(RuntimeException::class, $exception->getMessage(), $exception->getCode());
         }
 
         return $return;
@@ -97,7 +97,7 @@ class ErrorHandler extends RnBaseErrorHandler
     /**
      * (non-PHPdoc).
      *
-     * @see Tx_Rnbase_Error_ErrorHandler::handleError()
+     * @see \Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler::handleError()
      */
     protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine)
     {
@@ -118,7 +118,7 @@ class ErrorHandler extends RnBaseErrorHandler
     protected function writeExceptionToDevLog($exception)
     {
         $logTitle = 'Core: Error handler ('.TYPO3_MODE.')';
-        \Tx_Rnbase_Utility_Logger::error($logTitle, $exception->getMessage());
+        \Sys25\RnBase\Utility\Logger::fatal($exception->getMessage(), $logTitle);
     }
 
     /**
@@ -165,11 +165,11 @@ class ErrorHandler extends RnBaseErrorHandler
      *
      * @param string $exceptionMessage
      *
-     * @return \Tx_Rnbase_Error_Exception
+     * @return \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception
      */
     protected function getTypo3Exception($exceptionMessage)
     {
-        return new Exception($exceptionMessage);
+        return new \Exception($exceptionMessage);
     }
 
     /**
@@ -179,6 +179,6 @@ class ErrorHandler extends RnBaseErrorHandler
      */
     protected function getExceptionHandler()
     {
-        return \tx_rnbase::makeInstance('tx_mktools_util_ExceptionHandler');
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mktools_util_ExceptionHandler');
     }
 }

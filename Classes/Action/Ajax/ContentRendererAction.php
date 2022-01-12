@@ -26,8 +26,8 @@ namespace DMK\Mktools\Action\Ajax;
  ***************************************************************/
 
 use Sys25\RnBase\Frontend\Request\Parameters;
+use Sys25\RnBase\Utility\TYPO3;
 use tx_mktools_util_T3Loader as T3Loader;
-use tx_rnbase_util_TYPO3 as TYPO3Util;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 
 /**
@@ -52,7 +52,7 @@ class ContentRendererAction
             $this->sendNotFoundHeader();
         }
 
-        $ttContent = TYPO3Util::getSysPage()->checkRecord('tt_content', $contentId);
+        $ttContent = TYPO3::getSysPage()->checkRecord('tt_content', $contentId);
         $cObj = T3Loader::getContentObject($contentId);
 
         // jetzt das contentelement parsen

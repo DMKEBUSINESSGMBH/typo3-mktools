@@ -83,7 +83,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTest
 
         $this->setExtConfVar('systemLogLockThreshold', 0, 'mktools');
 
-        require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
+        require \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mktools', 'ext_localconf.php');
 
         $hookFound = false;
         foreach ((array) $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
@@ -110,7 +110,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTest
 
         $this->setExtConfVar('systemLogLockThreshold', 123, 'mktools');
 
-        require tx_rnbase_util_Extensions::extPath('mktools', 'ext_localconf.php');
+        require \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mktools', 'ext_localconf.php');
 
         $hookFound = false;
         foreach ((array) $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['systemLog'] as $systemLogHook) {
@@ -146,11 +146,11 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTest
         $systemLogConfigurationBackup->setAccessible(true);
         $this->assertEquals(
             '',
-            $systemLogConfigurationBackup->getValue(tx_rnbase::makeInstance(GeneralUtilityHook::class)),
+            $systemLogConfigurationBackup->getValue(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(GeneralUtilityHook::class)),
             'zu Beginn doch eine Konfiguration gespeichert'
         );
 
-        $hook = tx_rnbase::makeInstance(GeneralUtilityHook::class);
+        $hook = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(GeneralUtilityHook::class);
         $hook->preventSystemLogFlood([]);
 
         $this->assertEquals(
@@ -179,7 +179,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTest
         $systemLogConfigurationBackup->setValue($hook, 'otherSystemLogDaemons');
 
         $lockUtility = $this->getMock(
-            'tx_rnbase_util_Lock',
+            \Sys25\RnBase\Utility\Lock::class,
             ['isLocked', 'lockProcess'],
             [],
             '',
@@ -218,12 +218,12 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTest
 
         $this->setExtConfVar('systemLogLockThreshold', 123, 'mktools');
 
-        $expectedLockUtility = tx_rnbase_util_Lock::getInstance(
+        $expectedLockUtility = \Sys25\RnBase\Utility\Lock::getInstance(
             '15c79894401d2315b62f631234b9fb49',
             123
         );
         $lockUtility = $this->callInaccessibleMethod(
-            tx_rnbase::makeInstance(GeneralUtilityHook::class),
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(GeneralUtilityHook::class),
             'getLockUtility',
             ['msg' => 'fehler', 'extKey' => 'mktools', 'severity' => 2]
         );
@@ -238,7 +238,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTest
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
         $parameters = ['someParameters'];
         $lockUtility = $this->getMock(
-            'tx_rnbase_util_Lock',
+            \Sys25\RnBase\Utility\Lock::class,
             ['isLocked', 'lockProcess'],
             [],
             '',
@@ -278,7 +278,7 @@ class tx_mktools_tests_hook_GeneralUtilityTest extends tx_mktools_tests_BaseTest
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLog'] = 'someSystemLogDaemons';
         $parameters = ['someParameters'];
         $lockUtility = $this->getMock(
-            'tx_rnbase_util_Lock',
+            \Sys25\RnBase\Utility\Lock::class,
             ['isLocked', 'lockProcess'],
             [],
             '',

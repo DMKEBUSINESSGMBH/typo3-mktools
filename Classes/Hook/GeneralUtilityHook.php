@@ -25,8 +25,8 @@ namespace DMK\Mktools\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\Lock;
 use tx_mktools_util_miscTools as Misc;
-use tx_rnbase_util_Lock as Lock;
 
 /**
  * tx_mktools_hook_GeneralUtility.

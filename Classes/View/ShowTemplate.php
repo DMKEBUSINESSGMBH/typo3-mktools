@@ -2,6 +2,10 @@
 
 namespace DMK\Mktools\View;
 
+use Sys25\RnBase\Frontend\Request\RequestInterface;
+use Sys25\RnBase\Frontend\View\Marker\ListView;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -28,10 +32,19 @@ namespace DMK\Mktools\View;
 /**
  * Default view class to show a template.
  */
-class ShowTemplate extends \tx_rnbase_view_Single
+class ShowTemplate extends ListView
 {
-}
+    public function createOutput($template, RequestInterface $request, $formatter)
+    {
+        $confId = $request->getConfId();
+        $item = $request->getViewContext()->offsetGet('item');
+        $itemPath = $this->getItemPath($request->getConfigurations(), $confId);
+        $markerClass = $this->getMarkerClass($request->getConfigurations(), $confId);
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/view/class.tx_mktools_view_ShowTemplate.php'];
+        $marker = GeneralUtility::makeInstance($markerClass);
+
+        $out = $marker->parseTemplate($template, $item, $formatter, $confId.$itemPath.'.', strtoupper($itemPath));
+
+        return $out;
+    }
 }

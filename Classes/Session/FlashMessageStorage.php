@@ -27,6 +27,7 @@ namespace DMK\Mktools\Session;
 
 use DMK\Mktools\Exception\RuntimeException;
 use DMK\Mktools\Utility\SessionUtility;
+use Sys25\RnBase\Domain\Model\BaseModel;
 
 /**
  * Flash message utility.
@@ -70,7 +71,7 @@ class FlashMessageStorage
     {
         static $instance = null;
         if (null === $instance) {
-            $instance = \tx_rnbase::makeInstance(get_called_class())->load();
+            $instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(get_called_class())->load();
         }
 
         return $instance;
@@ -163,8 +164,8 @@ class FlashMessageStorage
      */
     private function addMessage($message, $level, $data = null)
     {
-        $message = \tx_rnbase::makeInstance(
-            'Tx_Rnbase_Domain_Model_Base',
+        $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            BaseModel::class,
             [
                 'level' => $level,
                 'message' => $message,

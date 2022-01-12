@@ -2,6 +2,12 @@
 
 namespace DMK\Mktools\Utility;
 
+use Sys25\RnBase\Backend\Utility\BackendUtility;
+use Sys25\RnBase\Configuration\Processor;
+use Sys25\RnBase\Frontend\Request\Parameters;
+use Sys25\RnBase\Utility\Arrays;
+use Sys25\RnBase\Utility\Files;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -45,7 +51,7 @@ final class Misc
      */
     private static function getExtensionCfgValue($configValue)
     {
-        return \tx_rnbase_configurations::getExtensionCfgValue('mktools', $configValue);
+        return Processor::getExtensionCfgValue('mktools', $configValue);
     }
 
     /**
@@ -112,25 +118,25 @@ final class Misc
      */
     public static function getConfigurations($staticPath, $additionalPath = '')
     {
-        \tx_rnbase_util_Extensions::addPageTSConfig(
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
         );
         if (!empty($additionalPath)) {
-            \tx_rnbase_util_Extensions::addPageTSConfig(
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
                 '<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
             );
         }
 
-        $pageTSconfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0, 1);
-        $config = \tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+        $pageTSconfig = BackendUtility::getPagesTSconfig(0, 1);
+        $config = Arrays::mergeRecursiveWithOverrule(
             (array) $pageTSconfig['config.']['tx_mktools.'],
             (array) $pageTSconfig['plugin.']['tx_mktools.']
         );
 
-        $configurations = new \Sys25\RnBase\Configuration\Processor();
+        $configurations = new Processor();
         $configurations->init($config, $configurations->getCObj(), 'mktools', 'mktools');
         $configurations->setParameters(
-            \tx_rnbase::makeInstance('tx_rnbase_parameters')
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Parameters::class)
         );
 
         return $configurations;
@@ -143,10 +149,6 @@ final class Misc
      */
     private static function getAbsoluteFileName($filename)
     {
-        return tx_rnbase_util_Files::getFileAbsFileName($filename);
+        return Files::getFileAbsFileName($filename);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_miscTools.php'];
 }

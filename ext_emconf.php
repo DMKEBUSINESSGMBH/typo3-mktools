@@ -31,7 +31,7 @@ $EM_CONF['mktools'] = [
     'lockType' => '',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.10.0-',
+            'rn_base' => '1.15.0-',
             'typo3' => '9.5.0-10.4.99',
         ],
         'conflicts' => [],

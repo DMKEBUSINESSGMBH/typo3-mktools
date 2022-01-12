@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
-    tx_rnbase_util_Extensions::addTCAcolumns(
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
         'pages',
         [
             'mkrobotsmetatag' => [
@@ -24,5 +24,5 @@ if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
         ],
         false
     );
-    tx_rnbase_util_Extensions::addToAllTCAtypes('pages', 'mkrobotsmetatag', '');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', 'mkrobotsmetatag', '');
 }

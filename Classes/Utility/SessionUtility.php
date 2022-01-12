@@ -2,6 +2,9 @@
 
 namespace DMK\Mktools\Utility;
 
+use Sys25\RnBase\Frontend\Request\Parameters;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -135,7 +138,7 @@ class SessionUtility
      */
     public static function areCookiesActivated()
     {
-        if (!empty($_COOKIE) || tx_rnbase_parameters::getPostOrGetParameter('checkedIfCookiesAreActivated')) {
+        if (!empty($_COOKIE) || Parameters::getPostOrGetParameter('checkedIfCookiesAreActivated')) {
             $cookiesActivated = !empty($_COOKIE);
         } else {
             // @TODO diesen Abschnitt testen, aber wie (vor allem auf CLI)?
@@ -144,12 +147,12 @@ class SessionUtility
             // Wir setzen einen Parameter für den Reload,
             // um einen Infinite Redirect zu verhindern
             // falls keine Cookies erlaubt sind.
-            $parsedUrl = parse_url(tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_SCRIPT'));
+            $parsedUrl = parse_url(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'));
             $checkedIfCookiesAreActivatedParameter = ($parsedUrl['query'] ? '&' : '?').'checkedIfCookiesAreActivated=1';
             // Und machen einen Reload um zu sehen ob Cookies gesetzt werden konnten.
             header(
                 'Location: /'.
-                tx_rnbase_util_Misc::getIndpEnv('TYPO3_SITE_SCRIPT').
+                GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT').
                 $checkedIfCookiesAreActivatedParameter
             );
             exit;
