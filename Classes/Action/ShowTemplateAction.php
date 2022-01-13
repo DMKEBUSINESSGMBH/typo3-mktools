@@ -38,6 +38,8 @@ use Sys25\RnBase\Frontend\Request\RequestInterface;
  */
 class ShowTemplateAction extends AbstractAction
 {
+    protected RequestInterface $request;
+
     /**
      * @param RequestInterface $request
      *
@@ -45,6 +47,8 @@ class ShowTemplateAction extends AbstractAction
      */
     protected function handleRequest(RequestInterface $request)
     {
+        $this->request = $request;
+
         $request->getViewContext()->offsetSet('item', $this->getItem());
 
         return null;

@@ -85,7 +85,7 @@ class MarkdownAction extends ShowTemplateAction
                 );
         }
 
-        $auth = $this->getConfigurations()->get(
+        $auth = $this->request->getConfigurations()->get(
             $this->getConfId().'auth.crypt.'
         );
 
@@ -143,7 +143,7 @@ class MarkdownAction extends ShowTemplateAction
      */
     protected function getFiles()
     {
-        $configurations = $this->getConfigurations();
+        $configurations = $this->request->getConfigurations();
         $confId = $this->getConfId().'files';
 
         $fiels = $configurations->get($confId.'.');
