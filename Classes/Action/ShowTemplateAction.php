@@ -38,7 +38,7 @@ use Sys25\RnBase\Frontend\Request\RequestInterface;
  */
 class ShowTemplateAction extends AbstractAction
 {
-    protected RequestInterface $request;
+    protected $request;
 
     /**
      * @param RequestInterface $request
