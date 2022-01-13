@@ -123,7 +123,7 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
         $linkUtility = $this->getMock(Link::class, ['initByTS', 'makeUrl']);
         $linkUtility->expects(self::once())
             ->method('initByTS')
-            ->with($configurations, 'lib.tx_mktools.loadUserWithAjaxUrl.', ['::contentid' => 123])
+            ->with($configurations, 'lib.tx_mktools.loadUserWithAjaxUrl.', ['::contentid' => 123, '::ajaxcontentid' => 123])
             ->will(self::returnValue($linkUtility));
         $linkUtility->expects(self::once())
             ->method('makeUrl')
