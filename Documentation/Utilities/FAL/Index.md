@@ -19,7 +19,7 @@ Beispiel TypoScript (es gibt noch mehr Konfigurationsmöglichkeiten in rn\_base)
 lib.tx_mktools.cal.event {
    image = USER
    image {
-      userFunc = \Sys25\RnBase\Utility\TSFAL->printImages
+      userFunc = Sys25\RnBase\Utility\TSFAL->printImages
       refField = tx_mktools_fal_images
       refTable = tx_cal_event
       #template = ...
@@ -63,7 +63,7 @@ Beispiel TypoScript (es gibt noch mehr Konfigurationsmöglichkeiten in rn\_base)
 lib.tx_mktools.tt_news.news {
    image = USER
    image {
-      userFunc = \Sys25\RnBase\Utility\TSFAL->printImages
+      userFunc = Sys25\RnBase\Utility\TSFAL->printImages
       refField = tx_mktools_fal_images
       refTable = tt_news
       #template = ...
@@ -76,7 +76,7 @@ lib.tx_mktools.tt_news.news {
 
    media = USER
    media {
-      userFunc = \Sys25\RnBase\Utility\TSFAL->printImages
+      userFunc = Sys25\RnBase\Utility\TSFAL->printImages
       refField = tx_mktools_fal_media
       refTable = tt_news
       #template = ...

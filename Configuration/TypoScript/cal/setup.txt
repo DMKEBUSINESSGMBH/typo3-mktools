@@ -1,7 +1,7 @@
 lib.tx_mktools.cal.event {
     image = USER
     image {
-        userFunc = \Sys25\RnBase\Utility\TSFAL->printImages
+        userFunc = Sys25\RnBase\Utility\TSFAL->printImages
         refField = tx_mktools_fal_images
         refTable = tx_cal_event
         #template = ...
