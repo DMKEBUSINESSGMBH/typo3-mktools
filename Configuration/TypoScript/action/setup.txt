@@ -34,7 +34,7 @@ plugin.tx_mktools {
         toUserInt = 1
         template {
             itempath = message
-            markerclass = \Sys25\RnBase\Frontend\Marker\SimpleMarker
+            markerclass = Sys25\RnBase\Frontend\Marker\SimpleMarker
             subpart = ###FLASHMESSAGES###
         }
     }
