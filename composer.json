@@ -22,7 +22,6 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mktools"
     },
     "replace": {
-        "mktools": "self.version",
         "typo3-ter/mktools": "self.version"
     },
     "require": {
