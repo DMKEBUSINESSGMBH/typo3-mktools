@@ -18,7 +18,12 @@ services:
               command: 'mktools:slug-creator'
               schedulable: true
     DMK\Mktools\Command\MigrateRealurlAliasToSlugCommand:
-      tags:
-        - name: 'console.command'
-          command: 'mktools:migrate-realurl-alias-to-slug'
-          schedulable: true
+        tags:
+            - name: 'console.command'
+              command: 'mktools:migrate-realurl-alias-to-slug'
+              schedulable: true
+    DMK\Mktools\Command\MigrateFormFinishersCommand:
+        tags:
+            - name: 'console.command'
+              command: 'mktools:migrate-form-finishers'
+              schedulable: true

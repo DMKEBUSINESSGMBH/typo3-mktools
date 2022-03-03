@@ -17,4 +17,4 @@ Utilities
 
 [Views](Views/Index.md)
 
-[Slugs](Slugs/Index.md)
+[form Extension](Forms/Index.md)
