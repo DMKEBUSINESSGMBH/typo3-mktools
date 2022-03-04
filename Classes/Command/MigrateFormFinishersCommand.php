@@ -148,7 +148,7 @@ class MigrateFormFinishersCommand extends Command
             isset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.format'])
             && !isset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.addHtmlPart'])
         ) {
-            $format = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.format'];
+            $format = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.format']['vDEF'];
             $addHtmlPart = empty($format) || EmailFinisher::FORMAT_PLAINTEXT !== $format;
             $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.addHtmlPart']['vDEF'] = intval($addHtmlPart);
             unset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.format']);
@@ -164,28 +164,27 @@ class MigrateFormFinishersCommand extends Command
             'replyToAddress' => 'replyToRecipients',
         ];
         foreach ($recipientOptions as $oldOptionKey => $newOptionKey) {
-            if (isset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey])) {
-                $address = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey] ?? '';
-                if (!empty($address)) {
-                    $recipientElement['email'] = $address;
-                    if ('recipientAddress' == $oldOptionKey) {
-                        $name = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName'] ?? '';
-                        if (!empty($name)) {
-                            $recipientElement['name'] = $name;
-                        }
+            if (
+                isset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey])
+                && !empty($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey]['vDEF'])
+            ) {
+                $recipientElement = ['email' => $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey]];
+                if ('recipientAddress' == $oldOptionKey) {
+                    if (!empty($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName']['vDEF'])) {
+                        $recipientElement['name'] = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName'];
                     }
-                    $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$newOptionKey] = [
-                        'el' => [
-                            uniqid() => [
-                                '_arrayContainer' => [
-                                    'el' => $recipientElement,
-                                ],
+                }
+                $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$newOptionKey] = [
+                    'el' => [
+                        uniqid() => [
+                            '_arrayContainer' => [
+                                'el' => $recipientElement,
                             ],
                         ],
-                    ];
-                }
-                unset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey]);
+                    ],
+                ];
             }
+            unset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey]);
         }
     }
 }
