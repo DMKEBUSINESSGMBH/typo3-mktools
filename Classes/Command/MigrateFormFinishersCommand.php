@@ -166,12 +166,13 @@ class MigrateFormFinishersCommand extends Command
         foreach ($recipientOptions as $oldOptionKey => $newOptionKey) {
             if (isset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey])) {
                 $address = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey] ?? '';
-                $oldNameOptionKey = str_replace('Address', 'Name', $oldOptionKey);
-                $name = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldNameOptionKey] ?? '';
                 if (!empty($address)) {
                     $recipientElement['email'] = $address;
-                    if (!empty($name)) {
-                        $recipientElement['name'] = $name;
+                    if ('recipientAddress' == $oldOptionKey) {
+                        $name = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName'] ?? '';
+                        if (!empty($name)) {
+                            $recipientElement['name'] = $name;
+                        }
                     }
                     $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$newOptionKey] = [
                         'el' => [
