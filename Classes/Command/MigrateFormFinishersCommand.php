@@ -173,6 +173,8 @@ class MigrateFormFinishersCommand extends Command
                     if (!empty($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName']['vDEF'])) {
                         $recipientElement['name'] = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName'];
                     }
+                } else {
+                    $recipientElement['name'] = '';
                 }
                 $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$newOptionKey] = [
                     'el' => [
