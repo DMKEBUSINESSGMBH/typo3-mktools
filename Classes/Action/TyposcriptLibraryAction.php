@@ -50,7 +50,3 @@ class TyposcriptLibraryAction
         return (string) $configurations->get('tslib', true);
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_TsLib.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/action/class.tx_mktools_action_TsLib.php'];
-}

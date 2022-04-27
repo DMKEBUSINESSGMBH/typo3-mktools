@@ -41,7 +41,7 @@ class ThrowableExceptionHandler extends ExceptionHandler
      *
      * @see \TYPO3\CMS\Core\Error\ProductionExceptionHandler::echoExceptionWeb()
      */
-    public function writeLogEntries(\Throwable $exception, $context)
+    public function writeLogEntries(\Throwable $exception, string $context): void
     {
         parent::writeLogEntriesEnvironment($exception, $context);
     }

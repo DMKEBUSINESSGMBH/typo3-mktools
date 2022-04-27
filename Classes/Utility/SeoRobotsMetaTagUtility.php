@@ -124,7 +124,3 @@ class SeoRobotsMetaTagUtility
         return GeneralUtility::makeInstance(RootlineUtility::class, $GLOBALS['TSFE']->id)->get();
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/class.tx_mktools_util_SeoRobotsMetaTag.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mktools/util/tx_mktools_util_SeoRobotsMetaTag.php'];
-}
