@@ -24,13 +24,13 @@
         "typo3-ter/mktools": "self.version"
     },
     "require": {
-        "typo3/cms-core": "^9.5.24 || ^10.4.18",
-        "digedag/rn-base": "~1.15"
+        "typo3/cms-core": "^10.4.25 || ^11.5.7",
+        "digedag/rn-base": "^11@dev"
     },
     "require-dev": {
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "nimut/testing-framework": "^4.0 || ^5.0"
+        "nimut/testing-framework": "^6.0"
     },
     "autoload": {
         "psr-4": {
@@ -83,7 +83,7 @@
     },
     "extra": {
         "branch-alias" : {
-            "dev-10.4": "10.0.x-dev"
+            "dev-11.5": "11.0.x-dev"
         },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
