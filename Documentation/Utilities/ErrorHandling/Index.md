@@ -37,12 +37,7 @@ Anmelden der Error und Exception Handler
 Dazu muss folgendes in der localconf eingetragen werden:
 
 ~~~~ {.sourceCode .php}
-$TYPO3_CONF_VARS['SYS']['productionExceptionHandler'] = 'tx_mktools_util_ExceptionHandler';
-$TYPO3_CONF_VARS['SYS']['debugExceptionHandler'] = 'tx_mktools_util_ExceptionHandler';
-$TYPO3_CONF_VARS['SYS']['errorHandler'] = 'tx_mktools_util_ErrorHandler';
+$TYPO3_CONF_VARS['SYS']['productionExceptionHandler'] = \DMK\Mktools\ErrorHandler\ExceptionHandler::class;
+$TYPO3_CONF_VARS['SYS']['debugExceptionHandler'] = \DMK\Mktools\ErrorHandler\ExceptionHandler::class;
+$TYPO3_CONF_VARS['SYS']['errorHandler'] = \DMK\Mktools\ErrorHandler\ErrorHandler::class;
 ~~~~
-
-systemLogLockThreshold
-----------------------
-
-Die gleiche Meldungen werden mit der syslog Funktion nur erneut geloggt wenn sie vor mehr als dieser Zeit zuletzt geloggt wurden. Leer lassen wenn dieses Feature nicht gewünscht ist. Andere Hooks für \$GLOBALS['TYPO3\_CONF\_VARS']['SC\_OPTIONS']['t3lib/class.t3lib\_div.php']['systemLog'] können damit in Konflikt geraten.

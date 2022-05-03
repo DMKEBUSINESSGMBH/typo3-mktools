@@ -43,7 +43,7 @@ use Sys25\RnBase\Frontend\Request\Parameters;
       */
      public function render($conf = [])
      {
-         if ($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] &&
+         if (($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] ?? false) &&
             !Parameters::getPostOrGetParameter('mktoolsAjaxRequest')
          ) {
              // we need a link per element so caching (chash) works correct in the ajax

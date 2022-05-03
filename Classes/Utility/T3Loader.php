@@ -58,20 +58,10 @@ final class T3Loader
     {
         $contentObjectRendererClass = ContentObjectRenderer::class;
 
-        if (!self::$cObj[$contentId] instanceof $contentObjectRendererClass) {
+        if (!(self::$cObj[$contentId] ?? null) instanceof $contentObjectRendererClass) {
             self::$cObj[$contentId] = GeneralUtility::makeInstance($contentObjectRendererClass);
         }
 
         return self::$cObj[$contentId];
-    }
-
-    /**
-     * @return \TYPO3\CMS\Frontend\Page\PageRepository or t3lib_pageSelect
-     *
-     * @deprecated use TYPO3::getSysPage() instead. will be removed soon.
-     */
-    public static function getSysPage()
-    {
-        return TYPO3::getSysPage();
     }
 }

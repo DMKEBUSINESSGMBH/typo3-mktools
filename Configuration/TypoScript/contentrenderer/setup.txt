@@ -1,5 +1,3 @@
-includeLibs.tx_mktools_action_ajax_ContentRenderer = EXT:mktools/action/ajax/class.tx_mktools_action_ajax_ContentRenderer.php
-
 mktoolsAjaxHandler = PAGE
 mktoolsAjaxHandler {
     typeNum = 9267
@@ -14,7 +12,7 @@ mktoolsAjaxHandler {
     1 >
     8 >
     10 = USER
-    10.userFunc = tx_mktools_action_ajax_ContentRenderer->renderContent
+    10.userFunc = DMK\Mktools\Action\Ajax\ContentRendererAction->renderContent
 }
 
 page.includeJSFooterlibs {

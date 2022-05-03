@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2022-05-03T08:26:34Z" product-name="mktools">
+		<header/>
+		<body>
+			<trans-unit id="plugin.mktools.label" resname="plugin.mktools.label"  approved="yes">
+				<source>Mk Tools</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.tab.common" resname="plugin.mktools.flexform.tab.common"  approved="yes">
+				<source>Mk Tools</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.tab.tssetup" resname="plugin.mktools.flexform.tab.tssetup"  approved="yes">
+				<source>TS</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.tssetup" resname="plugin.mktools.flexform.tssetup"  approved="yes">
+				<source>TypoScript Setup (plugin.tx_mktools.)</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action" resname="plugin.mktools.flexform.action"  approved="yes">
+				<source>Action</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action.ShowTemplate" resname="plugin.mktools.flexform.action.ShowTemplate"  approved="yes">
+				<source>Show Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action.TsLib" resname="plugin.mktools.flexform.action.TsLib"  approved="yes">
+				<source>TypoScript Lib (tslib.)</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action.FlashMessage" resname="plugin.mktools.flexform.action.FlashMessage"  approved="yes">
+				<source>Flash Message Output</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.formHtml" resname="plugin.mktools.flexform.formHtml"  approved="yes">
+				<source>HTML Template</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="general.choose" resname="general.choose"  approved="yes">
+				<source>bitte wählen</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="pages.tx_mktools_mkrobotsmetatag" resname="pages.tx_mktools_mkrobotsmetatag"  approved="yes">
+				<source>Robots Meta-Tag</source>
+				<target/>
+			</trans-unit>
+			<trans-unit id="tx_mktools_load_with_ajax" resname="tx_mktools_load_with_ajax"  approved="yes">
+				<source>mit Ajax nachladen?</source>
+				<target/>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

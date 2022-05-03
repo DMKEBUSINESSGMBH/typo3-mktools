@@ -32,7 +32,7 @@ $EM_CONF['mktools'] = [
     'constraints' => [
         'depends' => [
             'rn_base' => '1.15.0-',
-            'typo3' => '10.4.18-11.5.99',
+            'typo3' => '10.4.25-11.5.99',
         ],
         'conflicts' => [],
         'suggests' => [],

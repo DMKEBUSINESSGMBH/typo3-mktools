@@ -1,11 +1,11 @@
 plugin.tx_mktools = USER
 plugin.tx_mktools {
-    flexform = flexform_main.xml
+    flexform = EXT:mktools/Configuration/Flexform/Main.xml
     userFunc = tx_rnbase_controller->main
-    defaultAction = tx_mktools_action_ShowTemplate
+    defaultAction = DMK\Mktools\Action\ShowTemplateAction
     qualifier = mktools
     templatePath = EXT:mktools/Ressources/Private/Html
-    locallangFilename = locallang.xml
+    locallangFilename = EXT:mktools/Resources/Private/Language/locallang.xlf
 }
 
 tt_content.list.20.tx_mktools =< plugin.tx_mktools
@@ -80,7 +80,7 @@ docu {
     }
 
     10 =< plugin.tx_mktools
-    10.action = tx_mktools_action_DocMarkDown
+    10.action = DMK\Mktools\Action\MarkdownAction
 
     headerData {
         10 = TEXT

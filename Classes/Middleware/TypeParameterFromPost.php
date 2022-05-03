@@ -53,7 +53,9 @@ class TypeParameterFromPost implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->getParsedBody()['type'] && !$request->getQueryParams()['type']) {
+        $typeFromPostParameters = $request->getParsedBody()['type'] ?? null;
+        $typeFromQueryParameters = $request->getQueryParams()['type'] ?? null;
+        if ($typeFromPostParameters && !$typeFromQueryParameters) {
             $request = $request->withQueryParams(
                 $request->getQueryParams() +
                 ['type' => $request->getParsedBody()['type']]

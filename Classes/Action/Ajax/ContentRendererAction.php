@@ -25,9 +25,9 @@ namespace DMK\Mktools\Action\Ajax;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DMK\Mktools\Utility\T3Loader;
 use Sys25\RnBase\Frontend\Request\Parameters;
 use Sys25\RnBase\Utility\TYPO3;
-use tx_mktools_util_T3Loader as T3Loader;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 
 /**

@@ -24,13 +24,16 @@
         "typo3-ter/mktools": "self.version"
     },
     "require": {
+        "php": "^7.4 || ^8.0",
         "typo3/cms-core": "^10.4.25 || ^11.5.7",
         "digedag/rn-base": "^11@dev"
     },
     "require-dev": {
         "php-parallel-lint/php-parallel-lint": "^1.2",
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "nimut/testing-framework": "^6.0"
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "nimut/testing-framework": "^6.0",
+        "phpcompatibility/php-compatibility": "^9.3.5",
+        "phpspec/prophecy-phpunit": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -39,7 +42,7 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/"
+            "Tests/"
         ]
     },
     "config": {
@@ -47,6 +50,11 @@
         "bin-dir": ".Build/bin",
         "preferred-install": {
             "typo3/cms": "source"
+        },
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true,
+            "phpstan/extension-installer": true
         }
     },
     "scripts": {
@@ -63,7 +71,19 @@
         ],
         "test:phpcs": [
             "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
-            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
+            ".Build/bin/php-cs-fixer fix -v --dry-run --diff  --ansi"
+        ],
+        "test:phpcompatibility": [
+            "@test:phpcompatibility:7.4",
+            "@test:phpcompatibility:8.0"
+        ],
+        "test:phpcompatibility:7.4": [
+            "[ -e .Build/bin/phpcs ] || composer update",
+            ".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 7.4"
+        ],
+        "test:phpcompatibility:8.0": [
+            "[ -e .Build/bin/phpcs ] || composer update",
+            ".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.0"
         ],
         "test:phpunit": [
             "[ -e .Build/bin/phpunit ] || composer update --ansi",
@@ -71,6 +91,7 @@
         ],
         "test": [
             "@test:phpcs",
+            "@test:phpcompatibility",
             "@test:phpunit"
         ],
         "fix:phpcs": [
@@ -90,11 +111,6 @@
             "extension-key": "mktools",
             "web-dir": ".Build/Web",
             "app-dir": ".Build"
-        },
-        "typo3/class-alias-loader": {
-            "class-alias-maps": [
-                "Migrations/Code/ClassAliasMap.php"
-            ]
         }
     }
 }

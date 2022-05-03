@@ -15,7 +15,7 @@ Dafür gibt es die FlasMessages in MKTOOLS.
 Beispiel für das hinzufügen einer Meldung für den Nächsten Request:
 
 ~~~~ {.sourceCode .php
- tx_mktools_util_FlashMessage::addSuccess(
+ \DMK\Mktools\Session\FlashMessageStorage::addSuccess(
      'Ihre Daten wurden erfolgreich gespeichert.'
  );}
 ~~~~

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-03T08:26:06Z" product-name="mktools">
+		<header/>
+		<body>
+			<trans-unit id="label_form_undefined" resname="label_form_undefined" >
+				<source>Undefined</source>
+			</trans-unit>
+			<trans-unit id="label_form_picture_delete_confirm" resname="label_form_picture_delete_confirm" >
+				<source>Möchten Sie das Bild wirklich löschen?</source>
+			</trans-unit>
+			<trans-unit id="msg_form_report-email_required" resname="msg_form_report-email_required" >
+				<source>Please enter a  Email-Adress.</source>
+			</trans-unit>
+			<trans-unit id="msg_form_report-receiver_invalid" resname="msg_form_report-receiver_invalid" >
+				<source>Please enter a valid email adress.</source>
+			</trans-unit>
+			<trans-unit id="month_1" resname="month_1" >
+				<source>January</source>
+			</trans-unit>
+			<trans-unit id="month_2" resname="month_2" >
+				<source>February</source>
+			</trans-unit>
+			<trans-unit id="month_3" resname="month_3" >
+				<source>March</source>
+			</trans-unit>
+			<trans-unit id="month_4" resname="month_4" >
+				<source>April</source>
+			</trans-unit>
+			<trans-unit id="month_5" resname="month_5" >
+				<source>May</source>
+			</trans-unit>
+			<trans-unit id="month_6" resname="month_6" >
+				<source>June</source>
+			</trans-unit>
+			<trans-unit id="month_7" resname="month_7" >
+				<source>July</source>
+			</trans-unit>
+			<trans-unit id="month_8" resname="month_8" >
+				<source>August</source>
+			</trans-unit>
+			<trans-unit id="month_9" resname="month_9" >
+				<source>September</source>
+			</trans-unit>
+			<trans-unit id="month_10" resname="month_10" >
+				<source>October</source>
+			</trans-unit>
+			<trans-unit id="month_11" resname="month_11" >
+				<source>November</source>
+			</trans-unit>
+			<trans-unit id="month_12" resname="month_12" >
+				<source>December</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror" resname="label_ziperror" >
+				<source>PLZ Fehler</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r1" resname="label_ziperror_r1" >
+				<source>Die PLZ darf aus maximal %d Zeichen ohne Leerzeichen bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r2" resname="label_ziperror_r2" >
+				<source>Die PLZ darf aus maximal %d Ziffern ohne Leerzeichen bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r3" resname="label_ziperror_r3" >
+				<source>Die PLZ muss genau %d Zeichen ohne Leerzeichen bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r4" resname="label_ziperror_r4" >
+				<source>Die PLZ muss aus genau %d Ziffern ohne Leerzeichen bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r5" resname="label_ziperror_r5" >
+				<source>Die PLZ darf aus maximal %d Zeichen bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r6" resname="label_ziperror_r6" >
+				<source>Die PLZ darf aus maximal %d Ziffern bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r7" resname="label_ziperror_r7" >
+				<source>Die PLZ muss genau %d Zeichen bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r8" resname="label_ziperror_r8" >
+				<source>Die PLZ muss aus genau %d Ziffern bestehen.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_" resname="label_ziperror_r9_" >
+				<source>Fehler: kein ISO-Code gefunden.</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_CA" resname="label_ziperror_r9_CA" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (A-Buchstabe, N-Ziffer): ANA-NAN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_NL" resname="label_ziperror_r9_NL" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (A-Buchstabe, N-Ziffer): NNNN AA</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_PL" resname="label_ziperror_r9_PL" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NN-NNN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_GR" resname="label_ziperror_r9_GR" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_SE" resname="label_ziperror_r9_SE" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_SW" resname="label_ziperror_r9_SW" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_SK" resname="label_ziperror_r9_SK" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_CZ" resname="label_ziperror_r9_CZ" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN NN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_KR" resname="label_ziperror_r9_KR" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNN-NNN</source>
+			</trans-unit>
+			<trans-unit id="label_ziperror_r9_PT" resname="label_ziperror_r9_PT" >
+				<source>Die PLZ muss in folgendem Format angegeben werden (N-Ziffer): NNNN-NNN oder NNNN</source>
+			</trans-unit>
+			<trans-unit id="ERROR_default" resname="ERROR_default" >
+				<source>Leider ist ein Fehler aufgetreten!</source>
+			</trans-unit>
+			<trans-unit id="ERROR_4001" resname="ERROR_4001" >
+				<source>Leider ist ein Fehler aufgetreten!</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

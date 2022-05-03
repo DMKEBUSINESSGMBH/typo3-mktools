@@ -28,7 +28,7 @@ namespace DMK\Mktools\ErrorHandler;
  ***************************************************************/
 
 /**
- * Class tx_mktools_util_ExceptionHandler.
+ * Class ThrowableExceptionHandler.
  *
  * @author  Hannes Bochmann
  * @license http://www.gnu.org/licenses/lgpl.html

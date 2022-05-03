@@ -28,6 +28,7 @@ namespace DMK\Mktools\ErrorHandler;
 use DMK\Mktools\Exception\RuntimeException;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler as RnBaseErrorHandler;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception;
+use TYPO3\CMS\Core\Http\ApplicationType;
 
 /**
  * wie der TYPO3 error handler. aber wir behandeln noch fatal errors.
@@ -37,8 +38,7 @@ use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception;
 class ErrorHandler extends RnBaseErrorHandler
 {
     /**
-     * registriert den error handler auch für fatal errors
-     * tx_mktools_util_ErrorHandler constructor.
+     * registriert den error handler auch für fatal errors.
      *
      * @param int $errorHandlerErrors
      */
@@ -78,8 +78,8 @@ class ErrorHandler extends RnBaseErrorHandler
                 $this->writeExceptionToDevLog($exception);
             }
 
-            //damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
-            //dieser tut das nur für exceptions != tx_mktools_util_ErrorException
+            // damit der ExceptionHandler nicht nochmal einen Logeintrag schreibt.
+            // dieser tut das nur für exceptions != RuntimeException
             throw \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(RuntimeException::class, $exception->getMessage(), $exception->getCode());
         }
 
@@ -117,7 +117,7 @@ class ErrorHandler extends RnBaseErrorHandler
      */
     protected function writeExceptionToDevLog($exception)
     {
-        $logTitle = 'Core: Error handler ('.TYPO3_MODE.')';
+        $logTitle = 'Core: Error handler ('.ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() ? 'FE' : 'BE'.')';
         \Sys25\RnBase\Utility\Logger::fatal($exception->getMessage(), $logTitle);
     }
 
@@ -126,11 +126,9 @@ class ErrorHandler extends RnBaseErrorHandler
      */
     public function handleFatalError()
     {
-        if ($this->isErrorReportingDisabled()) {
+        if ($this->isErrorReportingDisabled() || !$error = $this->getLastError()) {
             return true;
         }
-
-        $error = $this->getLastError();
 
         if (E_ERROR == $error['type'] ||
             E_COMPILE_ERROR == $error['type'] ||
@@ -172,13 +170,8 @@ class ErrorHandler extends RnBaseErrorHandler
         return new \Exception($exceptionMessage);
     }
 
-    /**
-     * wird in Tests gemocked.
-     *
-     * @return \tx_mktools_util_ExceptionHandler
-     */
-    protected function getExceptionHandler()
+    protected function getExceptionHandler(): ExceptionHandler
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mktools_util_ExceptionHandler');
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExceptionHandler::class);
     }
 }

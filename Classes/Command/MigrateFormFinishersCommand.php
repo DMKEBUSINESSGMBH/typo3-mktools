@@ -10,8 +10,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Form\Domain\Finishers\EmailFinisher;
 
 /***************************************************************
  *  Copyright notice
@@ -149,7 +149,7 @@ class MigrateFormFinishersCommand extends Command
             && !isset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.addHtmlPart'])
         ) {
             $format = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.format']['vDEF'];
-            $addHtmlPart = empty($format) || EmailFinisher::FORMAT_PLAINTEXT !== $format;
+            $addHtmlPart = empty($format) || FluidEmail::FORMAT_PLAIN !== $format;
             $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.addHtmlPart']['vDEF'] = intval($addHtmlPart);
             unset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.format']);
         }

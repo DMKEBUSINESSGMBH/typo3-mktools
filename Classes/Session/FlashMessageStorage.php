@@ -42,11 +42,11 @@ use Sys25\RnBase\Domain\Model\BaseModel;
  */
 class FlashMessageStorage
 {
-    const LEVEL_PRIMARY = 'primary';
-    const LEVEL_SUCCESS = 'success';
-    const LEVEL_INFO = 'info';
-    const LEVEL_WARNING = 'warning';
-    const LEVEL_DANGER = 'danger';
+    public const LEVEL_PRIMARY = 'primary';
+    public const LEVEL_SUCCESS = 'success';
+    public const LEVEL_INFO = 'info';
+    public const LEVEL_WARNING = 'warning';
+    public const LEVEL_DANGER = 'danger';
 
     /**
      * List of Messages from the last Request.

@@ -4,20 +4,20 @@ if (!defined('TYPO3_MODE')) {
     exit('Access denied.');
 }
 
-if (tx_mktools_util_miscTools::isSeoRobotsMetaTagActive()) {
+if (\DMK\Mktools\Utility\Misc::isSeoRobotsMetaTagActive()) {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
         'pages',
         [
             'mkrobotsmetatag' => [
                 'exclude' => 1,
-                'label' => 'LLL:EXT:mktools/locallang_db.xml:pages.tx_mktools_mkrobotsmetatag',
+                'label' => 'LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:pages.tx_mktools_mkrobotsmetatag',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
-                    'items' => tx_mktools_util_SeoRobotsMetaTag::getOptionsForTca(),
+                    'items' => \DMK\Mktools\Utility\SeoRobotsMetaTagUtility::getOptionsForTca(),
                     'size' => 1,
                     'maxitems' => 1,
-                    // @see tx_mktools_util_SeoRobotsMetaTag::$options
+                    // @see SeoRobotsMetaTagUtility::$options
                     'default' => 0,
                 ],
             ],

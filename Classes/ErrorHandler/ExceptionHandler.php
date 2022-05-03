@@ -25,7 +25,7 @@ namespace DMK\Mktools\ErrorHandler;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DMK\Mktools\Exception\ExceptionInterface;
+use DMK\Mktools\Exception\RuntimeException;
 use DMK\Mktools\Utility\Misc;
 use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\ProductionExceptionHandler;
@@ -36,7 +36,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * tx_mktools_util_ExceptionHandlerBase.
+ * ExceptionHandler.
  *
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
@@ -77,9 +77,9 @@ class ExceptionHandler extends ProductionExceptionHandler
      */
     protected function writeLogEntriesEnvironment($exception, $context)
     {
-        //tx_mktools_util_ErrorException wird nur von
-        //tx_mktools_util_ErrorHandler::handleError geworfen und wurde schon geloggt
-        if ($exception instanceof ExceptionInterface) {
+        // RuntimeException wird nur von
+        // ErrorHandler::handleError geworfen und wurde schon geloggt
+        if ($exception instanceof RuntimeException) {
             return;
         }
 
@@ -98,9 +98,9 @@ class ExceptionHandler extends ProductionExceptionHandler
      */
     protected function writeLogEntriesByParent($exception, $context)
     {
-        //warnungen beim Logging interessieren uns nicht. Ohne @ führt dies dazu dass
-        //die Warnung beim Logging festgehalten wird, nicht aber die eigentliche
-        //Meldung, wenn die Warnung vor dem Schreiben des Logs auftritt
+        // warnungen beim Logging interessieren uns nicht. Ohne @ führt dies dazu dass
+        // die Warnung beim Logging festgehalten wird, nicht aber die eigentliche
+        // Meldung, wenn die Warnung vor dem Schreiben des Logs auftritt
         @parent::writeLogEntries($exception, $context);
     }
 
@@ -247,9 +247,8 @@ class ExceptionHandler extends ProductionExceptionHandler
     private function getConfigurations($additionalPath = '')
     {
         if (null === $this->configurations) {
-            $miscTools = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mktools_util_miscTools');
             $staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
-            $this->configurations = $miscTools->getConfigurations($staticPath, $additionalPath);
+            $this->configurations = \DMK\Mktools\Utility\Misc::getConfigurations($staticPath, $additionalPath);
         }
 
         return $this->configurations;

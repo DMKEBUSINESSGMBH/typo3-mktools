@@ -2,6 +2,7 @@
 
 namespace DMK\Mktools\Command;
 
+use DMK\Mktools\Action\TyposcriptLibraryAction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -131,7 +132,7 @@ class MigrateTscobjPluginsCommand extends Command
                     'sDEF' => [
                         'lDEF' => [
                             'action' => [
-                                'vDEF' => 'tx_mktools_action_TsLib',
+                                'vDEF' => TyposcriptLibraryAction::class,
                             ],
                         ],
                     ],

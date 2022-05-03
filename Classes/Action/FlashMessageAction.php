@@ -25,6 +25,7 @@ namespace DMK\Mktools\Action;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DMK\Mktools\Session\FlashMessageStorage;
 use Sys25\RnBase\Frontend\Controller\AbstractAction;
 use Sys25\RnBase\Frontend\Request\RequestInterface;
 use Sys25\RnBase\Frontend\View\Marker\ListView;
@@ -51,7 +52,7 @@ class FlashMessageAction extends AbstractAction
 
         $request->getViewContext()->offsetSet(
             \Sys25\RnBase\Frontend\View\Marker\ListView::VIEWDATA_ITEMS,
-            \tx_mktools_util_FlashMessage::getInstance()->getMessages()
+            FlashMessageStorage::getInstance()->getMessages()
         );
 
         return null;

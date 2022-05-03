@@ -1,6 +1,62 @@
 Changelog
 =========
 
+11.0.0
+-----
+
+- support for TYPO3 10.4 and 11.5 only
+- remove all deprecated classes
+- add update wizard to migrate mktools plugins which use old classes
+- cleanup and streamlining
+- removed FAL fields for cal and tt_news
+
+10.1.0
+-----
+
+- require rn_base >= 1.15.0
+- bugfixes
+
+
+10.0.4 - 10.0.8
+-----
+
+- bugfixes
+
+
+10.0.3
+-----
+
+- cleanup
+
+10.0.2
+-----
+
+- enable usage of page type parameter through $_POST
+- bugfixes
+
+
+10.0.1
+-----
+
+- added command and utility to migrate/generate slugs and old tscobj plugins
+- bugfixes
+
+
+10.0.0
+-----
+
+- compatibility to TYPO3 9.5 and 10.4 only
+- moved all classes to namespaces. deprecated old classes.
+- removed unused/obsolete features likes the find unused locallang labels command
+or the custom page not found handling.
+
+
+9.5.9
+-----
+
+- add aria-hidden attribute to placeholder links
+
+
 9.5.8
 -----
 

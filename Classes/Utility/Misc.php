@@ -87,30 +87,6 @@ final class Misc
     }
 
     /**
-     * @return mixed
-     */
-    public static function shouldFalImagesBeAddedToCalEvent()
-    {
-        return self::getExtensionCfgValue('shouldFalImagesBeAddedToCalEvent');
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function shouldFalImagesBeAddedToTtNews()
-    {
-        return self::getExtensionCfgValue('shouldFalImagesBeAddedToTtNews');
-    }
-
-    /**
-     * @return int
-     */
-    public static function getSystemLogLockThreshold()
-    {
-        return self::getExtensionCfgValue('systemLogLockThreshold');
-    }
-
-    /**
      * @param string $staticPath
      * @param string $additionalPath
      *

@@ -4,13 +4,13 @@ if (!defined('TYPO3_MODE')) {
     exit('Access denied.');
 }
 
-if (tx_mktools_util_miscTools::isAjaxContentRendererActive()) {
+if (\DMK\Mktools\Utility\Misc::isAjaxContentRendererActive()) {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
         'tt_content',
         [
             'tx_mktools_load_with_ajax' => [
                 'exclude' => 1,
-                'label' => 'LLL:EXT:mktools/locallang_db.xml:tx_mktools_load_with_ajax',
+                'label' => 'LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:tx_mktools_load_with_ajax',
                 'config' => [
                     'type' => 'check',
                     'default' => '0',
@@ -29,9 +29,9 @@ call_user_func(function () {
     // Das tt_content-Feld pi_flexform einblenden
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['tx_mktools'] = 'pi_flexform';
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('tx_mktools', 'FILE:EXT:mktools/flexform_main.xml');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('tx_mktools', 'FILE:EXT:mktools/Configuration/Flexform/Main.xml');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
-        ['LLL:EXT:mktools/locallang_db.php:plugin.mktools.label', 'tx_mktools'],
+        ['LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.label', 'tx_mktools'],
         'list_type',
         'mktools'
     );

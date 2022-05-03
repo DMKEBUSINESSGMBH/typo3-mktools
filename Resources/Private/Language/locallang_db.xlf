@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-03T08:26:34Z" product-name="mktools">
+		<header/>
+		<body>
+			<trans-unit id="plugin.mktools.label" resname="plugin.mktools.label" >
+				<source>Mk Tools</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.tab.common" resname="plugin.mktools.flexform.tab.common" >
+				<source>Mk Tools</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.tab.tssetup" resname="plugin.mktools.flexform.tab.tssetup" >
+				<source>TS</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.tssetup" resname="plugin.mktools.flexform.tssetup" >
+				<source>TypoScript Setup (plugin.tx_mktools.)</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action" resname="plugin.mktools.flexform.action" >
+				<source>Action</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action.ShowTemplate" resname="plugin.mktools.flexform.action.ShowTemplate" >
+				<source>Show Template</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action.TsLib" resname="plugin.mktools.flexform.action.TsLib" >
+				<source>TypoScript Lib (tslib.)</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.action.FlashMessage" resname="plugin.mktools.flexform.action.FlashMessage" >
+				<source>Flash Message Output</source>
+			</trans-unit>
+			<trans-unit id="plugin.mktools.flexform.formHtml" resname="plugin.mktools.flexform.formHtml" >
+				<source>HTML Template</source>
+			</trans-unit>
+			<trans-unit id="general.choose" resname="general.choose" >
+				<source>bitte wählen</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_mktools_mkrobotsmetatag" resname="pages.tx_mktools_mkrobotsmetatag" >
+				<source>Robots Meta-Tag</source>
+			</trans-unit>
+			<trans-unit id="tx_mktools_load_with_ajax" resname="tx_mktools_load_with_ajax" >
+				<source>mit Ajax nachladen?</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

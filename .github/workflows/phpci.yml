@@ -19,9 +19,8 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.2"
-                    - "7.3"
                     - "7.4"
+                    - "8.0"
 
         steps:
             -
@@ -58,15 +57,17 @@ jobs:
         name: "PHP QS"
 
         runs-on: "ubuntu-latest"
-        
+
         needs: "php-lint"
 
         strategy:
             matrix:
                 command:
                     - "test:phpcs"
+                    - "test:phpcompatibility"
                 php-version:
                     - "7.4"
+                    - "8.0"
 
         steps:
             -
@@ -111,30 +112,12 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    -
-                        typo3-version: "^9.5"
-                        php-version: "7.2"
-                        allow-failure: false
-                    -
-                        typo3-version: "^9.5"
-                        php-version: "7.3"
-                        allow-failure: false
-                    -
-                        typo3-version: "^9.5"
+                    -   typo3-version: "^10.4"
                         php-version: "7.4"
-                        allow-failure: false
-                    -
-                        typo3-version: "^10.4"
-                        php-version: "7.2"
-                        allow-failure: true
-                    -
-                        typo3-version: "^10.4"
-                        php-version: "7.3"
-                        allow-failure: true
-                    -
-                        typo3-version: "^10.4"
+                    -   typo3-version: "^11.5"
                         php-version: "7.4"
-                        allow-failure: true
+                    -   typo3-version: "^11.5"
+                        php-version: "8.0"
 
         continue-on-error: ${{ matrix.allow-failure }}
 
