@@ -119,8 +119,6 @@ jobs:
                     -   typo3-version: "^11.5"
                         php-version: "8.0"
 
-        continue-on-error: ${{ matrix.allow-failure }}
-
         steps:
             -
                 name: "Checkout"
