@@ -64,7 +64,7 @@
         ],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint ./Classes ./tests"
+            ".Build/bin/parallel-lint ./Classes ./Tests"
         ],
         "lint": [
             "@lint:php"
