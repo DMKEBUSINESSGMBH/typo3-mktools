@@ -16,14 +16,14 @@ mktoolsAjaxHandler {
 }
 
 page.includeJSFooterlibs {
-    mktoolsBase = typo3conf/ext/mktools/Resources/Public/JavaScript/Base.js
+    mktoolsBase = EXT:mktools/Resources/Public/JavaScript/Base.js
     ### falls URL in die Browser History eingetragen werden soll
-    #mktoolsLocation = typo3conf/ext/mktools/Resources/Public/JavaScript/Location.js
-    #mktoolsHistory = typo3conf/ext/mktools/Resources/Public/JavaScript/History.js
-    mktoolsRequest = typo3conf/ext/mktools/Resources/Public/JavaScript/Request.js
-    mktoolsAjaxContent = typo3conf/ext/mktools/Resources/Public/JavaScript/AjaxContent.js
+    #mktoolsLocation = EXT:mktools/Resources/Public/JavaScript/Location.js
+    #mktoolsHistory = EXT:mktools/Resources/Public/JavaScript/History.js
+    mktoolsRequest = EXT:mktools/Resources/Public/JavaScript/Request.js
+    mktoolsAjaxContent = EXT:mktools/Resources/Public/JavaScript/AjaxContent.js
     ### falls ein Formular mit Bildupload verwendet wird, dann folgendes JS einbinden
-    #mktoolsAjaxForm = typo3conf/ext/mktools/Resources/Public/JavaScript/jquery.form.min.js
+    #mktoolsAjaxForm = EXT:mktools/Resources/Public/JavaScript/jquery.form.min.js
 }
 
 ### Configuration for the rn_base the link which loads USER_INT objects with ajax.
