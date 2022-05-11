@@ -4,7 +4,7 @@ use DMK\Mktools\ContentObject\UserContentObject;
 use DMK\Mktools\ContentObject\UserInternalContentObject;
 use DMK\Mktools\Utility\Misc;
 
-defined('TYPO3_MODE') || exit('Access denied.');
+defined('TYPO3') || exit('Access denied.');
 
 defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 
