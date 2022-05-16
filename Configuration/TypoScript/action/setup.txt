@@ -58,7 +58,6 @@ docu {
         }
         admPanel = 0
         sendNoCacheHeaders = 1
-        no_cache = 1
 
         ### in case sourceopt is enabled/installed
         sourceopt.enabled = 0
