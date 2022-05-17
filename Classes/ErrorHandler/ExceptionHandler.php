@@ -223,7 +223,7 @@ class ExceptionHandler extends ProductionExceptionHandler
     {
         $exceptionPageConfigurationParts = $this->getExceptionPageExtensionConfiguration();
 
-        return $exceptionPageConfigurationParts[1];
+        return $exceptionPageConfigurationParts[1] ?? '';
     }
 
     /**
