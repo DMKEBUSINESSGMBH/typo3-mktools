@@ -117,7 +117,9 @@ class ErrorHandler extends RnBaseErrorHandler
      */
     protected function writeExceptionToDevLog($exception)
     {
-        $logTitle = 'Core: Error handler ('.ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() ? 'FE' : 'BE'.')';
+        $environment = (($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof \Psr\Http\Message\ServerRequestInterface) &&
+            \TYPO3\CMS\Core\Http\ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() ? 'FE' : 'BE';
+        $logTitle = 'Core: Error handler ('.$environment.')';
         \Sys25\RnBase\Utility\Logger::fatal($exception->getMessage(), $logTitle);
     }
 
