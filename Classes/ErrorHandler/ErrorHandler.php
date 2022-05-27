@@ -28,7 +28,6 @@ namespace DMK\Mktools\ErrorHandler;
 use DMK\Mktools\Exception\RuntimeException;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler as RnBaseErrorHandler;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception;
-use TYPO3\CMS\Core\Http\ApplicationType;
 
 /**
  * wie der TYPO3 error handler. aber wir behandeln noch fatal errors.
