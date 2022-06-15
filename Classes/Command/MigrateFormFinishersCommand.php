@@ -85,7 +85,7 @@ class MigrateFormFinishersCommand extends Command
         $migratedPluginsCount = 0;
         foreach ($formPlugins as $formPlugin) {
             $flexform = GeneralUtility::xml2array($formPlugin['pi_flexform']);
-            if (is_array($flexform) && $flexform['data']['sDEF']['lDEF']['settings.overrideFinishers']['vDEF']) {
+            if (is_array($flexform) && ($flexform['data']['sDEF']['lDEF']['settings.overrideFinishers']['vDEF'] ?? null)) {
                 $this->migrateOverriddenFinisherConfiguration($formPlugin['uid'], $flexform);
                 ++$migratedPluginsCount;
             }
