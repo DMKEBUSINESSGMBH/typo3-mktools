@@ -3,21 +3,17 @@ ATTENTION
 
 Perform always a
 
-    composer update --refer-dist
+    composer update --prefer-dist
 
-  
-  
-  
-  
 
-Dont perform
+Don't perform
 
     composer update --prefer-source
 
-or
+And don't perform
 
     composer update
 
-wenn the prefered install in the gloabal config is set to source like
+Wenn the prefered install in the gloabal config is set to source like
 
     composer config --global preferred-install source
