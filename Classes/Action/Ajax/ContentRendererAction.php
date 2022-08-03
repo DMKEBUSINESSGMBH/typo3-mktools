@@ -71,6 +71,6 @@ class ContentRendererAction
     protected function sendNotFoundHeader(): void
     {
         header(HttpUtility::HTTP_STATUS_404);
-        exit();
+        exit;
     }
 }

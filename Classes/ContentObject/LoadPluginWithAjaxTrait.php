@@ -27,54 +27,54 @@ namespace DMK\Mktools\ContentObject;
 
 use Sys25\RnBase\Frontend\Request\Parameters;
 
- /**
-  * DMK\Mktools\ContentObject$UserContentObjectTest.
-  *
-  * @author          Hannes Bochmann
-  * @license         http://www.gnu.org/licenses/lgpl.html
-  *                  GNU Lesser General Public License, version 3 or later
-  */
- trait LoadPluginWithAjaxTrait
- {
-     /**
-      * {@inheritdoc}
-      *
-      * @see \TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject::render()
-      */
-     public function render($conf = [])
-     {
-         if (($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] ?? false) &&
-            !Parameters::getPostOrGetParameter('mktoolsAjaxRequest')
-         ) {
-             // we need a link per element so caching (chash) works correct in the ajax
-             // page type. Otherwise it's not possible to render more than one element
-             // per page
-             $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
-             $configuration->init($GLOBALS['TSFE']->tmpl->setup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
-             $link = $configuration
-                ->createLink()
-                ->initByTS(
-                    $configuration,
-                    $this->urlTypoScriptConfigurationPath,
-                    [
-                        // This parameter is acutally used in the ajax request but ignored for the cHash because
-                        // it's added at some places through JS dynamically and thus needs to be ignored.
-                        '::contentid' => $this->getContentObjectRenderer()->data['uid'],
-                        // This parameter is just used to trigger the cHash generation so every element has it's
-                        // own individual link.
-                        '::ajaxcontentid' => $this->getContentObjectRenderer()->data['uid'],
-                    ]
-                )
-                ->makeUrl();
+/**
+ * DMK\Mktools\ContentObject$UserContentObjectTest.
+ *
+ * @author          Hannes Bochmann
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
+ */
+trait LoadPluginWithAjaxTrait
+{
+    /**
+     * {@inheritdoc}
+     *
+     * @see \TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject::render()
+     */
+    public function render($conf = [])
+    {
+        if (($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] ?? false) &&
+           !Parameters::getPostOrGetParameter('mktoolsAjaxRequest')
+        ) {
+            // we need a link per element so caching (chash) works correct in the ajax
+            // page type. Otherwise it's not possible to render more than one element
+            // per page
+            $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
+            $configuration->init($GLOBALS['TSFE']->tmpl->setup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
+            $link = $configuration
+               ->createLink()
+               ->initByTS(
+                   $configuration,
+                   $this->urlTypoScriptConfigurationPath,
+                   [
+                       // This parameter is acutally used in the ajax request but ignored for the cHash because
+                       // it's added at some places through JS dynamically and thus needs to be ignored.
+                       '::contentid' => $this->getContentObjectRenderer()->data['uid'],
+                       // This parameter is just used to trigger the cHash generation so every element has it's
+                       // own individual link.
+                       '::ajaxcontentid' => $this->getContentObjectRenderer()->data['uid'],
+                   ]
+               )
+               ->makeUrl();
 
-             // We only need dummy content which indicates to start the ajax load.
-             // The rest is handled with JS and the surrounding div with the content id.
-             // @see AjaxContent.js
-             $content = sprintf('<a class="ajax-links-autoload ajax-no-history" aria-hidden="true" href="%s"></a>', $link);
-         } else {
-             $content = parent::render($conf);
-         }
+            // We only need dummy content which indicates to start the ajax load.
+            // The rest is handled with JS and the surrounding div with the content id.
+            // @see AjaxContent.js
+            $content = sprintf('<a class="ajax-links-autoload ajax-no-history" aria-hidden="true" href="%s"></a>', $link);
+        } else {
+            $content = parent::render($conf);
+        }
 
-         return $content;
-     }
- }
+        return $content;
+    }
+}
