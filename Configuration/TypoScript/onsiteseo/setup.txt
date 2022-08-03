@@ -6,7 +6,7 @@ page.meta {
 }
 
 ### Meta-Daten fuer News generieren
-[page["layout"] == 12]
+[page && page["layout"] == 12]
     page.meta.description >
     page.meta.description.cObject = RECORDS
     page.meta.description.cObject {
@@ -22,7 +22,7 @@ page.meta {
 [end]
 
 ### Meta-Daten fuer Cal generieren, nur Description. Keywords kommen mit Extrafeld
-[page["layout"] == 14]
+[page && page["layout"] == 14]
     page.meta.description >
     page.meta.description.cObject = RECORDS
     page.meta.description.cObject {
