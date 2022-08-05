@@ -27,3 +27,8 @@ services:
             - name: 'console.command'
               command: 'mktools:migrate-form-finishers'
               schedulable: true
+    DMK\Mktools\Command\MigrateTcaFileGroupToFalCommand:
+      tags:
+        - name: 'console.command'
+          command: 'mktools:migrate-tca-file-groups-to-fal'
+          schedulable: true
