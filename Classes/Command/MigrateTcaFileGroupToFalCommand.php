@@ -151,7 +151,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
             try {
                 $file = $this->resourceFactory->retrieveFileOrFolderObject($filePath);
                 $this->insertFileReference($table, $field, $record, $file, $index);
-                $index++;
+                ++$index;
             } catch (FolderDoesNotExistException $exception) {
                 continue;
             }
@@ -178,7 +178,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
             ->values([
                 'fieldname' => $field,
                 'table_local' => 'sys_file',
-                'pid' => $table === 'pages' ? $record['uid'] : $record['pid'],
+                'pid' => 'pages' === $table ? $record['uid'] : $record['pid'],
                 'uid_foreign' => $record['uid'],
                 'uid_local' => $file->getUid(),
                 'tablenames' => $table,
