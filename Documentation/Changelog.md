@@ -9,6 +9,9 @@ Changelog
 - add update wizard to migrate mktools plugins which use old classes
 - cleanup and streamlining
 - removed FAL fields for cal and tt_news
+- add command to migrate and generate slugs for arbitrary tables
+- add command to migrate old form finisher email override settings in plugins
+- add command to migrate old file group fields in the database to FAL references
 
 10.1.0
 -----
