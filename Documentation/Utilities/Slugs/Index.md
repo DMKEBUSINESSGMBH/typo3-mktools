@@ -13,7 +13,7 @@ Command zum initialen befüllen:
  bin/typo3 mktools:slug-creator -t tx_myext_table -f slug_field
 ~~~~
 
-Command zum migrieren von realurl:
+Command zum migrieren von realurl (bei Datensätzen ohne alias wird der Slug einfach generiert):
 
 ~~~~ {.sourceCode .sh
  bin/typo3 mktools:migrate-realurl-alias-to-slug -t tx_myext_table -f slug_field
