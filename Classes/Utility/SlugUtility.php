@@ -155,6 +155,6 @@ final class SlugUtility
             $queryBuilder->setParameter('languageUid', $record[$GLOBALS['TCA'][$this->table]['ctrl']['languageField']]);
         }
 
-        return (string) $queryBuilder->where($where)->execute()->fetchAssociative()['value_alias'];
+        return (string) ($queryBuilder->where($where)->execute()->fetchAssociative()['value_alias'] ?? '');
     }
 }
