@@ -13,7 +13,7 @@ Utilities
 
 [RobotsMetaTag](RobotsMetaTag/Index.md)
 
-[Routing](Routing/Index.md)
+[Slugs](Slugs/Index.md)
 
 [TCAMigrations](TCAMigrations/Index.md)
 
