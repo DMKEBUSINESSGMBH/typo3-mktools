@@ -150,7 +150,7 @@ final class SlugUtility
         $queryBuilder
             ->setParameter('table', $this->table)
             ->setParameter('uid', (int) $record['uid']);
-        if ($record[$GLOBALS['TCA'][$this->table]['ctrl']['languageField']]) {
+        if ($record[$GLOBALS['TCA'][$this->table]['ctrl']['languageField'] ?? ''] ?? false) {
             $where .= ' AND lang = :languageUid';
             $queryBuilder->setParameter('languageUid', $record[$GLOBALS['TCA'][$this->table]['ctrl']['languageField']]);
         }

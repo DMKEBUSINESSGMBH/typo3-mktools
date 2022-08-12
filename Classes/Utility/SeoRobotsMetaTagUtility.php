@@ -95,7 +95,7 @@ class SeoRobotsMetaTagUtility
             return $this->getOptionByValue($robotsValue);
         }
 
-        return $configuration['default'];
+        return $configuration['default'] ?? '';
     }
 
     /**
