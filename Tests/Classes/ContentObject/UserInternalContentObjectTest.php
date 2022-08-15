@@ -146,7 +146,7 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
         GeneralUtility::addInstance(Link::class, $linkUtility);
 
         self::assertEquals(
-            '<a class="ajax-links-autoload ajax-no-history" aria-hidden="true" href="rendererdUrl"></a>',
+            '<a class="ajax-links-autoload ajax-no-history" tabindex="-1" aria-hidden="true" href="rendererdUrl"></a>',
             $this->userInternalObject->render()
         );
     }
