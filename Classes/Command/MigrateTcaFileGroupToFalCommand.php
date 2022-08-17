@@ -84,7 +84,6 @@ class MigrateTcaFileGroupToFalCommand extends Command
                     foreach ($rows as $row) {
                         $this->migrateFileGroupToFal($table, $field, $row, $fieldDefintion);
                         $progress->advance();
-                        exit;
                     }
                 }
             }
