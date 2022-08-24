@@ -75,6 +75,6 @@ trait LoadPluginWithAjaxTrait
             $content = parent::render($conf);
         }
 
-        return $content;
+         return $content;
     }
 }
