@@ -193,9 +193,9 @@ class FlashMessageStorage
      * @param string $method
      * @param array  $args
      *
-     * @throws RuntimeException If level or method does not exists
-     *
      * @return self
+     *
+     * @throws RuntimeException If level or method does not exists
      */
     public static function __callStatic($method, $args)
     {
