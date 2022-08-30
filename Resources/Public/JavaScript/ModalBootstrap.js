@@ -110,7 +110,7 @@
         };
         //test if href of element is an image, if so put a <img> tag around it and return
         if (el.is("a") &&
-            /\.(jpg|jpeg|gif|png|tiff|bmp)$/.test(el.get(0).href) == true
+            /\.(jpg|jpeg|gif|png|tiff|bmp)$/.test(el.get(0).href.toLowerCase()) == true
         ) {
             _request.onStart({}, parameters);
             _request.onSuccess('<img src="'+ el.get(0).href + '"/>', parameters);
