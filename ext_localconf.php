@@ -54,3 +54,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['oldMktoolsPl
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mksanitizedparameters')) {
     \DMK\MkSanitizedParameters\Rules::addRulesForFrontend(['href' => FILTER_SANITIZE_URL]);
 }
+
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['StaticNumberRangeMapper'] =
+    \DMK\Mktools\Routing\Aspect\StaticNumberRangeMapper::class;

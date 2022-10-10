@@ -28,3 +28,14 @@ Utility zum migrieren von realurl:
 ~~~~ {.sourceCode .php
  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\DMK\Mktools\Utility\SlugUtility::class, $table, $field)->migrateRealurlAliasToSlug();
 ~~~~
+
+Routing
+=======
+
+Mit dem StaticRangeMapper kann man schnell an die Grenzen kommen,
+wenn es einen Pagebrowser und z.B. noch Parameter für ein Archiv gibt.
+TYPO3 erlaubt von Haus aus max 10000 mögliche Kombinationen, was schon
+nach ein paar Seiten im PageBrowser erreicht ist. Daher gibt es nun den
+StaticNumberRangeMapper, der sich genau wie das Original verhält. Aber es
+sind nur Zahlen als Werte erlaubt und der Mapper wird von TYPO3 nicht berücksichtigt,
+wenn das Limit der Kombinationen ermittelt wird.
