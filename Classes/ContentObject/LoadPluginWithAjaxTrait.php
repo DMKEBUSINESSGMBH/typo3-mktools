@@ -52,25 +52,26 @@ trait LoadPluginWithAjaxTrait
             $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
             $configuration->init($GLOBALS['TSFE']->tmpl->setup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
             $link = $configuration
-               ->createLink()
-               ->initByTS(
-                   $configuration,
-                   $this->urlTypoScriptConfigurationPath,
-                   [
-                       // This parameter is acutally used in the ajax request but ignored for the cHash because
-                       // it's added at some places through JS dynamically and thus needs to be ignored.
-                       '::contentid' => $this->getContentObjectRenderer()->data['uid'],
-                       // This parameter is just used to trigger the cHash generation so every element has it's
-                       // own individual link.
-                       '::ajaxcontentid' => $this->getContentObjectRenderer()->data['uid'],
-                   ]
-               )
-               ->makeUrl();
+                ->createLink()
+                ->initByTS(
+                    $configuration,
+                    $this->urlTypoScriptConfigurationPath,
+                    [
+                        // This parameter is just used to trigger the cHash generation so every element has it's
+                        // own individual link.
+                        '::ajaxcontentid' => $this->getContentObjectRenderer()->data['uid'],
+                    ]
+                )
+                ->makeUrl();
 
             // We only need dummy content which indicates to start the ajax load.
             // The rest is handled with JS and the surrounding div with the content id.
             // @see AjaxContent.js
-            $content = sprintf('<a class="ajax-links-autoload ajax-no-history" tabindex="-1" aria-hidden="true" href="%s"></a>', $link);
+            $content = sprintf(
+                '<a class="ajax-links-autoload ajax-no-history" tabindex="-1" aria-hidden="true" data-ajaxreplaceid="c%s" href="%s"></a>',
+                $this->getContentObjectRenderer()->data['uid'],
+                $link
+            );
         } else {
             $content = parent::render($conf);
         }
