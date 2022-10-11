@@ -75,7 +75,7 @@ class StaticNumberRangeMapperTest extends UnitTestCase
      *
      * @dataProvider dataProviderGenerate
      */
-    public function generate(string $value, mixed $expectedResult)
+    public function generate(string $value, $expectedResult)
     {
         $mapper = new StaticNumberRangeMapper(['start' => 0, 'end' => 100]);
         self::assertSame($expectedResult, $mapper->generate($value));
@@ -86,7 +86,7 @@ class StaticNumberRangeMapperTest extends UnitTestCase
      *
      * @dataProvider dataProviderGenerate
      */
-    public function resolve(string $value, mixed $expectedResult)
+    public function resolve(string $value, $expectedResult)
     {
         $mapper = new StaticNumberRangeMapper(['start' => 0, 'end' => 100]);
         self::assertSame($expectedResult, $mapper->resolve($value));
