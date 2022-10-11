@@ -66,6 +66,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
 
     /**
      * @group unit
+     *
      * @dataProvider getErrorTypes
      */
     public function testHandleFatalErrorCallsExceptionHandlerCorrectIfNotCatchableErrors(

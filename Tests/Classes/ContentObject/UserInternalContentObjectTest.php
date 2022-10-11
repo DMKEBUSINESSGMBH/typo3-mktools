@@ -49,6 +49,7 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @param int  $mktoolsAjaxRequest
      *
      * @group integration
+     *
      * @dataProvider dataProviderRenderTest
      */
     public function testRenderIfContentShouldNotBeLoadedWithAjax($loadWithAjax, $mktoolsAjaxRequest)

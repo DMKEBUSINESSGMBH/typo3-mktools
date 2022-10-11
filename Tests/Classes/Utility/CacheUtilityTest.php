@@ -132,6 +132,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @param bool  $apcuLoaded
      * @param bool  $apcEnabled
      * @param array $expectedCachingConfiguration
+     *
      * @dataProvider dataProviderUseApcAsCacheBackend
      */
     public function testUseApcAsCacheBackend($apcLoaded, $apcuLoaded, $apcEnabled, $expectedCachingConfiguration)
@@ -179,6 +180,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @param bool $apcuLoaded
      * @param bool $apcEnabled
      * @param bool $isApcUsed
+     *
      * @dataProvider dataProviderIsApcUsed
      */
     public function testIsApcUsed($apcLoaded, $apcuLoaded, $apcEnabled, $isApcUsed)
