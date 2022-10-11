@@ -128,7 +128,7 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
         $linkUtility = $this->getMock(Link::class, ['initByTS', 'makeUrl']);
         $linkUtility->expects(self::once())
             ->method('initByTS')
-            ->with($configurations, 'lib.tx_mktools.loadUserIntWithAjaxUrl.', ['::contentid' => 123, '::ajaxcontentid' => 123])
+            ->with($configurations, 'lib.tx_mktools.loadUserIntWithAjaxUrl.', ['::ajaxcontentid' => 123])
             ->will(self::returnValue($linkUtility));
         $linkUtility->expects(self::once())
             ->method('makeUrl')
@@ -136,7 +136,7 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
         GeneralUtility::addInstance(Link::class, $linkUtility);
 
         self::assertEquals(
-            '<a class="ajax-links-autoload ajax-no-history" tabindex="-1" aria-hidden="true" href="rendererdUrl"></a>',
+            '<a class="ajax-links-autoload ajax-no-history" tabindex="-1" aria-hidden="true" data-ajaxreplaceid="c123" href="rendererdUrl"></a>',
             $this->userInternalObject->render()
         );
     }
