@@ -33,15 +33,21 @@ if (\DMK\Mktools\Utility\Misc::getExceptionPage()) {
 // piwa is often used for piwik custom variables
 \Sys25\RnBase\Utility\CHashUtility::addExcludedParametersForCacheHash([
     'piwa',
-    // In case ajax requests are done with GET we need to exclude those parameters as they are added on the fly
-    // when clicking a link. Therefore they are not present when calculating the cHash.
-    'contentid',
-    'href',
-    'mktoolsAjaxRequest',
-    'page',
-    'requestType',
-    'useHistory',
 ]);
+
+define('MKTOOLS_AJAX_REQUEST_PAGE_TYPE', 9267);
+// In case ajax requests are done with GET we need to exclude those parameters as they are added on the fly
+// when clicking a link. Therefore they are not present when calculating the cHash but when the cHash is validated.
+if (MKTOOLS_AJAX_REQUEST_PAGE_TYPE === \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type')) {
+    \Sys25\RnBase\Utility\CHashUtility::addExcludedParametersForCacheHash([
+        'contentid',
+        'href',
+        'mktoolsAjaxRequest',
+        'page',
+        'requestType',
+        'useHistory',
+    ]);
+}
 
 if (\DMK\Mktools\Utility\Misc::isAjaxContentRendererActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['USER_INT'] = UserInternalContentObject::class;
