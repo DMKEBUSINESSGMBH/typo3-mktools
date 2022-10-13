@@ -115,8 +115,8 @@ final class SlugUtility
         /* @var $slugHelper SlugHelper */
         $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $this->table, $this->field, $fieldConfig);
 
-        $recordId = (int) $record['uid'];
-        $pid = (int) $record['pid'];
+        $recordId = (int) ($record['uid'] ?? 0);
+        $pid = (int) ($record['pid'] ?? 0);
         $slug = $slug ?: $slugHelper->generate($record, $pid);
 
         $state = RecordStateFactory::forName($this->table)->fromArray($record, $pid, $recordId);
