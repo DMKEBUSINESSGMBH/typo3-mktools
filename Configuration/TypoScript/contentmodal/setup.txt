@@ -11,8 +11,6 @@ mktoolsModalHandler {
         xhtml_cleaning = 0
         admPanel = 0
         sendNoCacheHeaders = 1
-        metaCharset =
-        renderCharset =
         noPageTitle = 1
         baseURL =
     }
