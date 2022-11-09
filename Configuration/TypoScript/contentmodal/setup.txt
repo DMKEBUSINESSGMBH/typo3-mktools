@@ -1,8 +1,6 @@
 mktoolsModalHandler = PAGE
 mktoolsModalHandler {
     typeNum = 9266
-
-    typeNum = 400
     config {
         metaCharset = utf-8
         ### X-Robots-Tag, wir wollen vermeiden, dass der inhalt des calls indiziert wird.
