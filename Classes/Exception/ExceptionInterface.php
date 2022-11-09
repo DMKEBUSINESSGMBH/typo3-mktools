@@ -25,8 +25,6 @@ namespace DMK\Mktools\Exception;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Throwable;
-
-interface ExceptionInterface extends Throwable
+interface ExceptionInterface extends \Throwable
 {
 }

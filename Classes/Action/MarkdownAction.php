@@ -26,8 +26,6 @@ namespace DMK\Mktools\Action;
  ***************************************************************/
 
 use DMK\Mktools\Utility\ComposerUtility;
-use Parsedown;
-use ParsedownExtra;
 use Sys25\RnBase\Utility\Files;
 use Sys25\RnBase\Utility\Network;
 use Sys25\RnBase\Utility\TYPO3;
@@ -40,7 +38,7 @@ use Sys25\RnBase\Utility\TYPO3;
 class MarkdownAction extends ShowTemplateAction
 {
     /**
-     * @var ParsedownExtra
+     * @var \ParsedownExtra
      */
     private $parser;
 
@@ -110,13 +108,13 @@ class MarkdownAction extends ShowTemplateAction
     /**
      * returns the markdown parser.
      *
-     * @return Parsedown
+     * @return \Parsedown
      */
     protected function getParser()
     {
         if (null === $this->parser) {
             ComposerUtility::autoload();
-            $this->parser = new ParsedownExtra();
+            $this->parser = new \ParsedownExtra();
             $this->parser->setMarkupEscaped(false);
             $this->parser->setBreaksEnabled(false);
         }
