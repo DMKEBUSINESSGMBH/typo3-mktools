@@ -33,3 +33,14 @@ Allgemein
 ---------
 
 Echte "by TS" Option einbauen und bestehende in "use parent or default" umbenennen, damit Funktion auch in bestehenden Portalen eingesetzt werden kann ohne dass bisherige page.meta.robots überschrieben werden.
+
+Zusammenspiel mit EXT:seo XML Sitemap
+-------------------------------------
+Damit das Robots Meta Tag in der Sitemap berücksichtigt wird, wird ein eigener
+XML Sitemap Dataprovider im statischen TypoScript Template registriert. Das muss daher
+nach den statischen Templates von EXT:seo registriert werden. Per default wird dann auch
+
+~~~~ {.sourceCode .ts}
+plugin.tx_seo.settings.xmlSitemap.sitemaps.pages.additionalWhere = mkrobotsmetatag IN (-1,0,1,2) AND no_index = 0
+~~~~ 
+gesetzt. Also vorsicht, falls das überschrieben wird.

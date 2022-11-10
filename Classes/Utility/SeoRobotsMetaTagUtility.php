@@ -88,9 +88,13 @@ class SeoRobotsMetaTagUtility
      *
      * @return string
      */
-    public function getSeoRobotsMetaTagValue($content = '', array $configuration = [])
+    public function getSeoRobotsMetaTagValue($content = '', array $configuration = [], int $pageUid = null)
     {
-        $robotsValue = $this->getRobotsValue();
+        if (is_null($pageUid)) {
+            $pageUid = $GLOBALS['TSFE']->id;
+        }
+
+        $robotsValue = $this->getRobotsValue($pageUid);
         if ($robotsValue > 0) {
             return $this->getOptionByValue($robotsValue);
         }
@@ -105,9 +109,9 @@ class SeoRobotsMetaTagUtility
      *
      * @return int
      */
-    protected function getRobotsValue()
+    protected function getRobotsValue(int $pageUid)
     {
-        foreach ($this->getRootline() as $page) {
+        foreach ($this->getRootline($pageUid) as $page) {
             if (!empty($page['mkrobotsmetatag'])) {
                 return $page['mkrobotsmetatag'];
             }
@@ -119,9 +123,9 @@ class SeoRobotsMetaTagUtility
     /**
      * @return array
      */
-    protected function getRootline()
+    protected function getRootline(int $pageUid)
     {
-        return GeneralUtility::makeInstance(RootlineUtility::class, $GLOBALS['TSFE']->id)->get();
+        return GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
     }
 }
 

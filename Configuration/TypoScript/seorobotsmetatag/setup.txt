@@ -1,3 +1,10 @@
 page.meta.robots.cObject = USER
-page.meta.robots.cObject.default = {$config.tx_mktools.seorobotsmetatag.default}
-page.meta.robots.cObject.userFunc = tx_mktools_util_SeoRobotsMetaTag->getSeoRobotsMetaTagValue
+page.meta.robots.cObject {
+    default = {$config.tx_mktools.seorobotsmetatag.default}
+    userFunc = tx_mktools_util_SeoRobotsMetaTag->getSeoRobotsMetaTagValue
+}
+
+plugin.tx_seo.config.xmlSitemap.sitemaps.pages {
+    provider = DMK\Mktools\Seo\XmlSitemap\PagesDataProvider
+    config.defaultRobotsMetaTag = {$config.tx_mktools.seorobotsmetatag.default}
+}

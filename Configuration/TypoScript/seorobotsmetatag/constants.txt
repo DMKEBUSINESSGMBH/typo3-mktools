@@ -2,3 +2,6 @@ config.tx_mktools.seorobotsmetatag {
     # cat=seorobotsmetatag/10; type=boolean;label=seorobotsmetatag default
     default = INDEX,FOLLOW
 }
+
+### Exclude pages from Sitemap that have robots set to NOINDEX
+plugin.tx_seo.settings.xmlSitemap.sitemaps.pages.additionalWhere = mkrobotsmetatag IN (-1,0,1,2) AND no_index = 0
