@@ -5,13 +5,22 @@ Changelog
 -----
 
 - support for TYPO3 10.4 and 11.5 only
-- remove all deprecated classes
+- [BREAKING] remove all deprecated classes. Only namespaced classes are now used.
 - add update wizard to migrate mktools plugins which use old classes
 - cleanup and streamlining
 - removed FAL fields for cal and tt_news
-- add command to migrate and generate slugs for arbitrary tables
-- add command to migrate old form finisher email override settings in plugins
-- add command to migrate old file group fields in the database to FAL references
+- add command to migrate and generate slugs for arbitrary tables (check documentation)
+- add command to migrate old form finisher email override settings in plugins (check documentation)
+- add command to migrate old file group fields in the database to FAL references (check documentation)
+- add StaticNumberRangeMapper which overcomes common limits with StaticRangeMapper in cinjuction with pagination and filters (check documentation)
+
+10.1.2
+-----
+- update parsedown library
+
+10.1.1
+-----
+- bugfixes
 
 10.1.0
 -----
