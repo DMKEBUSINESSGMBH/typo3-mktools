@@ -1,6 +1,13 @@
 Changelog
 =========
 
+11.0.1
+-----
+
+- add custom XML sitemap pages data provider which takes care of the 
+seo robots meta tag added by mktools. Check documentation for more information.
+
+
 11.0.0
 -----
 
