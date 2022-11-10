@@ -93,7 +93,8 @@ class MarkdownAction extends ShowTemplateAction
             TYPO3::getBEUserUID()
             // check crypt auth users from ts
             || (
-                isset($auth[$_SERVER['PHP_AUTH_USER']])
+                $_SERVER['PHP_AUTH_USER'] ?? false
+                && isset($auth[$_SERVER['PHP_AUTH_USER']])
                 && $auth[$_SERVER['PHP_AUTH_USER']] === crypt($_SERVER['PHP_AUTH_PW'], $auth[$_SERVER['PHP_AUTH_USER']])
             );
 
