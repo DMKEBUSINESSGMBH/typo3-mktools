@@ -47,13 +47,12 @@ class PagesDataProvider extends PagesXmlSitemapDataProvider
 
     protected function removePagesWithNoIndexRobotsMetaTag(array $pages): array
     {
-        $robotsMetaTagUtility = GeneralUtility::makeInstance(SeoRobotsMetaTagUtility::class);
         foreach ($pages as $index => &$page) {
-            $robotsMetaTag = $robotsMetaTagUtility->getSeoRobotsMetaTagValue(
-                '',
-                ['default' => $this->config['defaultRobotsMetaTag'] ?? ''],
-                $page['uid']
-            );
+            $robotsMetaTag = GeneralUtility::makeInstance(SeoRobotsMetaTagUtility::class, $page['uid'])
+                ->getSeoRobotsMetaTagValue(
+                    '',
+                    ['default' => $this->config['defaultRobotsMetaTag'] ?? '']
+                );
 
             if ((array_flip(SeoRobotsMetaTagUtility::$options)[$robotsMetaTag] ?? 0) > 2) {
                 unset($pages[$index]);

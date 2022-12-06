@@ -48,6 +48,13 @@ class SeoRobotsMetaTagUtility
         5 => 'NOODP,NOINDEX,FOLLOW',
     ];
 
+    protected ?int $pageUid;
+
+    public function __construct(?int $pageUid = null)
+    {
+        $this->pageUid = $pageUid ?? $GLOBALS['TSFE']->id ?? 0;
+    }
+
     /**
      * Formattierte Ausgabe der Werte für das TCA.
      *
@@ -88,13 +95,9 @@ class SeoRobotsMetaTagUtility
      *
      * @return string
      */
-    public function getSeoRobotsMetaTagValue($content = '', array $configuration = [], int $pageUid = null)
+    public function getSeoRobotsMetaTagValue($content = '', array $configuration = [])
     {
-        if (is_null($pageUid)) {
-            $pageUid = $GLOBALS['TSFE']->id;
-        }
-
-        $robotsValue = $this->getRobotsValue($pageUid);
+        $robotsValue = $this->getRobotsValue();
         if ($robotsValue > 0) {
             return $this->getOptionByValue($robotsValue);
         }
@@ -109,9 +112,9 @@ class SeoRobotsMetaTagUtility
      *
      * @return int
      */
-    protected function getRobotsValue(int $pageUid)
+    protected function getRobotsValue()
     {
-        foreach ($this->getRootline($pageUid) as $page) {
+        foreach ($this->getRootline() as $page) {
             if (!empty($page['mkrobotsmetatag'])) {
                 return $page['mkrobotsmetatag'];
             }
@@ -123,8 +126,8 @@ class SeoRobotsMetaTagUtility
     /**
      * @return array
      */
-    protected function getRootline(int $pageUid)
+    protected function getRootline()
     {
-        return GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        return GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid)->get();
     }
 }

@@ -54,13 +54,14 @@ class PagesDataProviderTest extends UnitTestCase
         $provider = $this->getAccessibleMock(PagesDataProvider::class, ['dummy'], [], '', false);
         $robotsMetaTagUtility = $this->getMockBuilder(SeoRobotsMetaTagUtility::class)
             ->setMethods(['getSeoRobotsMetaTagValue'])
+            ->setConstructorArgs([$pageUid])
             ->getMock();
         GeneralUtility::addInstance(SeoRobotsMetaTagUtility::class, $robotsMetaTagUtility);
         $provider->_set('config', ['defaultRobotsMetaTag' => 'INDEX,FOLLOW']);
         $robotsMetaTagUtility
             ->expects(self::once())
             ->method('getSeoRobotsMetaTagValue')
-            ->with('', ['default' => 'INDEX,FOLLOW'], $pageUid)
+            ->with('', ['default' => 'INDEX,FOLLOW'])
             ->willReturn($robotsMetaTag);
 
         self::assertCount($expectedCount, $provider->_call('removePagesWithNoIndexRobotsMetaTag', $pages));
