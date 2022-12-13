@@ -91,7 +91,7 @@
             xhr
         ;
 
-        element = _self.isDefined(element) ? element : event.target;
+        element = _self.isDefined(element) ? element : event.currentTarget;
 
         // do request only if there is no target attribute
         if (element.tagName.toLowerCase() === "a") {
