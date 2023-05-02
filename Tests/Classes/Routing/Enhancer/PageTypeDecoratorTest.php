@@ -46,7 +46,7 @@ class PageTypeDecoratorTest extends UnitTestCase
      *
      * @dataProvider dataProviderDecorateForMatching
      */
-    public function decorateForMatching(string $typeInRoute, string $typeInQueryParameters, mixed $expectedType): void
+    public function decorateForMatching(string $typeInRoute, string $typeInQueryParameters, $expectedType): void
     {
         $_GET['type'] = $typeInQueryParameters;
         $routeCollection = new RouteCollection();
@@ -79,7 +79,7 @@ class PageTypeDecoratorTest extends UnitTestCase
      *
      * @dataProvider dataProviderDecorateForGeneration
      */
-    public function decorateForGeneration(string $path, mixed $expectedPath): void
+    public function decorateForGeneration(string $path, $expectedPath): void
     {
         $routeCollection = new RouteCollection();
         $route = new Route($path);
