@@ -1,6 +1,11 @@
 Changelog
 =========
 
+11.0.3
+-----
+
+- add PageTypeDecorator to allow unmapped page types -> https://github.com/DMKEBUSINESSGMBH/typo3-mktools/blob/11.5/Documentation/Utilities/Slugs/Index.md#pagetypedecorator-für-pagetyps-ohne-mapping
+
 11.0.2
 -----
 
