@@ -32,6 +32,9 @@ Utility zum migrieren von realurl:
 Routing
 =======
 
+StaticNumberRangeMapper
+-----------------------
+
 Mit dem StaticRangeMapper kann man schnell an die Grenzen kommen,
 wenn es einen Pagebrowser und z.B. noch Parameter für ein Archiv gibt.
 TYPO3 erlaubt von Haus aus max 10000 mögliche Kombinationen, was schon
@@ -39,3 +42,10 @@ nach ein paar Seiten im PageBrowser erreicht ist. Daher gibt es nun den
 StaticNumberRangeMapper, der sich genau wie das Original verhält. Aber es
 sind nur Zahlen als Werte erlaubt und der Mapper wird von TYPO3 nicht berücksichtigt,
 wenn das Limit der Kombinationen ermittelt wird.
+
+PageTypeDecorator für PageTyps ohne Mapping
+-------------------------------------------
+
+Wenn der Route Enhancer "PageType" einen Defaultwert hat, der nicht leer ist (z.B. URLs, die auf "/" oder ".html" enden),
+müssen alle PageTypes gemapped werden oder TYPO3 löst sie nicht auf. Mit der Extension-Konfiguration "allowUnmappedPageTypes"
+kann erreicht werden, dass TYPO3 PageTypes ohne Mapping trotzdem auflöst.

@@ -63,3 +63,8 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mksanitizedpar
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['StaticNumberRangeMapper'] =
     \DMK\Mktools\Routing\Aspect\StaticNumberRangeMapper::class;
+
+if (Misc::areUnmappedPageTypesAllowed()) {
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Core\Routing\Enhancer\PageTypeDecorator::class] =
+        ['className' => \DMK\Mktools\Routing\Enhancer\PageTypeDecorator::class];
+}

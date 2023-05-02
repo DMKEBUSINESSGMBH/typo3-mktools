@@ -127,4 +127,9 @@ final class Misc
     {
         return Files::getFileAbsFileName($filename);
     }
+
+    public static function areUnmappedPageTypesAllowed(): bool
+    {
+        return (bool) self::getExtensionCfgValue('allowUnmappedPageTypes');
+    }
 }

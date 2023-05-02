@@ -9,3 +9,6 @@ seoRobotsMetaTagActive = 0
 
 # cat=errorhandling; type=string; label=Static Page on Exception: Either start with "FILE:" and than the relative link to a page inside TYPO3 which is displayed in case of unhandled exceptions or registered PHP errors ($GLOBALS['TYPO3_CONF_VARS']['SYS']['errorHandlerErrors']). Or use "TYPOSCRIPT:" to define a TS which is used. There you should define config.tx_mktools.errorhandling = your-error-page.html
 exceptionPage =
+
+# cat=modules; type=boolean; label=When the route enhancer "PageType" has a default value other than empty (for example URLs end with a "/" or ".html" for page type 0) all used PageTypes need to be mapped or they won't be resolved by TYPO3. This feature allows unmapped PageTypes.
+allowUnmappedPageTypes = 0
