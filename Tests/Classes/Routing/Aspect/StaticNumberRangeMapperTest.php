@@ -48,7 +48,7 @@ class StaticNumberRangeMapperTest extends UnitTestCase
     {
         if ($exceptionMessage) {
             $this->expectException(\InvalidArgumentException::class);
-            $this->expectDeprecationMessage($exceptionMessage);
+            $this->expectExceptionMessage($exceptionMessage);
         }
         $mapper = $this->getAccessibleMock(StaticNumberRangeMapper::class, ['generate'], [$settings]);
         self::assertSame($settings['start'], $mapper->_get('start'));
