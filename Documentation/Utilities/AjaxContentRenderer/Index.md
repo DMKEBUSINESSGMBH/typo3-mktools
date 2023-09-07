@@ -108,3 +108,11 @@ Wenn der normale Location Header für Redirects verwendet wird, dann folgen Brow
 ~~~~ {.sourceCode .php}
 header('Mktools_Location: https://www.example.com');
 ~~~~
+
+Event Handling
+--------------
+Per default verhindert mktools bei jedem Element in einem Formular, dass das Default-Verhalten
+ausgelöst wird. Das bedeutet z.B. dass Checkboxen nicht den checked Status erhalten. Wenn das Formular
+z.B. ein anderes Element lädt und selbst gar nicht aktualisiert wird, dann bekommt eine Checkbox
+keinen checked Status. Wenn das betrffende Element die CSS Klasse "ajax-dont-prevent-default" bekommt,
+wird das verhindert.
