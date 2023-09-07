@@ -206,8 +206,14 @@
             };
         }
 
-        if ((xhr = _request.doCall($el, parameters)) && event) {
-            event.preventDefault();
+        if (
+            (xhr = _request.doCall($el, parameters))
+            && event
+            && !$el.hasClass("test")
+        ) {
+            if (!$el.hasClass("ajax-dont-prevent-default")) {
+                event.preventDefault();
+            }
         }
         return xhr;
     };
