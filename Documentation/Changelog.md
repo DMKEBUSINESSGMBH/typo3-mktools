@@ -1,6 +1,13 @@
 Changelog
 =========
 
+11.0.4
+-----
+
+- Cleanup extension naming and icon
+- make it possible to have the default event of a ajax trigger element be fired
+
+
 11.0.3
 -----
 
