@@ -127,7 +127,7 @@ class TranslatedRecords
     {
         $recordInformationToCheckForTranslation = $this->getRecordInformationToCheckForTranslation(
             $typoScriptConfiguration['parametersConfiguration.'],
-            Parameters::getGetParameters()
+            $_GET
         );
 
         $sysLanguageUid = (int) $typoScriptConfiguration['sysLanguageUid'];
@@ -158,12 +158,26 @@ class TranslatedRecords
             )[0];
 
             $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
-            $translatedRecord = (array) TYPO3::getSysPage()->getRecordOverlay(
-                $table,
-                $currentRecord,
-                $sysLanguageUid,
-                LanguageAspect::OVERLAYS_ON_WITH_FLOATING === $languageAspect->getOverlayType() ? 'hideNonTranslated' : ''
-            );
+
+            if (TYPO3::isTYPO121OrHigher()) {
+                $languageAspect = new LanguageAspect(
+                    $sysLanguageUid,
+                    $sysLanguageUid,
+                    $languageAspect->getOverlayType()
+                );
+                $translatedRecord = (array) TYPO3::getSysPage()->getLanguageOverlay(
+                    $table,
+                    $currentRecord,
+                    $languageAspect
+                );
+            } else {
+                $translatedRecord = (array) TYPO3::getSysPage()->getRecordOverlay(
+                    $table,
+                    $currentRecord,
+                    $sysLanguageUid,
+                    LanguageAspect::OVERLAYS_ON_WITH_FLOATING === $languageAspect->getOverlayType() ? 'hideNonTranslated' : ''
+                );
+            }
         } else {
             $translatedRecord = [];
         }
@@ -186,8 +200,8 @@ class TranslatedRecords
             && (
                 !$menuItemLanguageUid
                 || empty($translatedRecord)
-            ) ||
-            !$typoScriptConfiguration['menuConfiguration.']['special.']['normalWhenNoLanguage']
+            )
+            || !$typoScriptConfiguration['menuConfiguration.']['special.']['normalWhenNoLanguage']
             && $menuItemLanguageUid
             && empty($translatedRecord)
         ) {

@@ -1,34 +1,15 @@
-<phpunit
-        backupGlobals="true"
-        backupStaticAttributes="false"
-        bootstrap=".Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php"
-        colors="true"
-        convertErrorsToExceptions="true"
-        convertWarningsToExceptions="true"
-        forceCoversAnnotation="false"
-        processIsolation="false"
-        stopOnError="false"
-        stopOnFailure="false"
-        stopOnIncomplete="false"
-        stopOnSkipped="false"
-        verbose="false"
->
-
-    <php>
-        <env name="TYPO3_PATH_WEB" value=".Build/Web" />
-    </php>
-
-    <testsuites>
-        <testsuite name="Unit Tests">
-            <directory>Tests/</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">hook/</directory>
-            <directory suffix=".php">model/</directory>
-            <directory suffix=".php">util</directory>
-        </whitelist>
-    </filter>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="true" backupStaticAttributes="false" bootstrap=".Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php" colors="true" convertErrorsToExceptions="true" convertWarningsToExceptions="true" forceCoversAnnotation="false" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" verbose="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">hook/</directory>
+      <directory suffix=".php">model/</directory>
+      <directory suffix=".php">util</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="Unit Tests">
+      <directory>Tests/</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

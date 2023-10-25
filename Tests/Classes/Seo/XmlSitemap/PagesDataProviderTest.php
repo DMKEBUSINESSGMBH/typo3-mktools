@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace DMK\Mktools\Seo\XmlSitemap;
 
 use DMK\Mktools\Utility\SeoRobotsMetaTagUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /***************************************************************
  * Copyright notice
@@ -51,7 +51,7 @@ class PagesDataProviderTest extends UnitTestCase
         $pages = [
             0 => ['uid' => $pageUid],
         ];
-        $provider = $this->getAccessibleMock(PagesDataProvider::class, ['dummy'], [], '', false);
+        $provider = $this->getAccessibleMock(PagesDataProvider::class, ['defineUrl'], [], '', false);
         $robotsMetaTagUtility = $this->getMockBuilder(SeoRobotsMetaTagUtility::class)
             ->setMethods(['getSeoRobotsMetaTagValue'])
             ->setConstructorArgs([$pageUid])

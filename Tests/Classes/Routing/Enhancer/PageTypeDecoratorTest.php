@@ -28,9 +28,9 @@ declare(strict_types=1);
 namespace DMK\Mktools\Tests\Routing\Enhancer;
 
 use DMK\Mktools\Routing\Enhancer\PageTypeDecorator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Core\Routing\Route;
 use TYPO3\CMS\Core\Routing\RouteCollection;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class PageTypeDecoratorTest.

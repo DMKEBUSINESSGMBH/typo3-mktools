@@ -2,7 +2,9 @@
 
 namespace DMK\Mktools\ContentObject;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Sys25\RnBase\Utility\Link;
+use Sys25\RnBase\Utility\TYPO3;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -43,6 +45,8 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @var \DMK\Mktools\ContentObject\UserInternalContentObject
      */
     protected $userInternalObject;
+
+    protected $typoScriptFrontendController;
 
     /**
      * @param bool $loadWithAjax
@@ -94,11 +98,20 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
         );
         $GLOBALS['TSFE'] = $this->typoScriptFrontendController;
 
-        $this->userInternalObject = $this->getMock(
-            UserInternalContentObject::class,
-            ['getTypoScriptFrontendController'],
-            [$contentObject]
-        );
+        if (TYPO3::isTYPO121OrHigher()) {
+            $this->userInternalObject = $this->getMock(
+                UserInternalContentObject::class,
+                ['getTypoScriptFrontendController']
+            );
+            $this->userInternalObject->setRequest($this->getMockBuilder(ServerRequestInterface::class)->getMock());
+            $this->userInternalObject->setContentObjectRenderer($contentObject);
+        } else {
+            $this->userInternalObject = $this->getMock(
+                UserInternalContentObject::class,
+                ['getTypoScriptFrontendController'],
+                [$contentObject]
+            );
+        }
         $this->userInternalObject
             ->expects(self::any())
             ->method('getTypoScriptFrontendController')

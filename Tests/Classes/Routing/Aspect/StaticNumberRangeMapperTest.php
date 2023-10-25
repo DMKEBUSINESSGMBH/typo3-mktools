@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace DMK\Mktools\Tests\Routing\Aspect;
 
 use DMK\Mktools\Routing\Aspect\StaticNumberRangeMapper;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class StaticNumberRangeMapperTest.
@@ -39,6 +39,8 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  */
 class StaticNumberRangeMapperTest extends UnitTestCase
 {
+    protected bool $resetSingletonInstances = true;
+
     /**
      * @test
      *

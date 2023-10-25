@@ -2,9 +2,13 @@
 
 namespace DMK\Mktools\ContentObject;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Sys25\RnBase\Utility\Link;
+use Sys25\RnBase\Utility\TYPO3;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  *  Copyright notice.
@@ -42,6 +46,8 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @var \DMK\Mktools\ContentObject\UserContentObject
      */
     protected $userObject;
+
+    protected $typoScriptFrontendController;
 
     /**
      * @param bool $loadWithAjax
@@ -96,11 +102,20 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
         );
         $GLOBALS['TSFE'] = $this->typoScriptFrontendController;
 
-        $this->userObject = $this->getMock(
-            UserContentObject::class,
-            ['callUserFunction'],
-            [$contentObject]
-        );
+        if (TYPO3::isTYPO121OrHigher()) {
+            $this->userObject = $this->getMock(
+                UserContentObject::class,
+                ['callUserFunction']
+            );
+            $this->userObject->setRequest($this->getMockBuilder(ServerRequestInterface::class)->getMock());
+            $this->userObject->setContentObjectRenderer($contentObject);
+        } else {
+            $this->userObject = $this->getMock(
+                UserContentObject::class,
+                ['callUserFunction'],
+                [$contentObject]
+            );
+        }
         $this->userObject
             ->expects(self::never())
             ->method('callUserFunction');

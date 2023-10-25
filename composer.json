@@ -25,14 +25,14 @@
     },
     "require": {
         "php": "^7.4 || ^8.0",
-        "typo3/cms-core": "^10.4.25 || ^11.5.7",
+        "typo3/cms-core": "^11.5.7 || ^12.4.7",
         "digedag/rn-base": "^1.16"
     },
     "require-dev": {
-        "typo3/cms-seo": "^10.4.25 || ^11.5.7",
+        "typo3/cms-seo": "^11.5.7 || ^12.4.7",
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "friendsofphp/php-cs-fixer": "^3.3",
-        "nimut/testing-framework": "^6.0",
+        "typo3/testing-framework": "^6.0 || ^7.0",
         "phpcompatibility/php-compatibility": "^9.3.5",
         "phpspec/prophecy-phpunit": "^2.0"
     },
@@ -76,7 +76,9 @@
         ],
         "test:phpcompatibility": [
             "@test:phpcompatibility:7.4",
-            "@test:phpcompatibility:8.0"
+            "@test:phpcompatibility:8.0",
+            "@test:phpcompatibility:8.1",
+            "@test:phpcompatibility:8.2"
         ],
         "test:phpcompatibility:7.4": [
             "[ -e .Build/bin/phpcs ] || composer update",
@@ -86,9 +88,17 @@
             "[ -e .Build/bin/phpcs ] || composer update",
             ".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.0"
         ],
+        "test:phpcompatibility:8.1": [
+            "[ -e .Build/bin/phpcs ] || composer update",
+            ".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.1"
+        ],
+        "test:phpcompatibility:8.2": [
+            "[ -e .Build/bin/phpcs ] || composer update",
+            ".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.2"
+        ],
         "test:phpunit": [
             "[ -e .Build/bin/phpunit ] || composer update --ansi",
-            "export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c phpunit.xml.dist --colors=always"
+            "export TYPO3_PATH_APP=$PWD/.Build && export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c phpunit.xml.dist --colors=always"
         ],
         "test": [
             "@test:phpcs",
@@ -105,7 +115,7 @@
     },
     "extra": {
         "branch-alias" : {
-            "dev-11.5": "11.0.x-dev"
+            "dev-12.4": "12.0.x-dev"
         },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",

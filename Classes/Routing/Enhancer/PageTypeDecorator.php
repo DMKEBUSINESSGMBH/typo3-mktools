@@ -28,7 +28,6 @@ declare(strict_types=1);
 namespace DMK\Mktools\Routing\Enhancer;
 
 use TYPO3\CMS\Core\Routing\RouteCollection;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class PageTypeDecorator.
@@ -62,9 +61,9 @@ class PageTypeDecorator extends \TYPO3\CMS\Core\Routing\Enhancer\PageTypeDecorat
 
         foreach ($collection->all() as $route) {
             $decoratedParameters = $route->getOption('_decoratedParameters');
-            $overwriteType = (($decoratedParameters['type'] ?? 0) == 0) && GeneralUtility::_GP('type');
+            $overwriteType = (($decoratedParameters['type'] ?? 0) == 0) && (($_POST['type'] ?? null) || ($_GET['type'] ?? null));
             if ($overwriteType) {
-                $decoratedParameters['type'] = GeneralUtility::_GP('type');
+                $decoratedParameters['type'] = $_POST['type'] ?? $_GET['type'] ?? 0;
                 $route->setOption('_decoratedParameters', $decoratedParameters);
             }
         }

@@ -7,6 +7,8 @@ namespace DMK\Mktools\Utility\Menu\Processor;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Sys25\RnBase\Database\Connection;
 use Sys25\RnBase\Utility\TYPO3;
+use TYPO3\CMS\Core\Context\LanguageAspect;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -36,12 +38,8 @@ class TranslatedRecordsTest extends \Sys25\RnBase\Testing\BaseTestCase
         $dbConnection = $this->prophesize(Connection::class);
         GeneralUtility::setSingletonInstance(Connection::class, $dbConnection->reveal());
 
-        $pageRepositoryClass = 'TYPO3\\CMS\\Frontend\\Page\\PageRepository';
-        if (TYPO3::isTYPO104OrHigher()) {
-            $pageRepositoryClass = 'TYPO3\\CMS\\Core\\Domain\\Repository\\PageRepository';
-        }
-        $pageRepository = $this->prophesize($pageRepositoryClass);
-        GeneralUtility::addInstance($pageRepositoryClass, $pageRepository->reveal());
+        $pageRepository = $this->prophesize(PageRepository::class);
+        GeneralUtility::addInstance(PageRepository::class, $pageRepository->reveal());
 
         $item = ['uid' => 123, 'title' => 'de'];
 
@@ -55,15 +53,31 @@ class TranslatedRecordsTest extends \Sys25\RnBase\Testing\BaseTestCase
 
         // no overlay found
         $expectedLanguageMode = 'hideNonTranslated';
-        $pageRepository
-            ->getRecordOverlay(
-                'tx_cal_event',
-                $item,
+        if (TYPO3::isTYPO121OrHigher()) {
+            $languageAspect = new LanguageAspect(
                 1,
-                $expectedLanguageMode
-            )
-            ->shouldBeCalled()
-            ->willReturn([]);
+                1,
+                LanguageAspect::OVERLAYS_ON_WITH_FLOATING
+            );
+            $pageRepository
+                ->getLanguageOverlay(
+                    'tx_cal_event',
+                    $item,
+                    $languageAspect
+                )
+                ->shouldBeCalled()
+                ->willReturn([]);
+        } else {
+            $pageRepository
+                ->getRecordOverlay(
+                    'tx_cal_event',
+                    $item,
+                    1,
+                    $expectedLanguageMode
+                )
+                ->shouldBeCalled()
+                ->willReturn([]);
+        }
 
         $paramConfig = [
             'sysLanguageUid' => 1,

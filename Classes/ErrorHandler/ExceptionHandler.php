@@ -168,8 +168,8 @@ class ExceptionHandler extends ProductionExceptionHandler
             ], __METHOD__.' Line: '.__LINE__);
         }
 
-        if ((!$exceptionPage = $this->getExceptionPage()) ||
-            (!$absoluteExceptionPageUrl = Network::locationHeaderUrl($exceptionPage))
+        if ((!$exceptionPage = $this->getExceptionPage())
+            || (!$absoluteExceptionPageUrl = Network::locationHeaderUrl($exceptionPage))
         ) {
             $this->logNoExceptionPageDefined();
         } else {
