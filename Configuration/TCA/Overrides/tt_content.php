@@ -29,7 +29,8 @@ call_user_func(function () {
     // Das tt_content-Feld pi_flexform einblenden
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['tx_mktools'] = 'pi_flexform';
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('tx_mktools', 'FILE:EXT:mktools/Configuration/Flexform/Main.xml');
+    $flexformFile = \Sys25\RnBase\Utility\TYPO3::isTYPO121OrHigher() ? 'Main.xml' : 'MainDeprecated.xml';
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('tx_mktools', 'FILE:EXT:mktools/Configuration/Flexform/'.$flexformFile);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
         ['LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.label', 'tx_mktools'],
         'list_type',

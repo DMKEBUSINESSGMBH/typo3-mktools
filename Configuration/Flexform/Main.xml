@@ -7,38 +7,34 @@
     <sheets>
         <sDEF>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.tab.common</sheetTitle>
-                </TCEforms>
+                <sheetTitle>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.tab.common</sheetTitle>
 
                 <type>array</type>
                 <el>
                     <action> <!-- Bezeichner ist frei wählbar -->
-                        <TCEforms>
-                            <exclude>1</exclude>
-                            <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action</label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items type="array">
-                                    <numIndex index="10" type="array">
-                                        <numIndex index="0">LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.ShowTemplate</numIndex>
-                                        <numIndex index="1">DMK\Mktools\Action\ShowTemplateAction</numIndex>
-                                    </numIndex>
-                                    <numIndex index="20" type="array">
-                                        <numIndex index="0">LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.TsLib</numIndex>
-                                        <numIndex index="1">DMK\Mktools\Action\TyposcriptLibraryAction</numIndex>
-                                    </numIndex>
-                                    <numIndex index="100" type="array">
-                                        <numIndex index="0">LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.FlashMessage</numIndex>
-                                        <numIndex index="1">DMK\Mktools\Action\FlashMessageAction</numIndex>
-                                    </numIndex>
-                                </items>
-                                <multiple>0</multiple>
-                                <maxitems>10</maxitems>
-                                <size>20</size>
-                            </config>
-                        </TCEforms>
+                        <exclude>1</exclude>
+                        <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="10" type="array">
+                                    <numIndex index="0">LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.ShowTemplate</numIndex>
+                                    <numIndex index="1">DMK\Mktools\Action\ShowTemplateAction</numIndex>
+                                </numIndex>
+                                <numIndex index="20" type="array">
+                                    <numIndex index="0">LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.TsLib</numIndex>
+                                    <numIndex index="1">DMK\Mktools\Action\TyposcriptLibraryAction</numIndex>
+                                </numIndex>
+                                <numIndex index="100" type="array">
+                                    <numIndex index="0">LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.FlashMessage</numIndex>
+                                    <numIndex index="1">DMK\Mktools\Action\FlashMessageAction</numIndex>
+                                </numIndex>
+                            </items>
+                            <multiple>0</multiple>
+                            <maxitems>10</maxitems>
+                            <size>20</size>
+                        </config>
                     </action>
                 </el>
             </ROOT>
@@ -46,50 +42,44 @@
 
         <s_registerApplicant> <!-- @TODO: rename this! -->
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.ShowTemplate</sheetTitle>
-                </TCEforms>
+                <sheetTitle>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.action.ShowTemplate</sheetTitle>
 
                 <type>array</type>
                 <el>
                     <showtemplateTemplate>
-                        <TCEforms>
-                            <exclude>1</exclude>
-                            <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.formHtml</label>
-                            <config>
-                                <type>input</type>
-                                <size>50</size>
-                                <max>256</max>
-                                <eval>trim</eval>
-                                <wizards type="array">
-                                        <_PADDING>2</_PADDING>
-                                        <link type="array">
-                                            <type>popup</type>
-                                            <title>Link</title>
-                                            <icon>link_popup.gif</icon>
-                                            <script>browse_links.php?mode=wizard&amp;act=file</script>
-                                            <module><name>wizard_link</name></module>
-                                            <params type="array">
-                                                <blindLinkOptions>page,url,mail,spec</blindLinkOptions>
-                                                <allowedExtensions>html</allowedExtensions>
-                                            </params>
-                                            <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-                                        </link>
-                                </wizards>
-                            </config>
-                        </TCEforms>
+                        <exclude>1</exclude>
+                        <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.formHtml</label>
+                        <config>
+                            <type>input</type>
+                            <size>50</size>
+                            <max>256</max>
+                            <eval>trim</eval>
+                            <wizards type="array">
+                                    <_PADDING>2</_PADDING>
+                                    <link type="array">
+                                        <type>popup</type>
+                                        <title>Link</title>
+                                        <icon>link_popup.gif</icon>
+                                        <script>browse_links.php?mode=wizard&amp;act=file</script>
+                                        <module><name>wizard_link</name></module>
+                                        <params type="array">
+                                            <blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+                                            <allowedExtensions>html</allowedExtensions>
+                                        </params>
+                                        <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+                                    </link>
+                            </wizards>
+                        </config>
                     </showtemplateTemplate>
                     <showtemplate.template.subpart>
-                        <TCEforms>
-                            <exclude>1</exclude>
-                            <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.formMainSubpart</label>
-                            <config>
-                                <type>input</type>
-                                <size>50</size>
-                                <max>256</max>
-                                <eval>trim</eval>
-                            </config>
-                        </TCEforms>
+                        <exclude>1</exclude>
+                        <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.formMainSubpart</label>
+                        <config>
+                            <type>input</type>
+                            <size>50</size>
+                            <max>256</max>
+                            <eval>trim</eval>
+                        </config>
                     </showtemplate.template.subpart>
                 </el>
             </ROOT>
@@ -97,21 +87,17 @@
 
         <s_tssetup>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.tab.tssetup</sheetTitle>
-                </TCEforms>
+                <sheetTitle>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.tab.tssetup</sheetTitle>
                 <type>array</type>
                 <el>
                     <flexformTS>
-                        <TCEforms>
-                            <exclude>1</exclude>
-                            <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.tssetup</label>
-                            <config>
-                                <type>text</type>
-                                <cols>80</cols>
-                                <rows>10</rows>
-                            </config>
-                        </TCEforms>
+                        <exclude>1</exclude>
+                        <label>LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.flexform.tssetup</label>
+                        <config>
+                            <type>text</type>
+                            <cols>80</cols>
+                            <rows>10</rows>
+                        </config>
                     </flexformTS>
                 </el>
             </ROOT>
