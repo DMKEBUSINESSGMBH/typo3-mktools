@@ -7,6 +7,7 @@ use Sys25\RnBase\Utility\Link;
 use Sys25\RnBase\Utility\TYPO3;
 use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
 use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -99,22 +100,34 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
             '',
             false
         );
-        $GLOBALS['TSFE'] = $this->typoScriptFrontendController;
-        $GLOBALS['TYPO3_REQUEST'] = $this->getMock(
-            ServerRequestInterface::class,
-            [],
-            [],
-            '',
-            false
-        );
 
-        $typoScript = new FrontendTypoScript(new RootNode(), []);
-        $typoScript->setSetupArray(['config' => 'test']);
-        $GLOBALS['TYPO3_REQUEST']
-            ->expects(self::any())
-            ->method('getAttribute')
-            ->with('frontend.typoscript')
-            ->willReturn($typoScript);
+        if (TYPO3::isTYPO121OrHigher()) {
+            $GLOBALS['TYPO3_REQUEST'] = $this->getMock(
+                ServerRequestInterface::class,
+                [],
+                [],
+                '',
+                false
+            );
+
+            $typoScript = new FrontendTypoScript(new RootNode(), []);
+            $typoScript->setSetupArray(['config' => 'test']);
+            $GLOBALS['TYPO3_REQUEST']
+                ->expects(self::any())
+                ->method('getAttribute')
+                ->with('frontend.typoscript')
+                ->willReturn($typoScript);
+        } else {
+            $this->typoScriptFrontendController->tmpl = $this->getMock(
+                TemplateService::class,
+                [],
+                [],
+                '',
+                false
+            );
+            $this->typoScriptFrontendController->tmpl->setup['config'] = 'test';
+        }
+        $GLOBALS['TSFE'] = $this->typoScriptFrontendController;
 
         if (TYPO3::isTYPO121OrHigher()) {
             $this->userObject = $this->getMock(

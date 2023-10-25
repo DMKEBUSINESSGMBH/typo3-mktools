@@ -2,6 +2,8 @@
 
 namespace DMK\Mktools\ContentObject;
 
+use Sys25\RnBase\Utility\TYPO3;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -48,7 +50,7 @@ trait LoadPluginWithAjaxTrait
             // page type. Otherwise it's not possible to render more than one element
             // per page
             $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
-            $typoScriptSetup = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray();
+            $typoScriptSetup = $this->getTypoScriptSetup();
             $configuration->init($typoScriptSetup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
             $link = $configuration
                 ->createLink()
@@ -76,5 +78,12 @@ trait LoadPluginWithAjaxTrait
         }
 
         return $content;
+    }
+
+    protected function getTypoScriptSetup(): array
+    {
+        return TYPO3::isTYPO121OrHigher()
+            ? $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()
+            : $GLOBALS['TSFE']->tmpl->setup;
     }
 }
