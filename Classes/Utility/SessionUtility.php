@@ -41,30 +41,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class SessionUtility
 {
     /**
-     * Liefert die aktuelle Session id des Nutzers.
-     *
-     * Wenn für den aktuellen Nutzer noch keine Session vorhanden ist,
-     * variert die ID für jeden Seitenaufruf.
-     * Wenn die ID bei jedem Seitenaufruf gleich bleiben soll,
-     * dann ist es notwendig, daten in die Session zu schreiben.
-     * Nur das bewegt Typo3 dazu, sich die Session zu merken!
-     *
-     * @param bool $keepId
-     *
-     * @return string
-     */
-    public static function getSessionId($keepId = false)
-    {
-        $id = $GLOBALS['TSFE']->fe_user->id;
-        if ($keepId && !self::getSessionValue('keepsessid')) {
-            self::setSessionValue('keepsessid', true);
-            self::storeSessionData();
-        }
-
-        return $id;
-    }
-
-    /**
      * Set a session value.
      * The value is stored in TYPO3 session storage.
      *
@@ -159,16 +135,5 @@ class SessionUtility
         }
 
         return $cookiesActivated;
-    }
-
-    /**
-     * @param string $sessionId
-     */
-    public static function setSessionId($sessionId)
-    {
-        $GLOBALS['TSFE']->fe_user->id = $sessionId;
-        // sonst werden die Session Daten nicht neu geholt
-        $GLOBALS['TSFE']->fe_user->sesData = [];
-        $GLOBALS['TSFE']->fe_user->fetchUserSession();
     }
 }

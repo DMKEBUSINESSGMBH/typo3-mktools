@@ -48,7 +48,8 @@ trait LoadPluginWithAjaxTrait
             // page type. Otherwise it's not possible to render more than one element
             // per page
             $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
-            $configuration->init($GLOBALS['TSFE']->tmpl->setup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
+            $typoScriptSetup = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray();
+            $configuration->init($typoScriptSetup, $this->getContentObjectRenderer(), 'mktools', 'mktools');
             $link = $configuration
                 ->createLink()
                 ->initByTS(

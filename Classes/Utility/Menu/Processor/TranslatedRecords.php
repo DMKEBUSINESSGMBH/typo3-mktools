@@ -31,6 +31,7 @@ use Sys25\RnBase\Utility\FrontendControllerUtility;
 use Sys25\RnBase\Utility\TYPO3;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
+use TYPO3\CMS\Core\Type\Bitmask\PageTranslationVisibility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -193,10 +194,14 @@ class TranslatedRecords
         $menuItemLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE']);
         $typoScriptFrontendController = $this->getTypoScriptFrontendController();
 
-        if (GeneralUtility::hideIfNotTranslated($typoScriptFrontendController->page['l18n_cfg'])
+        $pageTranslationVisibility = new PageTranslationVisibility(
+            (int) $typoScriptFrontendController->page['l18n_cfg'] ?? 0
+        );
+
+        if ($pageTranslationVisibility->shouldHideTranslationIfNoTranslatedRecordExists()
             && $menuItemLanguageUid
             && empty($translatedRecord)
-            || GeneralUtility::hideIfDefaultLanguage($typoScriptFrontendController->page['l18n_cfg'])
+            || $pageTranslationVisibility->shouldBeHiddenInDefaultLanguage()
             && (
                 !$menuItemLanguageUid
                 || empty($translatedRecord)

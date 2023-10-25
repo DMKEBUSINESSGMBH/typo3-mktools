@@ -8,11 +8,6 @@ defined('TYPO3') || exit('Access denied.');
 
 defined('ERROR_CODE_MKTOOLS') || define('ERROR_CODE_MKTOOLS', 160);
 
-if (Misc::isContentReplacerActive()) {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][]
-        = \DMK\Mktools\Hook\ContentReplaceHook::class.'->contentPostProcAll';
-}
-
 // Robots-Meta Tag
 if (\DMK\Mktools\Utility\Misc::isSeoRobotsMetaTagActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] .= ',mkrobotsmetatag';
@@ -38,7 +33,7 @@ if (\DMK\Mktools\Utility\Misc::getExceptionPage()) {
 define('MKTOOLS_AJAX_REQUEST_PAGE_TYPE', 9267);
 // In case ajax requests are done with GET we need to exclude those parameters as they are added on the fly
 // when clicking a link. Therefore they are not present when calculating the cHash but when the cHash is validated.
-if (MKTOOLS_AJAX_REQUEST_PAGE_TYPE == \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type')) {
+if (MKTOOLS_AJAX_REQUEST_PAGE_TYPE == ($_POST['type'] ?? $_GET['type'] ?? 0)) {
     \Sys25\RnBase\Utility\CHashUtility::addExcludedParametersForCacheHash([
         'contentid',
         'href',
@@ -49,6 +44,7 @@ if (MKTOOLS_AJAX_REQUEST_PAGE_TYPE == \TYPO3\CMS\Core\Utility\GeneralUtility::_G
     ]);
 }
 
+// @todo can be removed when support for TYPO3 11.5 is dropped.
 if (\DMK\Mktools\Utility\Misc::isAjaxContentRendererActive()) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['USER_INT'] = UserInternalContentObject::class;
     $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['USER'] = UserContentObject::class;

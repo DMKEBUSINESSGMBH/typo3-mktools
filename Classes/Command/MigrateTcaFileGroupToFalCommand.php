@@ -132,7 +132,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
         return $queryBuilder
             ->select('*')
             ->from($table)
-            ->where($queryBuilder->expr()->andX(
+            ->where($queryBuilder->expr()->and(
                 $queryBuilder->expr()->neq($field, $queryBuilder->createNamedParameter('')),
                 $queryBuilder->expr()->neq($field, $queryBuilder->createNamedParameter(0)),
                 $queryBuilder->expr()->isNotNull($field)

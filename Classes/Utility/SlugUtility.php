@@ -92,7 +92,7 @@ final class SlugUtility
             ->select('*')
             ->from($this->table)
             ->where(
-                $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->or(
                     $queryBuilder->expr()->eq($this->field, $queryBuilder->createNamedParameter('')),
                     $queryBuilder->expr()->isNull($this->field)
                 )

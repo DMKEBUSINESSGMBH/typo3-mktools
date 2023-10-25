@@ -32,3 +32,13 @@ services:
         - name: 'console.command'
           command: 'mktools:migrate-tca-file-groups-to-fal'
           schedulable: true
+
+    DMK\Mktools\ContentObject\UserContentObject:
+      tags:
+        - name: frontend.contentobject
+          identifier: 'USER'
+
+    DMK\Mktools\ContentObject\UserInternalContentObject:
+      tags:
+        - name: frontend.contentobject
+          identifier: 'USER_INT'

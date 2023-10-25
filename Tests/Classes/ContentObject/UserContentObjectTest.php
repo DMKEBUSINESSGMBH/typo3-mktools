@@ -5,7 +5,8 @@ namespace DMK\Mktools\ContentObject;
 use Psr\Http\Message\ServerRequestInterface;
 use Sys25\RnBase\Utility\Link;
 use Sys25\RnBase\Utility\TYPO3;
-use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
+use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -48,6 +49,11 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
     protected $userObject;
 
     protected $typoScriptFrontendController;
+
+    protected function tearDown(): void
+    {
+        GeneralUtility::purgeInstances();
+    }
 
     /**
      * @param bool $loadWithAjax
@@ -93,14 +99,22 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
             '',
             false
         );
-        $this->typoScriptFrontendController->tmpl = $this->getMock(
-            TemplateService::class,
+        $GLOBALS['TSFE'] = $this->typoScriptFrontendController;
+        $GLOBALS['TYPO3_REQUEST'] = $this->getMock(
+            ServerRequestInterface::class,
             [],
             [],
             '',
             false
         );
-        $GLOBALS['TSFE'] = $this->typoScriptFrontendController;
+
+        $typoScript = new FrontendTypoScript(new RootNode(), []);
+        $typoScript->setSetupArray(['config' => 'test']);
+        $GLOBALS['TYPO3_REQUEST']
+            ->expects(self::any())
+            ->method('getAttribute')
+            ->with('frontend.typoscript')
+            ->willReturn($typoScript);
 
         if (TYPO3::isTYPO121OrHigher()) {
             $this->userObject = $this->getMock(
@@ -145,7 +159,6 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
 
         $this->initializeFixtures($contentObject);
 
-        @$GLOBALS['TSFE']->tmpl->setup['config'] = 'test';
         $configurations = $this->getMock(\Sys25\RnBase\Configuration\Processor::class, ['init']);
         $configurations->expects(self::once())
             ->method('init')
