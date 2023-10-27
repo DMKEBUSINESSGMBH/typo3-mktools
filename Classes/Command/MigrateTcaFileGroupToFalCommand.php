@@ -97,27 +97,9 @@ class MigrateTcaFileGroupToFalCommand extends Command
         }
         $io->writeln('You should change the TCA definition of those fields like this:');
         $io->writeln('');
-        $io->writeln('\'config\' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-    \'images\',
-    [
-        \'behaviour\' => [
-            \'allowLanguageSynchronization\' => true,
-        ],
-        \'appearance\' => [
-            \'createNewRelationLinkTitle\' => \'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference\',
-            \'showPossibleLocalizationRecords\' => true,
-            \'showRemovedLocalizationRecords\' => true,
-            \'showAllLocalizationLink\' => true,
-            \'showSynchronizationLink\' => true,
-        ],
-        \'foreign_match_fields\' => [
-            \'fieldname\' => \'images\',
-            \'tablenames\' => \'sys_category\',
-            \'table_local\' => \'sys_file\',
-        ],
-    ],
-    $GLOBALS[\'TYPO3_CONF_VARS\'][\'GFX\'][\'imagefile_ext\']
-)');
+        $io->writeln('\'config\' => [
+    \'type\' => \'file\',
+]');
         $io->writeln('');
         $io->writeln('Furthermore you need to change the code which retrieves and renders the files.');
 

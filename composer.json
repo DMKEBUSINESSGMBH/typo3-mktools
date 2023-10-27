@@ -4,7 +4,19 @@
     "type": "typo3-cms-extension",
     "keywords": [
         "TYPO3 CMS",
-        "tools"
+        "tools",
+        "migration",
+        "tca",
+        "switchableControllerActions",
+        "slugs",
+        "error handler",
+        "exception handler",
+        "error",
+        "exception",
+        "content replacer",
+        "CDN",
+        "ajax",
+        "translations"
     ],
     "homepage": "http://www.dmk-ebusiness.de/",
     "license": "GPL-2.0-or-later",

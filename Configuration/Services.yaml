@@ -32,6 +32,11 @@ services:
         - name: 'console.command'
           command: 'mktools:migrate-tca-file-groups-to-fal'
           schedulable: true
+    DMK\Mktools\Command\MigrateSwitchableControllerActionsCommand:
+      tags:
+        - name: 'console.command'
+          command: 'mktools:migrate-switchable-controller-actions'
+          schedulable: true
 
     DMK\Mktools\ContentObject\UserContentObject:
       tags:
