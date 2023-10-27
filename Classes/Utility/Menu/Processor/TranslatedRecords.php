@@ -82,7 +82,7 @@ class TranslatedRecords
         );
         if ($recordInformationToCheckForTranslation) {
             foreach ($menuItems as &$menuItem) {
-                $sysLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE']);
+                $sysLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE'] ?? 0);
                 $translatedRecord = $this->getTranslatedRecord(
                     $sysLanguageUid,
                     $recordInformationToCheckForTranslation['table'],
@@ -191,7 +191,7 @@ class TranslatedRecords
         array $translatedRecord,
         array $typoScriptConfiguration
     ): array {
-        $menuItemLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE']);
+        $menuItemLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE'] ?? 0);
         $typoScriptFrontendController = $this->getTypoScriptFrontendController();
 
         $pageTranslationVisibility = new PageTranslationVisibility(
