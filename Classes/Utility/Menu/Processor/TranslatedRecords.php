@@ -186,8 +186,8 @@ class TranslatedRecords
             && (
                 !$menuItemLanguageUid
                 || empty($translatedRecord)
-            ) ||
-            !$typoScriptConfiguration['menuConfiguration.']['special.']['normalWhenNoLanguage']
+            )
+            || !$typoScriptConfiguration['menuConfiguration.']['special.']['normalWhenNoLanguage']
             && $menuItemLanguageUid
             && empty($translatedRecord)
         ) {

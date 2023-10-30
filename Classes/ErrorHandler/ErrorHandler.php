@@ -116,8 +116,8 @@ class ErrorHandler extends RnBaseErrorHandler
      */
     protected function writeExceptionToDevLog($exception)
     {
-        $environment = (($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof \Psr\Http\Message\ServerRequestInterface) &&
-            \TYPO3\CMS\Core\Http\ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() ? 'FE' : 'BE';
+        $environment = (($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof \Psr\Http\Message\ServerRequestInterface)
+            && \TYPO3\CMS\Core\Http\ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() ? 'FE' : 'BE';
         $logTitle = 'Core: Error handler ('.$environment.')';
         \Sys25\RnBase\Utility\Logger::fatal($exception->getMessage(), $logTitle);
     }
@@ -131,10 +131,10 @@ class ErrorHandler extends RnBaseErrorHandler
             return true;
         }
 
-        if (E_ERROR == $error['type'] ||
-            E_COMPILE_ERROR == $error['type'] ||
-            E_CORE_ERROR == $error['type'] ||
-            E_USER_ERROR == $error['type']
+        if (E_ERROR == $error['type']
+            || E_COMPILE_ERROR == $error['type']
+            || E_CORE_ERROR == $error['type']
+            || E_USER_ERROR == $error['type']
         ) {
             $errorMessage = $error['message'];
             $errorFile = $error['file'];
