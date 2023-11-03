@@ -33,6 +33,7 @@ use Sys25\RnBase\Utility\Debug;
 use Sys25\RnBase\Utility\Logger;
 use Sys25\RnBase\Utility\Network;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -166,6 +167,10 @@ class ExceptionHandler extends ProductionExceptionHandler
             Debug::debug([
                     $exception,
             ], __METHOD__.' Line: '.__LINE__);
+            // in BE context there is no need for a exception page and there might be redirects to the BE login.
+            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
+                exit;
+            }
         }
 
         if ((!$exceptionPage = $this->getExceptionPage())
