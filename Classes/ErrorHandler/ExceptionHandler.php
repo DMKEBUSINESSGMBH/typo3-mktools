@@ -168,7 +168,10 @@ class ExceptionHandler extends ProductionExceptionHandler
                     $exception,
             ], __METHOD__.' Line: '.__LINE__);
             // in BE context there is no need for a exception page and there might be redirects to the BE login.
-            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
+            if (
+                ($GLOBALS['TYPO3_REQUEST'] ?? null)
+                && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()
+            ) {
                 exit;
             }
         }
