@@ -10,8 +10,11 @@ auch direkt etwaige Berechtigungen in BE Gruppen migiriert.
 Command für die Migration:
 
 ~~~~ {.sourceCode .sh
- bin/typo3 mktools:migrate-switchable-controller-actions --actions="News->detail;News->list" --list-type=news_list --new-list-type=news_list_detail
+ bin/typo3 mktools:migrate-switchable-controller-actions --cleanup-flexform=1 --actions="News->detail;News->list" --list-type=news_list --new-list-type=news_list_detail
 ~~~~
 
 actions sollte genau der Wert sein, der bisher im Flexform/TypoScript gewählt wurde und
-für den ein neues dediziertes Plugin angelegt wurde.
+für den ein neues dediziertes Plugin angelegt wurde. Das Command entfernt aus dem Flexform
+in den Plugins alle Werte, die im aktuellen Flexform nicht mehr enthalten sind. Wenn
+das Flexform durch den Event flexform-modify-data-structure erweitert wird, wird das an
+dieser Stelle nicht berücksichtigt. In diesem Fall sollte auf die Bereinigung verzichtet werden.

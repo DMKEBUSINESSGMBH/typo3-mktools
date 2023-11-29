@@ -73,6 +73,11 @@ class MigrateSwitchableControllerActionsCommand extends Command
                 'nl',
                 InputOption::VALUE_REQUIRED,
                 'The new list type for the given switchableControllerActions.'
+            )->addOption(
+                'cleanup-flexform',
+                'cl',
+                InputOption::VALUE_OPTIONAL,
+                'Should the flexform be cleaned up so only values from the configured flexform are kept? This doesn\'t take flexform extensions into consideration. So if you extend the flexform of e.g. calendarize you shouldn\'t cleanup the flexform'
             );
     }
 
@@ -104,7 +109,9 @@ class MigrateSwitchableControllerActionsCommand extends Command
         foreach ($contentElements as $contentElement) {
             $flexFormData = GeneralUtility::xml2array($contentElement['pi_flexform']);
             $newListType = $input->getOption('new-list-type');
-            $flexFormData = $this->removeFlexFormSettingsNotForListType($flexFormData, $newListType);
+            if ($input->getOption('cleanup-flexform')) {
+                $flexFormData = $this->removeFlexFormSettingsNotForListType($flexFormData, $newListType);
+            }
 
             if (count($flexFormData['data']) > 0) {
                 $newFlexform = $this->array2xml($flexFormData);
