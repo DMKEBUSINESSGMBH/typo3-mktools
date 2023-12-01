@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
@@ -47,12 +48,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class MigrateSwitchableControllerActionsCommand extends Command
 {
     private ConnectionPool $connectionPool;
+    private FlexFormTools $flexFormTools;
 
-    public function __construct(ConnectionPool $connectionPool)
+    public function __construct(ConnectionPool $connectionPool, FlexFormTools $flexFormTools)
     {
         parent::__construct(null);
 
         $this->connectionPool = $connectionPool;
+        $this->flexFormTools = $flexFormTools;
     }
 
     protected function configure()
@@ -73,11 +76,6 @@ class MigrateSwitchableControllerActionsCommand extends Command
                 'nl',
                 InputOption::VALUE_REQUIRED,
                 'The new list type for the given switchableControllerActions.'
-            )->addOption(
-                'cleanup-flexform',
-                'cl',
-                InputOption::VALUE_OPTIONAL,
-                'Should the flexform be cleaned up so only values from the configured flexform are kept? This doesn\'t take flexform extensions into consideration. So if you extend the flexform of e.g. calendarize you shouldn\'t cleanup the flexform'
             );
     }
 
@@ -107,11 +105,8 @@ class MigrateSwitchableControllerActionsCommand extends Command
         $io->writeln('Start migration of '.count($contentElements).' plugins.');
 
         foreach ($contentElements as $contentElement) {
-            $flexFormData = GeneralUtility::xml2array($contentElement['pi_flexform']);
             $newListType = $input->getOption('new-list-type');
-            if ($input->getOption('cleanup-flexform')) {
-                $flexFormData = $this->removeFlexFormSettingsNotForListType($flexFormData, $newListType);
-            }
+            $flexFormData = $this->removeFlexFormSettingsNotForListType($contentElement, $newListType);
 
             if (count($flexFormData['data']) > 0) {
                 $newFlexform = $this->array2xml($flexFormData);
@@ -135,7 +130,7 @@ class MigrateSwitchableControllerActionsCommand extends Command
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
         return $queryBuilder
-            ->select('uid', 'list_type', 'pi_flexform')
+            ->select('uid', 'list_type', 'pi_flexform', 'pid')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -153,20 +148,16 @@ class MigrateSwitchableControllerActionsCommand extends Command
             ->fetchAllAssociative();
     }
 
-    protected function removeFlexFormSettingsNotForListType(array $flexFormData, string $newListType): array
+    protected function removeFlexFormSettingsNotForListType(array $contentElement, string $newListType): array
     {
-        $allowedSettings = $this->getAllowedSettingsFromFlexFormByListType($newListType);
+        // Update record with new list_type (this is needed because FlexFormTools
+        // looks up those values in the given record and assumes they're up-to-date)
+        $contentElement['list_type'] = $newListType;
+        $newFlexform = $this->flexFormTools->cleanFlexFormXML('tt_content', 'pi_flexform', $contentElement);
+        $flexFormData = GeneralUtility::xml2array($newFlexform);
 
         // Remove flexform data which do not exist in flexform of new plugin
         foreach ($flexFormData['data'] as $sheetKey => $sheetData) {
-            if (($sheetData['lDEF'] ?? null) && is_array($sheetData['lDEF'])) {
-                foreach ($sheetData['lDEF'] as $settingName => $setting) {
-                    if (!in_array($settingName, $allowedSettings, true)) {
-                        unset($flexFormData['data'][$sheetKey]['lDEF'][$settingName]);
-                    }
-                }
-            }
-
             // Remove empty sheets
             if (!is_array($flexFormData['data'][$sheetKey]['lDEF']) || !count($flexFormData['data'][$sheetKey]['lDEF']) > 0) {
                 unset($flexFormData['data'][$sheetKey]);
@@ -174,27 +165,6 @@ class MigrateSwitchableControllerActionsCommand extends Command
         }
 
         return $flexFormData;
-    }
-
-    protected function getAllowedSettingsFromFlexFormByListType(string $listType): array
-    {
-        $flexFormFile = $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][$listType.',list'] ?? '';
-        if (!$flexFormFile) {
-            return [];
-        }
-
-        $flexFormContent = file_get_contents(GeneralUtility::getFileAbsFileName(substr(trim($flexFormFile), 5)));
-        $flexFormData = GeneralUtility::xml2array($flexFormContent);
-
-        // Iterate each sheet and extract all settings
-        $settings = [];
-        foreach ($flexFormData['sheets'] as $sheet) {
-            foreach ($sheet['ROOT']['el'] as $setting => $tceForms) {
-                $settings[] = $setting;
-            }
-        }
-
-        return $settings;
     }
 
     protected function array2xml(array $input = []): string
