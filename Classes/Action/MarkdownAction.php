@@ -56,7 +56,7 @@ class MarkdownAction extends ShowTemplateAction
         $content = '';
 
         foreach ($this->getFiles() as $file) {
-            $file = Files::getFileName($file);
+            $file = Files::getFileAbsFileName(Files::getFileName($file));
             $rawContent = Network::getUrl($file);
             $content .= $this->parseContent($rawContent);
         }
