@@ -159,7 +159,10 @@ class MigrateSwitchableControllerActionsCommand extends Command
         $contentElement['list_type'] = $newListType;
         $newFlexform = $this->flexFormTools->cleanFlexFormXML('tt_content', 'pi_flexform', $contentElement);
         $flexFormData = GeneralUtility::xml2array($newFlexform);
-
+        // a string means a empty flexform or a parsing error
+        if (is_string($flexFormData)) {
+            $flexFormData = ['data' => []];
+        }
         // Remove flexform data which do not exist in flexform of new plugin
         foreach ($flexFormData['data'] as $sheetKey => $sheetData) {
             // Remove empty sheets
