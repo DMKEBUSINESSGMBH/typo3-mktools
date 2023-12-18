@@ -130,7 +130,7 @@ class MigrateSwitchableControllerActionsCommand extends Command
         $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
         return $queryBuilder
-            ->select('uid', 'list_type', 'pi_flexform', 'pid')
+            ->select('uid', 'list_type', 'pi_flexform', 'pid', 'CType')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
