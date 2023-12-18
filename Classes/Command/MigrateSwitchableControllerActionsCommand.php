@@ -137,6 +137,10 @@ class MigrateSwitchableControllerActionsCommand extends Command
                     'list_type',
                     $queryBuilder->createNamedParameter($listType)
                 ),
+                $queryBuilder->expr()->eq(
+                    'CType',
+                    $queryBuilder->createNamedParameter('list')
+                ),
                 $queryBuilder->expr()->like(
                     'pi_flexform',
                     $queryBuilder->createNamedParameter(
