@@ -105,7 +105,7 @@ class MigrateTscobjPluginsCommand extends Command
                     $queryBuilder->createNamedParameter('tscobj_pi1', \PDO::PARAM_STR)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
     }
 

@@ -115,7 +115,7 @@ class MigrateFormFinishersCommand extends Command
                     $queryBuilder->createNamedParameter('form_formframework', \PDO::PARAM_STR)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
     }
 

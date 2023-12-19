@@ -2,7 +2,7 @@
 
 namespace DMK\Mktools\Utility;
 
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Result;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\Model\RecordStateFactory;
@@ -81,7 +81,7 @@ final class SlugUtility
         }
     }
 
-    private function getRecordsWithoutSlugInTableStatement(): Statement
+    private function getRecordsWithoutSlugInTableStatement(): Result
     {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
         $queryBuilder = $this->getConnectionForTable($this->table)->createQueryBuilder();
@@ -98,7 +98,7 @@ final class SlugUtility
                 )
             )
             ->addOrderBy('uid', 'asc')
-            ->execute();
+            ->executeQuery();
     }
 
     private function getConnectionForTable(string $table): \TYPO3\CMS\Core\Database\Connection
@@ -155,6 +155,6 @@ final class SlugUtility
             $queryBuilder->setParameter('languageUid', $record[$GLOBALS['TCA'][$this->table]['ctrl']['languageField']]);
         }
 
-        return (string) ($queryBuilder->where($where)->execute()->fetchAssociative()['value_alias'] ?? '');
+        return (string) ($queryBuilder->where($where)->executeQuery()->fetchAssociative()['value_alias'] ?? '');
     }
 }

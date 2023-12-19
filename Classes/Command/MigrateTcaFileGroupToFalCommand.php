@@ -119,7 +119,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
                 $queryBuilder->expr()->neq($field, $queryBuilder->createNamedParameter(0)),
                 $queryBuilder->expr()->isNotNull($field)
             ))
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
     }
 
@@ -149,7 +149,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
                 $queryBuilder->expr()->eq('fieldname', $queryBuilder->createNamedParameter($field)),
                 $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($table)),
             )
-            ->execute();
+            ->executeQuery();
     }
 
     private function insertFileReference(string $table, string $field, array $record, File $file, int $sorting): void
@@ -168,6 +168,6 @@ class MigrateTcaFileGroupToFalCommand extends Command
                 'sorting' => $sorting + 256,
                 'sorting_foreign' => $sorting,
             ])
-            ->execute();
+            ->executeQuery();
     }
 }
