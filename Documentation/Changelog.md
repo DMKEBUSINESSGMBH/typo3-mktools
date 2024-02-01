@@ -1,6 +1,14 @@
 Changelog
 =========
 
+11.0.6
+-----
+- encode values in ajax GET requests
+
+11.0.5
+-----
+- fix extension icon
+
 11.0.4
 -----
 
