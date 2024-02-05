@@ -50,7 +50,7 @@ class SeoRobotsMetaTagUtility
 
     protected ?int $pageUid;
 
-    public function __construct(int $pageUid = null)
+    public function __construct(?int $pageUid = null)
     {
         $this->pageUid = $pageUid ?? $GLOBALS['TSFE']->id ?? 0;
     }
