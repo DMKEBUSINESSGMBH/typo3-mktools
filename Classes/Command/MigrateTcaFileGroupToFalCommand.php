@@ -68,7 +68,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
         $this->setDescription('Convert TCA field of type group with internal_type file to FAL references. You must change the TCA configuration for the fields accordingly after the migration.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $io->title($this->getDescription());

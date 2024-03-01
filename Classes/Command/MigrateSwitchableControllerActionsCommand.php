@@ -79,7 +79,7 @@ class MigrateSwitchableControllerActionsCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$input->getOption('list-type') || !$input->getOption('actions') || !$input->getOption('new-list-type')) {
             $output->writeln('Please provide all options. See help for more information.');
