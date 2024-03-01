@@ -58,7 +58,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $this->lockFile = \TYPO3\CMS\Core\Core\Environment::getVarPath().
             '/lock/mktoolsExceptionLock_2e41f8198a125606abc9a71493eebe48';
-        \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir(\TYPO3\CMS\Core\Core\Environment::getVarPath().'/lock');
+        \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep(\TYPO3\CMS\Core\Core\Environment::getVarPath().'/lock');
 
         $this->devIpMaskBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'];
         $_SERVER['REMOTE_ADDR'] = '';
