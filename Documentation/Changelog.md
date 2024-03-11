@@ -1,6 +1,18 @@
 Changelog
 =========
 
+12.0.0
+-----
+
+- TYPO3 12.4 compatibility
+
+
+11.0.5
+-----
+
+- fix extension icon
+
+
 11.0.4
 -----
 
