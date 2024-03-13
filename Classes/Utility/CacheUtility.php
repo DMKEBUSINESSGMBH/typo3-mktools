@@ -73,7 +73,7 @@ class CacheUtility
     }
 
     /**
-     * @return bool
+     * @return string
      */
     public static function getApcCacheBackendClass()
     {

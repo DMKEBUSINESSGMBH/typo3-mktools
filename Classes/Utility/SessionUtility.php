@@ -119,7 +119,7 @@ class SessionUtility
         } else {
             // @TODO diesen Abschnitt testen, aber wie (vor allem auf CLI)?
             // Wir versuchen selbst einen Cookie zu setzen.
-            setcookie('cookiesActivated', 1, time() + 3600);
+            setcookie('cookiesActivated', '1', time() + 3600);
             // Wir setzen einen Parameter für den Reload,
             // um einen Infinite Redirect zu verhindern
             // falls keine Cookies erlaubt sind.

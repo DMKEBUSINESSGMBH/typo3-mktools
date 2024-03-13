@@ -66,12 +66,12 @@ class StaticNumberRangeMapper implements StaticMappableAspectInterface
     public const MAX_PAGE_LIMIT = 1000;
 
     /**
-     * @var string
+     * @var int
      */
     protected $start;
 
     /**
-     * @var string
+     * @var int
      */
     protected $end;
 

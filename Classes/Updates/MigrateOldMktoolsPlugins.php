@@ -132,7 +132,7 @@ class MigrateOldMktoolsPlugins implements UpgradeWizardInterface, ChattyInterfac
     {
         $queryBuilder = $this->getConnectionPool()->getQueryBuilderForTable(self::TABLE_NAME);
         $queryBuilder->getRestrictions()->removeAll();
-        $whereConditions = [];
+        $whereConditionsForOldClasses = [];
         foreach ($this->classMappings as $oldClass => $newClass) {
             $whereConditionsForOldClasses[] = $queryBuilder->expr()->like(
                 'pi_flexform',

@@ -43,7 +43,7 @@ class ShowTemplateAction extends AbstractAction
     /**
      * @param RequestInterface $request
      *
-     * @return null
+     * @return null|string
      */
     protected function handleRequest(RequestInterface $request)
     {
@@ -57,7 +57,7 @@ class ShowTemplateAction extends AbstractAction
     /**
      * Returns the data to render for the view.
      *
-     * @return array
+     * @return BaseModel
      */
     protected function getItem()
     {
@@ -72,7 +72,7 @@ class ShowTemplateAction extends AbstractAction
     /**
      * Returns the data to render for the view.
      *
-     * @return array
+     * @return array|null
      */
     protected function getData()
     {

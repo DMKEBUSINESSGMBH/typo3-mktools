@@ -40,10 +40,9 @@ class FlashMessageAction extends AbstractAction
     /**
      * @param RequestInterface $request
      *
-     * @return null
+     * @return null|string
      *
      * @throws \Sys25\RnBase\Exception\SkipActionException
-     * @throws \tx_rnbase_exception_Skip
      */
     protected function handleRequest(RequestInterface $request)
     {

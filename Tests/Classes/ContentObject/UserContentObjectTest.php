@@ -88,8 +88,6 @@ class UserContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
 
     /**
      * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObject
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\DMK\Mktools\ContentObject\UserContentObject
      */
     protected function initializeFixtures($contentObject)
     {

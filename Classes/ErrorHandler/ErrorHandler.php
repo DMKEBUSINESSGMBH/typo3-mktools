@@ -147,6 +147,8 @@ class ErrorHandler extends RnBaseErrorHandler
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -164,7 +166,7 @@ class ErrorHandler extends RnBaseErrorHandler
      *
      * @param string $exceptionMessage
      *
-     * @return \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception
+     * @return \Exception
      */
     protected function getTypo3Exception($exceptionMessage)
     {

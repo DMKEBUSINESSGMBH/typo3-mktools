@@ -47,7 +47,10 @@
         "typo3/testing-framework": "^6.0 || ^7.0",
         "phpunit/phpunit": "^9.0",
         "phpcompatibility/php-compatibility": "^9.3.5",
-        "phpspec/prophecy-phpunit": "^2.0"
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpstan/phpstan": "^1.1",
+        "saschaegerer/phpstan-typo3": "^1.9",
+        "phpstan/extension-installer": "*"
     },
     "autoload": {
         "psr-4": {
@@ -109,6 +112,10 @@
             "[ -e .Build/bin/phpcs ] || composer update",
             ".Build/bin/phpcs --ignore=.Build/*,Resources/Public/* -p . --standard=.Build/vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.2"
         ],
+        "test:phpstan": [
+            "[ -e .Build/bin/phpstan ] || composer update --ansi",
+            ".Build/bin/phpstan analyse -c phpstan.neon --memory-limit=512M --ansi"
+        ],
         "test:phpunit": [
             "[ -e .Build/bin/phpunit ] || composer update --ansi",
             "export TYPO3_PATH_APP=$PWD/.Build && export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit -c phpunit.xml.dist --colors=always"
@@ -116,6 +123,7 @@
         "test": [
             "@test:phpcs",
             "@test:phpcompatibility",
+            "@test:phpstan",
             "@test:phpunit"
         ],
         "fix:phpcs": [

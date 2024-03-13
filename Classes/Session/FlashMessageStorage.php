@@ -193,7 +193,7 @@ class FlashMessageStorage
      * @param string $method
      * @param array  $args
      *
-     * @return self
+     * @return self|null
      *
      * @throws RuntimeException If level or method does not exists
      */
@@ -209,5 +209,7 @@ class FlashMessageStorage
         if (defined('self::'.$const)) {
             return self::getInstance()->addMessage($args[0], constant('self::'.$const));
         }
+
+        return null;
     }
 }

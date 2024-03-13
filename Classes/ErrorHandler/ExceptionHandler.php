@@ -284,7 +284,7 @@ class ExceptionHandler extends ProductionExceptionHandler
     /**
      * Methode ist in TYPO3 4.5.x noch nicht vorhanden. Daher selbst eingefügt.
      *
-     * @param \Exception $exception
+     * @param \Throwable|\Exception $exception
      */
     protected function sendStatusHeadersEnvironment($exception)
     {

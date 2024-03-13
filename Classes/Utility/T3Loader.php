@@ -37,7 +37,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 final class T3Loader
 {
     /**
-     * @var array[TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer]
+     * @var array[\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer]
      */
     private static $cObj = [];
 

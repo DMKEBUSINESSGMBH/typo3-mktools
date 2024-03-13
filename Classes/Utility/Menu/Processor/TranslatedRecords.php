@@ -122,7 +122,7 @@ class TranslatedRecords
      *
      * @param string $value
      *
-     * @return bool
+     * @return bool|string
      */
     public function processEmptyIfRecordNotExists($value, array $typoScriptConfiguration)
     {
@@ -195,7 +195,7 @@ class TranslatedRecords
         $typoScriptFrontendController = $this->getTypoScriptFrontendController();
 
         $pageTranslationVisibility = new PageTranslationVisibility(
-            (int) $typoScriptFrontendController->page['l18n_cfg'] ?? 0
+            (int) ($typoScriptFrontendController->page['l18n_cfg'] ?? 0)
         );
 
         if ($pageTranslationVisibility->shouldHideTranslationIfNoTranslatedRecordExists()

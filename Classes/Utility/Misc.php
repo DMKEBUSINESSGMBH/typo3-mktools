@@ -79,7 +79,7 @@ final class Misc
     }
 
     /**
-     * @return string
+     * @return string|int
      */
     public static function getExceptionPage()
     {
@@ -103,7 +103,7 @@ final class Misc
             );
         }
 
-        $pageTSconfig = BackendUtility::getPagesTSconfig(0, 1);
+        $pageTSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(0);
         $config = Arrays::mergeRecursiveWithOverrule(
             (array) $pageTSconfig['config.']['tx_mktools.'],
             (array) $pageTSconfig['plugin.']['tx_mktools.']
@@ -116,16 +116,6 @@ final class Misc
         );
 
         return $configurations;
-    }
-
-    /**
-     * @param string $filename
-     *
-     * @return string
-     */
-    private static function getAbsoluteFileName($filename)
-    {
-        return Files::getFileAbsFileName($filename);
     }
 
     public static function areUnmappedPageTypesAllowed(): bool

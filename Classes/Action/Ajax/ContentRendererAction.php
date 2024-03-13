@@ -39,9 +39,6 @@ class ContentRendererAction
 {
     /**
      * Entry point.
-     *
-     * @param array current data record, either a tt_content element or page record
-     * @param string table name, either "pages" or "tt_content"
      */
     public function renderContent()
     {
