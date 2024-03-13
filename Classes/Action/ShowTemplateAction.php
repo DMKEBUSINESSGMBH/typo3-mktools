@@ -43,7 +43,7 @@ class ShowTemplateAction extends AbstractAction
     /**
      * @param RequestInterface $request
      *
-     * @return null|string
+     * @return string|null
      */
     protected function handleRequest(RequestInterface $request)
     {

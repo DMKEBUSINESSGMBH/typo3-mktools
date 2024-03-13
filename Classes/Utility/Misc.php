@@ -2,11 +2,9 @@
 
 namespace DMK\Mktools\Utility;
 
-use Sys25\RnBase\Backend\Utility\BackendUtility;
 use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Frontend\Request\Parameters;
 use Sys25\RnBase\Utility\Arrays;
-use Sys25\RnBase\Utility\Files;
 
 /***************************************************************
  *  Copyright notice

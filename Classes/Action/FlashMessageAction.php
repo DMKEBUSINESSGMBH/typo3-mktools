@@ -40,7 +40,7 @@ class FlashMessageAction extends AbstractAction
     /**
      * @param RequestInterface $request
      *
-     * @return null|string
+     * @return string|null
      *
      * @throws \Sys25\RnBase\Exception\SkipActionException
      */
