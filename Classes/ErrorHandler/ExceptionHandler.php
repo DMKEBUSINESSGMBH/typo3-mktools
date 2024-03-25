@@ -162,10 +162,10 @@ class ExceptionHandler extends ProductionExceptionHandler
 
         if ($this->shouldExceptionBeDebugged()) {
             Debug::debug([
-                    'Exception! Mehr infos im devlog.',
+                'Exception! Mehr infos im devlog.',
             ], __METHOD__.' Line: '.__LINE__);
             Debug::debug([
-                    $exception,
+                $exception,
             ], __METHOD__.' Line: '.__LINE__);
             // in BE context there is no need for a exception page and there might be redirects to the BE login.
             if (
