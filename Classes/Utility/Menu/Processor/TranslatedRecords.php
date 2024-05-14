@@ -148,6 +148,7 @@ class TranslatedRecords
 
     protected function getTranslatedRecord(int $sysLanguageUid, string $table, int $uid): array
     {
+        $translatedRecord = [];
         if ($sysLanguageUid) {
             $databaseConnection = $this->getDatabaseConnection();
             $currentRecord = $databaseConnection->doSelect(
@@ -156,31 +157,31 @@ class TranslatedRecords
                 [
                     'where' => 'uid = '.$uid,
                 ]
-            )[0];
+            )[0] ?? null;
 
             $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
 
-            if (TYPO3::isTYPO121OrHigher()) {
-                $languageAspect = new LanguageAspect(
-                    $sysLanguageUid,
-                    $sysLanguageUid,
-                    $languageAspect->getOverlayType()
-                );
-                $translatedRecord = (array) TYPO3::getSysPage()->getLanguageOverlay(
-                    $table,
-                    $currentRecord,
-                    $languageAspect
-                );
-            } else {
-                $translatedRecord = (array) TYPO3::getSysPage()->getRecordOverlay(
-                    $table,
-                    $currentRecord,
-                    $sysLanguageUid,
-                    LanguageAspect::OVERLAYS_ON_WITH_FLOATING === $languageAspect->getOverlayType() ? 'hideNonTranslated' : ''
-                );
+            if ($currentRecord) {
+                if (TYPO3::isTYPO121OrHigher()) {
+                    $languageAspect = new LanguageAspect(
+                        $sysLanguageUid,
+                        $sysLanguageUid,
+                        $languageAspect->getOverlayType()
+                    );
+                    $translatedRecord = (array) TYPO3::getSysPage()->getLanguageOverlay(
+                        $table,
+                        $currentRecord,
+                        $languageAspect
+                    );
+                } else {
+                    $translatedRecord = (array) TYPO3::getSysPage()->getRecordOverlay(
+                        $table,
+                        $currentRecord,
+                        $sysLanguageUid,
+                        LanguageAspect::OVERLAYS_ON_WITH_FLOATING === $languageAspect->getOverlayType() ? 'hideNonTranslated' : ''
+                    );
+                }
             }
-        } else {
-            $translatedRecord = [];
         }
 
         return $translatedRecord;
