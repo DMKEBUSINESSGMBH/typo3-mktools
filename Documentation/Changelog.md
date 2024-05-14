@@ -1,6 +1,11 @@
 Changelog
 =========
 
+12.0.1
+-----
+
+- Bugfix handle missing translations correct
+
 12.0.0
 -----
 
