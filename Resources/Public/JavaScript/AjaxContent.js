@@ -197,7 +197,11 @@
             else if (parameters.page === "prev") {
                 from = 1;
             }
-            _self.replaceContent(parameters.contentid, data, from, to);
+            if ($el.data("ajaxCustomReplaceMethod")) {
+                _self[$el.data("ajaxCustomReplaceMethod")](parameters.contentid, data, from, to);
+            } else {
+                _self.replaceContent(parameters.contentid, data, from, to);
+            }
         };
 
         if ($el.hasClass("notcachable")) {

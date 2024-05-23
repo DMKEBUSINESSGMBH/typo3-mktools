@@ -116,3 +116,20 @@ ausgelöst wird. Das bedeutet z.B. dass Checkboxen nicht den checked Status erha
 z.B. ein anderes Element lädt und selbst gar nicht aktualisiert wird, dann bekommt eine Checkbox
 keinen checked Status. Wenn das betrffende Element die CSS Klasse "ajax-dont-prevent-default" bekommt,
 wird das verhindert.
+
+Eigene Methode zum ersetzen des Inhalts
+---------------------------------------
+
+Wenn ein Element, welches den Ajax Request startet, das data-Attribut
+**data-ajax-custom-replace-method** hat, dann wird diese Method zum ersetzen
+des Inhalts aufgerufen. Die Method muss in der DMK.Objects.AjaxContent Klasse 
+ergänzt werden. z.B. so:
+
+~~~~ {.sourceCode .js}
+DMK.Objects.AjaxContent.prototype.replaceContentForSomethingElse = function(contentId, html, from, to) {
+    appendContent(contentId, html)
+};
+
+~~~~
+
+Ansonsten wird der komplette Inhalt des Elements 1:1 ersetzt.
