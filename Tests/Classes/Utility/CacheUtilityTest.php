@@ -2,6 +2,8 @@
 
 namespace DMK\Mktools\Utility;
 
+use TYPO3\CMS\Core\Cache\Backend\ApcuBackend;
+
 /**
  *  Copyright notice.
  *
@@ -71,7 +73,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @var array
      */
     private $expectedApcCachingConfiguration = [
-        'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcBackend',
+        'backend' => ApcuBackend::class,
         'frontend' => 'defaultFrontend',
         'options' => [
             'defaultLifetime' => 0,
@@ -83,7 +85,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @var array
      */
     private $expectedApcuCachingConfiguration = [
-        'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcuBackend',
+        'backend' => ApcuBackend::class,
         'frontend' => 'defaultFrontend',
         'options' => [
             'defaultLifetime' => 0,
@@ -94,7 +96,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
     protected function setUp(): void
     {
         $this->cachingConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'];
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_hash'] =
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['hash'] =
             $this->defaultCacheHashCachingConfiguration;
     }
 
@@ -145,7 +147,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
 
         self::assertSame(
             $expectedCachingConfiguration,
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_hash']
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['hash']
         );
     }
 
@@ -169,10 +171,10 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
     public function testGetApcCacheBackendClass()
     {
         self::$apcLoaded = false;
-        self::assertSame('TYPO3\\CMS\\Core\\Cache\\Backend\\ApcuBackend', CacheUtility::getApcCacheBackendClass());
+        self::assertSame(ApcuBackend::class, CacheUtility::getApcCacheBackendClass());
 
         self::$apcLoaded = true;
-        self::assertSame('TYPO3\\CMS\\Core\\Cache\\Backend\\ApcBackend', CacheUtility::getApcCacheBackendClass());
+        self::assertSame(ApcuBackend::class, CacheUtility::getApcCacheBackendClass());
     }
 
     /**

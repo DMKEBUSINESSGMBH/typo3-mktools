@@ -2,6 +2,8 @@
 
 namespace DMK\Mktools\Utility;
 
+use TYPO3\CMS\Core\Cache\Backend\ApcuBackend;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -34,34 +36,23 @@ namespace DMK\Mktools\Utility;
  */
 class CacheUtility
 {
-    /**
-     * sets apc or apcu as caching backend for all possible caches.
-     *
-     * @todo add support for TYPO3 10.x (@see https://www.mittwald.de/faq/tipps-und-tricks/typo3/apcu-mit-typo3-verwenden)
-     */
-    public static function useApcAsCacheBackend()
+    public static function useApcAsCacheBackend(): void
     {
         if (self::isApcUsed()) {
             $cacheBackendClass = self::getApcCacheBackendClass();
 
-            self::setCacheBackend($cacheBackendClass, 'cache_hash');
-            self::setCacheBackend($cacheBackendClass, 'cache_imagesizes');
-            self::setCacheBackend($cacheBackendClass, 'cache_pages');
-            self::setCacheBackend($cacheBackendClass, 'cache_pagesection');
-            self::setCacheBackend($cacheBackendClass, 'cache_rootline');
-            self::setCacheBackend($cacheBackendClass, 'extbase_datamapfactory_datamap');
-            self::setCacheBackend($cacheBackendClass, 'extbase_object');
-            self::setCacheBackend($cacheBackendClass, 'extbase_reflection');
+            self::setCacheBackend($cacheBackendClass, 'hash');
+            self::setCacheBackend($cacheBackendClass, 'pages');
+            self::setCacheBackend($cacheBackendClass, 'rootline');
+            self::setCacheBackend($cacheBackendClass, 'imagesizes');
         }
     }
 
     /**
      * APC or APCu extension needs to be loaded and enabled. Furthermore the usage
      * on CLI is not recommended by PHP itself.
-     *
-     * @return bool
      */
-    public static function isApcUsed()
+    public static function isApcUsed(): bool
     {
         $apcExtensionLoaded = extension_loaded('apc');
         $apcuExtensionLoaded = extension_loaded('apcu');
@@ -69,24 +60,17 @@ class CacheUtility
         $apcEnabled = (bool) ini_get('apc.enabled');
 
         // Use constant method so it can be mocked.
-        return ('cli' !== constant('PHP_SAPI')) && $apcAvailable && $apcEnabled;
+        return (('cli' !== constant('PHP_SAPI')) || 1 == ini_get('apc.enable_cli'))
+            && $apcAvailable
+            && $apcEnabled;
     }
 
-    /**
-     * @return string
-     */
-    public static function getApcCacheBackendClass()
+    public static function getApcCacheBackendClass(): string
     {
-        return extension_loaded('apc')
-            ? 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcBackend'
-            : 'TYPO3\\CMS\\Core\\Cache\\Backend\\ApcuBackend';
+        return ApcuBackend::class;
     }
 
-    /**
-     * @param string $backendClassName
-     * @param string $cacheName
-     */
-    public static function setCacheBackend($backendClassName, $cacheName)
+    public static function setCacheBackend(string $backendClassName, string $cacheName): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheName]['backend'] = $backendClassName;
         // compression is often set for the database cache backends but it's not supported by the
