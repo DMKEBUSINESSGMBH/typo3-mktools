@@ -19,6 +19,7 @@ return $config
         'fully_qualified_strict_types' => false,
         'trailing_comma_in_multiline' => [
             'after_heredoc' => true,
+            // no support for "arguments" and "parameters" as we need support for PHP 7.4
             'elements' => [
                 'array_destructuring',
                 'arrays',
