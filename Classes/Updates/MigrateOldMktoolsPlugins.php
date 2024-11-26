@@ -75,7 +75,7 @@ class MigrateOldMktoolsPlugins implements UpgradeWizardInterface, ChattyInterfac
 
     public function getDescription(): string
     {
-        return 'Migrate old classes of plugins in tt_content.';
+        return 'Migrate old classes of plugins in tt_content. Found '.$this->getPluginCount().' plugins.';
     }
 
     public function setOutput(OutputInterface $output): void
@@ -117,10 +117,12 @@ class MigrateOldMktoolsPlugins implements UpgradeWizardInterface, ChattyInterfac
 
     public function updateNecessary(): bool
     {
-        $pluginCount = $this->getPreparedQueryBuilder()->count('uid')->executeQuery()->fetchOne();
-        $this->output->writeln('Found '.$pluginCount.' plugin(s) to migrate.');
+        return (bool) $this->getPluginCount();
+    }
 
-        return (bool) $pluginCount;
+    protected function getPluginCount(): int
+    {
+        return $this->getPreparedQueryBuilder()->count('uid')->executeQuery()->fetchOne();
     }
 
     public function getPrerequisites(): array
