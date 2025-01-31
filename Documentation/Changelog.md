@@ -1,6 +1,19 @@
 Changelog
 =========
 
+12.0.3
+-----
+
+- Bugfix fix group field migration in TYPO3 12.4
+- cleanup and streamlining
+
+12.0.2
+-----
+
+- Add option for custom replace content method
+- Update CacheUtility
+
+
 12.0.1
 -----
 
