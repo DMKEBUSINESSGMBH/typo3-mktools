@@ -14,3 +14,11 @@ Command für die Migration:
 ~~~~ {.sourceCode .sh
  bin/typo3 mktools:migrate-tca-file-groups-to-fal
 ~~~~
+
+Ab TYPO3 12.4 wird die Konfiguration "internal_type" komplett aus der TCA entfernt.
+D.h. es kann nicht mehr erkannt werden, ob es sich um ein ehemaliges group Feld
+für Dateien handelt. In diesen Fällen müssen die Felder direkt konfiguriert werden.
+
+~~~~ {.sourceCode .sh
+ bin/typo3 mktools:migrate-tca-file-groups-to-fal -f tt_content:image_1 -f tt_content:image_2
+~~~~

@@ -5,6 +5,7 @@ namespace DMK\Mktools\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -65,7 +66,19 @@ class MigrateTcaFileGroupToFalCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Convert TCA field of type group with internal_type file to FAL references. You must change the TCA configuration for the fields accordingly after the migration.');
+        $this
+            ->setDescription(
+                'Convert TCA field of type group with internal_type file to FAL references. You must '.
+                'change the TCA configuration for the fields accordingly after the migration.'
+            )
+            ->addOption(
+                'forcedTableField',
+                'f',
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                'Define fields in tables that will be migrated even if the TCA definition does not match a old group field '.
+                    'for files. The only thing that is always necessary is the old uploadfolder configuration. '.
+                    'Example: -f tt_content:image_1 -f tt_content:image_2'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -78,7 +91,13 @@ class MigrateTcaFileGroupToFalCommand extends Command
         $migratedFields = [];
         foreach ($GLOBALS['TCA'] as $table => $tableDefintion) {
             foreach ($tableDefintion['columns'] ?? [] as $field => $fieldDefintion) {
-                if ('group' == ($fieldDefintion['config']['type'] ?? '') && 'file' == ($fieldDefintion['config']['internal_type'] ?? '')) {
+                if (
+                    in_array($table.':'.$field, $input->getOption('forcedTableField'))
+                    || (
+                        'group' == ($fieldDefintion['config']['type'] ?? '')
+                        && 'file' == ($fieldDefintion['config']['internal_type'] ?? '')
+                    )
+                ) {
                     $rows = $this->getRowsWithFileGroup($table, $field);
                     $migratedFields[$table][$field] = count($rows);
                     foreach ($rows as $row) {
@@ -149,7 +168,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
                 $queryBuilder->expr()->eq('fieldname', $queryBuilder->createNamedParameter($field)),
                 $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($table)),
             )
-            ->executeQuery();
+            ->executeStatement();
     }
 
     private function insertFileReference(string $table, string $field, array $record, File $file, int $sorting): void
@@ -165,9 +184,8 @@ class MigrateTcaFileGroupToFalCommand extends Command
                 'tablenames' => $table,
                 'crdate' => time(),
                 'tstamp' => time(),
-                'sorting' => $sorting + 256,
                 'sorting_foreign' => $sorting,
             ])
-            ->executeQuery();
+            ->executeStatement();
     }
 }
