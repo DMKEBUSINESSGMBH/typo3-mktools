@@ -1,29 +1,31 @@
 <?php
 
-namespace DMK\Mktools\Utility\Menu\Processor;
-
-/***************************************************************
- *  Copyright notice
+/*
+ * Copyright notice
  *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\Utility\Menu\Processor;
 
 use Sys25\RnBase\Database\Connection;
 use Sys25\RnBase\Frontend\Request\Parameters;
@@ -76,17 +78,17 @@ class TranslatedRecords
      */
     public function process(array $menuItems, array $typoScriptConfiguration): array
     {
-        $recordInformationToCheckForTranslation = $this->getRecordInformationToCheckForTranslation(
+        $recordInformationToCheck = $this->getRecordInformationToCheckForTranslation(
             $typoScriptConfiguration['parametersConfiguration.'],
             Parameters::getGetParameters()
         );
-        if ($recordInformationToCheckForTranslation) {
+        if ([] !== $recordInformationToCheck) {
             foreach ($menuItems as &$menuItem) {
                 $sysLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE'] ?? 0);
                 $translatedRecord = $this->getTranslatedRecord(
                     $sysLanguageUid,
-                    $recordInformationToCheckForTranslation['table'],
-                    $recordInformationToCheckForTranslation['uid']
+                    $recordInformationToCheck['table'],
+                    $recordInformationToCheck['uid']
                 );
                 $menuItem = $this->handleDisablingOfMenuItemForNotTranslatedRecord(
                     $menuItem,
@@ -123,24 +125,26 @@ class TranslatedRecords
      * @param string $value
      *
      * @return bool|string
+     *
+     * @SuppressWarnings("PHPMD.Superglobals")
      */
     public function processEmptyIfRecordNotExists($value, array $typoScriptConfiguration)
     {
-        $recordInformationToCheckForTranslation = $this->getRecordInformationToCheckForTranslation(
+        $recordInformationToCheck = $this->getRecordInformationToCheckForTranslation(
             $typoScriptConfiguration['parametersConfiguration.'],
             $_GET
         );
 
         $sysLanguageUid = (int) $typoScriptConfiguration['sysLanguageUid'];
 
-        if ($recordInformationToCheckForTranslation) {
+        if ([] !== $recordInformationToCheck) {
             $translatedRecord = $this->getTranslatedRecord(
                 $sysLanguageUid,
-                $recordInformationToCheckForTranslation['table'],
-                $recordInformationToCheckForTranslation['uid']
+                $recordInformationToCheck['table'],
+                $recordInformationToCheck['uid']
             );
 
-            return empty($translatedRecord) ? false : $value;
+            return [] === $translatedRecord ? false : $value;
         }
 
         return $value;
@@ -149,7 +153,7 @@ class TranslatedRecords
     protected function getTranslatedRecord(int $sysLanguageUid, string $table, int $uid): array
     {
         $translatedRecord = [];
-        if ($sysLanguageUid) {
+        if (0 !== $sysLanguageUid) {
             $databaseConnection = $this->getDatabaseConnection();
             $currentRecord = $databaseConnection->doSelect(
                 '*',
@@ -162,35 +166,29 @@ class TranslatedRecords
             $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
 
             if ($currentRecord) {
-                if (TYPO3::isTYPO121OrHigher()) {
-                    $languageAspect = new LanguageAspect(
-                        $sysLanguageUid,
-                        $sysLanguageUid,
-                        $languageAspect->getOverlayType()
-                    );
-                    $translatedRecord = (array) TYPO3::getSysPage()->getLanguageOverlay(
-                        $table,
-                        $currentRecord,
-                        $languageAspect
-                    );
-                } else {
-                    $translatedRecord = (array) TYPO3::getSysPage()->getRecordOverlay(
-                        $table,
-                        $currentRecord,
-                        $sysLanguageUid,
-                        LanguageAspect::OVERLAYS_ON_WITH_FLOATING === $languageAspect->getOverlayType() ? 'hideNonTranslated' : ''
-                    );
-                }
+                $languageAspect = new LanguageAspect(
+                    $sysLanguageUid,
+                    $sysLanguageUid,
+                    $languageAspect->getOverlayType()
+                );
+                $translatedRecord = (array) TYPO3::getSysPage()->getLanguageOverlay(
+                    $table,
+                    $currentRecord,
+                    $languageAspect
+                );
             }
         }
 
         return $translatedRecord;
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.CyclomaticComplexity")
+     */
     protected function handleDisablingOfMenuItemForNotTranslatedRecord(
         array $menuItem,
         array $translatedRecord,
-        array $typoScriptConfiguration
+        array $typoScriptConfiguration,
     ): array {
         $menuItemLanguageUid = intval($menuItem['_PAGES_OVERLAY_LANGUAGE'] ?? 0);
         $typoScriptFrontendController = $this->getTypoScriptFrontendController();
@@ -201,15 +199,15 @@ class TranslatedRecords
 
         if ($pageTranslationVisibility->shouldHideTranslationIfNoTranslatedRecordExists()
             && $menuItemLanguageUid
-            && empty($translatedRecord)
+            && [] === $translatedRecord
             || $pageTranslationVisibility->shouldBeHiddenInDefaultLanguage()
             && (
-                !$menuItemLanguageUid
-                || empty($translatedRecord)
+                0 === $menuItemLanguageUid
+                || [] === $translatedRecord
             )
             || !$typoScriptConfiguration['menuConfiguration.']['special.']['normalWhenNoLanguage']
             && $menuItemLanguageUid
-            && empty($translatedRecord)
+            && [] === $translatedRecord
         ) {
             $menuItem['ITEM_STATE'] = FrontendControllerUtility::getLanguageId($typoScriptFrontendController) == $menuItemLanguageUid ?
                 'USERDEF2' : 'USERDEF1';
@@ -229,11 +227,12 @@ class TranslatedRecords
             if (is_array($parameter)) {
                 $parameterKey = rtrim($parameterKey, '.');
             }
+
             if (isset($parameters[$parameterKey])) {
                 if (is_array($parameters[$parameterKey]) && is_array($parameter)) {
                     $result = $this->getRecordInformationToCheckForTranslation($parameter, $parameters[$parameterKey]);
                     break;
-                } elseif (is_string($parameter) && 0 !== $parameter && isset($parameters[$parameterKey])) {
+                } elseif (is_string($parameter)) {
                     $result = [
                         'table' => $parameter,
                         'uid' => intval($parameters[$parameterKey]),

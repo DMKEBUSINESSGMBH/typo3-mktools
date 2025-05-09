@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 namespace DMK\Mktools\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -14,29 +39,6 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/***************************************************************
- *  Copyright notice
- *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- * All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 /**
  * Class MigrateTcaFileGroupToFalCommand.
  *
@@ -46,22 +48,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MigrateTcaFileGroupToFalCommand extends Command
 {
-    /**
-     * @var ConnectionPool
-     */
-    private $connectionPool;
-
-    /**
-     * @var ResourceFactory
-     */
-    private $resourceFactory;
-
-    public function __construct(ConnectionPool $connectionPool, ResourceFactory $resourceFactory)
+    public function __construct(private ConnectionPool $connectionPool, private ResourceFactory $resourceFactory)
     {
         parent::__construct(null);
-
-        $this->connectionPool = $connectionPool;
-        $this->resourceFactory = $resourceFactory;
     }
 
     protected function configure()
@@ -81,10 +70,14 @@ class MigrateTcaFileGroupToFalCommand extends Command
             );
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.Superglobals")
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $io->title($this->getDescription());
+        $console = new SymfonyStyle($input, $output);
+        $console->title($this->getDescription());
+
         $progress = new ProgressBar($output);
         $progress->setFormat(' %current% migrated rows [%bar%] %elapsed:6s% %memory:6s%');
 
@@ -108,19 +101,20 @@ class MigrateTcaFileGroupToFalCommand extends Command
             }
         }
 
-        $io->writeln('');
-        $io->writeln('');
-        $io->writeln('The following fields have been found and migrated:');
+        $console->writeln('');
+        $console->writeln('');
+        $console->writeln('The following fields have been found and migrated:');
         foreach ($migratedFields as $table => $field) {
-            $io->writeln('Table: '.$table.'; Field: '.key($field).'; Number of affected rows: '.current($field));
+            $console->writeln('Table: '.$table.'; Field: '.key($field).'; Number of affected rows: '.current($field));
         }
-        $io->writeln('You should change the TCA definition of those fields like this:');
-        $io->writeln('');
-        $io->writeln('\'config\' => [
+
+        $console->writeln('You should change the TCA definition of those fields like this:');
+        $console->writeln('');
+        $console->writeln('\'config\' => [
     \'type\' => \'file\',
 ]');
-        $io->writeln('');
-        $io->writeln('Furthermore you need to change the code which retrieves and renders the files.');
+        $console->writeln('');
+        $console->writeln('Furthermore you need to change the code which retrieves and renders the files.');
 
         return 0;
     }
@@ -152,7 +146,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
                 $file = $this->resourceFactory->retrieveFileOrFolderObject($filePath);
                 $this->insertFileReference($table, $field, $record, $file, $index);
                 ++$index;
-            } catch (FolderDoesNotExistException $exception) {
+            } catch (FolderDoesNotExistException) {
                 continue;
             }
         }
@@ -164,7 +158,7 @@ class MigrateTcaFileGroupToFalCommand extends Command
         $queryBuilder
             ->delete('sys_file_reference')
             ->where(
-                $queryBuilder->expr()->eq('uid_foreign', $queryBuilder->createNamedParameter($uidForeign, \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq('uid_foreign', $queryBuilder->createNamedParameter($uidForeign, \TYPO3\CMS\Core\Database\Connection::PARAM_INT)),
                 $queryBuilder->expr()->eq('fieldname', $queryBuilder->createNamedParameter($field)),
                 $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($table)),
             )

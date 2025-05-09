@@ -1,29 +1,31 @@
 <?php
 
-namespace DMK\Mktools\Action;
-
-/***************************************************************
- *  Copyright notice
+/*
+ * Copyright notice
  *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\Action;
 
 use DMK\Mktools\View\ShowTemplate;
 use Sys25\RnBase\Domain\Model\BaseModel;
@@ -41,8 +43,6 @@ class ShowTemplateAction extends AbstractAction
     protected $request;
 
     /**
-     * @param RequestInterface $request
-     *
      * @return string|null
      */
     protected function handleRequest(RequestInterface $request)
@@ -56,25 +56,16 @@ class ShowTemplateAction extends AbstractAction
 
     /**
      * Returns the data to render for the view.
-     *
-     * @return BaseModel
      */
-    protected function getItem()
+    protected function getItem(): BaseModel
     {
-        $data = $this->getData();
-
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            BaseModel::class,
-            is_array($data) ? $data : []
-        );
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(BaseModel::class, $this->getData());
     }
 
     /**
      * Returns the data to render for the view.
-     *
-     * @return array|null
      */
-    protected function getData()
+    protected function getData(): array
     {
         return [];
     }

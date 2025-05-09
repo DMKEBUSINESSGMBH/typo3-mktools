@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DMK\Mktools\Seo\XmlSitemap;
-
-use DMK\Mktools\Utility\SeoRobotsMetaTagUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-
-/***************************************************************
+/*
  * Copyright notice
  *
  * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
  * free software; you can redistribute it and/or modify
@@ -20,8 +16,8 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
  * This script is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -29,7 +25,14 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  * GNU General Public License for more details.
  *
  * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
+
+namespace DMK\Mktools\Seo\XmlSitemap;
+
+use DMK\Mktools\Utility\SeoRobotsMetaTagUtility;
+use PHPUnit\Framework\Attributes\DataProvider;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class PagesDataProviderTest.
@@ -40,20 +43,18 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class PagesDataProviderTest extends UnitTestCase
 {
-    /**
-     * @dataProvider dataProviderRemovePagesWithNoIndexRobotsMetaTag
-     */
+    #[DataProvider('dataProviderRemovePagesWithNoIndexRobotsMetaTag')]
     public function testRemovePagesWithNoIndexRobotsMetaTag(
         int $pageUid,
-        $robotsMetaTag,
-        int $expectedCount
-    ) {
+        string|bool|int|null $robotsMetaTag,
+        int $expectedCount,
+    ): void {
         $pages = [
             0 => ['uid' => $pageUid],
         ];
         $provider = $this->getAccessibleMock(PagesDataProvider::class, ['defineUrl'], [], '', false);
         $robotsMetaTagUtility = $this->getMockBuilder(SeoRobotsMetaTagUtility::class)
-            ->setMethods(['getSeoRobotsMetaTagValue'])
+            ->onlyMethods(['getSeoRobotsMetaTagValue'])
             ->setConstructorArgs([$pageUid])
             ->getMock();
         GeneralUtility::addInstance(SeoRobotsMetaTagUtility::class, $robotsMetaTagUtility);
@@ -67,7 +68,7 @@ class PagesDataProviderTest extends UnitTestCase
         self::assertCount($expectedCount, $provider->_call('removePagesWithNoIndexRobotsMetaTag', $pages));
     }
 
-    public function dataProviderRemovePagesWithNoIndexRobotsMetaTag(): array
+    public static function dataProviderRemovePagesWithNoIndexRobotsMetaTag(): array
     {
         return [
             [123, 'INDEX,FOLLOW', 1],

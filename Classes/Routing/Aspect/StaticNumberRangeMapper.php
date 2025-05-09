@@ -2,27 +2,29 @@
 
 declare(strict_types=1);
 
-/**
- *  Copyright notice.
+/*
+ * Copyright notice
  *
- *  (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
  */
 
 namespace DMK\Mktools\Routing\Aspect;
@@ -65,15 +67,9 @@ class StaticNumberRangeMapper implements StaticMappableAspectInterface
      */
     public const MAX_PAGE_LIMIT = 1000;
 
-    /**
-     * @var int
-     */
-    protected $start;
+    protected int $start;
 
-    /**
-     * @var int
-     */
-    protected $end;
+    protected int $end;
 
     /**
      * @throws \InvalidArgumentException
@@ -86,12 +82,15 @@ class StaticNumberRangeMapper implements StaticMappableAspectInterface
         if (!MathUtility::canBeInterpretedAsInteger($start)) {
             throw new \InvalidArgumentException('start must be a integer', 1538277163);
         }
+
         if (!MathUtility::canBeInterpretedAsInteger($end)) {
             throw new \InvalidArgumentException('end must be a integer', 1538277164);
         }
-        if (!($end > $start)) {
+
+        if ($end <= $start) {
             throw new \InvalidArgumentException('end must be greater than start', 1538277164);
         }
+
         if (($end - $start) > self::MAX_PAGE_LIMIT) {
             throw new \InvalidArgumentException('the range can not be greater than '.self::MAX_PAGE_LIMIT, 1538277164);
         }
@@ -100,9 +99,6 @@ class StaticNumberRangeMapper implements StaticMappableAspectInterface
         $this->end = intval($end);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generate(string $value): ?string
     {
         return $this->pageIsInRange($value) ? $value : null;
@@ -113,9 +109,6 @@ class StaticNumberRangeMapper implements StaticMappableAspectInterface
         return MathUtility::canBeInterpretedAsInteger($page) && $page >= $this->start && $page <= $this->end;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(string $value): ?string
     {
         return $this->generate($value);

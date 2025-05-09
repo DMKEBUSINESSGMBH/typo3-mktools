@@ -1,0 +1,6 @@
+[feature("mktools.seoRobotsMetaTagActive") === true]
+    TCEFORM.pages {
+        no_index.disabled = 1
+        no_follow.disabled = 1
+    }
+[END]

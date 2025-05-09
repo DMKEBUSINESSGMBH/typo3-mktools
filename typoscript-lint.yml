@@ -1,0 +1,18 @@
+paths:
+    - Configuration
+filePatterns:
+    - "*.typoscript"
+    - "*.tsconfig"
+sniffs:
+    - class: Indentation
+      parameters:
+          useSpaces: true
+          indentPerLevel: 4
+          indentConditions: true
+    - class: DeadCode
+    - class: OperatorWhitespace
+    - class: DuplicateAssignment
+    - class: EmptySection
+    - class: ConfigNoCache
+    - class: NestingConsistency
+    - class: RepeatingRValue

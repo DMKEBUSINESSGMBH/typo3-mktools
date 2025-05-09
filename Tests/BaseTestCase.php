@@ -1,34 +1,44 @@
 <?php
 
-/*  **********************************************************************  **
- *  Copyright notice
+/*
+ * Copyright notice
  *
- *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- *  ***********************************************************************  */
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\Tests;
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
- * @author Michael Wagner
+ * Class BaseTestCase.
+ *
+ * @author  Hannes Bochmann
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
-abstract class tx_mktools_tests_BaseTestCase extends \Sys25\RnBase\Testing\BaseTestCase
+abstract class BaseTestCase extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    private static $aExtConf = [];
+    private static array $aExtConf = [];
 
     /**
      * Sichert eine Extension Konfiguration.
@@ -38,7 +48,7 @@ abstract class tx_mktools_tests_BaseTestCase extends \Sys25\RnBase\Testing\BaseT
      * @param string $sExtKey
      * @param bool   $bOverwrite
      */
-    public static function storeExtConf($sExtKey = 'mktools', $bOverwrite = false)
+    public static function storeExtConf($sExtKey = 'mktools', $bOverwrite = false): void
     {
         if (!isset(self::$aExtConf[$sExtKey]) || $bOverwrite) {
             self::$aExtConf[$sExtKey] = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][$sExtKey] ?? '';
@@ -71,7 +81,7 @@ abstract class tx_mktools_tests_BaseTestCase extends \Sys25\RnBase\Testing\BaseT
      * @param string $sCfgValue
      * @param string $sExtKey
      */
-    public static function setExtConfVar($sCfgKey, $sCfgValue, $sExtKey = 'mktools')
+    public static function setExtConfVar($sCfgKey, $sCfgValue, $sExtKey = 'mktools'): void
     {
         // aktuelle Konfiguration auslesen
         $extConfig = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][$sExtKey] ?? [];
@@ -79,6 +89,7 @@ abstract class tx_mktools_tests_BaseTestCase extends \Sys25\RnBase\Testing\BaseT
         if (!is_array($extConfig)) {
             $extConfig = [];
         }
+
         // neuen Wert setzen
         $extConfig[$sCfgKey] = $sCfgValue;
         // neue Konfiguration zurückschreiben
@@ -88,15 +99,11 @@ abstract class tx_mktools_tests_BaseTestCase extends \Sys25\RnBase\Testing\BaseT
     /**
      * Liefert eine DateiNamen.
      *
-     * @param $filename
-     * @param $dir
-     * @param $extKey
-     *
      * @return string
      */
-    public static function getFixturePath($filename, $dir = 'tests/fixtures/', $extKey = 'mktools')
+    public static function getFixturePath(string $filename, string $dir = 'tests/fixtures/', string $extKey = 'mktools')
     {
-        return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey).$dir.$filename;
+        return ExtensionManagementUtility::extPath($extKey).$dir.$filename;
     }
 
     /**
@@ -106,7 +113,7 @@ abstract class tx_mktools_tests_BaseTestCase extends \Sys25\RnBase\Testing\BaseT
      * @param string $extKey
      * @param bool   $bDisable
      */
-    public static function disableDevlog($extKey = 'devlog', $bDisable = true)
+    public static function disableDevlog($extKey = 'devlog', $bDisable = true): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey]['nolog'] = $bDisable;
     }

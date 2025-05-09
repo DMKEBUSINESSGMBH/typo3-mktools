@@ -1,76 +1,59 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 namespace DMK\Mktools\Utility;
 
 use Sys25\RnBase\Configuration\Processor;
 use Sys25\RnBase\Frontend\Request\Parameters;
 use Sys25\RnBase\Utility\Arrays;
 
-/***************************************************************
- *  Copyright notice
- *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- * All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 /**
  * Miscellaneous common methods.
  */
 final class Misc
 {
-    public function __construct()
-    {
-    }
-
-    public function __clone()
-    {
-    }
-
     /**
      * Get fields to expand.
-     *
-     * @return int
      */
-    private static function getExtensionCfgValue($configValue)
+    private static function getExtensionCfgValue(string $configValue)
     {
         return Processor::getExtensionCfgValue('mktools', $configValue);
     }
 
-    /**
-     * @return mixed
-     */
     public static function isSeoRobotsMetaTagActive()
     {
         return self::getExtensionCfgValue('seoRobotsMetaTagActive');
     }
 
-    /**
-     * @return mixed
-     */
     public static function isContentReplacerActive()
     {
         return self::getExtensionCfgValue('contentReplaceActive');
     }
 
-    /**
-     * @return mixed
-     */
     public static function isAjaxContentRendererActive()
     {
         return self::getExtensionCfgValue('ajaxContentRendererActive');
@@ -84,18 +67,12 @@ final class Misc
         return self::getExtensionCfgValue('exceptionPage');
     }
 
-    /**
-     * @param string $staticPath
-     * @param string $additionalPath
-     *
-     * @return \Sys25\RnBase\Configuration\Processor
-     */
-    public static function getConfigurations($staticPath, $additionalPath = '')
+    public static function getConfigurations(string $staticPath, ?string $additionalPath = ''): Processor
     {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="FILE:'.$staticPath.'">'
         );
-        if (!empty($additionalPath)) {
+        if (null !== $additionalPath && '' !== $additionalPath && '0' !== $additionalPath) {
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
                 '<INCLUDE_TYPOSCRIPT: source="FILE:'.$additionalPath.'">'
             );

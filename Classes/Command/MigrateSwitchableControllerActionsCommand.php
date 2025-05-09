@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 namespace DMK\Mktools\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -15,29 +40,6 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/***************************************************************
- *  Copyright notice
- *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- * All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 /**
  * Class MigrateSwitchableControllerActionsCommand.
  *
@@ -47,15 +49,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MigrateSwitchableControllerActionsCommand extends Command
 {
-    private ConnectionPool $connectionPool;
-    private FlexFormTools $flexFormTools;
-
-    public function __construct(ConnectionPool $connectionPool, FlexFormTools $flexFormTools)
+    public function __construct(private ConnectionPool $connectionPool, private FlexFormTools $flexFormTools)
     {
         parent::__construct(null);
-
-        $this->connectionPool = $connectionPool;
-        $this->flexFormTools = $flexFormTools;
     }
 
     protected function configure()
@@ -95,33 +91,30 @@ class MigrateSwitchableControllerActionsCommand extends Command
 
     protected function migratePlugins(InputInterface $input, OutputInterface $output): void
     {
-        $io = new SymfonyStyle($input, $output);
-        $io->title($this->getDescription());
+        $console = new SymfonyStyle($input, $output);
+        $console->title($this->getDescription());
+
         $progress = new ProgressBar($output);
         $progress->setFormat(' %current% migrated rows [%bar%] %elapsed:6s% %memory:6s%');
 
         $contentElements = $this->getContentElementsToMigrate($input->getOption('list-type'), $input->getOption('actions'));
 
-        $io->writeln('Start migration of '.count($contentElements).' plugins.');
+        $console->writeln('Start migration of '.count($contentElements).' plugins.');
 
         foreach ($contentElements as $contentElement) {
             $newListType = $input->getOption('new-list-type');
             $flexFormData = $this->removeFlexFormSettingsNotForListType($contentElement, $newListType);
 
-            if (count($flexFormData['data']) > 0) {
-                $newFlexform = $this->array2xml($flexFormData);
-            } else {
-                $newFlexform = '';
-            }
+            $newFlexform = count($flexFormData['data']) > 0 ? $this->array2xml($flexFormData) : '';
 
             $this->updateContentElement($contentElement['uid'], $newListType, $newFlexform);
 
             $progress->advance();
         }
 
-        $io->writeln('');
-        $io->writeln('');
-        $io->writeln('Migration finished');
+        $console->writeln('');
+        $console->writeln('');
+        $console->writeln('Migration finished');
     }
 
     protected function getContentElementsToMigrate(string $listType, string $actions): array
@@ -163,10 +156,11 @@ class MigrateSwitchableControllerActionsCommand extends Command
         if (is_string($flexFormData)) {
             $flexFormData = ['data' => []];
         }
+
         // Remove flexform data which do not exist in flexform of new plugin
-        foreach ($flexFormData['data'] as $sheetKey => $sheetData) {
+        foreach (array_keys($flexFormData['data']) as $sheetKey) {
             // Remove empty sheets
-            if (!is_array($flexFormData['data'][$sheetKey]['lDEF']) || !count($flexFormData['data'][$sheetKey]['lDEF']) > 0) {
+            if (!is_array($flexFormData['data'][$sheetKey]['lDEF']) || ([] === $flexFormData['data'][$sheetKey]['lDEF']) > 0) {
                 unset($flexFormData['data'][$sheetKey]);
             }
         }
@@ -212,23 +206,24 @@ class MigrateSwitchableControllerActionsCommand extends Command
 
     protected function migrateBackendUserGroups(InputInterface $input, OutputInterface $output): void
     {
-        $io = new SymfonyStyle($input, $output);
-        $io->title($this->getDescription());
+        $console = new SymfonyStyle($input, $output);
+        $console->title($this->getDescription());
+
         $progress = new ProgressBar($output);
         $progress->setFormat(' %current% migrated rows [%bar%] %elapsed:6s% %memory:6s%');
 
         $groups = $this->getBackendUserGroupsToMigrate($input->getOption('list-type'));
 
-        $io->writeln('Start migration of '.count($groups).' BE groups.');
+        $console->writeln('Start migration of '.count($groups).' BE groups.');
 
         foreach ($groups as $group) {
             $this->updateBackendUserGroup($group, $input->getOption('list-type'), $input->getOption('new-list-type'));
             $progress->advance();
         }
 
-        $io->writeln('');
-        $io->writeln('');
-        $io->writeln('Migration finished');
+        $console->writeln('');
+        $console->writeln('');
+        $console->writeln('Migration finished');
     }
 
     protected function getBackendUserGroupsToMigrate(string $listType): array
@@ -250,6 +245,9 @@ class MigrateSwitchableControllerActionsCommand extends Command
             ->fetchAllAssociative();
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.ElseExpression")
+     */
     protected function updateBackendUserGroup(array $row, string $listType, string $newListType): void
     {
         $default = 'tt_content:list_type:'.$listType.',tt_content:list_type:'.$newListType;

@@ -8,7 +8,11 @@ plugin.tx_mktools {
     locallangFilename = EXT:mktools/Resources/Private/Language/locallang.xlf
 }
 
-tt_content.list.20.tx_mktools =< plugin.tx_mktools
+tt_content.tx_mktools =< lib.contentElement
+tt_content.tx_mktools {
+    templateName = Generic
+    20 =< plugin.tx_mktools
+}
 
 plugin.tx_mktools {
     docmarkdownTemplate = EXT:mktools/Resources/Private/Templates/DocMarkDown.html

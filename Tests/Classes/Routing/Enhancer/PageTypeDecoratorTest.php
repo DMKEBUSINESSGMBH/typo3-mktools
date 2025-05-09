@@ -2,32 +2,35 @@
 
 declare(strict_types=1);
 
-/**
- *  Copyright notice.
+/*
+ * Copyright notice
  *
- *  (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
  */
 
 namespace DMK\Mktools\Tests\Routing\Enhancer;
 
 use DMK\Mktools\Routing\Enhancer\PageTypeDecorator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\CMS\Core\Routing\Route;
 use TYPO3\CMS\Core\Routing\RouteCollection;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -41,12 +44,8 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class PageTypeDecoratorTest extends UnitTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderDecorateForMatching
-     */
-    public function decorateForMatching(string $typeInRoute, string $typeInQueryParameters, $expectedType): void
+    #[DataProvider('dataProviderDecorateForMatching')]
+    public function testDecorateForMatching(string $typeInRoute, string $typeInQueryParameters, ?string $expectedType): void
     {
         $_GET['type'] = $typeInQueryParameters;
         $routeCollection = new RouteCollection();
@@ -54,6 +53,7 @@ class PageTypeDecoratorTest extends UnitTestCase
         if ('dontSet' !== $typeInRoute) {
             $route->setOption('_decoratedParameters', ['type' => $typeInRoute]);
         }
+
         $routeCollection->add('first', $route);
 
         $pageTypeDecorator = new PageTypeDecorator(['map' => ['/' => 0]]);
@@ -62,7 +62,7 @@ class PageTypeDecoratorTest extends UnitTestCase
         self::assertSame($expectedType, $route->getOption('_decoratedParameters')['type'] ?? null);
     }
 
-    public function dataProviderDecorateForMatching(): array
+    public static function dataProviderDecorateForMatching(): array
     {
         return [
             ['123', '0', '123'],
@@ -74,12 +74,8 @@ class PageTypeDecoratorTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderDecorateForGeneration
-     */
-    public function decorateForGeneration(string $path, $expectedPath): void
+    #[DataProvider('dataProviderDecorateForGeneration')]
+    public function testDecorateForGeneration(string $path, string $expectedPath): void
     {
         $routeCollection = new RouteCollection();
         $route = new Route($path);
@@ -91,7 +87,7 @@ class PageTypeDecoratorTest extends UnitTestCase
         self::assertSame($expectedPath, $route->getPath());
     }
 
-    public function dataProviderDecorateForGeneration(): array
+    public static function dataProviderDecorateForGeneration(): array
     {
         return [
             ['/somepath', '/somepath'],

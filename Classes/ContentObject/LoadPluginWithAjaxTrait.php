@@ -1,31 +1,31 @@
 <?php
 
-namespace DMK\Mktools\ContentObject;
-
-use Sys25\RnBase\Utility\TYPO3;
-
-/***************************************************************
- *  Copyright notice
+/*
+ * Copyright notice
  *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\ContentObject;
 
 /**
  * DMK\Mktools\ContentObject$UserContentObjectTest.
@@ -37,15 +37,14 @@ use Sys25\RnBase\Utility\TYPO3;
 trait LoadPluginWithAjaxTrait
 {
     /**
-     * {@inheritdoc}
-     *
      * @see \TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject::render()
+     *
+     * @SuppressWarnings("PHPMD.Superglobals")
      */
     public function render($conf = [])
     {
         if (($this->getContentObjectRenderer()->data['tx_mktools_load_with_ajax'] ?? false)
-           && !($_POST['mktoolsAjaxRequest'] ?? $_GET['mktoolsAjaxRequest'] ?? false)
-        ) {
+           && !($_POST['mktoolsAjaxRequest'] ?? $_GET['mktoolsAjaxRequest'] ?? false)) {
             // we need a link per element so caching (chash) works correct in the ajax
             // page type. Otherwise it's not possible to render more than one element
             // per page
@@ -68,22 +67,21 @@ trait LoadPluginWithAjaxTrait
             // We only need dummy content which indicates to start the ajax load.
             // The rest is handled with JS and the surrounding div with the content id.
             // @see AjaxContent.js
-            $content = sprintf(
+            return sprintf(
                 '<a class="ajax-links-autoload ajax-no-history" tabindex="-1" aria-hidden="true" data-ajaxreplaceid="c%s" href="%s"></a>',
                 $this->getContentObjectRenderer()->data['uid'],
                 $link
             );
-        } else {
-            $content = parent::render($conf);
         }
 
-        return $content;
+        return parent::render($conf);
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.Superglobals")
+     */
     protected function getTypoScriptSetup(): array
     {
-        return TYPO3::isTYPO121OrHigher()
-            ? $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()
-            : $GLOBALS['TSFE']->tmpl->setup;
+        return $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray();
     }
 }

@@ -2,21 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DMK\Mktools\Updates;
-
-use Symfony\Component\Console\Output\OutputInterface;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Install\Updates\ChattyInterface;
-use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
-use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
-
-/***************************************************************
+/*
  * Copyright notice
  *
  * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
  * free software; you can redistribute it and/or modify
@@ -24,8 +16,8 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
  * This script is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,7 +25,18 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  * GNU General Public License for more details.
  *
  * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
+
+namespace DMK\Mktools\Updates;
+
+use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
+use TYPO3\CMS\Install\Updates\ChattyInterface;
+use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Class MigrateOldMktoolsPlugins.
@@ -42,6 +45,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
+#[UpgradeWizard('oldMktoolsPluginsMigration')]
 class MigrateOldMktoolsPlugins implements UpgradeWizardInterface, ChattyInterface
 {
     /**
@@ -57,7 +61,7 @@ class MigrateOldMktoolsPlugins implements UpgradeWizardInterface, ChattyInterfac
     /**
      * @var string[]
      */
-    private $classMappings = [
+    private array $classMappings = [
         'tx_mktools_action_ShowTemplate' => \DMK\Mktools\Action\ShowTemplateAction::class,
         'tx_mktools_action_FlashMessage' => \DMK\Mktools\Action\FlashMessageAction::class,
         'tx_mktools_action_TsLib' => \DMK\Mktools\Action\TyposcriptLibraryAction::class,
@@ -87,27 +91,29 @@ class MigrateOldMktoolsPlugins implements UpgradeWizardInterface, ChattyInterfac
     {
         $query = $this->getPreparedQueryBuilder()->select('uid', 'pi_flexform')->executeQuery();
         $connection = $this->getConnectionPool()->getConnectionForTable(self::TABLE_NAME);
-        $errors = $success = [];
+        $errors = [];
+        $success = [];
         while ($contentElement = $query->fetchAssociative()) {
             $affectedRows = $connection->update(
                 self::TABLE_NAME,
                 ['pi_flexform' => $this->replaceOldPluginClasses($contentElement['pi_flexform'])],
                 ['uid' => (int) $contentElement['uid']]
             );
-            if (!$affectedRows) {
+            if (0 === $affectedRows) {
                 $errors[] = $contentElement['uid'];
                 continue;
             }
+
             $success[] = $contentElement['uid'];
         }
 
-        $this->output->writeln('The following tt_content UIDs have been updated: '.join(', ', $success));
+        $this->output->writeln('The following tt_content UIDs have been updated: '.implode(', ', $success));
 
-        if ($errors) {
-            $this->output->writeln('The following tt_content UIDs failed to update: '.join(', ', $errors));
+        if ([] !== $errors) {
+            $this->output->writeln('The following tt_content UIDs failed to update: '.implode(', ', $errors));
         }
 
-        return empty($errors);
+        return [] === $errors;
     }
 
     protected function replaceOldPluginClasses(string $haystack): string
@@ -135,12 +141,13 @@ class MigrateOldMktoolsPlugins implements UpgradeWizardInterface, ChattyInterfac
         $queryBuilder = $this->getConnectionPool()->getQueryBuilderForTable(self::TABLE_NAME);
         $queryBuilder->getRestrictions()->removeAll();
         $whereConditionsForOldClasses = [];
-        foreach ($this->classMappings as $oldClass => $newClass) {
+        foreach (array_keys($this->classMappings) as $oldClass) {
             $whereConditionsForOldClasses[] = $queryBuilder->expr()->like(
                 'pi_flexform',
                 $queryBuilder->quote('%'.$oldClass.'%')
             );
         }
+
         $queryBuilder
             ->from(self::TABLE_NAME)
             ->where(

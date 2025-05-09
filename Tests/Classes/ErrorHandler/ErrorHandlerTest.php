@@ -1,35 +1,49 @@
 <?php
 
-/*  **********************************************************************  **
- *  Copyright notice
+/*
+ * Copyright notice
  *
- *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- *  ***********************************************************************  */
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\Tests\ErrorHandler;
 
 use DMK\Mktools\ErrorHandler\ErrorHandler;
+use DMK\Mktools\ErrorHandler\ExceptionHandler;
+use DMK\Mktools\Exception\ExceptionInterface;
+use DMK\Mktools\Exception\RuntimeException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Sys25\RnBase\Testing\BaseTestCase;
 use Sys25\RnBase\Typo3Wrapper\Core\Error\Exception as RnBaseException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * @author Hannes Bochmann
+ * Class ErrorHandlerTest.
+ *
+ * @author  Hannes Bochmann
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseTestCase
+class ErrorHandlerTest extends BaseTestCase
 {
     /**
      * @var int
@@ -41,12 +55,11 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
         if ($this->originalErrorReporting) {
             error_reporting($this->originalErrorReporting);
         }
+
+        restore_exception_handler();
     }
 
-    /**
-     * @group unit
-     */
-    public function testHandleFatalErrorCallsNotExceptionHandlerIfErrorNotFatal()
+    public function testHandleFatalErrorCallsNotExceptionHandlerIfErrorNotFatal(): void
     {
         $errorHandler = $this->getMock(
             ErrorHandler::class,
@@ -57,7 +70,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
         $error = ['type' => E_WARNING];
         $errorHandler->expects($this->once())
             ->method('getLastError')
-            ->will($this->returnValue($error));
+            ->willReturn($error);
 
         $errorHandler->expects($this->never())
             ->method('getExceptionHandler');
@@ -66,15 +79,14 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
     }
 
     /**
-     * @group unit
-     *
-     * @dataProvider getErrorTypes
+     * @runInSeparateProcess
      */
+    #[DataProvider('getErrorTypes')]
     public function testHandleFatalErrorCallsExceptionHandlerCorrectIfNotCatchableErrors(
-        $errorType,
-        $errorHandled,
-        $disableErrorRedprting = false
-    ) {
+        int $errorType,
+        bool $errorHandled,
+        bool $disableErrorRedprting = false,
+    ): void {
         if ($disableErrorRedprting) {
             $this->disableErrorReporting();
         }
@@ -91,13 +103,13 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
             $error = ['type' => $errorType, 'message' => 'my error', 'line' => 123, 'file' => '123.php'];
             $errorHandler->expects($this->once())
                 ->method('getLastError')
-                ->will($this->returnValue($error));
+                ->willReturn($error);
         }
 
         $expectedErrorMessage = 'PHP Fatal Error: my error in '.basename('123.php').' line 123';
-        $expectedException = new \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception($expectedErrorMessage);
+        $expectedException = new RnBaseException($expectedErrorMessage);
         $exceptionHandler = $this->getMock(
-            \DMK\Mktools\ErrorHandler\ExceptionHandler::class,
+            ExceptionHandler::class,
             ['handleException']
         );
         if ($errorHandled) {
@@ -106,16 +118,16 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
                 ->with($expectedException);
             $errorHandler->expects($this->once())
                 ->method('getExceptionHandler')
-                ->will($this->returnValue($exceptionHandler));
+                ->willReturn($exceptionHandler);
 
             $errorHandler->expects($this->once())
                 ->method('getTypo3Exception')
                 ->with($expectedErrorMessage)
-                ->will($this->returnValue($expectedException));
+                ->willReturn($expectedException);
         } else {
             $errorHandler->expects($this->never())
                 ->method('getExceptionHandler')
-                ->will($this->returnValue($exceptionHandler));
+                ->willReturn($exceptionHandler);
         }
 
         $errorHandler->handleFatalError();
@@ -127,10 +139,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
         error_reporting(0);
     }
 
-    /**
-     * @return array
-     */
-    public function getErrorTypes()
+    public static function getErrorTypes(): array
     {
         return [
             [E_ERROR, true],
@@ -146,29 +155,24 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
         ];
     }
 
-    /**
-     * @group unit
-     */
-    public function testGetTypo3ExceptionReturnsCorrectExceptionType()
+    public function testGetTypo3ExceptionReturnsCorrectExceptionType(): void
     {
-        $handler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ErrorHandler::class, null);
-        $method = new ReflectionMethod(ErrorHandler::class, 'getTypo3Exception');
+        $handler = GeneralUtility::makeInstance(ErrorHandler::class, null);
+        $method = new \ReflectionMethod(ErrorHandler::class, 'getTypo3Exception');
         $method->setAccessible(true);
+
         $message = 'test';
 
         $exception = $method->invoke($handler, $message);
         $this->assertInstanceOf(
-            Exception::class,
+            \Exception::class,
             $exception,
             'Exception nicht vom Typ '
         );
         $this->assertEquals($message, $exception->getMessage(), 'Exception Nachricht falsch');
     }
 
-    /**
-     * @group unit
-     */
-    public function testHandleErrorLogsExceptionsIfShouldBeWrittenToDevLogAndThrowsMktoolsErrorException()
+    public function testHandleErrorLogsExceptionsIfShouldBeWrittenToDevLogAndThrowsMktoolsErrorException(): void
     {
         $errorHandler = $this->getMock(
             ErrorHandler::class,
@@ -184,7 +188,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
 
         $errorHandler->expects($this->once())
             ->method('shouldExceptionsBeWrittenToDevLog')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $errorHandler->expects($this->once())
             ->method('writeExceptionToDevLog')
@@ -192,19 +196,16 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
 
         try {
             $errorHandler->handleError(1, 2, 3, 4);
-        } catch (\DMK\Mktools\Exception\ExceptionInterface $e) {
+        } catch (ExceptionInterface $e) {
             $this->assertInstanceOf(
-                \DMK\Mktools\Exception\RuntimeException::class,
+                RuntimeException::class,
                 $e,
                 'Exception nicht durchgereicht'
             );
         }
     }
 
-    /**
-     * @group unit
-     */
-    public function testHandleErrorLogsExceptionsNotIfShouldNotBeWrittenToDevLog()
+    public function testHandleErrorLogsExceptionsNotIfShouldNotBeWrittenToDevLog(): void
     {
         $errorHandler = $this->getMock(
             ErrorHandler::class,
@@ -220,26 +221,23 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
 
         $errorHandler->expects($this->once())
             ->method('shouldExceptionsBeWrittenToDevLog')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $errorHandler->expects($this->never())
             ->method('writeExceptionToDevLog');
 
         try {
             $errorHandler->handleError(1, 2, 3, 4);
-        } catch (\DMK\Mktools\Exception\ExceptionInterface $e) {
+        } catch (ExceptionInterface $e) {
             $this->assertInstanceOf(
-                \DMK\Mktools\Exception\RuntimeException::class,
+                RuntimeException::class,
                 $e,
                 'Exception nicht durchgereicht'
             );
         }
     }
 
-    /**
-     * @group unit
-     */
-    public function testHandleErrorLogsExceptionsNotIfNoExceptionThrown()
+    public function testHandleErrorLogsExceptionsNotIfNoExceptionThrown(): void
     {
         $errorHandler = $this->getMock(
             ErrorHandler::class,
@@ -247,11 +245,11 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
             [1]
         );
 
-        $exception = new \Sys25\RnBase\Typo3Wrapper\Core\Error\Exception('test');
+        new RnBaseException('test');
         $errorHandler->expects($this->once())
             ->method('handleErrorByParent')
             ->with(1, 2, 3, 4)
-            ->will($this->returnValue('test'));
+            ->willReturn('test');
 
         $errorHandler->expects($this->never())
             ->method('shouldExceptionsBeWrittenToDevLog');
@@ -266,10 +264,7 @@ class tx_mktools_tests_util_ErrorHandlerTest extends \Sys25\RnBase\Testing\BaseT
         );
     }
 
-    /**
-     * @group unit
-     */
-    public function testHandleErrorDoesNothingIfDisabledErrorReporting()
+    public function testHandleErrorDoesNothingIfDisabledErrorReporting(): void
     {
         $this->disableErrorReporting();
 

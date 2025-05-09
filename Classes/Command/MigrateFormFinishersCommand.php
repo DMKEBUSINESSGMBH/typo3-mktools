@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 namespace DMK\Mktools\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -13,29 +38,6 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/***************************************************************
- *  Copyright notice
- *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- * All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 /**
  * Class MigrateFormFinishersCommand.
  *
@@ -45,22 +47,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MigrateFormFinishersCommand extends Command
 {
-    /**
-     * @var ConnectionPool
-     */
-    private $connectionPool;
-
-    /**
-     * @var FlexFormTools
-     */
-    private $flexformTools;
-
-    public function __construct(ConnectionPool $connectionPool, FlexFormTools $flexformTools)
+    public function __construct(private ConnectionPool $connectionPool, private FlexFormTools $flexformTools)
     {
         parent::__construct(null);
-
-        $this->connectionPool = $connectionPool;
-        $this->flexformTools = $flexformTools;
     }
 
     protected function configure()
@@ -68,19 +57,15 @@ class MigrateFormFinishersCommand extends Command
         $this->setDescription('Convert all overridden form finisher configurations in plugins.');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $io->title($this->getDescription());
+        $console = new SymfonyStyle($input, $output);
+        $console->title($this->getDescription());
 
         $formPlugins = $this->getFormPlugins();
         $progress = new ProgressBar($output, count($formPlugins));
 
-        $io->writeln('Found '.count($formPlugins).' form plugins. Starting migration for those with overridden finisher configurations.');
+        $console->writeln('Found '.count($formPlugins).' form plugins. Starting migration for those with overridden finisher configurations.');
 
         $migratedPluginsCount = 0;
         foreach ($formPlugins as $formPlugin) {
@@ -89,12 +74,13 @@ class MigrateFormFinishersCommand extends Command
                 $this->migrateOverriddenFinisherConfiguration($formPlugin['uid'], $flexform);
                 ++$migratedPluginsCount;
             }
+
             $progress->advance();
         }
 
-        $io->writeln('');
-        $io->writeln('');
-        $io->writeln($migratedPluginsCount > 0 ? 'Migration finished with '.$migratedPluginsCount.' plugins.' : 'No plugins found to migrate.');
+        $console->writeln('');
+        $console->writeln('');
+        $console->writeln($migratedPluginsCount > 0 ? 'Migration finished with '.$migratedPluginsCount.' plugins.' : 'No plugins found to migrate.');
 
         return 0;
     }
@@ -112,7 +98,7 @@ class MigrateFormFinishersCommand extends Command
             ->where(
                 $queryBuilder->expr()->eq(
                     'Ctype',
-                    $queryBuilder->createNamedParameter('form_formframework', \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter('form_formframework', \TYPO3\CMS\Core\Database\Connection::PARAM_STR)
                 )
             )
             ->executeQuery()
@@ -127,6 +113,7 @@ class MigrateFormFinishersCommand extends Command
             if ('sDEF' === $sheetIdentifier) {
                 continue;
             }
+
             foreach ($emailFinisherIdentifiers as $emailFinisherIdentifier) {
                 $this->migrateFormatOption($sheetConfiguration, $emailFinisherIdentifier);
                 $this->migrateRecipientsOptions($sheetConfiguration, $emailFinisherIdentifier);
@@ -168,14 +155,17 @@ class MigrateFormFinishersCommand extends Command
                 isset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey])
                 && !empty($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey]['vDEF'])
             ) {
-                $recipientElement = ['email' => $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey]];
-                if ('recipientAddress' == $oldOptionKey) {
-                    if (!empty($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName']['vDEF'])) {
-                        $recipientElement['name'] = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName'];
-                    }
-                } else {
-                    $recipientElement['name'] = '';
+                $recipientElement = [
+                    'email' => $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey],
+                    'name' => '',
+                ];
+                if (
+                    'recipientAddress' === $oldOptionKey
+                    && !empty($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName']['vDEF'])
+                ) {
+                    $recipientElement['name'] = $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.recipientName'];
                 }
+
                 $sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$newOptionKey] = [
                     'el' => [
                         uniqid() => [
@@ -186,6 +176,7 @@ class MigrateFormFinishersCommand extends Command
                     ],
                 ];
             }
+
             unset($sheetConfiguration['lDEF']['settings.finishers.'.$emailFinisherIdentifier.'.'.$oldOptionKey]);
         }
     }

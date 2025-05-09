@@ -1,44 +1,54 @@
 <?php
 
-/*  **********************************************************************  **
- *  Copyright notice
+/*
+ * Copyright notice
  *
- *  (c) 2012 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
- *  All rights reserved
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- *  ***********************************************************************  */
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\Tests\ErrorHandler;
 
 use DMK\Mktools\ErrorHandler\ExceptionHandler;
+use DMK\Mktools\Exception\RuntimeException;
+use DMK\Mktools\Tests\BaseTestCase;
+use Sys25\RnBase\Utility\Network;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * @author Hannes Bochmann
+ * Class ExceptionHandlerTest.
+ *
+ * @author  Hannes Bochmann
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTestCase
+class ExceptionHandlerTest extends BaseTestCase
 {
     /**
      * @var string
      */
-    private $defaultPageTsConfig;
+    private mixed $defaultPageTsConfig;
 
-    /**
-     * @var string
-     */
-    private $lockFile;
+    private string $lockFile;
 
     /**
      * @var string
@@ -57,9 +67,9 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $this->defaultPageTsConfig = $GLOBALS['TYPO3_CONF_VARS']['BE']['defaultPageTSconfig'];
 
-        $this->lockFile = \TYPO3\CMS\Core\Core\Environment::getVarPath().
+        $this->lockFile = Environment::getVarPath().
             '/lock/mktoolsExceptionLock_2e41f8198a125606abc9a71493eebe48';
-        \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep(\TYPO3\CMS\Core\Core\Environment::getVarPath().'/lock');
+        GeneralUtility::mkdir_deep(Environment::getVarPath().'/lock');
 
         $this->devIpMaskBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'];
         $_SERVER['REMOTE_ADDR'] = '';
@@ -77,12 +87,11 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = $this->devIpMaskBackup;
         unset($_SERVER['REMOTE_ADDR']);
+
+        restore_exception_handler();
     }
 
-    /**
-     * @group unit
-     */
-    public function testEchoExceptionWebCallsSendStatusHeaderWithCorrectException()
+    public function testEchoExceptionWebCallsSendStatusHeaderWithCorrectException(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -91,7 +100,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler = $this->getExceptionHandlerMock();
 
-        $exception = new Exception('test exception');
+        $exception = new \Exception('test exception');
         $exceptionHandler->expects($this->once())
             ->method('sendStatusHeaders')
             ->with($exception);
@@ -99,10 +108,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $exceptionHandler->echoExceptionWeb($exception);
     }
 
-    /**
-     * @group unit
-     */
-    public function testEchoExceptionWebCallsWriteLogEntriesCorrect()
+    public function testEchoExceptionWebCallsWriteLogEntriesCorrect(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -111,7 +117,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler = $this->getExceptionHandlerMock();
 
-        $exception = new Exception('test exception');
+        $exception = new \Exception('test exception');
         $exceptionHandler->expects($this->once())
             ->method('writeLogEntries')
             ->with($exception, 'WEB');
@@ -119,10 +125,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $exceptionHandler->echoExceptionWeb($exception);
     }
 
-    /**
-     * @group unit
-     */
-    public function testEchoExceptionWebCallsLogNoExceptionPageDefinedIfNoDefined()
+    public function testEchoExceptionWebCallsLogNoExceptionPageDefinedIfNoDefined(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -136,14 +139,11 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $exceptionHandler->expects($this->never())
             ->method('echoExceptionPageAndExit');
 
-        $exception = new Exception('test exception');
+        $exception = new \Exception('test exception');
         $exceptionHandler->echoExceptionWeb($exception);
     }
 
-    /**
-     * @group unit
-     */
-    public function testEchoExceptionWebCallsLogNoExceptionPageDefinedNotIfExceptionPageDefined()
+    public function testEchoExceptionWebCallsLogNoExceptionPageDefinedNotIfExceptionPageDefined(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -157,14 +157,11 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit');
 
-        $exception = new Exception('test exception');
+        $exception = new \Exception('test exception');
         $exceptionHandler->echoExceptionWeb($exception);
     }
 
-    /**
-     * @group unit
-     */
-    public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenFileIsDefinedAsExceptionPage()
+    public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenFileIsDefinedAsExceptionPage(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -174,18 +171,15 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit')
-            ->with(\Sys25\RnBase\Utility\Network::locationHeaderUrl('index.php'));
+            ->with(Network::locationHeaderUrl('index.php'));
 
-        $exception = new Exception('test exception');
+        $exception = new \Exception('test exception');
         $exceptionHandler->echoExceptionWeb($exception);
     }
 
-    /**
-     * @group unit
-     */
-    public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenTypoScriptIsDefinedAsExceptionPage()
+    public function testEchoExceptionWebCallsEchoExceptionPageAndExitWithCorrectLinkWhenTypoScriptIsDefinedAsExceptionPage(): void
     {
-        self::markTestIncomplete(
+        self::markTestSkipped(
             'This test has to be refactored.'
         );
 
@@ -199,16 +193,13 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit')
-            ->with(\Sys25\RnBase\Utility\Network::locationHeaderUrl('index.php'));
+            ->with(Network::locationHeaderUrl('index.php'));
 
-        $exception = new Exception('test exception');
+        $exception = new \Exception('test exception');
         $exceptionHandler->echoExceptionWeb($exception);
     }
 
-    /**
-     * @group unit
-     */
-    public function testWriteLogEntriesCallsParentIfExceptionIsNoMktoolsErrorExceptionAndLockCouldBeAcquired()
+    public function testWriteLogEntriesCallsParentIfExceptionIsNoMktoolsErrorExceptionAndLockCouldBeAcquired(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -219,15 +210,15 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('lockAcquired')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $exception = new Exception('test');
+        $exception = new \Exception('test');
         $context = 'egal';
         $exceptionHandler->expects($this->once())
             ->method('writeLogEntriesByParent')
             ->with($exception, $context);
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             ExceptionHandler::class,
             'writeLogEntries'
         );
@@ -235,10 +226,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $method->invoke($exceptionHandler, $exception, $context);
     }
 
-    /**
-     * @group unit
-     */
-    public function testWriteLogEntriesCallsParentNotIfExceptionIsMktoolsErrorException()
+    public function testWriteLogEntriesCallsParentNotIfExceptionIsMktoolsErrorException(): void
     {
         $exceptionHandler = $this->getMock(
             ExceptionHandler::class,
@@ -251,23 +239,21 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $exceptionHandler->expects($this->never())
             ->method('writeLogEntriesByParent');
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             ExceptionHandler::class,
             'writeLogEntries'
         );
         $method->setAccessible(true);
-        $exception = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \DMK\Mktools\Exception\RuntimeException::class,
+
+        $exception = GeneralUtility::makeInstance(
+            RuntimeException::class,
             'test'
         );
         $context = 'egal';
         $method->invoke($exceptionHandler, $exception, $context);
     }
 
-    /**
-     * @group unit
-     */
-    public function testWriteLogEntriesCallsParentNotIfExceptionIsNoMktoolsErrorExceptionButLockCouldNotBeAcquired()
+    public function testWriteLogEntriesCallsParentNotIfExceptionIsNoMktoolsErrorExceptionButLockCouldNotBeAcquired(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -278,39 +264,38 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('lockAcquired')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $exceptionHandler->expects($this->never())
             ->method('writeLogEntriesByParent');
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             ExceptionHandler::class,
             'writeLogEntries'
         );
         $method->setAccessible(true);
-        $exception = new Exception('test');
+
+        $exception = new \Exception('test');
         $context = 'egal';
         $method->invoke($exceptionHandler, $exception, $context);
     }
 
-    /**
-     * @group unit
-     */
-    public function testGetLockFileByExceptionAndContextTouchesFileAndReturnsCorrectFilename()
+    public function testGetLockFileByExceptionAndContextTouchesFileAndReturnsCorrectFilename(): void
     {
         $this->assertFileDoesNotExist(
             $this->lockFile,
             'lock file schon da'
         );
 
-        $exceptionHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExceptionHandler::class);
+        $exceptionHandler = GeneralUtility::makeInstance(ExceptionHandler::class);
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             ExceptionHandler::class,
             'getLockFileByExceptionAndContext'
         );
         $method->setAccessible(true);
-        $exception = new Exception('test');
+
+        $exception = new \Exception('test');
         $context = 'egal';
         $method->invoke($exceptionHandler, $exception, $context);
 
@@ -327,10 +312,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         );
     }
 
-    /**
-     * @group unit
-     */
-    public function testLockAcquiredReturnsFalseIfLockFileWasCreatedLessThanAMinuteAgo()
+    public function testLockAcquiredReturnsFalseIfLockFileWasCreatedLessThanAMinuteAgo(): void
     {
         file_put_contents($this->lockFile, time());
 
@@ -341,14 +323,15 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('getLockFileByExceptionAndContext')
-            ->will($this->returnValue($this->lockFile));
+            ->willReturn($this->lockFile);
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             ExceptionHandler::class,
             'lockAcquired'
         );
         $method->setAccessible(true);
-        $exception = new Exception('test');
+
+        $exception = new \Exception('test');
         $context = 'egal';
         $lockAcquired = $method->invoke($exceptionHandler, $exception, $context);
 
@@ -358,10 +341,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         );
     }
 
-    /**
-     * @group unit
-     */
-    public function testLockAcquiredReturnsTrueIfLockFileWasCreatedMoreThanAMinuteAgo()
+    public function testLockAcquiredReturnsTrueIfLockFileWasCreatedMoreThanAMinuteAgo(): void
     {
         file_put_contents($this->lockFile, time() - 61);
 
@@ -372,14 +352,15 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
 
         $exceptionHandler->expects($this->once())
             ->method('getLockFileByExceptionAndContext')
-            ->will($this->returnValue($this->lockFile));
+            ->willReturn($this->lockFile);
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             ExceptionHandler::class,
             'lockAcquired'
         );
         $method->setAccessible(true);
-        $exception = new Exception('test');
+
+        $exception = new \Exception('test');
         $context = 'egal';
         $lockAcquired = $method->invoke($exceptionHandler, $exception, $context);
 
@@ -389,10 +370,7 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         );
     }
 
-    /**
-     * @group unit
-     */
-    public function testEchoExceptionWebOutPutsDebug()
+    public function testEchoExceptionWebOutPutsDebug(): void
     {
         self::markTestSkipped('Problem with type3 9.5 config');
 
@@ -408,47 +386,38 @@ class tx_mktools_tests_util_ExceptionHandlerTest extends tx_mktools_tests_BaseTe
         $exceptionHandler->expects($this->once())
             ->method('echoExceptionPageAndExit');
 
-        $exception = new Exception('test specialexception');
+        $exception = new \Exception('test specialexception');
         $exceptionHandler->echoExceptionWeb($exception);
     }
 
-    /**
-     * @group unit
-     */
-    public function testShouldExceptionBeDebuggedIfDevIpMaskMatches()
+    public function testShouldExceptionBeDebuggedIfDevIpMaskMatches(): void
     {
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
         self::assertTrue(
             $this->callInaccessibleMethod(
-                \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExceptionHandler::class),
+                GeneralUtility::makeInstance(ExceptionHandler::class),
                 'shouldExceptionBeDebugged'
             )
         );
     }
 
-    /**
-     * @group unit
-     */
-    public function testShouldExceptionBeDebuggedIfDevIpMaskMatchesNot()
+    public function testShouldExceptionBeDebuggedIfDevIpMaskMatchesNot(): void
     {
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = 'invalid';
         self::assertFalse(
             $this->callInaccessibleMethod(
-                \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExceptionHandler::class),
+                GeneralUtility::makeInstance(ExceptionHandler::class),
                 'shouldExceptionBeDebugged'
             )
         );
     }
 
     /**
-     * @param array $methods
-     * @param bool  $shouldExceptionBeDebugged
-     *
      * @return ExceptionHandler
      */
-    private function getExceptionHandlerMock($methods = [], $shouldExceptionBeDebugged = false)
+    private function getExceptionHandlerMock(array $methods = [], bool $shouldExceptionBeDebugged = false)
     {
         $exceptionHandler = $this->getMock(
             ExceptionHandler::class,

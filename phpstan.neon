@@ -2,18 +2,14 @@ parameters:
     level: 5
     bootstrapFiles:
         - "%currentWorkingDirectory%/.Build/vendor/autoload.php"
-        - "%currentWorkingDirectory%/Resources/Private/PHP/Composer/autoload.php"
     paths:
         - %currentWorkingDirectory%/Classes
         - %currentWorkingDirectory%/ext_localconf.php
         - %currentWorkingDirectory%/ext_emconf.php
+    excludePaths:
+        - %currentWorkingDirectory%/Classes/Updates/DMKMktoolsCTypeMigration.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
-            -
-                message: "#^Constant LF not found\\.$#"
-                count: 1
-                path: Classes/Command/MigrateSwitchableControllerActionsCommand.php
-
             -
                 message: "#^Call to static method addRulesForFrontend\\(\\) on an unknown class DMK\\\\MkSanitizedParameters\\\\Rules\\.$#"
                 count: 1
@@ -22,13 +18,11 @@ parameters:
                 message: "#^Call to method checkRecord\\(\\) on an unknown class TYPO3\\\\CMS\\\\Frontend\\\\Page\\\\PageRepository\\.$#"
                 count: 1
                 path: Classes/Action/Ajax/ContentRendererAction.php
-
             -
                 message: "#^Call to method getLanguageOverlay\\(\\) on an unknown class TYPO3\\\\CMS\\\\Frontend\\\\Page\\\\PageRepository\\.$#"
                 count: 1
                 path: Classes/Utility/Menu/Processor/TranslatedRecords.php
-
             -
-                message: "#^Call to method getRecordOverlay\\(\\) on an unknown class TYPO3\\\\CMS\\\\Frontend\\\\Page\\\\PageRepository\\.$#"
+                message: "#^Call to an undefined method TYPO3\\\\CMS\\\\Core\\\\TypoScript\\\\FrontendTypoScript\\:\\:getConfigArray\\(\\)\\.$#"
                 count: 1
-                path: Classes/Utility/Menu/Processor/TranslatedRecords.php
+                path: Classes/Middleware/ContentReplacer.php

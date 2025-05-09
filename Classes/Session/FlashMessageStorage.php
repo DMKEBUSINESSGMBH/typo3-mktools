@@ -1,29 +1,31 @@
 <?php
 
-namespace DMK\Mktools\Session;
-
-/***************************************************************
- *  Copyright notice
+/*
+ * Copyright notice
  *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\Session;
 
 use DMK\Mktools\Exception\RuntimeException;
 use DMK\Mktools\Utility\SessionUtility;
@@ -43,24 +45,24 @@ use Sys25\RnBase\Domain\Model\BaseModel;
 class FlashMessageStorage
 {
     public const LEVEL_PRIMARY = 'primary';
+
     public const LEVEL_SUCCESS = 'success';
+
     public const LEVEL_INFO = 'info';
+
     public const LEVEL_WARNING = 'warning';
+
     public const LEVEL_DANGER = 'danger';
 
     /**
      * List of Messages from the last Request.
-     *
-     * @var \ArrayObject
      */
-    private $prevMessages;
+    private \ArrayObject $prevMessages;
 
     /**
      * List of Messages for the next Request.
-     *
-     * @var \ArrayObject
      */
-    private $nextMessages;
+    private \ArrayObject $nextMessages;
 
     /**
      * Creates the flashmessage singelton.
@@ -71,7 +73,7 @@ class FlashMessageStorage
     {
         static $instance = null;
         if (null === $instance) {
-            $instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(get_called_class())->load();
+            $instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(static::class)->load();
         }
 
         return $instance;
@@ -90,10 +92,8 @@ class FlashMessageStorage
 
     /**
      * Loads the messages from the last request and clears the session.
-     *
-     * @return self
      */
-    public function load()
+    public function load(): static
     {
         // load messages from last request
         $prevMessages = SessionUtility::getSessionValue('flash_mesages', 'mktools');
@@ -114,10 +114,8 @@ class FlashMessageStorage
 
     /**
      * Saves the messages for the next request.
-     *
-     * @return self
      */
-    public function save()
+    public function save(): static
     {
         SessionUtility::setSessionValue(
             'flash_mesages',
@@ -132,15 +130,14 @@ class FlashMessageStorage
 
     /**
      * Keeps the messages from the last request and addt for the next.
-     *
-     * @return self
      */
-    public function keep()
+    public function keep(): static
     {
         $messages = [];
         foreach ($this->prevMessages as $message) {
             $messages[] = $message;
         }
+
         foreach ($this->nextMessages as $message) {
             $messages[] = $message;
         }
@@ -158,11 +155,8 @@ class FlashMessageStorage
      *
      * @param string $message
      * @param string $level
-     * @param mixed  $data
-     *
-     * @return self
      */
-    private function addMessage($message, $level, $data = null)
+    private function addMessage($message, $level, $data = null): static
     {
         $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             BaseModel::class,
@@ -179,10 +173,8 @@ class FlashMessageStorage
 
     /**
      * Returns the list of messages for this and the next request.
-     *
-     * @return \ArrayObject
      */
-    public function getMessages()
+    public function getMessages(): \ArrayObject
     {
         return $this->prevMessages;
     }
@@ -191,15 +183,14 @@ class FlashMessageStorage
      * Checks for a static add message count for the allowed levels.
      *
      * @param string $method
-     * @param array  $args
      *
      * @return self|null
      *
      * @throws RuntimeException If level or method does not exists
      */
-    public static function __callStatic($method, $args)
+    public static function __callStatic($method, array $args)
     {
-        if (0 !== strpos($method, 'add') || $method[3] !== strtoupper($method[3])) {
+        if (!str_starts_with($method, 'add') || $method[3] !== strtoupper($method[3])) {
             throw new RuntimeException(sprintf('Method "%s::%s()" does not exists', static::class, $method));
         }
 

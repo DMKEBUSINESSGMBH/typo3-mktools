@@ -1,5 +1,30 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 namespace DMK\Mktools\Utility;
 
 use Doctrine\DBAL\Result;
@@ -8,29 +33,6 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\Model\RecordStateFactory;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-/***************************************************************
- *  Copyright notice
- *
- * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.com>
- * All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 
 /**
  * Class SlugUtility.
@@ -41,20 +43,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 final class SlugUtility
 {
-    /**
-     * @var string
-     */
-    private $table;
-
-    /**
-     * @var string
-     */
-    private $field;
-
-    public function __construct(string $table, string $field)
+    public function __construct(private string $table, private string $field)
     {
-        $this->table = $table;
-        $this->field = $field;
     }
 
     public function populateEmptySlugsInTable(): void
@@ -67,6 +57,9 @@ final class SlugUtility
         $this->generateUniqueSlugsInTable(true);
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
+     */
     private function generateUniqueSlugsInTable(bool $mindRealurlAlias = false): void
     {
         $connection = $this->getConnectionForTable($this->table);
@@ -76,6 +69,7 @@ final class SlugUtility
             if ($mindRealurlAlias) {
                 $realurlAlias = $this->getRealurlAliasByRecord($record);
             }
+
             $slug = $this->generateUniqueSlug($record, $realurlAlias);
             $connection->update($this->table, [$this->field => $slug], ['uid' => (int) $record['uid']]);
         }
@@ -106,10 +100,15 @@ final class SlugUtility
         return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.Superglobals")
+     * @SuppressWarnings("PHPMD.CyclomaticComplexity")
+     * @SuppressWarnings("PHPMD.NPathComplexity")
+     */
     public function generateUniqueSlug(array $record, string $slug = ''): string
     {
         $fieldConfig = $GLOBALS['TCA'][$this->table]['columns'][$this->field]['config'];
-        $evalInfo = !empty($fieldConfig['eval']) ? GeneralUtility::trimExplode(',', $fieldConfig['eval'], true) : [];
+        $evalInfo = empty($fieldConfig['eval']) ? [] : GeneralUtility::trimExplode(',', $fieldConfig['eval'], true);
         $hasToBeUniqueInSite = in_array('uniqueInSite', $evalInfo, true);
         $hasToBeUniqueInPid = in_array('uniqueInPid', $evalInfo, true);
         /* @var $slugHelper SlugHelper */
@@ -117,24 +116,28 @@ final class SlugUtility
 
         $recordId = (int) ($record['uid'] ?? 0);
         $pid = (int) ($record['pid'] ?? 0);
-        $slug = $slug ?: $slugHelper->generate($record, $pid);
+        $slug = '' !== $slug && '0' !== $slug ? $slug : $slugHelper->generate($record, $pid);
 
         $state = RecordStateFactory::forName($this->table)->fromArray($record, $pid, $recordId);
         $uniqueSlug = '';
         if ($hasToBeUniqueInSite && !$slugHelper->isUniqueInSite($slug, $state)) {
             $uniqueSlug = $slugHelper->buildSlugForUniqueInSite($slug, $state);
         }
+
         if (!$uniqueSlug && $hasToBeUniqueInPid && !$slugHelper->isUniqueInPid($slug, $state)) {
             $uniqueSlug = $slugHelper->buildSlugForUniqueInPid($slug, $state);
         }
+
         if (!$uniqueSlug && !$slugHelper->isUniqueInTable($slug, $state)) {
             $uniqueSlug = $slugHelper->buildSlugForUniqueInTable($slug, $state);
         }
-        $uniqueSlug = $uniqueSlug ?: $slug;
 
-        return $uniqueSlug;
+        return $uniqueSlug ?: $slug;
     }
 
+    /**
+     * @SuppressWarnings("PHPMD.Superglobals")
+     */
     private function getRealurlAliasByRecord(array $record): string
     {
         /* @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */

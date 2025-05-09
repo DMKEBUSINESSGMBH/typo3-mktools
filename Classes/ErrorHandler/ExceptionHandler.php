@@ -1,29 +1,31 @@
 <?php
 
-namespace DMK\Mktools\ErrorHandler;
-
-/***************************************************************
- *  Copyright notice
+/*
+ * Copyright notice
  *
- * (c) 2021 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+namespace DMK\Mktools\ErrorHandler;
 
 use DMK\Mktools\Exception\RuntimeException;
 use DMK\Mktools\Utility\Misc;
@@ -42,23 +44,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
+ *
+ * @deprecated Please use the native TYPO3 handlers. Will be removed with version 14.0.0.
  */
 class ExceptionHandler extends ProductionExceptionHandler
 {
-    /**
-     * @var Processor
-     */
-    private $configurations;
+    private ?Processor $configurations = null;
 
-    /**
-     * @var array
-     */
-    private $exceptionPageExtensionConfiguration = [];
+    private array $exceptionPageConfiguration = [];
 
-    /**
-     * @var string
-     */
-    private $lockFilePath = '';
+    private string $lockFilePath;
 
     /**
      * Constructs this exception handler - registers itself as the default exception handler.
@@ -107,11 +102,8 @@ class ExceptionHandler extends ProductionExceptionHandler
 
     /**
      * @param \Exception|\Throwable $exception
-     * @param string                $context
-     *
-     * @return bool
      */
-    protected function lockAcquired($exception, $context)
+    protected function lockAcquired($exception, string $context): bool
     {
         $lockFile = $this->getLockFileByExceptionAndContext($exception, $context);
 
@@ -127,11 +119,8 @@ class ExceptionHandler extends ProductionExceptionHandler
 
     /**
      * @param \Exception|\Throwable $exception
-     * @param string                $context
-     *
-     * @return string
      */
-    protected function getLockFileByExceptionAndContext($exception, $context)
+    protected function getLockFileByExceptionAndContext($exception, string $context): string
     {
         $lockIdentifier = 'mktoolsExceptionLock_'.md5(
             $exception->getCode().$exception->getMessage().
@@ -152,9 +141,12 @@ class ExceptionHandler extends ProductionExceptionHandler
      * TYPOSCRIPT:typo3conf/ext/myext/static/mktools.setup.txt. Wie man das TS angibt lässt sich in
      * EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt sehen.
      *
-     * @param \Exception|\Throwable $exception
+     * @SuppressWarnings("PHPMD.Superglobals")
+     * @SuppressWarnings("PHPMD.ElseExpression")
+     * @SuppressWarnings("PHPMD.ExitExpression")
+     * @SuppressWarnings("PHPMD.IfStatementAssignment")
      */
-    protected function echoExceptionInWebEnvironment($exception)
+    protected function echoExceptionInWebEnvironment(\Throwable $exception)
     {
         $this->sendStatusHeaders($exception);
 
@@ -200,18 +192,19 @@ class ExceptionHandler extends ProductionExceptionHandler
     {
         $exceptionPageType = $this->getExceptionPageType();
         $fileLink = $this->getExceptionPageFileLink();
-        $exceptionPage = '';
 
-        if ('FILE' === $exceptionPageType) {
-            $exceptionPage = $fileLink;
-        } elseif ('TYPOSCRIPT' === $exceptionPageType) {
-            $configurations = $this->getConfigurations($fileLink);
-            $exceptionPage = $configurations->get('errorhandling.exceptionPage');
-        } else {
-            Logger::warn('unbekannter error page type "'.$exceptionPageType.'" (möglich: FILE, TYPOSCRIPT)', 'mktools');
+        switch ($exceptionPageType) {
+            case 'FILE':
+                return $fileLink;
+            case 'TYPOSCRIPT':
+                $configurations = $this->getConfigurations($fileLink);
+
+                return $configurations->get('errorhandling.exceptionPage');
+            default:
+                Logger::warn('unbekannter error page type "'.$exceptionPageType.'" (möglich: FILE, TYPOSCRIPT)', 'mktools');
+
+                return '';
         }
-
-        return $exceptionPage;
     }
 
     /**
@@ -219,9 +212,7 @@ class ExceptionHandler extends ProductionExceptionHandler
      */
     private function getExceptionPageType()
     {
-        $exceptionPageConfigurationParts = $this->getExceptionPageExtensionConfiguration();
-
-        return $exceptionPageConfigurationParts[0];
+        return $this->getExceptionPageConfiguration()[0];
     }
 
     /**
@@ -229,34 +220,24 @@ class ExceptionHandler extends ProductionExceptionHandler
      */
     private function getExceptionPageFileLink()
     {
-        $exceptionPageConfigurationParts = $this->getExceptionPageExtensionConfiguration();
-
-        return $exceptionPageConfigurationParts[1] ?? '';
+        return $this->getExceptionPageConfiguration()[1] ?? '';
     }
 
-    /**
-     * @return array
-     */
-    private function getExceptionPageExtensionConfiguration()
+    private function getExceptionPageConfiguration(): array
     {
-        if (!$this->exceptionPageExtensionConfiguration) {
+        if ([] === $this->exceptionPageConfiguration) {
             $exceptionPageConfiguration = Misc::getExceptionPage();
-            $this->exceptionPageExtensionConfiguration = explode(':', $exceptionPageConfiguration);
+            $this->exceptionPageConfiguration = explode(':', $exceptionPageConfiguration);
         }
 
-        return $this->exceptionPageExtensionConfiguration;
+        return $this->exceptionPageConfiguration;
     }
 
-    /**
-     * @param string $additionalPath
-     *
-     * @return Processor
-     */
-    private function getConfigurations($additionalPath = '')
+    private function getConfigurations(?string $additionalPath = ''): Processor
     {
-        if (null === $this->configurations) {
+        if (!$this->configurations instanceof Processor) {
             $staticPath = 'EXT:mktools/Configuration/TypoScript/errorhandling/setup.txt';
-            $this->configurations = \DMK\Mktools\Utility\Misc::getConfigurations($staticPath, $additionalPath);
+            $this->configurations = Misc::getConfigurations($staticPath, $additionalPath);
         }
 
         return $this->configurations;
@@ -269,6 +250,8 @@ class ExceptionHandler extends ProductionExceptionHandler
 
     /**
      * @param string $absoluteExceptionPageUrl
+     *
+     * @SuppressWarnings("PHPMD.ExitExpression")
      */
     protected function echoExceptionPageAndExit($absoluteExceptionPageUrl)
     {
@@ -278,6 +261,7 @@ class ExceptionHandler extends ProductionExceptionHandler
         if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $absoluteExceptionPageUrl) {
             echo Network::getURL($absoluteExceptionPageUrl);
         }
+
         exit(1);
     }
 

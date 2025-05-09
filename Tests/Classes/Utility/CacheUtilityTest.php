@@ -1,31 +1,34 @@
 <?php
 
+/*
+ * Copyright notice
+ *
+ * (c) DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
+ * All rights reserved
+ *
+ * This file is part of the "mktools" Extension for TYPO3 CMS.
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GNU Lesser General Public License can be found at
+ * www.gnu.org/licenses/lgpl.html
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 namespace DMK\Mktools\Utility;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\CMS\Core\Cache\Backend\ApcuBackend;
-
-/**
- *  Copyright notice.
- *
- *  (c) Hannes Bochmann <dev@dmk-ebusiness.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- */
 
 /**
  * DMK\Mktools\Utility$CacheUtilityTest.
@@ -39,27 +42,15 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
     /**
      * @var array
      */
-    private $cachingConfigurationBackup = [];
+    private mixed $cachingConfigurationBackup = [];
 
-    /**
-     * @var bool
-     */
-    private static $apcLoaded = false;
+    private static bool $apcLoaded = false;
 
-    /**
-     * @var bool
-     */
-    private static $apcuLoaded = false;
+    private static bool $apcuLoaded = false;
 
-    /**
-     * @var bool
-     */
-    private static $apcEnabled = false;
+    private static bool $apcEnabled = false;
 
-    /**
-     * @var array
-     */
-    private $defaultCacheHashCachingConfiguration = [
+    private static array $defaultCacheHashCachingConfiguration = [
         'backend' => 'defaultBackend',
         'frontend' => 'defaultFrontend',
         'options' => [
@@ -69,10 +60,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
         'groups' => ['pages'],
     ];
 
-    /**
-     * @var array
-     */
-    private $expectedApcCachingConfiguration = [
+    private static array $expectedApcCachingConfiguration = [
         'backend' => ApcuBackend::class,
         'frontend' => 'defaultFrontend',
         'options' => [
@@ -81,10 +69,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
         'groups' => ['pages'],
     ];
 
-    /**
-     * @var array
-     */
-    private $expectedApcuCachingConfiguration = [
+    private static array $expectedApcuCachingConfiguration = [
         'backend' => ApcuBackend::class,
         'frontend' => 'defaultFrontend',
         'options' => [
@@ -97,7 +82,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
     {
         $this->cachingConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'];
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['hash'] =
-            $this->defaultCacheHashCachingConfiguration;
+            self::$defaultCacheHashCachingConfiguration;
     }
 
     protected function tearDown(): void
@@ -105,39 +90,23 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'] = $this->cachingConfigurationBackup;
     }
 
-    /**
-     * @return bool
-     */
-    public static function isApcEnabled()
+    public static function isApcEnabled(): bool
     {
         return self::$apcEnabled;
     }
 
-    /**
-     * @return bool
-     */
-    public static function isApcLoaded()
+    public static function isApcLoaded(): bool
     {
         return self::$apcLoaded;
     }
 
-    /**
-     * @return bool
-     */
-    public static function isApcuLoaded()
+    public static function isApcuLoaded(): bool
     {
         return self::$apcuLoaded;
     }
 
-    /**
-     * @param bool  $apcLoaded
-     * @param bool  $apcuLoaded
-     * @param bool  $apcEnabled
-     * @param array $expectedCachingConfiguration
-     *
-     * @dataProvider dataProviderUseApcAsCacheBackend
-     */
-    public function testUseApcAsCacheBackend($apcLoaded, $apcuLoaded, $apcEnabled, $expectedCachingConfiguration)
+    #[DataProvider('dataProviderUseApcAsCacheBackend')]
+    public function testUseApcAsCacheBackend(bool $apcLoaded, bool $apcuLoaded, bool $apcEnabled, array $expectedCachingConfiguration): void
     {
         self::$apcLoaded = $apcLoaded;
         self::$apcuLoaded = $apcuLoaded;
@@ -154,21 +123,21 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
     /**
      * @return bool[][]|array[][]|string[][][]|bool[][][][]|number[][][][]|string[][][][]
      */
-    public function dataProviderUseApcAsCacheBackend()
+    public static function dataProviderUseApcAsCacheBackend(): array
     {
         return [
-            [false, false, false, $this->defaultCacheHashCachingConfiguration],
-            [true, false, false, $this->defaultCacheHashCachingConfiguration],
-            [false, true, false, $this->defaultCacheHashCachingConfiguration],
-            [false, false, true, $this->defaultCacheHashCachingConfiguration],
-            [true, true, false, $this->defaultCacheHashCachingConfiguration],
-            [true, false, true, $this->expectedApcCachingConfiguration],
-            [false, true, true, $this->expectedApcuCachingConfiguration],
-            [true, true, true, $this->expectedApcCachingConfiguration],
+            [false, false, false, self::$defaultCacheHashCachingConfiguration],
+            [true, false, false, self::$defaultCacheHashCachingConfiguration],
+            [false, true, false, self::$defaultCacheHashCachingConfiguration],
+            [false, false, true, self::$defaultCacheHashCachingConfiguration],
+            [true, true, false, self::$defaultCacheHashCachingConfiguration],
+            [true, false, true, self::$expectedApcCachingConfiguration],
+            [false, true, true, self::$expectedApcuCachingConfiguration],
+            [true, true, true, self::$expectedApcCachingConfiguration],
         ];
     }
 
-    public function testGetApcCacheBackendClass()
+    public function testGetApcCacheBackendClass(): void
     {
         self::$apcLoaded = false;
         self::assertSame(ApcuBackend::class, CacheUtility::getApcCacheBackendClass());
@@ -177,15 +146,8 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
         self::assertSame(ApcuBackend::class, CacheUtility::getApcCacheBackendClass());
     }
 
-    /**
-     * @param bool $apcLoaded
-     * @param bool $apcuLoaded
-     * @param bool $apcEnabled
-     * @param bool $isApcUsed
-     *
-     * @dataProvider dataProviderIsApcUsed
-     */
-    public function testIsApcUsed($apcLoaded, $apcuLoaded, $apcEnabled, $isApcUsed)
+    #[DataProvider('dataProviderIsApcUsed')]
+    public function testIsApcUsed(bool $apcLoaded, bool $apcuLoaded, bool $apcEnabled, bool $isApcUsed): void
     {
         self::$apcLoaded = $apcLoaded;
         self::$apcuLoaded = $apcuLoaded;
@@ -197,7 +159,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
     /**
      * @return bool[][]|array[][]|string[][][]|bool[][][][]|number[][][][]|string[][][][]
      */
-    public function dataProviderIsApcUsed()
+    public static function dataProviderIsApcUsed(): array
     {
         return [
             [false, false, false, false],
@@ -211,7 +173,7 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
         ];
     }
 
-    public function testSetCacheBackend()
+    public function testSetCacheBackend(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['test']['options']['compression'] = true;
         CacheUtility::setCacheBackend('backendClass', 'test');
@@ -234,45 +196,34 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
  */
 function extension_loaded($extension)
 {
-    $extensionLoaded = false;
-
     if ('apc' == $extension) {
-        $extensionLoaded = CacheUtilityTest::isApcLoaded();
+        return CacheUtilityTest::isApcLoaded();
     }
 
     if ('apcu' == $extension) {
-        $extensionLoaded = CacheUtilityTest::isApcuLoaded();
+        return CacheUtilityTest::isApcuLoaded();
     }
 
-    return $extensionLoaded;
+    return false;
 }
 
 /**
  * @param string $configurationPath
- *
- * @return mixed
  */
-function ini_get($configurationPath)
+function ini_get($configurationPath): bool|string
 {
-    $configurationValue = '';
-
     if ('apc.enabled' == $configurationPath) {
-        $configurationValue = CacheUtilityTest::isApcEnabled();
+        return CacheUtilityTest::isApcEnabled();
     }
 
-    return $configurationValue;
+    return '';
 }
 
-/**
- * @return string
- */
-function constant(string $name)
+function constant(string $name): string
 {
-    $constantValue = '';
-
-    if ('PHP_SAPI' == $name) {
-        $constantValue = 'notCli';
+    if ('PHP_SAPI' === $name) {
+        return 'notCli';
     }
 
-    return $constantValue;
+    return '';
 }
