@@ -41,7 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
-final class SlugUtility
+class SlugUtility
 {
     public function __construct(private string $table, private string $field)
     {
