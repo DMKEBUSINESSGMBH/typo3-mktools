@@ -72,20 +72,16 @@ class ShowTemplateAction extends AbstractAction
 
     /**
      * Gibt den Name des zugehörigen Templates zurück.
-     *
-     * @return string
      */
-    protected function getTemplateName()
+    protected function getTemplateName(): string
     {
         return 'showtemplate';
     }
 
     /**
      * Gibt den Name der zugehörigen View-Klasse zurück.
-     *
-     * @return string
      */
-    protected function getViewClassName()
+    protected function getViewClassName(): string
     {
         return ShowTemplate::class;
     }

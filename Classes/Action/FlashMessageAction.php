@@ -59,20 +59,16 @@ class FlashMessageAction extends AbstractAction
 
     /**
      * Template name and ConfId.
-     *
-     * @return string
      */
-    protected function getTemplateName()
+    protected function getTemplateName(): string
     {
         return 'flashmessages';
     }
 
     /**
      * The view class.
-     *
-     * @return string
      */
-    protected function getViewClassName()
+    protected function getViewClassName(): string
     {
         return ListView::class;
     }
