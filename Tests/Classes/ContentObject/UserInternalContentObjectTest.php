@@ -65,6 +65,7 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
      */
     public function testRenderIfContentShouldNotBeLoadedWithAjax($loadWithAjax, $mktoolsAjaxRequest)
     {
+        $this->setUpRequestForConfigurationCreation();
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = $loadWithAjax;
         $_GET['mktoolsAjaxRequest'] = $mktoolsAjaxRequest;
@@ -160,6 +161,8 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
      */
     public function testRenderIfContentShouldBeLoadedWithAjax()
     {
+        $this->setUpRequestForConfigurationCreation();
+
         $contentObject = $this->createConfigurations([], 'mktools')->getContentObject();
         $contentObject->data['tx_mktools_load_with_ajax'] = true;
         $contentObject->data['uid'] = 123;
@@ -187,5 +190,21 @@ class UserInternalContentObjectTest extends \Sys25\RnBase\Testing\BaseTestCase
             '<a class="ajax-links-autoload ajax-no-history" tabindex="-1" aria-hidden="true" data-ajaxreplaceid="c123" href="rendererdUrl"></a>',
             $this->userInternalObject->render()
         );
+    }
+
+    protected function setUpRequestForConfigurationCreation(): void
+    {
+        $GLOBALS['TYPO3_REQUEST'] = $this->getMock(
+            ServerRequestInterface::class,
+            [],
+            [],
+            '',
+            false
+        );
+        $GLOBALS['TYPO3_REQUEST']
+            ->expects(self::any())
+            ->method('getAttribute')
+            ->with('applicationType')
+            ->willReturn(2);
     }
 }
