@@ -76,7 +76,7 @@ class MarkdownAction extends ShowTemplateAction
                 explode(
                     ':',
                     base64_decode(
-                        substr($_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 6)
+                        substr((string) $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 6)
                     )
                 );
         }
@@ -93,7 +93,7 @@ class MarkdownAction extends ShowTemplateAction
             || (
                 ($_SERVER['PHP_AUTH_USER'] ?? false)
                     && isset($auth[$_SERVER['PHP_AUTH_USER']])
-                    && $auth[$_SERVER['PHP_AUTH_USER']] === crypt($_SERVER['PHP_AUTH_PW'], $auth[$_SERVER['PHP_AUTH_USER']])
+                    && $auth[$_SERVER['PHP_AUTH_USER']] === crypt((string) $_SERVER['PHP_AUTH_PW'], $auth[$_SERVER['PHP_AUTH_USER']])
             );
 
         if (!$hasAccess) {

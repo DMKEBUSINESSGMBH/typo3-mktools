@@ -46,9 +46,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MigrateTscobjPluginsCommand extends Command
 {
-    public function __construct(private ConnectionPool $connectionPool, private FlexFormTools $flexformTools)
+    public function __construct(private readonly ConnectionPool $connectionPool, private readonly FlexFormTools $flexformTools)
     {
-        parent::__construct(null);
+        parent::__construct();
     }
 
     protected function configure()

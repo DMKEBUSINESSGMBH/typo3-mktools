@@ -49,9 +49,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MigrateSwitchableControllerActionsCommand extends Command
 {
-    public function __construct(private ConnectionPool $connectionPool, private FlexFormTools $flexFormTools)
+    public function __construct(private readonly ConnectionPool $connectionPool, private readonly FlexFormTools $flexFormTools)
     {
-        parent::__construct(null);
+        parent::__construct();
     }
 
     protected function configure()

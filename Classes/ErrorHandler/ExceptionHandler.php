@@ -53,7 +53,7 @@ class ExceptionHandler extends ProductionExceptionHandler
 
     private array $exceptionPageConfiguration = [];
 
-    private string $lockFilePath;
+    private readonly string $lockFilePath;
 
     /**
      * Constructs this exception handler - registers itself as the default exception handler.

@@ -45,6 +45,6 @@ class ShowTemplate extends ListView
 
         $marker = GeneralUtility::makeInstance($markerClass);
 
-        return $marker->parseTemplate($template, $item, $formatter, $confId.$itemPath.'.', strtoupper($itemPath));
+        return $marker->parseTemplate($template, $item, $formatter, $confId.$itemPath.'.', strtoupper((string) $itemPath));
     }
 }

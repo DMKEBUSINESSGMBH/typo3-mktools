@@ -48,9 +48,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MigrateTcaFileGroupToFalCommand extends Command
 {
-    public function __construct(private ConnectionPool $connectionPool, private ResourceFactory $resourceFactory)
+    public function __construct(private readonly ConnectionPool $connectionPool, private readonly ResourceFactory $resourceFactory)
     {
-        parent::__construct(null);
+        parent::__construct();
     }
 
     protected function configure()

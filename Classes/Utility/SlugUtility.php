@@ -43,7 +43,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class SlugUtility
 {
-    public function __construct(private string $table, private string $field)
+    public function __construct(private readonly string $table, private readonly string $field)
     {
     }
 

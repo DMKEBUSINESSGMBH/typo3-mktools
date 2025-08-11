@@ -138,7 +138,7 @@ class ErrorHandler extends RnBaseErrorHandler
             $errorFile = $error['file'];
             $errorLine = $error['line'];
             $message = 'PHP Fatal Error: '.$errorMessage.' in '.
-                        basename($errorFile).' line '.$errorLine;
+                        basename((string) $errorFile).' line '.$errorLine;
 
             $exception = $this->getTypo3Exception($message);
             $this->getExceptionHandler()->handleException($exception);

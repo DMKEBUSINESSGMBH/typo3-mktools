@@ -62,7 +62,7 @@ class FlashMessageStorage
     /**
      * List of Messages for the next Request.
      */
-    private \ArrayObject $nextMessages;
+    private readonly \ArrayObject $nextMessages;
 
     /**
      * Creates the flashmessage singelton.
