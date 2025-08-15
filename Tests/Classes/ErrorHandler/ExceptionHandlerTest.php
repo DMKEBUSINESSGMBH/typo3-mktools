@@ -222,7 +222,6 @@ class ExceptionHandlerTest extends BaseTestCase
             ExceptionHandler::class,
             'writeLogEntries'
         );
-        $method->setAccessible(true);
         $method->invoke($exceptionHandler, $exception, $context);
     }
 
@@ -243,7 +242,6 @@ class ExceptionHandlerTest extends BaseTestCase
             ExceptionHandler::class,
             'writeLogEntries'
         );
-        $method->setAccessible(true);
 
         $exception = GeneralUtility::makeInstance(
             RuntimeException::class,
@@ -273,7 +271,6 @@ class ExceptionHandlerTest extends BaseTestCase
             ExceptionHandler::class,
             'writeLogEntries'
         );
-        $method->setAccessible(true);
 
         $exception = new \Exception('test');
         $context = 'egal';
@@ -293,7 +290,6 @@ class ExceptionHandlerTest extends BaseTestCase
             ExceptionHandler::class,
             'getLockFileByExceptionAndContext'
         );
-        $method->setAccessible(true);
 
         $exception = new \Exception('test');
         $context = 'egal';
@@ -329,7 +325,6 @@ class ExceptionHandlerTest extends BaseTestCase
             ExceptionHandler::class,
             'lockAcquired'
         );
-        $method->setAccessible(true);
 
         $exception = new \Exception('test');
         $context = 'egal';
@@ -358,7 +353,6 @@ class ExceptionHandlerTest extends BaseTestCase
             ExceptionHandler::class,
             'lockAcquired'
         );
-        $method->setAccessible(true);
 
         $exception = new \Exception('test');
         $context = 'egal';

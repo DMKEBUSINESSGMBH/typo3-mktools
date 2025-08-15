@@ -159,7 +159,6 @@ class ErrorHandlerTest extends BaseTestCase
     {
         $handler = GeneralUtility::makeInstance(ErrorHandler::class, null);
         $method = new \ReflectionMethod(ErrorHandler::class, 'getTypo3Exception');
-        $method->setAccessible(true);
 
         $message = 'test';
 
