@@ -1,6 +1,12 @@
 Changelog
 =========
 
+12.0.4
+-----
+
+- fox content replacer for _assets paths
+- some cleanup
+
 12.0.3
 -----
 
