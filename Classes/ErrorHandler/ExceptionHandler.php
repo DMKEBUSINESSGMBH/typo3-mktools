@@ -227,7 +227,7 @@ class ExceptionHandler extends ProductionExceptionHandler
     {
         if ([] === $this->exceptionPageConfiguration) {
             $exceptionPageConfiguration = Misc::getExceptionPage();
-            $this->exceptionPageConfiguration = explode(':', $exceptionPageConfiguration);
+            $this->exceptionPageConfiguration = explode(':', (string) $exceptionPageConfiguration);
         }
 
         return $this->exceptionPageConfiguration;

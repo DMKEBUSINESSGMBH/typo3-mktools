@@ -225,7 +225,7 @@ class TranslatedRecords
         $result = [];
         foreach ($configuration as $parameterKey => $parameter) {
             if (is_array($parameter)) {
-                $parameterKey = rtrim($parameterKey, '.');
+                $parameterKey = rtrim((string) $parameterKey, '.');
             }
 
             if (isset($parameters[$parameterKey])) {

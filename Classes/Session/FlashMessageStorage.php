@@ -182,13 +182,11 @@ class FlashMessageStorage
     /**
      * Checks for a static add message count for the allowed levels.
      *
-     * @param string $method
-     *
      * @return self|null
      *
      * @throws RuntimeException If level or method does not exists
      */
-    public static function __callStatic($method, array $args)
+    public static function __callStatic(string $method, array $args)
     {
         if (!str_starts_with($method, 'add') || $method[3] !== strtoupper($method[3])) {
             throw new RuntimeException(sprintf('Method "%s::%s()" does not exists', static::class, $method));
