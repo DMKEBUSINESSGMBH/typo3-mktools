@@ -39,11 +39,11 @@ $EM_CONF['mktools'] = [
     'author' => 'DMK E-Business GmbH',
     'author_email' => 'dev@dmk-ebusiness.de',
     'author_company' => 'DMK E-Business GmbH',
-    'version' => '12.0.3',
+    'version' => '13.0.0',
     'state' => 'stable',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.15.0-',
+            'rn_base' => '1.20.0-',
             'typo3' => '12.4.0-13.4.99',
         ],
         'conflicts' => [],

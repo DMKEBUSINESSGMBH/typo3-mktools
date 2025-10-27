@@ -36,7 +36,7 @@
         "typo3-ter/mktools": "self.version"
     },
     "require": {
-        "digedag/rn-base": "dev-upgrade/typo3_13",
+        "digedag/rn-base": "~1.20.0",
         "erusev/parsedown": "^1.7.4",
         "erusev/parsedown-extra": "^0.8.0",
         "linawolf/list-type-migration": "^1.0",

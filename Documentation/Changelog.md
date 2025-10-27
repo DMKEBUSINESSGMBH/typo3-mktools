@@ -1,6 +1,18 @@
 Changelog
 =========
 
+13.0.0
+-----
+
+- TYPO3 12.4 and 13.4 support only 
+
+12.0.4
+-----
+
+- fix content replacer for _assets paths
+- some cleanup
+
+
 12.0.3
 -----
 
