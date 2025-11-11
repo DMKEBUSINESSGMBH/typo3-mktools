@@ -69,7 +69,7 @@
             .off("click.ajaxcontentform")
             .on(
                 "click.ajaxcontentform",
-                "form.ajax-autotrigger input:not(:text)",
+                "form.ajax-autotrigger input:not(:text):not([type='search'])",
                 _event
             )
             .off("change.ajaxcontentform")

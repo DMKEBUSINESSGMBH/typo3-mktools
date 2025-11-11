@@ -1,10 +1,20 @@
 Changelog
 =========
 
+13.0.1
+-----
+
+- add [input type=search] to ajax-autotrigger ignores
+
 13.0.0
 -----
 
 - TYPO3 12.4 and 13.4 support only 
+
+12.0.5
+-----
+
+- require rn_base < 1.20.0
 
 12.0.4
 -----
