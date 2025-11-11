@@ -1,10 +1,15 @@
 Changelog
 =========
 
+12.0.5
+-----
+
+- add [input type=search] to ajax-autotrigger ignores
+
 12.0.4
 -----
 
-- fox content replacer for _assets paths
+- fix content replacer for _assets paths
 - some cleanup
 
 12.0.3
