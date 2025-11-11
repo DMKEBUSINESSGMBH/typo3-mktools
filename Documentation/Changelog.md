@@ -5,6 +5,7 @@ Changelog
 -----
 
 - add [input type=search] to ajax-autotrigger ignores
+- require rn_base < 1.20.0
 
 12.0.4
 -----
