@@ -41,5 +41,6 @@ use TYPO3\CMS\Frontend\ContentObject\UserInternalContentObject as BaseUserIntern
 class UserInternalContentObject extends BaseUserInternalContentObject
 {
     use LoadPluginWithAjaxTrait;
+
     protected string $urlTypoScriptConfigurationPath = 'lib.tx_mktools.loadUserIntWithAjaxUrl.';
 }

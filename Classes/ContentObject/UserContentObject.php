@@ -41,5 +41,6 @@ use TYPO3\CMS\Frontend\ContentObject\UserContentObject as BaseUserContentObject;
 class UserContentObject extends BaseUserContentObject
 {
     use LoadPluginWithAjaxTrait;
+
     protected string $urlTypoScriptConfigurationPath = 'lib.tx_mktools.loadUserWithAjaxUrl.';
 }
