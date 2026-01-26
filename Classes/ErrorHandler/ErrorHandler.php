@@ -59,7 +59,7 @@ class ErrorHandler extends RnBaseErrorHandler
      *
      * (non-PHPdoc)
      *
-     * @see \Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler::handleError()
+     * @see RnBaseErrorHandler::handleError()
      *
      * @throws RuntimeException
      */
@@ -97,7 +97,7 @@ class ErrorHandler extends RnBaseErrorHandler
     /**
      * (non-PHPdoc).
      *
-     * @see \Sys25\RnBase\Typo3Wrapper\Core\Error\ErrorHandler::handleError()
+     * @see RnBaseErrorHandler::handleError()
      */
     protected function handleErrorByParent($errorLevel, $errorMessage, $errorFile, $errorLine)
     {
