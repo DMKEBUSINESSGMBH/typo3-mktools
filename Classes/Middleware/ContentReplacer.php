@@ -35,7 +35,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sys25\RnBase\Utility\TYPO3;
 use TYPO3\CMS\Core\Http\NullResponse;
 use TYPO3\CMS\Core\Http\Stream;
 
@@ -56,9 +55,9 @@ class ContentReplacer implements MiddlewareInterface
         $response = $handler->handle($request);
 
         if (Misc::isContentReplacerActive() && !$response instanceof NullResponse) {
-            $configuration = TYPO3::isTYPO130OrHigher()
-                ? $request->getAttribute('frontend.typoscript')->getConfigArray()['tx_mktools.']['contentreplace.']
-                : $GLOBALS['TSFE']->config['config']['tx_mktools.']['contentreplace.'];
+            $configuration = $request
+                ->getAttribute('frontend.typoscript')
+                ->getConfigArray()['tx_mktools.']['contentreplace.'];
             $content = ContentReplacerUtility::doReplace((string) $response->getBody(), $configuration ?? []);
 
             $body = new Stream('php://temp', 'rw');
