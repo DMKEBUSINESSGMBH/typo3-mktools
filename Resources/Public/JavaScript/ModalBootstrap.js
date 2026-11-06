@@ -7,7 +7,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  * @version 0.1.0
- * @requires jQuery, Base, Request
+ * @requires Base, Request
+ * Bootstrap 5 (vanilla) oder - falls vorhanden - das Bootstrap 3/4 jQuery Plugin.
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 
@@ -21,7 +22,7 @@
  *         // do some thinks
  *     }
  */
-(function(DMK, $){
+(function(DMK, w, d){
     "use strict";
     var AjaxRequest, ModalBootstrap, VERSION = "0.1.0";
 
@@ -31,7 +32,7 @@
     // die modalbox
     ModalBootstrap = function ModalBootstrap(options) {
         this.setData(
-            $.extend(
+            Object.assign(
                 {
                     // Das Template. {modal-id} wird durch eine eindeutige ID ersetzt.
                     template :
@@ -39,7 +40,7 @@
                             '<div class="modal-dialog">' +
                                 '<div class="modal-content">' +
                                     '<div class="modal-header">' +
-                                        '<a type="button" title="schließen" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></a>' +
+                                        '<a type="button" title="schließen" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></a>' +
                                     '</div>' +
                                     '<div class="modal-body" id="{modal-id}-body"></div>' +
                                 '</div>' +
@@ -69,33 +70,20 @@
     // wir initialisieren alle links, welche im popup geoeffnet werden sollen.
     ModalBootstrap.prototype.initLinks = function () {
         var _self = this;
-        $('body')
-            .off('.dmk.modal')
-            .on('click.dmk.modal',
-                'a.modal-ajax:not(.no-ajax)', function(event) {
-                var element = $(this);
-                if (element.hasClass('no-ajax')) {
-                    return true;
-                }
-                event.preventDefault();
-                _self.open(element);
-            });
+        this.delegate(d.body, 'click', 'a.modal-ajax:not(.no-ajax)', function(event, element) {
+            event.preventDefault();
+            _self.open(element);
+        }, 'dmk.modal');
     };
 
     // wir initialisieren alle Formulare, fuers popup
     ModalBootstrap.prototype.initForms = function (box) {
         var _self = this;
-        box = typeof box === "undefined" ? this.getBox() : box;
-        box
-            .off('.dmk.modal')
-            .on('submit.dmk.modal', 'form:not(.no-ajax)', function(event) {
-                var element = $(this);
-                if (element.hasClass('no-ajax')) {
-                    return true;
-                }
-                event.preventDefault();
-                _self.open(element);
-            });
+        box = typeof box === "undefined" ? this.getBox() : this.toElement(box);
+        this.delegate(box, 'submit', 'form:not(.no-ajax)', function(event, element) {
+            event.preventDefault();
+            _self.open(element);
+        }, 'dmk.modal');
     };
 
     // wir oeffnen das popup, bzw machen den ajax call
@@ -104,17 +92,18 @@
             _request = DMK.Objects.getInstance("ModalBootstrapAjaxRequest"),
             parameters = {type : this.getData("pageType")}
         ;
+        el = this.toElement(el);
         _request.onSuccess = function(data, parameters) {
             _self.updateContent(data, parameters);
             this.parent().onSuccess.call(this, data, parameters);
         };
         //test if href of element is an image, if so put a <img> tag around it and return
-        if (el.is("a") &&
-            /\.(jpg|jpeg|gif|png|tiff|bmp)$/.test(el.get(0).href.toLowerCase()) == true
+        if (el.matches("a") &&
+            /\.(jpg|jpeg|gif|png|tiff|bmp)$/.test(el.href.toLowerCase())
         ) {
             _request.onStart({}, parameters);
-            _request.onSuccess('<img src="'+ el.get(0).href + '"/>', parameters);
-            _request.onComplete('<img src="'+ el.get(0).href + '"/>', parameters);
+            _request.onSuccess('<img src="'+ el.href + '"/>', parameters);
+            _request.onComplete('<img src="'+ el.href + '"/>', parameters);
         } else {
             _request.doCall(el, parameters);
         }
@@ -122,50 +111,65 @@
 
     // wir ersetzen den inhalt vom calls und oeffnen die box
     ModalBootstrap.prototype.updateContent = function(data, parameters) {
-        var $box = this.getBox(),
-            $body = $box.find(".modal-body")
+        var box = this.getBox(),
+            body = box.querySelector(".modal-body")
         ;
-        $body.html(data);
+        body.replaceChildren(this.parseHtml(data));
         // alle bisherigen modalboxen schliessen, wenn wir keine singlebox haben.
         if (!this.getData("singlebox")) {
-            $('.modal-ajax:visible').modal("hide");
+            d.querySelectorAll('.modal-ajax').forEach(function(modal) {
+                if (modal !== box && modal.getClientRects().length > 0) {
+                    ModalBootstrap.prototype.toggle(modal, "hide");
+                }
+            });
         }
-        $box.modal("show");
+        this.toggle(box, "show");
+    };
+
+    // zeigt / versteckt eine Modalbox (Bootstrap 5 oder jQuery Plugin von Bootstrap 3/4)
+    ModalBootstrap.prototype.toggle = function(box, action) {
+        if (w.bootstrap && w.bootstrap.Modal) {
+            w.bootstrap.Modal.getOrCreateInstance(box)[action]();
+        } else if (w.jQuery && w.jQuery.fn && w.jQuery.fn.modal) {
+            w.jQuery(box).modal(action);
+        } else {
+            throw "DMK.ModalBootstrap requires Bootstrap (bootstrap.Modal)";
+        }
     };
 
     // wir schliessen das popup
     ModalBootstrap.prototype.close = function(box) {
-        box = this.isObjectJQuery(box) ? box : this.getBox();
-        box.modal("hide");
+        box = this.isElement(this.toElement(box)) ? this.toElement(box) : this.getBox();
+        this.toggle(box, "hide");
     };
 
     // liefert / erzeugt das html fuer's popup
     ModalBootstrap.prototype.getBox = function () {
         var id = 'modal-ajax',
-            $box = $('#'+id)
+            box = d.getElementById(id)
         ;
         // we need a new box for each call,
         // if the current box allready is opened
         // this is needed for foundation reveal
-        if ($box.length > 0 && $box.is(':visible')) {
+        if (box && box.getClientRects().length > 0) {
             if (this.getData("singlebox")) {
-                return $box.first();
+                return box;
             }
             id = id + '-' + new Date().getTime();
-            $box = $([]);
+            box = null;
         }
         // modalbox erzeugen
-        if ($box.length === 0) {
-            $box = $(this.getData("template").replace(/{modal-id}/g, id));
-            $('body').append($box);
+        if (!box) {
+            box = this.parseHtml(this.getData("template").replace(/{modal-id}/g, id)).firstElementChild;
+            d.body.appendChild(box);
             // formulare fuer jede neue box initialisieren!
-            this.initForms($box);
+            this.initForms(box);
         }
-        return $box;
+        return box;
     };
 
     // wir registrieren unsere lib
     DMK.Objects.add(AjaxRequest, "ModalBootstrapAjaxRequest");
     DMK.Libraries.add(ModalBootstrap);
 
-})(DMK, jQuery);
+})(DMK, window, document);

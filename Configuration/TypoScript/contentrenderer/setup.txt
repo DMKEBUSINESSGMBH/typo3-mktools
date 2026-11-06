@@ -22,8 +22,6 @@ page.includeJSFooterlibs {
     #mktoolsHistory = EXT:mktools/Resources/Public/JavaScript/History.js
     mktoolsRequest = EXT:mktools/Resources/Public/JavaScript/Request.js
     mktoolsAjaxContent = EXT:mktools/Resources/Public/JavaScript/AjaxContent.js
-    ### falls ein Formular mit Bildupload verwendet wird, dann folgendes JS einbinden
-    #mktoolsAjaxForm = EXT:mktools/Resources/Public/JavaScript/jquery.form.min.js
 }
 
 ### Configuration for the rn_base the link which loads USER_INT objects with ajax.
