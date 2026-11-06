@@ -7,7 +7,7 @@ Ermöglicht das Laden einzelner Content-Elemente per Ajax. Muss im Extension Man
 <INCLUDE_TYPOSCRIPT: source="FILE: EXT:mktools/Configuration/TypoScript/contentrenderer/setup.txt">
 ~~~~
 
-Angestoßen wird der Ajax-Call per Klick auf einen Link mit der Klasse "ajax-link", beim Absenden eines Formulars mit Klasse "ajax-form" oder beim Klicken auf einen Radiobutton oder mit Checkbox mit Klasse "ajax-autotrigger". Die ID des zu ersetzenden Content-Element muss im Quelltext als
+Die JavaScript-Bibliotheken benötigen kein jQuery. Angestoßen wird der Ajax-Call per Klick auf einen Link mit der Klasse "ajax-link", beim Absenden eines Formulars mit Klasse "ajax-form" oder beim Klicken auf einen Radiobutton oder mit Checkbox mit Klasse "ajax-autotrigger". Die ID des zu ersetzenden Content-Element muss im Quelltext als
 
 ~~~~ {.sourceCode .html}
 < div id="c1110" >
@@ -48,9 +48,11 @@ config.tx_mkforms.loadJsFramework = 0
 Damit draft mode etc. funktionieren, muss man diese beim Klick auf den betreffenden Button selbst setzen. Dazu einfach ein JS nach folgendem Schema aufrufen:
 
 ~~~~ {.sourceCode .js}
-jQuery('.draftButton').on('click',function(event) {
+document.querySelectorAll('.draftButton').forEach(function(button) {
+  button.addEventListener('click', function(event) {
    event.preventDefault();
-   $("#gameForm_AMEOSFORMIDABLE_SUBMITTED").val('AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT');
+   document.getElementById('gameForm_AMEOSFORMIDABLE_SUBMITTED').value = 'AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT';
+  });
 });
 ~~~~
 
@@ -62,13 +64,7 @@ Wenn das clientseitige Caching der Ajax Requests nicht gewünscht ist, dann einf
 Formulare mit Bildupload
 ------------------------
 
-In diesem Fall müssen noch 2 Dinge gemacht werden. Zum einen muss die folgende Zeile im TS ergänzt werden:
-
-~~~~ {.sourceCode .ts}
-page.includeJS.mktoolsAjaxForm = typo3conf/ext/mktools/Resources/Public/JavaScript/jquery.form.min.js
-~~~~
-
-Dann muss dem Formular noch die Klasse "notcachable" gegeben.
+Datei-Uploads werden direkt über die native FormData-API übertragen. Ein zusätzliches Formular-Plugin ist nicht nötig. Requests mit ausgewählten Dateien werden nicht gecacht. Mit der Klasse "notcachable" lässt sich das Caching für das Formular generell deaktivieren.
 
 cHash Probleme vermeiden
 ------------------------
@@ -133,3 +129,12 @@ DMK.Objects.AjaxContent.prototype.replaceContentForSomethingElse = function(cont
 ~~~~
 
 Ansonsten wird der komplette Inhalt des Elements 1:1 ersetzt.
+
+JavaScript-Schnittstellen
+------------------------
+
+`DMK.Request.doCall`, `DMK.AjaxContent.handleAjaxClick` und die Modal-Methoden erwarten native DOM-Elemente. `getLoader` und `getBox` liefern ebenfalls DOM-Elemente; ein Request ohne eigenen Loader liefert `null`. Ein laufender Request liefert ein `XMLHttpRequest` mit `abort()` und `getResponseHeader()` zurück. Die Hooks `onStart`, `onSuccess`, `onFailure` und `onComplete` bleiben erhalten und erhalten gegebenenfalls dieses native Request-Objekt.
+
+Die Modal-Skripte verwenden native HTML-Dialoge und behalten die CSS-Klassen von Bootstrap bzw. Foundation bei. Sie benötigen die jeweiligen Styles, aber kein JavaScript dieser Frameworks. Wie bisher ist nur eine der beiden Modal-Implementierungen einzubinden. `ModalFoundation.js` benötigt nun ebenfalls `Base.js` und `Request.js`.
+
+Die Skripte setzen einen aktuellen Browser mit Unterstützung für `FormData`, `URLSearchParams`, die Web Animations API und `HTMLDialogElement.showModal()` voraus.

@@ -7,10 +7,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *             GNU Lesser General Public License, version 3 or later
  * @version 0.1.0
- * @requires jQuery, Base
+ * @requires Base
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-(function(DMK, w, $){
+(function(DMK, w){
     "use strict";
     var Location, VERSION = "0.1.0";
 
@@ -71,10 +71,12 @@
         this.isSameOrigin = function() {
             return (
                 (
-                    win.location.protocol == this.getProtocoll() + ":"
-                    || win.location.protocol == this.getProtocoll()
+                    w.location.protocol == this.getProtocoll() + ":"
+                    || w.location.protocol == this.getProtocoll()
                 )
-                && win.location.host == this.getHost()
+                && w.location.hostname == this.getHost()
+                && (w.location.port || (w.location.protocol === "https:" ? "443" : "80"))
+                    == (this.getPort() || (this.getProtocoll() === "https" ? "443" : "80"))
             );
         };
     };

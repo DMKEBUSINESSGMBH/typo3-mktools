@@ -7,10 +7,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *             GNU Lesser General Public License, version 3 or later
  * @version 0.1.0
- * @requires jQuery, Base, Location
+ * @requires Base, Location
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-(function(DMK, w, d, $){
+(function(DMK, w, d){
     "use strict";
     var History, _loc = d.location, VERSION = "0.1.0";
 
@@ -100,4 +100,4 @@
     // add lib to basic library
     DMK.Libraries.add(History);
 
-})(DMK, window, document, jQuery);
+})(DMK, window, document);

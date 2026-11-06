@@ -1,113 +1,76 @@
-
 /**
- * TODO / FIXME
- * NOCH NICHT VERWENDEN!
- * DAS MUSS ERST UMGEBAUT WERDEN
- * SEE: >>> ModalBootstrap.js <<<
+ * Native lightbox with Foundation Reveal markup.
+ *
+ * @requires Base, Request
  */
-
-if (typeof DMK !== "object") {
-    var DMK = {};
-}
-
-// Lightbox  Library which uses foundatioin reval
-(function(DMK, $){
+(function(DMK, w){
     "use strict";
-    var LightBox = function LightBox() {
-        var _self = this;
+    var nextId = 0, LightBox = DMK.Base.extend(function LightBox(options) {
+        this.setData(Object.assign({pageType: 400}, options));
+    });
 
-        this.init = function() {
-            this.initLinks();
-            this.initForms();
+    LightBox.prototype.init = function() {
+        this.initLinks();
+        this.initForms();
+    };
+    LightBox.prototype.initLinks = function() {
+        var self = this;
+        this.delegate(w.document.body, "click", "dmk.modal.foundation", "a.modal-ajax:not(.no-ajax)", function(event, element) {
+            event.preventDefault();
+            self.open(element);
+        });
+    };
+    LightBox.prototype.initForms = function(box) {
+        var self = this;
+        box = box || this.getBox();
+        this.delegate(box, "submit", "dmk.modal.foundation", "form:not(.no-ajax)", function(event, element) {
+            event.preventDefault();
+            self.open(element, event.submitter);
+        });
+        this.delegate(box, "click", "dmk.modal.foundation.close", ".close-reveal-modal, [data-close]", function(event) {
+            event.preventDefault();
+            self.close(box);
+        });
+    };
+    LightBox.prototype.open = function(element, submitter) {
+        var self = this, box = this.getBox(), request = DMK.Objects.getInstance("Request"),
+            parameters = {type: this.getData("pageType")};
+        if (element.classList.contains("external-modal-ajax")) {
+            parameters.external = true;
+        }
+        request.onSuccess = function(data) {
+            var range = w.document.createRange(), body = box.querySelector(".reveal-body");
+            range.selectNodeContents(body);
+            body.replaceChildren(range.createContextualFragment(data));
+            self.showModal(box);
+            box.dispatchEvent(new w.CustomEvent("opened", {bubbles: true}));
         };
-
-        this.initLinks = function () {
-            // Lightbox mit Ajax-Content
-            $('body')
-                .off('.dmk.modal')
-                .on('click.dmk.modal', 'a.modal-ajax:not(.no-ajax)', function(event) {
-                    var element = $(this);
-                    if (element.hasClass('no-ajax')) {
-                        return true;
-                    }
-                    event.preventDefault();
-                    _self.open(element);
-                });
-        };
-
-        this.initForms = function (box) {
-            box = typeof box === "undefined" ? this.getBox() : box;
-            // Lightbox mit Ajax-Content
-            box
-                .off('.dmk.modal')
-                .on('submit.dmk.modal', 'form:not(.no-ajax)', function(event) {
-                    var element = $(this);
-                    if (element.hasClass('no-ajax')) {
-                        return true;
-                    }
-                    event.preventDefault();
-                    _self.open(element);
-                });
-        };
-
-        this.open = function(el) {
-            var $box = this.getBox(),
-                data = el.serializeArray(),
-                url = el.attr('href') || el.attr('action')
-            ;
-            data.push({'name' : 'type', 'value' : '400'});
-            if (el.hasClass('external-modal-ajax')) {
-                data.push({'name' : 'external', 'value' : 'true'});
-            };
-            $box.foundation('reveal', 'open', {
-                'url' : url,
-                'data' : $.param(data)
-            });
-        };
-
-        this.close = function() {
-            var $box = this.getBox();
-            if ($box.hasClass('open')) {
-                $box.foundation('reveal', 'close');
-            }
-        };
-
-        this.getBox = function () {
-            var id = 'reveal-ajax',
-                $box = $('#'+id)
-            ;
-            // we need a new box for each call,
-            // if the current box allready is opened
-            // this is needed for foundation reveal
-            if ($box.length > 0 && $box.hasClass('open')) {
-                id = 'reveal-ajax-' + new Date().getTime();
-                $box = $([]);
-            }
-            // modalbox erzeugen
-            if ($box.length === 0) {
-                $box = $('<div id="'+id+'" class="reveal-modal medium">');
-                $box.append($('<a class="close-reveal-modal">').html('&times;'));
-                $('body').append($box);
-                $box = $('#'+id);
-                $box.bind('opened', function() {
-                    $box.append($('<a class="close-reveal-modal">').html('&times;'));
-                });
-                // formulare für jede neue box initialisieren
-                this.initForms($box);
-            }
-            return $box;
-        };
+        return request.doCall(element, parameters, submitter);
+    };
+    LightBox.prototype.close = function(box) {
+        this.hideModal(this.isElement(box) ? box : w.document.querySelector(".reveal-modal.open"));
+    };
+    LightBox.prototype.getBox = function() {
+        var id = "reveal-ajax", box = w.document.getElementById(id);
+        if (box && box.classList.contains("open")) {
+            id += "-" + (++nextId);
+            box = null;
+        }
+        if (!box) {
+            box = w.document.createElement("div");
+            box.id = id;
+            box.className = "reveal reveal-modal medium";
+            box.setAttribute("role", "dialog");
+            box.setAttribute("aria-label", "Dialog");
+            box.setAttribute("aria-hidden", "true");
+            box.tabIndex = -1;
+            box.style.display = "none";
+            box.innerHTML = '<div class="reveal-body"></div><button type="button" class="close-reveal-modal" data-close aria-label="schließen">&times;</button>';
+            w.document.body.append(box);
+            this.initForms(box);
+        }
+        return box;
     };
 
-    // add lib to basic library
-    if (typeof DMK.Libraries === "object") {
-        DMK.Libraries.add(
-            DMK.Base.extend(LightBox), "LightBox"
-        );
-    }
-    // fallback, add singelton to window.
-    else {
-        DMK.LightBox = new LightBox();
-        $(DMK.LightBox.init);
-    }
-})(DMK, jQuery);
+    DMK.Libraries.add(LightBox);
+})(DMK, window);

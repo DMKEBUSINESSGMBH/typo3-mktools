@@ -5,23 +5,26 @@
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  * @version 0.1.0
- * @requires jQuery
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 
-(function(w, $){
+(function(w){
     "use strict";
-    var _undefined, Base, DMK, VERSION = "0.1.0";
+    var _undefined, Base, DMK, VERSION = "0.1.0", listeners = new WeakMap(),
+        modalDialogs = new Set(), modalBodyOverflow;
 
     // the base MVC Object
     Base = function Base (record) {
-        this.data = typeof record === "object" ? record : {};
+        this.data = record && typeof record === "object" ? record : {};
     };
     // add MVC Methods (getter, setter, ...)
     Base.prototype.hasData = function (key) {
         return typeof this.data[key] !== "undefined";
     };
     Base.prototype.setData = function (key, value) {
+        if (!Object.prototype.hasOwnProperty.call(this, "data")) {
+            this.data = Object.assign({}, this.data);
+        }
         if (typeof value === "undefined" && typeof key === "object") {
             this.data = key;
         } else {
@@ -70,8 +73,8 @@
     Base.prototype.isObject = function (val) {
         return typeof val === "object";
     };
-    Base.prototype.isObjectJQuery = function (val) {
-        return val instanceof jQuery;
+    Base.prototype.isElement = function (val) {
+        return val instanceof w.Element;
     };
     Base.prototype.isFunction = function (val) {
         return typeof val === "function";
@@ -81,6 +84,75 @@
     };
     Base.prototype.isString = function (val) {
         return typeof val === "string";
+    };
+
+    // Replace a delegated handler when a library is initialized again.
+    Base.prototype.delegate = function(root, type, name, selector, callback) {
+        var handlers = listeners.get(root) || {}, key = type + "." + name;
+        root.removeEventListener(type, handlers[key]);
+        handlers[key] = function(event) {
+            var target = event.target instanceof w.Element ? event.target : event.target.parentElement,
+                element = target && target.closest(selector);
+            if (element && root.contains(element)) {
+                callback(event, element);
+            }
+        };
+        listeners.set(root, handlers);
+        root.addEventListener(type, handlers[key]);
+    };
+
+    // Native dialogs provide focus trapping, Escape handling and a backdrop.
+    Base.prototype.showModal = function(box) {
+        var dialog = box.parentElement;
+        if (!dialog || !dialog.classList.contains("dmk-modal-dialog")) {
+            dialog = w.document.createElement("dialog");
+            dialog.className = "dmk-modal-dialog";
+            dialog.style.cssText = "border:0;padding:0;margin:0;max-width:none;max-height:none;width:100%;height:100%;background:transparent;overflow:auto";
+            box.before(dialog);
+            dialog.append(box);
+            dialog.addEventListener("click", function(event) {
+                if (event.target === dialog || (event.target === box && box.classList.contains("modal"))) {
+                    dialog.close();
+                }
+            });
+            dialog.addEventListener("close", function() {
+                if (dialog.open) {
+                    return;
+                }
+                box.style.display = "none";
+                box.classList.remove("show", "in", "open");
+                box.setAttribute("aria-hidden", "true");
+                box.removeAttribute("aria-modal");
+                modalDialogs.delete(dialog);
+                if (modalDialogs.size === 0) {
+                    w.document.body.style.overflow = modalBodyOverflow;
+                }
+            });
+            if (!w.document.getElementById("dmk-modal-style")) {
+                var style = w.document.createElement("style");
+                style.id = "dmk-modal-style";
+                style.textContent = ".dmk-modal-dialog::backdrop{background:rgba(0,0,0,.5)}";
+                w.document.head.append(style);
+            }
+        }
+        if (modalDialogs.size === 0) {
+            modalBodyOverflow = w.document.body.style.overflow;
+        }
+        box.style.display = "block";
+        box.style.visibility = "visible";
+        box.classList.add("show", "in", "open");
+        box.setAttribute("aria-hidden", "false");
+        box.setAttribute("aria-modal", "true");
+        if (!dialog.open) {
+            dialog.showModal();
+        }
+        modalDialogs.add(dialog);
+        w.document.body.style.overflow = "hidden";
+    };
+    Base.prototype.hideModal = function(box) {
+        if (box && box.parentElement && box.parentElement.open) {
+            box.parentElement.close();
+        }
     };
 
     // The global basic object
@@ -134,20 +206,21 @@
         };
         this.init = function() {
             // automatisch alle Libraries initialisieren.
-            $.each(
-                _Libraries,
-                function (index, name) {
-                    _DMK.Libraries.init(name);
-                }
-            );
+            _Libraries.forEach(function(name) {
+                _DMK.Libraries.init(name);
+            });
         };
         // auto init on document ready
-        $(this.init);
+        if (w.document.readyState === "loading") {
+            w.document.addEventListener("DOMContentLoaded", this.init, {once: true});
+        } else {
+            w.setTimeout(this.init, 0);
+        }
     };// end DMK
 
     // singelton erstellen und global unter DMK bereitstellen
     w.DMK = new DMK();
-})(window, jQuery);
+})(window);
 
 // A smal storage addon
 (function(DMK){

@@ -11,214 +11,227 @@
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 
-(function(DMK, w, $){
+(function(DMK, w){
     "use strict";
 
-    var Request, VERSION = "0.1.1";
+    var Request = DMK.Base.extend(function Request() {
+        this.setData("version", "0.1.1");
+    });
 
-    Request = DMK.Base.extend(
-        function Request() {
-            this.setData("version", VERSION);
+    Request.prototype.getForm = function(element) {
+        if (!this.isElement(element)) {
+            return null;
         }
-    );
-    // Wir Führen einen Ajax Call aus!
-    Request.prototype.doCall = function(urlOrElement, parameters) {
-        var
-            _request = this,
+        return element.matches("form") ? element : element.form || null;
+    };
+
+    Request.prototype.getFormData = function(element, submitter) {
+        var form = this.getForm(element);
+        submitter = submitter || element;
+        if (submitter && submitter.form === form && submitter.matches("button[type=submit], button:not([type]), input[type=submit], input[type=image]")) {
+            return new w.FormData(form, submitter);
+        }
+        return new w.FormData(form);
+    };
+
+    // Keep the request hooks and return an abortable XMLHttpRequest.
+    Request.prototype.doCall = function(urlOrElement, parameters, submitter) {
+        var request = this,
+            form = this.getForm(urlOrElement),
+            formData = form ? this.getFormData(urlOrElement, submitter) : null,
+            files = formData ? Array.from(formData).filter(function(entry) {
+                return entry[1] instanceof w.File;
+            }) : [],
             cache = this.getCache(),
-            cacheable = this.isObject(cache),
-            cacheId = ""
-        ;
+            cacheable = cache && this.isFunction(cache.buildCacheId)
+                && !(this.isElement(urlOrElement) && urlOrElement.classList.contains("notcachable"))
+                && !files.some(function(entry) {
+                return entry[1].name !== "";
+            }),
+            cacheId, xhr, data, url, method, addParameters;
 
-        // Parameter und URL sammeln.
-        if (!_request.isObject(parameters)) {
-            parameters = {};
-        }
-        _request.prepareParameters(urlOrElement, parameters),
-
-        // Event Triggern
-        _request.onStart({}, parameters);
-
-        cacheId = cacheable ? cache.buildCacheId(parameters) : cacheId;
-        // den Cache nach einem bereits getaetigten Request fragen.
+        parameters = parameters && this.isObject(parameters) ? parameters : {};
+        this.prepareParameters(urlOrElement, parameters, submitter, formData);
+        this.onStart({}, parameters);
+        cacheId = cacheable ? cache.buildCacheId(parameters) : "";
         if (cacheable && cache.hasData(cacheId)) {
-            _request.onSuccess(cache.getData(cacheId), parameters);
-            _request.handleHistoryOnSuccess(parameters);
-            _request.onComplete({}, parameters);
+            this.onSuccess(cache.getData(cacheId), parameters);
+            this.handleHistoryOnSuccess(parameters);
+            this.onComplete({}, parameters);
+            return true;
         }
-        // Den Ajax Request absenden.
-        else {
-            var ajaxOptions =
-            {
-                url : parameters.href,
-                type : parameters.requestType,
-                dataType : "html", // make configurable
-                success : function(data, textStatus, jqXHR) {
-                    // Cachen!
+
+        url = new w.URL(parameters.href, w.document.baseURI);
+        method = parameters.requestType.toUpperCase();
+        addParameters = !this.isElement(urlOrElement) || !urlOrElement.classList.contains("ajax-dont-add-parameters-to-request");
+        data = new w.URLSearchParams();
+        if (addParameters) {
+            Object.keys(parameters).forEach(function(name) {
+                request.appendParameter(data, name, parameters[name]);
+            });
+        } else if (form && method !== "GET" && method !== "HEAD") {
+            formData.forEach(function(value, name) {
+                if (!(value instanceof w.File)) {
+                    data.append(name, value);
+                }
+            });
+        }
+        if (method === "GET" || method === "HEAD") {
+            data.forEach(function(value, name) {
+                url.searchParams.append(name, value);
+            });
+            data = null;
+        } else if (form && (files.length > 0 || form.enctype === "multipart/form-data")) {
+            var multipart = new w.FormData();
+            data.forEach(function(value, name) {
+                multipart.append(name, value);
+            });
+            // File fields are never converted to strings or sent twice.
+            files.forEach(function(entry) {
+                multipart.append(entry[0], entry[1]);
+            });
+            data = multipart;
+        }
+
+        xhr = new w.XMLHttpRequest();
+        xhr.open(method, url.href, true);
+        if (url.origin === w.location.origin) {
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        }
+        if (data instanceof w.URLSearchParams) {
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            data = data.toString();
+        }
+        xhr.setRequestHeader("Accept", "text/html, */*; q=0.01");
+        function complete(status, error) {
+            try {
+                if (status === "success") {
                     if (cacheable) {
-                        cache.setData(cacheId, data);
+                        cache.setData(cacheId, xhr.responseText);
                     }
-                    _request.handleHistoryOnSuccess(parameters);
-                    return _request.onSuccess(data, parameters, textStatus, jqXHR);
-                },
-                error : function(jqXHR, textStatus, errorThrown) {
-                    return _request.onFailure(arguments, parameters, jqXHR, textStatus, errorThrown);
-                },
-                complete : function(jqXHR, textStatus) {
-                    return _request.onComplete(arguments, parameters, jqXHR, textStatus);
+                    request.handleHistoryOnSuccess(parameters);
+                    request.onSuccess(xhr.responseText, parameters, status, xhr);
+                } else {
+                    request.onFailure([xhr, status, error], parameters, xhr, status, error);
                 }
-            };
-
-            if (
-                !_request.isObjectJQuery(urlOrElement) ||
-                !urlOrElement.hasClass('ajax-dont-add-parameters-to-request')
-            ) {
-                ajaxOptions.data = parameters;
-            }
-
-            // haben wir ein Formular?
-            if (
-                _request.isObjectJQuery(urlOrElement) &&
-                urlOrElement.is("form, input, select") &&
-                this.isFunction($.fn.ajaxForm)
-            ){
-                var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first();
-                form.ajaxSubmit(ajaxOptions);
-            } else {
-                return $.ajax(ajaxOptions);
+            } finally {
+                request.onComplete([xhr, status], parameters, xhr, status);
             }
         }
-        return true;
+        xhr.onload = function() {
+            complete((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304 ? "success" : "error", xhr.statusText);
+        };
+        xhr.onerror = function() { complete("error", xhr.statusText); };
+        xhr.onabort = function() { complete("abort", "abort"); };
+        xhr.ontimeout = function() { complete("timeout", "timeout"); };
+        xhr.send(data);
+        return xhr;
     };
 
-    // Die URL fuer den Request suchen
-    Request.prototype.getUrl = function(urlOrElement) {
-        var url = urlOrElement;
-        if (this.isObjectJQuery(urlOrElement)) {
-            // Wir haben einen Link und nutzen dessen href
-            if (urlOrElement.is("a")) {
-                url = urlOrElement.get(0).href;
-            }
-            // Wir haben ein Formular, und besorgen uns dessen action
-            else if(urlOrElement.is("form, input, select")) {
-                var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
-                    href = form.is("form") ? form.prop("action") : url
-                ;
-                url = href;
-            }
+    Request.prototype.appendParameter = function(data, name, value) {
+        var request = this;
+        if (Array.isArray(value)) {
+            value.forEach(function(item, index) {
+                request.appendParameter(data, name + (item && typeof item === "object" ? "[" + index + "]" : "[]"), item);
+            });
+        } else if (value && typeof value === "object") {
+            Object.keys(value).forEach(function(key) {
+                request.appendParameter(data, name + "[" + key + "]", value[key]);
+            });
+        } else {
+            data.append(name, value == null ? "" : value);
         }
-        // what todo, if no url was found? use w.location.href?
-        return url;
     };
-    // Alle Parameter fuer den Request zusammen suchen.
-    Request.prototype.prepareParameters = function(urlOrElement, parameters) {
-        var _request = this;
-        var indexesByParameters = [];
-        // Die URL fuer den Request bauen
-        if (!_request.isDefined(parameters.href)) {
-            parameters.href = _request.getUrl(urlOrElement);
+
+    Request.prototype.getUrl = function(urlOrElement, submitter) {
+        if (!this.isElement(urlOrElement)) {
+            return urlOrElement;
         }
-        if (_request.isObjectJQuery(urlOrElement)) {
-            if(urlOrElement.is("form, input, select")) {
-                var form = urlOrElement.is("form") ? urlOrElement : urlOrElement.parents("form").first(),
-                    isGet = form.attr("method").toLowerCase() === "get",
-                    params = form.serializeArray(),
-                    submitName = urlOrElement.is("input[type=submit]") ? urlOrElement.prop("name") : false;
+        if (urlOrElement.matches("a")) {
+            return urlOrElement.href;
+        }
+        var form = this.getForm(urlOrElement);
+        if (form) {
+            submitter = submitter || urlOrElement;
+            return new w.URL(submitter.getAttribute("formaction") || form.getAttribute("action") || w.location.href, w.document.baseURI).href;
+        }
+        return w.location.href;
+    };
 
-                // Parameter des Formulars sammeln
-                var isFirstParameter = true;
-                $.each(params, function(index, object){
+    Request.prototype.prepareParameters = function(urlOrElement, parameters, submitter, formData) {
+        var request = this, form = this.getForm(urlOrElement), indexes = Object.create(null);
+        if (!this.isDefined(parameters.href)) {
+            parameters.href = this.getUrl(urlOrElement, submitter);
+        }
+        if (form) {
+            submitter = submitter || urlOrElement;
+            var method = submitter.getAttribute("formmethod") || form.getAttribute("method") || "get",
+                isGet = method.toLowerCase() === "get",
+                url = new w.URL(parameters.href, w.document.baseURI);
+            (formData || this.getFormData(urlOrElement, submitter)).forEach(function(value, name) {
+                if (value instanceof w.File) {
                     if (isGet) {
-                        var parameterGlue = '&';
-                        if (isFirstParameter && parameters.href.indexOf("?") == -1) {
-                            parameterGlue = '?';
-                        }
-                        parameters.href += parameterGlue + object.name + "=" + encodeURIComponent(object.value);
-                    } else if (!_request.isDefined(parameters[object.name])) {
-                        // The [] at the end of the parameter name means we have a multi-select or multi-checkbox
-                        // without dedicated indexes for each option like tx_news_pi1[search][articletype][]
-                        // if multiple options have been selected only the first one get's
-                        // added to the parameter array as the object.name would be the same
-                        // for all options if they don't have indexes.
-                        // That's why we insert an index to make sure every option has it's own index
-                        // and unique parameter name like
-                        // tx_news_pi1[search][articletype][9], tx_news_pi1[search][articletype][10] etc.
-                        // We mimic the behaviour of browsers and start the index per parameter
-                        // at 0 and increment step by step.
-                        // @todo use object.name.endsWith('[]') when support for browsers
-                        // without ECMAScript 6 is dropped.
-                        if (object.name.substring(object.name.length - 2, object.name.length) === "[]") {
-                            if (!_request.isDefined(indexesByParameters[object.name])) {
-                                indexesByParameters[object.name] = 0;
-                            } else {
-                                indexesByParameters[object.name]++;
-                            }
-                            object.name = object.name.replace("[]", '[' + indexesByParameters[object.name] + ']')
-                        }
-                        parameters[object.name] = object.value;
+                        url.searchParams.append(name, value.name);
                     }
-                    isFirstParameter = false;
-                });
-                // Den Wert des aktuellen Submit-Buttons mitsenden!
-                if (_request.isString(submitName) && submitName.length > 0) {
-                    if (isGet) {
-                        parameters.href += "&" + submitName + "=" + urlOrElement.prop("value");
-                    } else if (typeof object != 'undefined' && !_request.isDefined(parameters[object.name])) {
-                        parameters[submitName] = urlOrElement.prop("value");
-                    }
+                    return;
                 }
-
-                parameters.requestType = isGet ? 'GET' : 'POST';
-            } else {
-                parameters.requestType = urlOrElement.hasClass('ajax-get-request') ? 'GET' : 'POST';
+                if (isGet) {
+                    url.searchParams.append(name, value);
+                } else if (!request.isDefined(parameters[name])) {
+                    if (name.slice(-2) === "[]") {
+                        var index = indexes[name] || 0;
+                        indexes[name] = index + 1;
+                        name = name.slice(0, -2) + "[" + index + "]";
+                    }
+                    parameters[name] = value;
+                }
+            });
+            if (isGet) {
+                parameters.href = url.href;
             }
+            parameters.requestType = isGet ? "GET" : "POST";
+        } else if (this.isElement(urlOrElement)) {
+            parameters.requestType = urlOrElement.classList.contains("ajax-get-request") ? "GET" : "POST";
+        } else {
+            parameters.requestType = parameters.requestType || "GET";
         }
         return parameters;
     };
-    // Wir erzeugen einen loader, fuer den asyncronen Call.
+
     Request.prototype.getLoader = function() {
-        var $loader = $('body > .waiting');
-        // Nix da? Wir bauen einen neuen!
-        if ($loader.length === 0) {
-            $loader = $("<div>").addClass("waiting");
-            $('body').prepend($loader.hide());
+        var loader = w.document.querySelector("body > .waiting");
+        if (!loader) {
+            loader = w.document.createElement("div");
+            loader.className = "waiting";
+            loader.style.display = "none";
+            w.document.body.prepend(loader);
         }
-        return $loader;
+        return loader;
     };
-    // Liefert den Cache
     Request.prototype.getCache = function() {
         return DMK.Registry;
     };
-    // Wird beim Start des Calls aufgerufen
     Request.prototype.handleHistoryOnSuccess = function(parameters) {
-        // browser url anpassen?
-        if (
-            this.isDefined(parameters.useHistory)
-            && parameters.useHistory
-            && DMK.Base.isObject(DMK.History)
-        ) {
+        if (parameters.useHistory && DMK.History) {
             DMK.History.setHistoryUrl(parameters.href);
         }
     };
-    // Wird beim Start des Calls aufgerufen
     Request.prototype.onStart = function(data, parameters) {
-        this.getLoader().show();
+        var loader = this.getLoader();
+        if (loader) {
+            loader.style.display = "block";
+        }
     };
-    // Wird bei erfolgreichem Call aufgerufen
-    Request.prototype.onSuccess = function(data, parameters, textStatus, jqXHR) {};
-    // Wird im Fehlerfall ausgerufen
-    Request.prototype.onFailure = function(data, parameters, jqXHR, textStatus, errorThrown) {};
-    // Wird immer nach onStart nach abschluss eines Calls aufgerufen
-    Request.prototype.onComplete = function(data, parameters, jqXHR, textStatus) {
-        if (typeof jqXHR !== "undefined" && jqXHR.getResponseHeader('Mktools_Location') !== null) {
-            // @todo make it possible to open the location in a new tab instead of the current one.
-            window.location = jqXHR.getResponseHeader('Mktools_Location');
-        } else {
-            this.getLoader().hide();
+    Request.prototype.onSuccess = function(data, parameters, textStatus, xhr) {};
+    Request.prototype.onFailure = function(data, parameters, xhr, textStatus, errorThrown) {};
+    Request.prototype.onComplete = function(data, parameters, xhr, textStatus) {
+        var redirect = xhr && xhr.getResponseHeader("Mktools_Location"), loader = this.getLoader();
+        if (redirect) {
+            w.location.href = redirect;
+        } else if (loader) {
+            loader.style.display = "none";
         }
     };
 
-    // add lib to basic library
     DMK.Libraries.add(Request);
-
-})(DMK, window, jQuery);
+})(DMK, window);
