@@ -1,0 +1,107 @@
+MK Tools – JavaScript: Struktur und Abhängigkeiten
+==================================================
+
+Einordnung
+----------
+
+Das README beschreibt MK Tools als TYPO3-Erweiterung mit mehreren voneinander
+unabhängigen Funktionen. Der JavaScript-Ordner enthält den Browserteil für
+Ajax-Inhalte und Modalfenster. Die Skripte sind klassische JavaScript-Dateien:
+Sie importieren keine Module, sondern stellen globale Objekte bereit. TYPO3
+bindet sie üblicherweise über TypoScript ein.
+
+Dateien
+-------
+
+Base.js.
+  Stellt das globale Objekt DMK bereit. Es enthält gemeinsame Hilfsfunktionen,
+  Klassen- und Instanzverwaltung (DMK.Objects) sowie die Registrierung und
+  Initialisierung von Bibliotheken (DMK.Libraries). Außerdem registriert es
+  DMK.Registry, einen einfachen Speicher für Ajax-Antworten. Die übrigen
+  MK-Tools-Skripte bauen auf diesem Grundgerüst auf.
+
+Request.js
+  Implementiert die gemeinsame Ajax-Logik. Das Skript ermittelt die URL eines
+  Links oder Formulars, sammelt Parameter, schickt den Request ab, ruft
+  Start-, Erfolgs-, Fehler- und Abschluss-Callbacks auf und nutzt standardmäßig
+  DMK.Registry zum Zwischenspeichern. Es verarbeitet außerdem den speziellen
+  Response-Header Mktools_Location für Weiterleitungen.
+.
+AjaxContent.js
+  Baut auf Base.js und Request.js auf und lädt TYPO3-Inhalte per Ajax nach. Es
+  reagiert unter anderem auf Links mit ajax-link, Formulare mit ajax-form,
+  Autotrigger-Formulare und automatisch zu ladende Platzhalter. Das ersetzte
+  Inhaltselement wird anhand seiner TYPO3-ID, üblicherweise c123, gefunden. Beim
+  Request wird type=9267 gesetzt. Die Antwort ersetzt den Inhalt direkt oder
+  wird bei „nächste/vorherige Seite“ animiert eingeschoben.
+
+Location.js
+  Zerlegt URLs und stellt Getter für Bestandteile wie Pfad, Query und Anker
+  bereit. Es registriert Location als Objekt unter DMK.Objects; es wird selbst
+  nicht automatisch als Bibliothek initialisiert.
+
+History.js
+  Aktualisiert die Browser-URL nach Ajax-Requests und beobachtet Änderungen des
+  Browser-Verlaufs. Es setzt Location.js voraus. Für die URL-Aktualisierung
+  verwendet es die History API, sofern verfügbar. Beim Zurück- oder
+  Vorwärtsnavigieren lädt der aktuelle Code die URL vollständig neu.
+
+ModalBootstrap.js
+  Lädt Links und Formulare in ein Bootstrap-Modalfenster. Es erstellt dafür
+  einen eigenen Request-Untertyp und nutzt standardmäßig type=9266. Bilder mit
+  gängigen Bilddateiendungen werden direkt als <img> im Modal angezeigt.
+
+ModalFoundation.js
+  Ältere Alternative für Foundation Reveal. Die Datei enthält selbst den
+  Hinweis „NOCH NICHT VERWENDEN“ und verweist auf ModalBootstrap.js. Sie
+  verwendet außerdem fest type=400; die vorhandene TypoScript-Konfiguration
+  für den Modal-Handler nutzt dagegen 9266.
+
+jquery.form.min.js
+  Gebündeltes jQuery Form Plugin, Version 3.51.0. Request.js verwendet es,
+  wenn es geladen ist und ein Formular übermittelt wird. Laut Dokumentation der
+  Erweiterung wird es insbesondere für Formulare mit Datei-Upload benötigt.
+
+Zusammenspiel und Einbindung
+---------------------------
+
+Für den Ajax-Content-Renderer gibt es in Configuration/TypoScript/contentrenderer/
+setup.txt die vorgesehene Einbindung in dieser Reihenfolge: Base.js, Request.js,
+AjaxContent.js. Location.js und History.js sind dort auskommentiert und müssen
+ergänzt werden, wenn die URL in der Browser-History geändert werden soll.
+jquery.form.min.js ist ebenfalls optional und auskommentiert.
+
+Der Browserteil kommuniziert mit TYPO3: TypoScript richtet den Ajax-Endpunkt
+typeNum=9267 ein; ContentRendererAction rendert die Antwort. Für Inhalte, die
+erst nachgeladen werden sollen, liefern UserContentObject und
+UserInternalContentObject zunächst Platzhalter und ergänzen den Request um
+mktoolsAjaxRequest. Das ist in Documentation/Utilities/AjaxContentRenderer/
+Index.md beschrieben.
+
+Externe Abhängigkeiten
+----------------------
+
+Direkte Abhängigkeiten der JavaScript-Laufzeit:
+
+* jQuery: Gemeinsame Laufzeitabhängigkeit aller aktiven Skripte. Die Dateien
+  erwarten das globale jQuery und verwenden unter anderem Events, $.ajax,
+  DOM-Manipulation und Animationen.
+* Bootstrap JavaScript: Für ModalBootstrap.js wird das jQuery-Modal-Plugin über
+  .modal() benötigt. Das Plugin und passende Styles muss die Website
+  bereitstellen.
+* jQuery Form Plugin: Optional; wird insbesondere für Datei-Uploads benötigt.
+* Foundation Reveal: Abhängigkeit von ModalFoundation.js; diese Datei ist laut
+  eigenem Kommentar derzeit nicht zur Verwendung vorgesehen.
+
+TYPO3 und rn_base gehören zur Server-Integration, nicht zu den direkten
+JavaScript-Abhängigkeiten. composer.json führt TYPO3 CMS sowie
+digedag/rn-base als Anforderungen auf. Weitere Composer-Abhängigkeiten wie
+Parsedown sind PHP-seitig und für diese JavaScript-Dateien nicht unmittelbar
+relevant.
+
+Hinweis aus der Codelektüre
+--------------------------
+
+Location.js verwendet in isSameOrigin() den Namen win, obwohl die umschließende
+Funktion den Parameter w erhält. Falls diese Methode aufgerufen wird, könnte
+das zu einem JavaScript-Fehler führen.

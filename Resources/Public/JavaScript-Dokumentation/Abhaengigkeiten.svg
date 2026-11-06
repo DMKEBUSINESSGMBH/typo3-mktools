@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="680" viewBox="0 0 1120 680" role="img" aria-labelledby="title desc">
+  <title id="title">MK Tools JavaScript-Abhängigkeiten</title>
+  <desc id="desc">Abhängigkeitsdiagramm der JavaScript-Dateien. Durchgezogene Pfeile zeigen interne Abhängigkeiten, gestrichelte Pfeile optionale oder externe Bibliotheken.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#344054"/></marker>
+    <marker id="arrowOptional" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#667085"/></marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #101828; }
+      .title { font-size: 25px; font-weight: 700; }
+      .subtitle { font-size: 14px; fill: #475467; }
+      .node { fill: #f8fafc; stroke: #667085; stroke-width: 1.5; rx: 10; }
+      .core { fill: #eaf2ff; stroke: #2e6ac7; }
+      .feature { fill: #ecfdf3; stroke: #039855; }
+      .external { fill: #fff7e6; stroke: #d98b00; }
+      .legacy { fill: #fff1f3; stroke: #d92d20; }
+      .label { font-size: 15px; font-weight: 700; }
+      .small { font-size: 12px; fill: #475467; }
+      .arrow { fill: none; stroke: #344054; stroke-width: 2; marker-end: url(#arrow); }
+      .optional { fill: none; stroke: #667085; stroke-width: 1.8; stroke-dasharray: 6 5; marker-end: url(#arrowOptional); }
+    </style>
+  </defs>
+  <rect width="1120" height="680" fill="#fff"/>
+  <text class="title" x="40" y="46">MK Tools JavaScript-Abhängigkeiten</text>
+  <text class="subtitle" x="40" y="72">Pfeile zeigen auf die Datei bzw. Bibliothek, von der eine Komponente abhängt.</text>
+
+  <rect class="node external" x="60" y="120" width="180" height="66"/>
+  <text class="label" x="150" y="149" text-anchor="middle">jQuery</text>
+  <text class="small" x="150" y="169" text-anchor="middle">Laufzeitabhängigkeit</text>
+
+  <rect class="node core" x="330" y="120" width="190" height="66"/>
+  <text class="label" x="425" y="149" text-anchor="middle">Base.js</text>
+  <text class="small" x="425" y="169" text-anchor="middle">DMK, Objekte, Registry</text>
+
+  <rect class="node core" x="330" y="260" width="190" height="66"/>
+  <text class="label" x="425" y="289" text-anchor="middle">Request.js</text>
+  <text class="small" x="425" y="309" text-anchor="middle">gemeinsame Ajax-Logik</text>
+
+  <rect class="node feature" x="680" y="210" width="200" height="66"/>
+  <text class="label" x="780" y="239" text-anchor="middle">AjaxContent.js</text>
+  <text class="small" x="780" y="259" text-anchor="middle">TYPO3-Inhalte nachladen</text>
+
+  <rect class="node feature" x="680" y="340" width="200" height="66"/>
+  <text class="label" x="780" y="369" text-anchor="middle">ModalBootstrap.js</text>
+  <text class="small" x="780" y="389" text-anchor="middle">Ajax-Inhalt im Modal</text>
+
+  <rect class="node core" x="330" y="440" width="190" height="66"/>
+  <text class="label" x="425" y="469" text-anchor="middle">Location.js</text>
+  <text class="small" x="425" y="489" text-anchor="middle">URL zerlegen</text>
+
+  <rect class="node core" x="680" y="440" width="200" height="66"/>
+  <text class="label" x="780" y="469" text-anchor="middle">History.js</text>
+  <text class="small" x="780" y="489" text-anchor="middle">Browser-URL / Verlauf</text>
+
+  <rect class="node external" x="930" y="340" width="160" height="66"/>
+  <text class="label" x="1010" y="369" text-anchor="middle">Bootstrap JS</text>
+  <text class="small" x="1010" y="389" text-anchor="middle">Modal-Plugin</text>
+
+  <rect class="node external" x="60" y="300" width="180" height="66"/>
+  <text class="label" x="150" y="329" text-anchor="middle">jquery.form.min.js</text>
+  <text class="small" x="150" y="349" text-anchor="middle">optional; Uploads</text>
+
+  <rect class="node legacy" x="930" y="500" width="160" height="66"/>
+  <text class="label" x="1010" y="529" text-anchor="middle">ModalFoundation.js</text>
+  <text class="small" x="1010" y="549" text-anchor="middle">Legacy / nicht verwenden</text>
+
+  <rect class="node external" x="680" y="570" width="200" height="66"/>
+  <text class="label" x="780" y="599" text-anchor="middle">Foundation Reveal</text>
+  <text class="small" x="780" y="619" text-anchor="middle">externe Legacy-Abhängigkeit</text>
+
+  <path class="arrow" d="M 240 153 L 330 153"/>
+  <path class="arrow" d="M 385 186 L 385 260"/>
+  <path class="arrow" d="M 465 260 C 500 225, 600 225, 680 243"/>
+  <path class="arrow" d="M 465 293 C 515 330, 595 360, 680 373"/>
+  <path class="arrow" d="M 385 186 L 385 440"/>
+  <path class="arrow" d="M 520 473 L 680 473"/>
+  <path class="optional" d="M 240 333 C 295 333, 300 293, 330 293"/>
+  <path class="optional" d="M 880 373 L 930 373"/>
+  <path class="optional" d="M 930 533 C 900 533, 900 603, 880 603"/>
+
+  <line x1="60" y1="620" x2="105" y2="620" class="arrow"/>
+  <text class="small" x="115" y="624">interne Abhängigkeit</text>
+  <line x1="260" y1="620" x2="305" y2="620" class="optional"/>
+  <text class="small" x="315" y="624">optional / externe Bibliothek</text>
+</svg>
