@@ -72,9 +72,7 @@ class FlashMessageStorage
     public static function getInstance()
     {
         static $instance = null;
-        if (null === $instance) {
-            $instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(static::class)->load();
-        }
+        $instance ??= \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(static::class)->load();
 
         return $instance;
     }

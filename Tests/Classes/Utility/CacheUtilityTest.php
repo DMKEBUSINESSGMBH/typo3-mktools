@@ -191,10 +191,8 @@ class CacheUtilityTest extends \Sys25\RnBase\Testing\BaseTestCase
 
 /**
  * @param string $extension
- *
- * @return bool
  */
-function extension_loaded($extension)
+function extension_loaded($extension): bool
 {
     if ('apc' == $extension) {
         return CacheUtilityTest::isApcLoaded();
