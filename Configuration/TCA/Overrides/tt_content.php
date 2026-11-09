@@ -53,7 +53,7 @@ call_user_func(function (): void {
     // Das tt_content-Feld pi_flexform einblenden
     TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:mktools/Configuration/Flexform/Main.xml', 'tx_mktools');
     TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
-        ['LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.label', 'tx_mktools'],
+        new TYPO3\CMS\Core\Schema\Struct\SelectItem(type: 'select', label: 'LLL:EXT:mktools/Resources/Private/Language/locallang_db.xlf:plugin.mktools.label', value: 'tx_mktools'),
         TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
         'mktools'
     );
